@@ -1,0 +1,101 @@
+/* ================= MAIN FOOTER ================= */
+
+.main-footer {
+    background: #142544;
+    color: #fff;
+}
+
+.footer-logo {
+    font-weight: 700;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--main-green-color);
+}
+
+.footer-contact li {
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.payment-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.payment-logos {
+    display: flex;
+    gap: 10px;
+}
+
+.payment-logos img {
+    height: 2.3vw;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+.payment-logos img:hover {
+    transform: scale(1.15);
+}
+
+/* Newsletter */
+.newsletter-form input {
+    border-radius: 8px 0 0 8px;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+    background: #0f1e38;
+    padding: 15px 0;
+}
+
+.social-icons a {
+    color: #fff;
+    margin-left: 10px;
+    font-size: 1.8vw;
+}
+
+.social-icons img{
+    width: 3vw;
+}
+
+.social-icons img:hover {
+    transform: scale(1.15);
+}
+
+
+.booking-input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    padding-left: 0;
+    font-weight: 600;
+    background: transparent;
+}
+
+.booking-input:focus {
+    box-shadow: none;
+    border-bottom: 1px solid #000;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

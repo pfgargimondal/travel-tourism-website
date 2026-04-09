@@ -1,0 +1,542 @@
+/* start  Flight   css by   Nisha  */
+/* start  Flight   css by   Nisha  */
+/* start  Flight   css by   Nisha  */
+.hero-section {
+    /* background: url("../images/asd.png") center center/cover no-repeat; */
+    position: relative;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+/*Flight filter page*/
+
+/* ================= SEARCH BOX ================= */
+
+.flight-search-box {
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 60px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.jkbjhddd 
+{
+    padding-left: 10px !important;
+}
+
+
+
+/* Each Field */
+.search-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-field label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.search-field input {
+    border: 1px solid #e2e2e2;
+    border-radius: 30px;
+    padding: 8px 15px;
+    font-size: 14px;
+    outline: none;
+    width: 180px;
+}
+
+/* Divider Line */
+.divider {
+    width: 1px;
+    height: 45px;
+    background: #e6e6e6;
+}
+
+/* ================= AIRLINES ROW ================= */
+
+.flight-results-section{
+    margin-bottom: 7vw;
+}
+
+.airlines-row {
+    display: flex;
+    /*justify-content: space-between;*/
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.airline-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width:18%;
+    height:50px;
+    padding:10px;
+    border-radius:6px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.airline-item img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.airline-item h6 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.airline-item p {
+    margin: 0;
+    font-size: 13px;
+    color: #777;
+}
+
+.sort-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.sort-area select {
+    border: none;
+    background: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+
+/* ================= SAVE BANNER ================= */
+
+.save-banner {
+    background: var(--main-green-color);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.sign-btn {
+    background: #fff;
+    color: var(--main-green-color);
+    border: none;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* ================= FLIGHT CARD ================= */
+
+.flight-card {
+    background: #f0fcff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1vw;
+}
+
+.flight-filter-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.flight-filter-img{
+width:18px;
+}
+
+.flight-filter-title{
+font-size:15px;
+font-weight:500;
+}
+.flight-filter-box{
+margin-top:10px;
+}
+
+.flight-filter-content{
+margin-top:12px;
+}
+
+.flight-filter-icon{
+cursor:pointer;
+transition:0.3s;
+}
+
+.flight-filter-icon.rotate-icon{
+transform:rotate(180deg);
+}
+
+.flight-time-filter-box{
+margin-top:10px;
+}
+
+.flight-time-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.flight-time-img{
+width:18px;
+}
+
+.flight-time-title{
+font-size:15px;
+font-weight:500;
+}
+
+.flight-time-content{
+margin-top:10px;
+}
+
+.flight-time-icon{
+cursor:pointer;
+transition:0.3s;
+}
+
+.flight-arrival-filter-box{
+margin-top:10px;
+}
+
+.flight-arrival-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.flight-arrival-img{
+width:18px;
+}
+
+.flight-arrival-title{
+font-size:15px;
+font-weight:500;
+}
+
+.flight-arrival-content{
+margin-top:10px;
+}
+
+.flight-arrival-icon{
+cursor:pointer;
+transition:0.3s;
+}
+
+.flight-arrival-icon.rotate-arrival{
+transform:rotate(180deg);
+}
+
+.flight-review-filter-box{
+margin-top:10px;
+}
+
+.flight-review-left{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.flight-review-img{
+width:18px;
+}
+
+.flight-review-title{
+font-size:15px;
+font-weight:500;
+}
+
+.flight-review-content{
+margin-top:10px;
+}
+
+.flight-review-icon{
+cursor:pointer;
+transition:0.3s;
+}
+
+.flight-review-icon.rotate-review{
+transform:rotate(180deg);
+}
+
+.flight-time-icon.rotate-time{
+transform:rotate(180deg);
+}
+
+/* Top Bar */
+.flight-top {
+    background: #9ddbdc;
+    padding: 12px 20px;
+}
+
+.heart {
+    background: white;
+    padding: 5px 5px;
+    border-radius: 50%;
+}
+
+.cheapest {
+    background: var(--main-green-color);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-left: 0.5vw;
+}
+
+.rating {
+    background: #ffbf00;
+    padding: 3px 10px;
+    height: 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #000;
+}
+
+.ffsdfd5df p
+{
+    padding-top:-10px;
+}
+
+.fyffffd5f 
+{
+    margin-top:-20px !important;
+}
+
+.filter-section span 
+{
+    padding-top:5px;
+    margin-bottom:7px;
+    padding-left:8px;
+}
+
+.hotel-price-filter{
+    width:100%;
+    background:#fff;
+}
+
+.hotel-price-header h3{
+    font-size:20px !important;
+    margin-bottom:15px;
+}
+
+.hotel-price-inputs{
+    display:flex;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.hotel-price-field{
+    width:100%;
+}
+
+.hotel-price-field input{
+    width:100%;
+    height:40px;
+    color:white;
+    background-color:#029E9D;
+    border:1px solid #ccc;
+    border-radius:5px;
+    text-align:center;
+    font-size:16px;
+}
+
+.hotel-price-separator{
+    margin:0 10px;
+    font-size:18px;
+}
+
+.hotel-price-slider{
+    height:5px;
+    background:#ddd;
+    border-radius:5px;
+    position:relative;
+}
+
+.hotel-price-progress{
+    position:absolute;
+    height:100%;
+    left:25%;
+    right:25%;
+    background:#0d6efd;
+    border-radius:5px;
+}
+
+.hotel-range-inputs{
+    position:relative;
+}
+
+.hotel-range-inputs input{
+    position:absolute;
+    width:100%;
+    top:-10px;
+    background:none;
+    /*background-color:#E2AD64;*/
+    pointer-events:none;
+    appearance:none;
+}
+
+.hotel-range-inputs input::-webkit-slider-thumb{
+    height:16px;
+    width:16px;
+    border-radius:50%;
+    background:#0d6efd;
+    background-color:#E2AD64;
+    pointer-events:auto;
+    appearance:none;
+}
+
+.hotel-range-inputs input::-moz-range-thumb{
+    height:16px;
+    width:16px;
+    border-radius:50%;
+    background:#0d6efd;
+    pointer-events:auto;
+}
+
+
+
+/* Body */
+.flight-body {
+    padding: 30px 30px 25px 30px;
+}
+
+/* Airline */
+.airline-logo {
+    width: 50px;
+    margin-right: 0.4vw;
+    margin-bottom: 0.5vw;
+}
+
+.compare-link {
+    font-size: 13px;
+    color: var(--main-green-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Time Section */
+.time-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+}
+
+.time-wrapper h4 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.time-wrapper small {
+    font-size: 12px;
+    color: #333;
+}
+
+.duration-wrapper {
+    text-align: center;
+}
+
+.duration-line {
+    width: 70px;
+    height: 3px;
+    background: var(--main-green-color);
+    margin-top: 5px;
+}
+
+/* Price */
+.price-section{
+    display: flex;
+}
+.price-section small {
+    color: #666;
+    font-size: 12px;
+    margin-right: 0.5vw;
+}
+
+.price-section h4 {
+    font-size: 20px;
+}
+
+/* Right Section */
+.ontime {
+    color: #555;
+    font-weight: 500;
+}
+
+/* Stop Info */
+.stop-info {
+    color: #444;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+/* Offer Strip */
+.offer-strip {
+    background: #d4fcfc;
+    padding: 12px 15px;
+    font-size: 0.8vw;
+    margin: 0 2vw 2vw 2vw;
+    border-radius: 9px;
+}
+
+
+/* End  Flight   css by   Nisha  */
+/* End  Flight   css by   Nisha  */
+/* End  Flight   css by   Nisha  */
+/* End  Flight   css by   Nisha  */
+
+
+ @media (max-width:576px){
+
+    .airlines-row{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    
+    }
+    
+    .gfjh55
+    {
+        margin-left:10px;
+    }
+    
+    .airline-item{
+    width:100%;
+    }
+    
+    .time-wrapper 
+    {
+        gap:12vw;
+        margin-top:12px;
+    }
+    .price-section 
+    {
+       margin-top:12px; 
+    }
+    
+    }
+

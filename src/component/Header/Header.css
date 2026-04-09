@@ -1,0 +1,36 @@
+.navbar-nav .nav-link{
+    color:#000000;
+    margin:0 10px;
+}
+
+
+
+.site-logo{
+    height:40px;
+    width:auto;
+}
+
+
+
+.logo-text {
+    font-size: 22px;
+}
+
+.navbar {
+    position: relative;
+    z-index: 2;
+}
+.navbar i{
+  margin-right: 0.2vw;
+}
+.nav-item i{
+    margin-left: 0.2vw;
+}
+.btn{
+  color: #fff;
+  margin-left: 0.5vw;
+}
+
+.btn:hover{
+  color:#fff;
+}

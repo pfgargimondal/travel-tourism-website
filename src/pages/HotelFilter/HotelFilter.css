@@ -1,0 +1,986 @@
+
+:root {
+  --main-green-color: #00b4a8;
+  --main-red-color: #A3261E;
+  --blue-primary-color: #418ede;
+  --blue-secondary-color: #07427f;
+  --button-gradient-color: linear-gradient(45deg, #418ede, #07427f);
+  --button-hover-gradient-color: linear-gradient(45deg, #07427f, #418ede);
+  --light-black-text-color: #3C3B3B;
+  --background-light-color: rgba(245, 245, 245, 0.61);
+  --font-family-lato: "Lato", sans-serif;
+  --h2-custom-font-size: 4.5rem;
+  --h2-main-normal-font-size: 2.8rem;
+  --p-default-font-size: 1.2rem;
+}
+
+body{
+background:#f4f4f4;
+font-family:Arial;
+}
+
+
+.bannerhotel
+{
+    width: 100%;
+    height: 450px;
+    background-size: 100% 100%;
+}
+
+.searchfilter 
+{
+    margin-top: -20%;
+}
+
+
+
+.mainsection
+
+{
+    padding: 60px 0;
+    margin-top: 5%;
+}
+
+.filter-box{
+padding:20px;
+border-radius:10px;
+/* background:#dcebe9; */
+box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+}
+
+.filter-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.reset-btn{
+color:#0ea5a4;
+font-size:14px;
+cursor:pointer;
+}
+
+.filter-search input{
+width:100%;
+padding:8px;
+border:1px solid #ddd;
+border-radius:6px;
+margin-top:5px;
+}
+
+.filter-section{
+margin-top:20px;
+border-top:1px solid #ddd;
+padding-top:15px;
+}
+
+.filter-section h6{
+font-weight:600;
+margin-bottom:10px;
+}
+
+.filter-section label{
+display:block;
+margin-bottom:8px;
+font-size:14px;
+cursor:pointer;
+}
+
+.price-values{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+}
+
+.price-values span{
+background:#0ea5a4;
+color:white;
+padding:5px 10px;
+border-radius:5px;
+font-size:13px;
+}
+
+input[type="range"]{
+width:100%;
+}
+
+.airline-item{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:10px;
+font-size:14px;
+}
+
+.airline-item img{
+width:18px;
+height:18px;
+object-fit:contain;
+}
+
+.range-slider{
+position:relative;
+height:30px;
+}
+
+.range-slider input{
+position:absolute;
+width:100%;
+pointer-events:none;
+appearance:none;
+background:none;
+}
+
+.range-slider input::-webkit-slider-thumb{
+pointer-events:auto;
+width:16px;
+height:16px;
+border-radius:50%;
+background:#d8a55b;
+cursor:pointer;
+appearance:none;
+}
+
+.range-slider input::-webkit-slider-runnable-track{
+height:3px;
+background:#ddd;
+}
+
+.dfbfsdfsdfsdf
+{
+    padding: 15px 0;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.flight-date-tabs{
+display:flex;
+justify-content:space-between;
+border-bottom:2px solid #eee;
+}
+
+.flight-date-tabs .nav-link{
+border:none;
+background:none;
+text-align:center;
+font-weight:600;
+color:#333;
+}
+
+.flight-date-tabs span{
+display:block;
+color:#1bbf60;
+font-size:14px;
+}
+
+.flight-date-tabs .active{
+border-bottom:3px solid #0ea5a4;
+color:#0ea5a4;
+}
+
+.flight-card{
+background:#c4e4e0;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.airline-info{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.airline-info img{
+width:35px;
+}
+
+.duration{
+border-bottom:2px solid #0ea5a4;
+padding-bottom:2px;
+}
+
+.price{
+font-size:22px;
+font-weight:700;
+}
+
+
+/* starthotel filter */
+/* starthotel filter */
+/* starthotel filter */
+
+.hotel-search-box{
+  background:#fff;
+  padding: 30px 20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* FIELD */
+.search-field{
+  position:relative;
+  padding-bottom:5px;
+  border-bottom:1px solid #ddd;
+}
+
+.field-top{
+  display:flex;
+  align-items:center;
+  margin-bottom:5px;
+}
+
+.field-top img{
+  width:18px;
+  margin-right:6px;
+}
+
+.field-top span{
+  font-size:14px;
+  font-weight:600;
+}
+
+.search-field input{
+  border:none;
+  outline:none;
+  width:100%;
+  font-size:14px;
+  color:#555;
+}
+
+/* DIVIDER LINE BETWEEN COLS */
+.col-lg-3:not(:last-child),
+.col-lg-2{
+  border-right:1px solid #eee;
+}
+
+/* BUTTON */
+.search-btn-hotel{
+  background:#0ea5a4;
+  color:#fff;
+  border:none;
+  padding:12px 25px;
+  border-radius:10px;
+  font-weight:600;
+  width:100%;
+}
+
+.jfdbvjfbv788 
+{
+    margin-top:-26%;
+}
+
+.fbvhjd img
+{
+    width: 100%;
+    height: 270px;
+    border-radius: 12px;
+}
+.gfetyy89 
+{   
+     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border-radius: 12px;
+    border: 1px solid #00a6a6;
+    margin-bottom: 20px;
+
+}
+
+.sdhdss8899 
+{
+    padding: 15px;
+
+
+}
+
+.dsbhjsdsf h4
+{
+   font-weight: 600;
+   color: black;
+}
+
+.dsbhjsdsf h6
+{
+   font-weight: 500;
+   color: rgb(110, 110, 110);
+   font-size: 14px;
+}
+
+.dsbhjsdsf 
+{
+    border-right: 1px solid #00a6a6;
+    padding-right: 10px;
+    height: 270px;
+}
+
+.vbhsf 
+{
+    display: flex;
+}
+
+.vbhsf  h4
+{
+   font-weight: 600;
+   color: black;
+   margin-bottom: 0;
+} 
+
+.vbhsf  p
+{
+    padding: 5px 8px;
+    background-color: #00a6a6;
+    font-size: 13px;
+    color: white;
+    font-weight: 600;
+    margin-left: 10px;
+    border-radius: 6px;
+    margin-bottom: 0;
+
+}
+
+.fdjvfd78 p
+{
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.fdjvfd78 span 
+{
+    font-size: 27px !important;
+    color: #00a6a6;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.sdknhf55 p 
+{
+    margin-bottom: 0;
+    color: gray;
+}
+
+.sbfsdvfsf 
+{
+    display: flex;
+}
+
+.vfddf i 
+{
+    color: gold;
+    margin-left: -4px;
+}
+
+.fdfdf5 
+{
+    margin-left: 5px;
+}
+
+.sdbds86 button
+{
+  border: 2px solid #00a6a6;
+  color: #00a6a6;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+
+}
+
+.hddssd78 
+{
+    border: 1px solid #00a6a6;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.hddssd78 
+{
+    margin-top: 20px;
+}
+
+.hddssd78 h6 
+{
+    font-weight: 600;
+    color: #00a6a6;
+
+}
+
+.hddssd78 p
+{
+  margin-bottom: 0;
+}
+
+.tfty885r 
+{
+    background-color: #00a6a6;
+    color: white;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.fbvhjd{
+  position:relative;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+.fbvhjd img{
+  width:100%;
+  display:block;
+  border-radius:10px;
+}
+
+/* HEART ICON */
+.wishlist-icon{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#fff;
+  padding:6px;
+  border-radius:50%;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.wishlist-icon img{
+  width:16px;
+  height:16px;
+}
+
+/* HOVER EFFECT */
+.wishlist-icon:hover{
+  transform:scale(1.1);
+}
+
+/* Suggested filters */
+.suggested-section h6{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.suggested-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:6px;
+  font-size:14px;
+}
+
+/* Hide default checkbox label margin if needed */
+.suggested-item label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+}
+
+/* Adjust checkbox size if needed */
+.suggested-item .form-check-input{
+  width:16px;
+  height:16px;
+}
+
+/* Count on right side */
+.item-count{
+  color:#666;
+  font-size:13px;
+}
+
+.price-section h6{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.price-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:6px;
+  font-size:14px;
+}
+
+.price-item label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+
+}
+
+.price-item .form-check-input{
+  width:16px;
+  height:16px;
+  border: 1px solid #898989;
+
+}
+
+.item-count{
+  color:#666;
+  font-size:13px;
+}
+
+/* container */
+.budget-filter{
+  max-width:320px; /* দরকারে adjust করো */
+  background:#fff;
+  padding:12px 16px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  font-family:Arial, sans-serif;
+}
+
+/* label */
+.budget-label{
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+/* row */
+.budget-row{
+  width:100%;
+}
+
+/* inputs */
+.budget-input{
+  width:67px;
+  padding:6px 8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+  outline:none;
+}
+
+/* separator text */
+.budget-sep{
+  font-size:14px;
+  font-weight:500;
+  color:#444;
+}
+
+/* button */
+.budget-btn{
+  width:36px;
+  height:36px;
+  background:#60c7b6; /* screenshot এর মতো স্যালম/টিল রঙ; adjust করতে পারো */
+  border:none;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  padding:0;
+}
+
+/* arrow image */
+.arrow-img{
+  width:16px;
+  height:16px;
+  object-fit:contain;
+  filter: invert(1); /* ensure white if icon is dark; adjust/remove as needed */
+}
+
+/* Section header */
+.suggested-section h6{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+/* Each filter row */
+.suggested-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:6px;
+  font-size:14px;
+}
+
+/* Label + checkbox */
+.suggested-item label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+}
+
+/* Checkbox size tweak */
+.suggested-item .form-check-input{
+  width:16px;
+  height:16px;
+  border: 1px solid #898989;
+}
+
+/* Count on right */
+.item-count{
+  color:#666;
+  font-size:13px;
+}
+
+/* Show more link style */
+.show-more-link{
+  font-size:13px;
+  color:#0ea5a4;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+
+.sdnfhsdfsd  button
+{
+     border:none;
+     border-radius:25px;
+     color:#0ea5a4;
+     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+     margin-top:25px;
+     width:100%;
+     height:40px;
+     padding:8px;
+     
+}
+
+/*.flight-menu-bar {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  background: #fff;*/
+/*  padding: 15px;*/
+/*  width:90%;*/
+/*  margin:auto;*/
+/*  border-radius: 12px;*/
+/*}*/
+
+.flight-menu-item {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+}
+
+.flight-menu-item img {
+  width: 24px;
+  display: block;
+  margin: auto;
+}
+
+.flight-menu-item.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.flight-menu-item.active::after {
+  content: "";
+  height: 3px;
+  width: 100%;
+  background: #007bff;
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  border-radius: 5px;
+}
+
+/* Main Card */
+.flight-main-card {
+  background: #fff;
+  padding: 25px;
+  padding-bottom:44px;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+/* Search Button */
+.search-btn {
+  background: linear-gradient(to right, #4facfe, #007bff);
+  color: #fff;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.gjhkdfgdf
+{
+    margin-bottom: -30px !important;
+}
+
+
+/* MENU */
+.flight-menu-bar {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.flight-menu-item {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+}
+
+.flight-menu-item img {
+  width: 24px;
+  display: block;
+  margin: auto;
+}
+
+.flight-menu-item.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.flight-menu-item.active::after {
+  content: "";
+  height: 3px;
+  width: 100%;
+  background: #007bff;
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  border-radius: 5px;
+}
+
+/* CARD */
+.flight-main-card {
+  background: #fff;
+  padding: 25px;
+  padding-bottom:44px;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+/* INPUT STYLE */
+.hotel-input {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  font-weight: 600;
+  color: #000;
+  padding-left: 0;
+}
+
+.hotel-input:focus {
+  box-shadow: none;
+  border-bottom: 2px solid #007bff;
+}
+
+/* LABEL */
+label {
+  font-size: 12px;
+  color: #777;
+  font-weight: 500;
+}
+
+/* BUTTON */
+.search-btn {
+  background: linear-gradient(to right, #4facfe, #007bff);
+  color: #fff;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+.big-date {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+}
+
+.big-date {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+}
+.ghaadasd
+{
+    margin-top: -75px;
+}
+/* Search Button */
+.flight-search-btn{
+    background:linear-gradient(to right,#07c6b9,#00b4a8);
+    color:#fff;
+    border:none;
+    border-radius:25px;
+    padding:12px 60px;
+    font-size:18px;
+    /* margin-top: -90px; */
+    position: relative;
+}
+
+/* Active text */
+.flight-menu-item.active span{
+    color: var(--blue-primary-color);
+    font-weight: 600;
+}
+
+
+/* ===== Top Menu ===== */
+.flight-menu-wrapper{
+    width:80%;
+    margin:auto;
+    border-bottom:1px solid #e6e6e6;
+    /*padding:15px 0;*/
+    background:#fff;
+    border-radius: 12px;
+}
+
+.flight-menu-bar{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    text-align:center;
+}
+
+/* Menu Item */
+.flight-menu-item{
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    height:70px;
+    width:70px;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    color:#555;
+}
+
+/* Icon */
+.flight-menu-item img{
+    width:36px;
+    height:36px;
+    margin-bottom:6px;
+}
+
+/* Active */
+.flight-menu-item.active span{
+    color: var(--blue-primary-color);
+    font-weight:600;
+}
+
+.flight-menu-item{
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Active text */
+.flight-menu-item.active span{
+    color: var(--blue-primary-color);
+    font-weight: 600;
+}
+
+/* Active underline */
+.flight-menu-item.active::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: var(--blue-primary-color);
+    border-radius: 2px;
+}
+
+.flight-menu-item:hover::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 2px;
+    background: #ccc;
+}
+
+
+/*start responsive filter*/
+/*start responsive filter*/
+/* Hide button desktop e */
+.mobile-filter-btn{
+    display: none;
+}
+
+/* Mobile view */
+@media(max-width: 991px){
+
+    /* Show button */
+    .mobile-filter-btn{
+        display: block;
+        /*width: 100%;*/
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #ddd;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Filter sidebar */
+    .sdbfhsd55{
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100%;
+        background: #fff;
+        z-index: 9999;
+        overflow-y: auto;
+        transition: 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* Active (open) */
+    .sdbfhsd55.active{
+        left: 0;
+    }
+
+    /* Overlay */
+    .filter-overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 9998;
+        display: none;
+    }
+
+    .filter-overlay.active{
+        display: block;
+    }
+    .dsbhjsdsf 
+    {
+        height:auto;
+        margin-top:15px;
+        border:none;
+    }
+    .gjhkdfgdf
+    {
+        display:none;
+    }
+    .big-date 
+    {
+        font-size:17px;
+    }
+    .bannerhotel 
+    {
+        height:250px;
+    }
+
+}
+
+
+
+/*end responsive filter*/
+/*end responsive filter*/
+
