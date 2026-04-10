@@ -1,36 +1,117 @@
-.navbar-nav .nav-link{
-    color:#000000;
-    margin:0 10px;
+header{
+    z-index: 99999;
 }
 
-
-
-.site-logo{
-    height:40px;
-    width:auto;
-}
-
-
-
-.logo-text {
-    font-size: 22px;
-}
-
-.navbar {
-    position: relative;
-    z-index: 2;
-}
-.navbar i{
-  margin-right: 0.2vw;
-}
-.nav-item i{
-    margin-left: 0.2vw;
-}
-.btn{
+.top-header {
   color: #fff;
-  margin-left: 0.5vw;
+  font-size: 13px;
 }
 
-.btn:hover{
-  color:#fff;
+.header-sticky{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: all 0.2s ease;
+    animation: slideDown 0.35s ease-out;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
+}
+
+.header-sticky .top-header,
+.header-sticky .text-white{
+    color: initial !important;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.header-menu small {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.icon-circle {
+  width: 28px;
+  height: 28px;
+  background: #ffc107;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.sfsdghdcsdfrrerttr{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+}
+
+.diwejojiwerer{
+    width: 1.8rem;
+    height: 1.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+}
+
+button.fsdgsadehtrfdewe{
+    font-size: 0.9rem;
+}
+
+.sifjdnosjkjhjmre div.asdoijodjokpkoie{
+    padding-inline: 1rem;
+    border-right: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+.sifjdnosjkjhjmre div.asdoijodjokpkoie:last-child{
+    border-right: 0;
+    padding-right: 0;
+}
+
+.dfgsfadeae{
+    line-height: 1;
+}
+
+.header-sticky .flight-menu-bar{
+    flex-wrap: nowrap;
+    padding: 0;
+}
+
+.header-sticky .gjhkdfgdf{
+    margin-bottom: 0 !important;
+    width: 500px;
+    max-width: 90%;
+    margin: 0 !important;
+    overflow-x: hidden;
+    padding: 0;
+    border-bottom: 0;
+}
+
+.header-sticky .flight-menu-item {
+    flex: none;
+}
+
+.header-sticky .flight-menu-item span{
+    white-space: nowrap;
+    width: 4.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;    
+    font-size: 0.78rem;
+}
+
+.header-sticky .flight-menu-item img {
+    height: auto;
+}
+
+.header-sticky .flight-menu-item.active::after{
+    display: none;
+}
+
+.header-sticky button.fsdgsadehtrfdewe{
+    font-size: 12px;
 }

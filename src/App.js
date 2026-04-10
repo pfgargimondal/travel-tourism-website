@@ -7,7 +7,11 @@ function App() {
     <div className="App">
       <Header/>  
         {/* <div className="middle-wrapper"> */}
+        
+        <main>
           <Allroutes/>
+        </main>
+
         {/* </div>       */}
         <Footer/>
     </div>
