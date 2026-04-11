@@ -2,13 +2,22 @@ import { useEffect, useMemo, useState } from "react";
 import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
 import http from "../../http";
 import "./Hotel.css";
+import Loader from "../../component/Loader/Loader";
+import { Link } from "react-router-dom";
+import { Faq } from "../../component/Faq/Faq";
 export const Hotel = () => {
+  const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredCities, setFilteredCities] = useState([]);
   // eslint-disable-next-line
   const [selectedCity, setSelectedCity] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const [contentimageUrl, setcontentimageUrl] = useState("");
+  const [pageContent, setPageContent] = useState([]);
+  const [hotelLogo, setHotelLogo] = useState([]);
+  const [logoUrl, setLogoUrl] = useState([]);
 
   const stateImages = {
     goa: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60",
@@ -86,8 +95,35 @@ export const Hotel = () => {
     setShowDropdown(false);
   };
 
+
+  useEffect(() => {
+    const fetchHotelData = async () => {
+      setLoading(true);
+
+      try {
+        const response = await http.get("/get-hotel-details");
+
+        if (response.data.success) {
+          setcontentimageUrl(response.data.data.page_contentimage_url);
+          setPageContent(response.data.data.page_content);
+          setHotelLogo(response.data.data.hotel_logo);
+          setLogoUrl(response.data.data.contentLogo_url);
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching hotel content:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHotelData();
+  }, []);
+
   return (
     <div>
+       {loading && <Loader />}
       <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
 
       <div class="jfdbvjfbv788">
@@ -329,79 +365,25 @@ export const Hotel = () => {
       <div class="njhfbsdf75">
         <section class="hotel-chain-section">
           <div class="container">
-            <h2>Our Top Hotel Chains</h2>
+            <h2>{pageContent?.title_one}</h2>
 
-            <p class="desc">
-              EaseMyTrip has a wide range of luxury and budget-friendly hotel
-              chain properties. We have picked the finest hotels in India with
-              world-class amenities. We bring you not only a stay option, but an
-              experience in your budget to enjoy the luxury. We make sure that
-              all the hotels are safe, hygienic, comfortable, and easily
-              approachable when it comes to location. Book your hotel with
-              EaseMyTrip and don’t forget to grab an amazing hotel deal to save
-              huge on your stay.
-            </p>
+            <div class="desc"
+              dangerouslySetInnerHTML={{
+                __html:
+                  pageContent?.description_one &&
+                  pageContent?.description_one,
+              }}
+            />
 
             <div class="logo-grid">
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/amritara-hotel-hp.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/the-byke-hotels-hp-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/tree-house-group-hp-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/treat-hotel-logo-25-c.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/sterling-hotels-17june24-hp-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/spree-hotels-hp.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/Justa-Hotel-logo.webp" />
-              </div>
-
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/7-Apple-Group-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/sumi-hotel-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/sinclairs-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/mount-hotels-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/zone-the-park-04-04-25-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/Hotel-Sonar-Bangla-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://logo.clearbit.com/clarkshotels.com" />
-              </div>
-
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/voyage-hotels-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/dls-hotels-logo.webp" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://www.easemytrip.com/images/emt-sale/lords-hotels.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/elivaas-hotel-logo.png" />
-              </div>
-              <div class="logo-box">
-                <img alt="" src="https://images.emtcontent.com/hotel-img/C-H-R-logo-b.png" />
-              </div>
+              {hotelLogo?.map((item) => (
+                  <Link to={item?.image_link}>
+                    <div class="logo-box">
+                      <img alt="" src={`${logoUrl}/${item?.image}`} />
+                    </div>
+                  </Link>
+              ))}
+              
             </div>
           </div>
         </section>
@@ -413,32 +395,23 @@ export const Hotel = () => {
             <div class="deal-box">
               <div class="deal-content">
                 <h2>
-                  Cheapest Deals on Budget & Luxury Hotels are Available at
-                  EaseMyTrip
+                  {pageContent?.title_two}
                 </h2>
 
-                <p>
-                  Due to the huge influx of tourists in India, EaseMyTrip offers
-                  a wide range of luxury, deluxe and budget hotels to them.
-                  Choose to stay in luxury and comfort with the greatest
-                  discounts available on hotel bookings. We list the classiest
-                  budget hotels on our site along with some of the prominent
-                  international hotel chains of India including Oberoi Group,
-                  ITC Group, Taj Group, Le Meridian Group and many others.
-                  Ranging from class hotels to luxury beach resorts, each hotel
-                  on our site gives you a memorable staying experience. Along
-                  with deluxe, budget and luxury hotels, EaseMyTrip also
-                  displays a number of heritage hotels that offer you a royal
-                  stay. Enjoy cheap hotel deals for any destination with great
-                  savings.
-                </p>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      pageContent?.description_two &&
+                      pageContent?.description_two,
+                  }}
+                />
 
                 <button class="read-btn">Read More</button>
               </div>
 
               <div class="deal-image">
                 <img
-                  src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=60"
+                  src={`${contentimageUrl}/${pageContent?.image}`}
                   alt="hotel"
                 />
               </div>
@@ -496,63 +469,8 @@ export const Hotel = () => {
               <span class="badge-custom">Most Popular Providers</span>
               <h3 class="right-title">Try Relaxing Accomodations.</h3>
 
-              <div class="faq-accordion">
-                <div class="faq-item active">
-                  <div class="faq-question">
-                    What types of tours do you offer?
-                    <span class="faq-icon">+</span>
-                  </div>
-                  <div class="faq-answer">
-                    We offer a wide range of tours, including cultural,
-                    adventure, luxury, and customized itineraries. Popular
-                    destinations include Europe, Africa (e.g., Morocco).
-                  </div>
-                </div>
+              <Faq />
 
-                <div class="faq-item">
-                  <div class="faq-question">
-                    Are the tours customizable?
-                    <span class="faq-icon">+</span>
-                  </div>
-                  <div class="faq-answer">
-                    Yes, we customize tours according to your preferences,
-                    travel dates, and budget.
-                  </div>
-                </div>
-
-                <div class="faq-item">
-                  <div class="faq-question">
-                    What safety measures do you follow?
-                    <span class="faq-icon">+</span>
-                  </div>
-                  <div class="faq-answer">
-                    We follow international safety standards, certified guides,
-                    and secure transport services.
-                  </div>
-                </div>
-
-                <div class="faq-item">
-                  <div class="faq-question">
-                    How far in advance should I book?
-                    <span class="faq-icon">+</span>
-                  </div>
-                  <div class="faq-answer">
-                    We recommend booking at least 2–4 weeks in advance for
-                    better availability.
-                  </div>
-                </div>
-
-                <div class="faq-item">
-                  <div class="faq-question">
-                    What is your cancellation policy?
-                    <span class="faq-icon">+</span>
-                  </div>
-                  <div class="faq-answer">
-                    Free cancellation up to 48 hours before departure for most
-                    packages.
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 
-.content{
+/* .content{
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -7,7 +7,7 @@
   justify-content: center;
   background: #fff;
   animation: bg 1.4s cubic-bezier(0, 0.2, 0.8, 1);
-}
+} */
 @keyframes bg {
   0% {
     background: #000;

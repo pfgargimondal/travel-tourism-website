@@ -4,9 +4,8 @@ import http from "../../http";
 import Loader from "../../component/Loader/Loader";
 import { FollowUsInstagram } from "../../component/FollowUsInstagram/FollowUsInstagram";
 import { Testimonial } from "../Testimonial/Testimonial";
+import { Faq } from "../../component/Faq/Faq";
 export const AboutUs = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-
     const [loading, setLoading] = useState(false);
     const [aboutUsDetails, setAboutUsDetails] = useState({});
 
@@ -26,9 +25,7 @@ export const AboutUs = () => {
         fetchAboutUsData();
     }, []);
 
-    const toggleFAQ = (index) => {
-        setActiveIndex(activeIndex === index ? null : index);
-    };
+
 
     return (
       <div>
@@ -213,38 +210,13 @@ export const AboutUs = () => {
                             </div>
                         </div>
 
-                    </div>
+                    </div> 
 
                     <div className="col-lg-7">
                         <span className="badge-custom">{aboutUsDetails.data?.faq_heading}</span>
                         <h3 className="right-title">{aboutUsDetails.data?.faq_title}</h3>
 
-                        <div className="faq-accordion">
-
-                            {aboutUsDetails.data?.faqContent.map((faq, index) => (
-                                <div
-                                    key={index}
-                                    className={`faq-item ${activeIndex === index ? "active" : ""}`}
-                                >
-                                <div
-                                    className="faq-question"
-                                    onClick={() => toggleFAQ(index)}
-                                >
-                                    {faq.question}
-                                    <span className="faq-icon">
-                                    {activeIndex === index ? "-" : "+"}
-                                    </span>
-                                </div>
-
-                                {activeIndex === index && (
-                                    <div className="faq-answer">
-                                    {faq.answer}
-                                    </div>
-                                )}
-
-                                </div>
-                            ))}
-                        </div>
+                        <Faq />
                     </div>
                 </div>
             </div>

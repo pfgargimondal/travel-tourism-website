@@ -4,7 +4,7 @@ import "./ServiceCategories.css";
 import Loader from "../Loader/Loader";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const ServiceCategories = () => {
+export const ServiceCategories = ({ start, end }) => {
   const [serviceimageUrl, setserviceImageUrl] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -39,10 +39,17 @@ export const ServiceCategories = () => {
     return <Loader />;
   }
 
+  const displayCategories =
+    start !== undefined || end !== undefined
+    ? categories.slice(start ?? 0, end ?? categories.length)
+    : categories;
+
+    
+
   return (
     <div className="flight-menu-wrapper gjhkdfgdf">
       <div className="flight-menu-bar">
-        {categories.map((item, index) => (
+        {displayCategories.map((item, index) => (
           <div
             key={index}
             className={`flight-menu-item ${

@@ -63,13 +63,12 @@ const [index, setIndex] = useState(0);
     if (loading) return <Loader />;
     if (!slide) return null;
 
-  if (loading) {
-    return <Loader />;
-  }
+ 
 
 
   return (
     <div>
+       {loading && <Loader />}
       <section
         className="hero-section position-relative"
         style={{

@@ -60,7 +60,7 @@ header{
 }
 
 button.fsdgsadehtrfdewe{
-    font-size: 0.9rem;
+    font-size: 12px;
 }
 
 .sifjdnosjkjhjmre div.asdoijodjokpkoie{
@@ -84,16 +84,25 @@ button.fsdgsadehtrfdewe{
 
 .header-sticky .gjhkdfgdf{
     margin-bottom: 0 !important;
-    width: 500px;
-    max-width: 90%;
+    width: 425px;
     margin: 0 !important;
     overflow-x: hidden;
     padding: 0;
     border-bottom: 0;
 }
 
-.header-sticky .flight-menu-item {
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item {
     flex: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item:first-child{
+    padding-top: 0;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item:last-child{
+    padding-bottom: 0;
 }
 
 .header-sticky .flight-menu-item span{
@@ -106,12 +115,79 @@ button.fsdgsadehtrfdewe{
 
 .header-sticky .flight-menu-item img {
     height: auto;
+    margin: 0;
 }
 
-.header-sticky .flight-menu-item.active::after{
-    display: none;
+.header-sticky .doijeoijwer.d-none{
+    display: flex !important;
 }
 
-.header-sticky button.fsdgsadehtrfdewe{
-    font-size: 12px;
+.header-sticky .asddhedsfeedee i{
+    font-size: 1.2rem;
+}
+
+.header-sticky .svdgddfseerhthty i{
+    font-size: 0.8rem;
+}
+
+.header-sticky .hdr-sticky-drpdwn{
+    position: absolute;    
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    border-radius: 5px;
+    padding: 15px 10px;
+    width: 180px;
+    visibility: hidden;
+    transform: translateY(-10px);
+    opacity: 0;
+    z-index: -999;
+    border-bottom: 1px dotted var(--background-light-color);
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+.header-sticky .diejijewmrijwereor:hover .hdr-sticky-drpdwn{
+    visibility: visible;
+    transform: initial;
+    opacity: 1;
+    z-index: 999;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+ 
+.header-sticky .hdr-sticky-drpdwn .flight-menu-bar{
+    flex-direction: column;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-wrapper.gjhkdfgdf{
+    width: 100%;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item{
+    width: 100%;
+    flex-direction: row;
+    justify-content: start;
+    height: auto;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item span{
+    white-space: initial;
+    width: 100%;
+    text-align: left;
+    margin-left: 6px;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item::after{
+    height: 1px;
+}
+
+.header-sticky .hdr-sticky-drpdwn .flight-menu-item:hover::after{
+    width: 100%;
+    background: var(--light-border-color);
+}
+
+.header-sticky .flight-menu-item:hover{
+    color: var(--blue-primary-color);
+}
+
+.header-sticky .flight-menu-item.active:hover::after{
+    height: 2px !important;
+    background: var(--blue-primary-color);
 }
