@@ -35,11 +35,13 @@ export const Hotel = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await http.post("city-list", {
-        CountryCode: "IN",
-      });
+      const response = await http.post("city-list"
+      //    {
+      //   CountryCode: "IN",
+      // }
+    );
 
-    setCities(response?.data?.data?.CityList || []);
+    setCities(response?.data?.data || []);
     } catch (error) {
       console.error("City API Error:", error);
     }
@@ -55,7 +57,7 @@ export const Hotel = () => {
       ...new Map(
         cities.map((city) => {
           const stateName =
-            city.Name.split(",")[1]?.trim() || city.Name;
+            city.city_name.split(",")[1]?.trim() || city.city_name;
 
           return [stateName.toLowerCase(), city];
         })
@@ -70,7 +72,7 @@ export const Hotel = () => {
     }
 
     const filtered = cities.filter((city) =>
-      city.Name.toLowerCase().includes(search.toLowerCase())
+      city.city_name.toLowerCase().includes(search.toLowerCase())
     );
 
     setFilteredCities(filtered.slice(0, 10));
@@ -91,7 +93,7 @@ export const Hotel = () => {
 
   const handleSelectCity = (city) => {
     setSelectedCity(city);
-    setSearch(city.Name);
+    setSearch(city.city_name);
     setShowDropdown(false);
   };
 
@@ -160,11 +162,11 @@ export const Hotel = () => {
                       <div className="city-dropdown">
                         {filteredCities.map((city) => (
                           <div
-                            key={city.Code}
+                            key={city.city_code}
                             className="city-item"
                             onClick={() => handleSelectCity(city)}
                           >
-                            {city.Name}
+                            {city.city_name}
                           </div>
                         ))}
                       </div>
@@ -324,7 +326,7 @@ export const Hotel = () => {
 
             <div class="row g-4">
               {uniqueCities.slice(0, 12).map((city) => {
-                const stateName = formatStateName(city.Name);
+                const stateName = formatStateName(city.city_name);
 
                 const imageUrl =
                   stateImages[
