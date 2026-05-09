@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
-import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
 import http from "../../http";
 import "./Hotel.css";
 import Loader from "../../component/Loader/Loader";
 import { Link } from "react-router-dom";
 import { Faq } from "../../component/Faq/Faq";
+import { HotelSearch } from "../../component/HotelSearch/HotelSearch";
 export const Hotel = () => {
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
+  // eslint-disable-next-line
   const [search, setSearch] = useState("");
+  // eslint-disable-next-line
   const [filteredCities, setFilteredCities] = useState([]);
   // eslint-disable-next-line
   const [selectedCity, setSelectedCity] = useState(null);
+  // eslint-disable-next-line
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [contentimageUrl, setcontentimageUrl] = useState("");
@@ -55,7 +58,8 @@ export const Hotel = () => {
   const uniqueCities = useMemo(() => {
     return [
       ...new Map(
-        cities.map((city) => {
+        cities.filter((city) => city.country_code === "IN")
+        .map((city) => {
           const stateName =
             city.city_name.split(",")[1]?.trim() || city.city_name;
 
@@ -91,11 +95,6 @@ export const Hotel = () => {
       .trim();
     };
 
-  const handleSelectCity = (city) => {
-    setSelectedCity(city);
-    setSearch(city.city_name);
-    setShowDropdown(false);
-  };
 
 
   useEffect(() => {
@@ -128,7 +127,7 @@ export const Hotel = () => {
        {loading && <Loader />}
       <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
 
-      <div class="jfdbvjfbv788">
+      {/* <div class="jfdbvjfbv788">
         <section class="menu-section">
           <div class="container my-5">
             <ServiceCategories />
@@ -217,7 +216,9 @@ export const Hotel = () => {
             <button class="flight-search-btn">SEARCH</button>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <HotelSearch />
 
       <div class="hhsdfh58558">
         <section class="hotel-section">

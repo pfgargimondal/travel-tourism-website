@@ -1,87 +1,83 @@
 import { Link } from "react-router-dom";
-import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import http from "../../http";
+import Loader from "../../component/Loader/Loader";
+import { HotelSearch } from "../../component/HotelSearch/HotelSearch";
 import "./HotelFilter.css";
 export const HotelFilter = () => {
+
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line
+  const [search, setSearch] = useState("");
+  // eslint-disable-next-line
+  const [checkIn, setCheckIn] = useState("");
+  // eslint-disable-next-line
+  const [checkOut, setCheckOut] = useState("");
+  // eslint-disable-next-line
+  const [rooms, setRooms] = useState("1 Room 2 Adults");
+  // eslint-disable-next-line
+  const [price, setPrice] = useState("₹0 - ₹2500");
+
+  // Hotel Data
+  const [hotels, setHotels] = useState([]);
+
+  // Set values from URL params
+  useEffect(() => {
+    setSearch(searchParams.get("city") || "");
+    setCheckIn(searchParams.get("checkin") || "");
+    setCheckOut(searchParams.get("checkout") || "");
+    setRooms(searchParams.get("rooms") || "1 Room 2 Adults");
+    setPrice(searchParams.get("price") || "₹0 - ₹2500");
+  }, [searchParams]);
+
+  // Fetch Hotels
+  useEffect(() => {
+    const city = searchParams.get("city");
+    const checkin = searchParams.get("checkin");
+    const checkout = searchParams.get("checkout");
+    const rooms = searchParams.get("rooms");
+    const price = searchParams.get("price");
+
+    if (city || checkin || checkout || rooms || price) {
+      fetchHotels(city, checkin, checkout, rooms, price);
+    }
+  }, [searchParams]);
+
+  const fetchHotels = async (
+    city,
+    checkin,
+    checkout,
+    rooms,
+    price
+  ) => {
+    setLoading(true);
+    try {
+      const response = await http.get(
+        `/hotels-search?city=${city}&checkin=${checkin}&checkout=${checkout}&rooms=${rooms}&price=${price}`
+      );
+
+      setHotels(response.data.data);
+
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(hotels, 'hotels');
+
   return (
     <div>
+      {loading && <Loader />}
       <div className="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
 
-      <div className="jfdbvjfbv788">
-        <section className="menu-section">
-          <div className="container my-5">
-            <ServiceCategories />
-
-            <div className="flight-main-card">
-              <div className="d-flex align-items-center gap-3 mb-3">
-                <label>
-                  <input type="radio" checked /> Upto 4 Rooms
-                </label>
-                <label>
-                  <input type="radio" /> Group Deals{" "}
-                  <span className="badge bg-danger">new</span>
-                </label>
-              </div>
-
-              <div className="row align-items-center g-4">
-                <div className="col-md-3">
-                  <label>City, Property Name Or Location</label>
-                  <input
-                    type="text"
-                    className="form-control hotel-input"
-                    placeholder="Enter City (e.g Goa)"
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <label>Check-In</label>
-                  <input
-                    type="date"
-                    id="checkin"
-                    className="form-control hotel-input big-date"
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <label>Check-Out</label>
-                  <input
-                    type="date"
-                    id="checkout"
-                    className="form-control hotel-input big-date"
-                  />
-                </div>
-
-                <div className="col-md-3">
-                  <label>Rooms & Guests</label>
-                  <select className="form-control hotel-input">
-                    <option>1 Room 2 Adults</option>
-                    <option>1 Room 1 Adult</option>
-                    <option>2 Rooms 4 Adults</option>
-                  </select>
-                </div>
-
-                <div className="col-md-2">
-                  <label>Price Per Night</label>
-                  <select className="form-control hotel-input">
-                    <option>₹0 - ₹2500</option>
-                    <option>₹2500 - ₹5000</option>
-                    <option>₹5000+</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* <!-- BUTTON -->
-              <!--<div className="text-center mt-4">-->
-              <!--  <button className="search-btn">SEARCH</button>-->
-              <!--</div>--> */}
-            </div>
-          </div>
-        </section>
-        <div className="ghaadasd">
-          <div className="text-center mt-4 ">
-            <button className="flight-search-btn">SEARCH</button>
-          </div>
-        </div>
-      </div>
+      <HotelSearch />
 
       <div className="mainsection">
         <div className="container">
@@ -527,93 +523,157 @@ export const HotelFilter = () => {
               </div>
               <div className="col-lg-9">
                 <div className="sebfghsfsdf">
-                  <div className="gfetyy89">
-                    <div className="sdhdss8899">
-                      <div className="row">
-                        <div className="col-lg-9">
-                          <div className="fgfdfgd78">
-                            <div className="row">
-                              <div className="col-lg-6">
-                                <div className="fbvhjd">
-                                  <img src="./images/hotel3.png" alt="" />
 
-                                  <div className="wishlist-icon">
-                                    <img
-                                      src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
-                                      alt="heart"
-                                    />
+                  {hotels?.length > 0 ? (
+                    hotels.map((hotel, index) => {
+                      
+                      // Clean Description
+                      const cleanDescription = hotel.description
+                        ?.replace(/<[^>]*>/g, " ")
+                        ?.replace(/\n/g, " ")
+                        ?.replace(/\s+/g, " ")
+                        ?.trim();
+
+                      // Extract Headline
+                      const headlineMatch = cleanDescription?.match(
+                        /HeadLine\s*:\s*(.*?)(Location\s*:|$)/i
+                      );
+
+                      // Extract Location
+                      const locationMatch = cleanDescription?.match(
+                        /Location\s*:\s*(.*?)(Rooms\s*:|Dining\s*:|$)/i
+                      );
+
+                      const headline = headlineMatch?.[1]?.trim();
+
+                      const location = locationMatch?.[1]?.trim();
+
+                      // Final Description
+                      const shortDescription = location || cleanDescription;
+
+                      return(
+                        <div className="gfetyy89" key={index}>
+                          <div className="sdhdss8899">
+                            <div className="row">
+                              <div className="col-lg-9">
+                                <div className="fgfdfgd78">
+                                  <div className="row">
+                                    <div className="col-lg-6">
+                                      <div className="fbvhjd">
+                                        <img src={hotel.image} alt="" />
+
+                                        {/* <div className="wishlist-icon">
+                                          <img
+                                            src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+                                            alt="heart"
+                                          />
+                                        </div> */}
+                                      </div>
+                                    </div>
+                                    <div className="col-lg-6">
+                                      <div className="dsbhjsdsf">
+                                        <h4>
+                                          {hotel.hotel_name}
+                                        </h4>
+                                        <h6>
+                                          <i className="fa-solid fa-location-dot"></i> &nbsp;
+                                          {hotel.address}
+                                        </h6>
+                                        {/* Headline */}
+                                          {headline && (
+                                            <p className="mt-1">
+                                              HeadLine : {headline}
+                                            </p>
+                                          )}
+
+                                          {/* Location */}
+                                          <div className="mt-1">
+                                            {headline
+                                              ? shortDescription?.split(" ")?.slice(0, 18)?.join(" ")
+                                              : shortDescription?.split(" ")?.slice(0, 25)?.join(" ")
+                                            }
+
+                                            {shortDescription?.split(" ")?.length >
+                                              (headline ? 18 : 25) && (
+                                              <>
+                                                ...{" "}
+                                                <span
+                                                  onClick={() =>
+                                                    navigate(`/hotel-details/${hotel.id}`)
+                                                  }
+                                                  style={{
+                                                    color: "black",
+                                                    cursor: "pointer",
+                                                    fontWeight: "600",
+                                                  }}
+                                                >
+                                                  Read More
+                                                </span>
+                                              </>
+                                            )}
+                                          </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-lg-6">
-                                <div className="dsbhjsdsf">
-                                  <h4>
-                                    Fairfield by Marriott Mumbai Andheri West
-                                  </h4>
-                                  <h6>
-                                    <i className="fa-solid fa-location-dot"></i>{" "}
-                                    Bandra west , Mumbai
-                                  </h6>
-                                  <p>
-                                    Breakfast buffet features good variety,
-                                    restaurant offers quality food, bakery and
-                                    cafe includes a 24-hour coffee shop
-                                  </p>
+                              <div className="col-lg-3">
+                                <div className="njhbfsf">
+                                  <div className="vbhsf">
+                                    <h4>Excellent </h4>
+                                    <p>{hotel.hotel_rating}/5</p>
+                                  </div>
+                                  <div className="sdknhf55">
+                                    {/* <p>(655 Ratings)</p> */}
+                                  </div>
+                                  <div className="fdjvfd78">
+                                    <p>
+                                      From <span>₹2299 </span>
+                                    </p>
+                                  </div>
+                                  <div className="vdfv785">
+                                    <p>+ ₹ 3,543 taxes & fees per night</p>
+                                  </div>
+                                  <div className="sbfsdvfsf">
+                                    <div className="vfddf">
+                                      {[...Array(Number(hotel.hotel_rating || 0))].map((_, i) => (
+                                        <i key={i} className="fa-solid fa-star"></i>
+                                      ))}
+                                    </div>
+                                    <div className="fdfdf5">
+                                      <p>star</p>
+                                    </div>
+                                  </div>
+                                  <div className="sdbds86">
+                                    <button onClick={() =>
+                                        navigate(`/hotel-details/${hotel.id}`)
+                                      }>View Details</button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                        <div className="col-lg-3">
-                          <div className="njhbfsf">
-                            <div className="vbhsf">
-                              <h4>Excellent </h4>
-                              <p>4.5/5</p>
-                            </div>
-                            <div className="sdknhf55">
-                              <p>(655 Ratings)</p>
-                            </div>
-                            <div className="fdjvfd78">
+                            <div className="hddssd78">
+                              <h6>Long Stay Benefits</h6>
                               <p>
-                                From <span>₹2299 </span>
+                                20% off on session of Spa 20% off on Food & Beverage
+                                services 20% Off on Laundry service for upto 2
+                                clothing item(s)
                               </p>
                             </div>
-                            <div className="vdfv785">
-                              <p>+ ₹ 3,543 taxes & fees per night</p>
-                            </div>
-                            <div className="sbfsdvfsf">
-                              <div className="vfddf">
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                                <i className="fa-solid fa-star"></i>
-                              </div>
-                              <div className="fdfdf5">
-                                <p>star</p>
-                              </div>
-                            </div>
-                            <div className="sdbds86">
-                              <button>View Details</button>
-                            </div>
+                          </div>
+                          <div className="tfty885r">
+                            <h6>SBI Debit Card Offer - Get INR 5000 Off!</h6>
                           </div>
                         </div>
-                      </div>
-                      <div className="hddssd78">
-                        <h6>Long Stay Benefits</h6>
-                        <p>
-                          20% off on session of Spa 20% off on Food & Beverage
-                          services 20% Off on Laundry service for upto 2
-                          clothing item(s)
-                        </p>
-                      </div>
-                    </div>
-                    <div className="tfty885r">
-                      <h6>SBI Debit Card Offer - Get INR 5000 Off!</h6>
-                    </div>
-                  </div>
+                      );
+                    })
+                  ) : (
+                    <h5>No Hotels Found</h5>
+                  )}
 
-                  <div className="gfetyy89">
+                  
+
+                  {/* <div className="gfetyy89">
                     <div className="sdhdss8899">
                       <div className="row">
                         <div className="col-lg-9">
@@ -844,7 +904,8 @@ export const HotelFilter = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+
                 </div>
               </div>
             </div>
