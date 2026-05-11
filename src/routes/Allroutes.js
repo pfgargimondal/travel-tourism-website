@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, ContactUs, AboutUs, Blog, BlogDetails, HotelFilter, FlightFilter, PrivacyPolicy, TermsCondition, CustomerService, ReturnPolicy } from "../pages/index";
+import { Home, ContactUs, AboutUs, Blog, BlogDetails, HotelFilter, HotelDetails, FlightFilter, PrivacyPolicy, TermsCondition, CustomerService, ReturnPolicy } from "../pages/index";
 import ServiceFilterPage from "../component/ServiceCategories/ServiceFilterPage";
 
 function Allroutes() {
@@ -11,6 +11,7 @@ function Allroutes() {
       <Route path="/blogs" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogDetails />} />
       <Route path="/hotel-filter" element={<HotelFilter />} />
+      <Route path="/hotel-details/:id" element={<HotelDetails />} />
       <Route path="/flight-filter" element={<FlightFilter />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-&-conditions" element={<TermsCondition />} />

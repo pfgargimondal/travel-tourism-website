@@ -1,4 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import http from "../../http";
 import "./Hotel.css";
 import Loader from "../../component/Loader/Loader";
@@ -12,6 +16,7 @@ export const Hotel = () => {
   const [search, setSearch] = useState("");
   // eslint-disable-next-line
   const [filteredCities, setFilteredCities] = useState([]);
+  const [citieHotels, setCitieHotels] = useState([]);
   // eslint-disable-next-line
   const [selectedCity, setSelectedCity] = useState(null);
   // eslint-disable-next-line
@@ -95,8 +100,6 @@ export const Hotel = () => {
       .trim();
     };
 
-
-
   useEffect(() => {
     const fetchHotelData = async () => {
       setLoading(true);
@@ -122,9 +125,53 @@ export const Hotel = () => {
     fetchHotelData();
   }, []);
 
+
+  useEffect(() => {
+    const fetchCityHotel = async () => {
+      setLoading(true);
+      try {
+        const response = await http.get("/get-city-hotel-details");
+
+        setCitieHotels(response.data.data);
+
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCityHotel();
+  }, [])
+
+
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
+  const today = new Date();
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const nextDay = new Date();
+  nextDay.setDate(today.getDate() + 2);
+
+  const options = {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "2-digit",
+  };
+
+  const checkIn = tomorrow.toLocaleDateString("en-GB", options);
+  const checkOut = nextDay.toLocaleDateString("en-GB", options);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div>
-       {loading && <Loader />}
       <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
 
       {/* <div class="jfdbvjfbv788">
@@ -226,21 +273,77 @@ export const Hotel = () => {
             <div class="section-header">
               <div>
                 <h2>For your stay in Mumbai</h2>
-                <p>Wed, 08 Apr 26 - Thu, 09 Apr 26</p>
+                <p>{checkIn} - {checkOut}</p>
               </div>
 
               <div class="controls">
-                <button id="prevBtn">
+                <button id="prevBtn" ref={prevRef}>
                   <i class="fa-solid fa-angle-left"></i>
                 </button>
-                <button id="nextBtn">
+                <button id="nextBtn" ref={nextRef}>
                   <i class="fa-solid fa-chevron-right"></i>
                 </button>
               </div>
             </div>
 
-            <div class="slider-wrapper">
-              <div class="slider" id="slider">
+
+            {/* <div class="slider-wrapper"> */}
+              <Swiper
+                modules={[Navigation]}
+                preloadImages={false}
+                autoplay={true}
+                watchSlidesProgress={true}
+                observer={true}
+                observeParents={true}
+                lazy={true}
+                spaceBetween={15}
+                onBeforeInit={(swiper) => {
+                  swiper.params.navigation.prevEl = prevRef.current;
+                  swiper.params.navigation.nextEl = nextRef.current;
+                }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1.2,
+                  },
+                  576: {
+                    slidesPerView: 2,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                  },
+                  1200: {
+                    slidesPerView: 4,
+                  },
+                }}
+              >
+                {citieHotels.map((hotel, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="hotel-card">
+                      <div className="img-box">
+                        <img src={hotel.image} alt="" />
+
+                        <span className="rating">
+                          {hotel.hotel_rating}/5
+                        </span>
+                      </div>
+
+                      <div className="card-body">
+                        <h4>{hotel.hotel_name}</h4>
+
+                        <p>
+                          {hotel.address} 
+                        </p>
+                        <p>{"⭐".repeat(Number(hotel.hotel_rating || 0))}</p>
+
+                        <div className="price">
+                          ₹10,980 <span>per night</span>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              {/* <div class="slider" id="slider">
                 <div class="hotel-card">
                   <div class="img-box">
                     <img alt="" src="https://images.unsplash.com/photo-1566073771259-6a8506099945" />
@@ -314,8 +417,8 @@ export const Hotel = () => {
                     <div class="price">₹12,000</div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </section>
       </div>
