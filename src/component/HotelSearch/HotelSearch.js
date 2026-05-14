@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { ServiceCategories } from '../ServiceCategories/ServiceCategories';
-import http from "../../http";
 import Loader from "../Loader/Loader";
 import { useNavigate, useSearchParams } from "react-router-dom";
-export const HotelSearch = () => {
+export const HotelSearch = (cities) => {
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
-    const [cities, setCities] = useState([]);
     const [search, setSearch] = useState("");
     const [filteredCities, setFilteredCities] = useState([]);
     // eslint-disable-next-line
@@ -19,20 +17,6 @@ export const HotelSearch = () => {
     const [checkOut, setCheckOut] = useState("");
     const [rooms, setRooms] = useState("1 Room 2 Adults");
     const [price, setPrice] = useState("₹0 - ₹2500");
-
-
-    const fetchCities = async () => {
-        try {
-            const response = await http.post("city-list");
-            setCities(response?.data?.data || []);
-        } catch (error) {
-            console.error("City API Error:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchCities();
-    }, []);
 
 
     useEffect(() => {

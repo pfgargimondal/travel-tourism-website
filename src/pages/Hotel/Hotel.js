@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 import { Faq } from "../../component/Faq/Faq";
 import { HotelSearch } from "../../component/HotelSearch/HotelSearch";
 export const Hotel = () => {
+
   const [loading, setLoading] = useState(false);
+  const [hotelLoading, setHotelLoading] = useState(false);
   const [cities, setCities] = useState([]);
   // eslint-disable-next-line
   const [search, setSearch] = useState("");
@@ -43,12 +45,7 @@ export const Hotel = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await http.post("city-list"
-      //    {
-      //   CountryCode: "IN",
-      // }
-    );
-
+      const response = await http.post("city-list");
     setCities(response?.data?.data || []);
     } catch (error) {
       console.error("City API Error:", error);
@@ -128,7 +125,7 @@ export const Hotel = () => {
 
   useEffect(() => {
     const fetchCityHotel = async () => {
-      setLoading(true);
+      setHotelLoading(true);
       try {
         const response = await http.get("/get-city-hotel-details");
 
@@ -137,7 +134,7 @@ export const Hotel = () => {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setHotelLoading(false);
       }
     };
 
@@ -166,7 +163,7 @@ export const Hotel = () => {
   const checkIn = tomorrow.toLocaleDateString("en-GB", options);
   const checkOut = nextDay.toLocaleDateString("en-GB", options);
 
-  if (loading) {
+  if (loading || hotelLoading) {
     return <Loader />;
   }
 
@@ -265,7 +262,7 @@ export const Hotel = () => {
         </div>
       </div> */}
 
-      <HotelSearch />
+      <HotelSearch cities={cities}/>
 
       <div class="hhsdfh58558">
         <section class="hotel-section">
