@@ -282,9 +282,7 @@ export const Hotel = () => {
                 </button>
               </div>
             </div>
-
-
-            {/* <div class="slider-wrapper"> */}
+          
               <Swiper
                 modules={[Navigation]}
                 preloadImages={false}
@@ -339,83 +337,7 @@ export const Hotel = () => {
                     </div>
                   </SwiperSlide>
                 ))}
-              </Swiper>
-              {/* <div class="slider" id="slider">
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1566073771259-6a8506099945" />
-                    <span class="rating">3.9/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>The Orchid Hotel Mumbai</h4>
-                    <p>Santa Cruz ⭐⭐⭐⭐⭐</p>
-                    <div class="price">
-                      ₹10,980 <span>per night</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" />
-                    <span class="rating">4.4/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>JW Marriott Mumbai Sahar</h4>
-                    <p>Vile Parle ⭐⭐⭐⭐⭐</p>
-                    <div class="price">₹25,000</div>
-                  </div>
-                </div>
-
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa" />
-                    <span class="rating">4.7/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>Trident Bandra Kurla</h4>
-                    <p>Bandra ⭐⭐⭐⭐⭐</p>
-                    <div class="price">₹22,050</div>
-                  </div>
-                </div>
-
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" />
-                    <span class="rating">4/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>The Lalit Mumbai</h4>
-                    <p>Navpada ⭐⭐⭐⭐⭐</p>
-                    <div class="price">₹14,850</div>
-                  </div>
-                </div>
-
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1590490360182-c33d57733427" />
-                    <span class="rating">4.2/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>Lemon Tree Premier</h4>
-                    <p>Airport ⭐⭐⭐⭐⭐</p>
-                    <div class="price">₹12,000</div>
-                  </div>
-                </div>
-
-                <div class="hotel-card">
-                  <div class="img-box">
-                    <img alt="" src="https://images.unsplash.com/photo-1590490360182-c33d57733427" />
-                    <span class="rating">4.2/5</span>
-                  </div>
-                  <div class="card-body">
-                    <h4>Lemon Tree Premier</h4>
-                    <p>Airport ⭐⭐⭐⭐⭐</p>
-                    <div class="price">₹12,000</div>
-                  </div>
-                </div>
-              </div> */}
-            {/* </div> */}
+              </Swiper>              
           </div>
         </section>
       </div>

@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom";
+
+
 import "./Login.css";
 
-export const Login = ({ loginRegModal, setLoginRegModal }) => {
+
+
+export const Login = ({ loginRegModal, setLoginRegModal, regModal, setRegModal }) => {
     return (
         <div>
             <div onClick={() => setLoginRegModal(false)} className={loginRegModal ? "reg-login-wrapper-backdrop position-fixed w-100 h-100 start-0 top-0 bottom-0 end-0" : "reg-login-wrapper-backdrop reg-login-wrapper-backdrop-hide position-fixed w-100 h-100 start-0 top-0 bottom-0 end-0"}></div>
@@ -11,8 +16,6 @@ export const Login = ({ loginRegModal, setLoginRegModal }) => {
                         <div className="right-content">
                             <h1>
                                 THE GOAL OF LIFE IS
-                                <br /> LIVING IN AGREEMENT
-                                <br /> WITH NATURE.
                             </h1>
                             <div className="dfnjhdf" />
                             <div className="social-icons mt-4">
@@ -26,33 +29,48 @@ export const Login = ({ loginRegModal, setLoginRegModal }) => {
 
                     <div className="col-lg-6 col-md-6">
                         <div className="login-box">
-                            <h4 className="mb-4 text-white text-center">Login to Your Account</h4>
+                            <h4 className="mb-3 text-dark text-center">Login to Your Account</h4>
                             <form>
-                                <div className="mb-3">
-                                    <label className="form-label text-white">Email</label>
+                                <div className="mb-2">
+                                    <label className="form-label text-dark"><i class="bi me-1 bi-envelope"></i> Email</label>
                                     <input type="email" className="form-control custom-input" />
                                 </div>
-                                <div className="mb-3">
-                                    <label className="form-label text-white">Password</label>
+                                <div className="mb-2">
+                                    <label className="form-label text-dark"><i class="bi me-1 bi-lock"></i> Password</label>
                                     <input type="password" className="form-control custom-input" />
                                 </div>
-                                <div className="form-check mb-3">
+                                <div className="form-check mb-2">
                                     <input className="form-check-input" type="checkbox" />
-                                    <label className="form-check-label text-white">
+                                    <label className="form-check-label text-dark">
                                         Remember me?
                                     </label>
                                 </div>
                                 <button className="btn login-btn w-100">LOGIN</button>
-                                <div className="text-end mt-2">
-                                    <a href="/" className="text-white small">
-                                        Forgot Password?
-                                    </a>
-                                </div>
                             </form>
+                                
+                            <div className="d-flex justify-content-between align-items-center mt-2">
+                                <div className="mt-2 d-flex align-items-center djewjrokwekrewr text-dark">
+                                    <p className="mb-0 small me-1 text-dark">Don't have an account?</p>
+
+                                    <Link
+                                        onClick={() => {
+                                            setRegModal(true);
+                                            setLoginRegModal(false)
+                                        }} to="/" className="text-dark d-block fhjkljytre small">
+                                        Register
+                                    </Link>
+                                </div>
+
+                                <div className="mt-2">
+                                    <Link to="/" className="text-dark fhjkljytre small">
+                                        Forgot password?
+                                    </Link>
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     )
 }

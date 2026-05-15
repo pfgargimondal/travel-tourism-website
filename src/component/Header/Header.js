@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Login } from "../../pages";
+import { Login, Register } from "../../pages";
 
 import { ServiceCategories } from "../ServiceCategories/ServiceCategories";
 
@@ -13,6 +13,7 @@ import "./Header.css";
 export const Header = () => {
     const [headerSticky, setHeaderSticky] = useState(false);
     const [loginRegModal, setLoginRegModal] = useState(false);
+    const [regModal, setRegModal] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -125,7 +126,9 @@ export const Header = () => {
                 </div>
             </header>
 
-            <Login loginRegModal={loginRegModal} setLoginRegModal={setLoginRegModal} />
+            <Login loginRegModal={loginRegModal} setLoginRegModal={setLoginRegModal} regModal={regModal} setRegModal={setRegModal} />
+
+            <Register loginRegModal={loginRegModal} setLoginRegModal={setLoginRegModal} regModal={regModal} setRegModal={setRegModal} />
         </div>
     )
 }

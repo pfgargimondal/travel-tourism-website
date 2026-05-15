@@ -38,13 +38,6 @@
     color:#555;
 }
 
-/* Icon */
-.flight-menu-item img{
-    width:36px;
-    height:36px;
-    margin-bottom:6px;
-}
-
 /* Active */
 .flight-menu-item.active span{
     color: var(--blue-primary-color);

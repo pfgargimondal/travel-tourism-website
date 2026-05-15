@@ -110,19 +110,63 @@ const [index, setIndex] = useState(0);
 
           <div className="flight-main-card">
             <div className="flight-content-area">
-              <div className="flight-trip-type mb-3">
-                <label>
-                  <input type="radio" name="tripType" value="oneway" checked />{" "}
-                  One Way
-                </label>
-                <label>
-                  <input type="radio" name="tripType" value="round" /> Round
-                  Trip
-                </label>
-                <label>
-                  <input type="radio" name="tripType" value="multi" /> Multi
-                  City
-                </label>
+              <div className="flight-trip-type d-flex align-items-center mb-3">
+                <div className="checkbox-wrapper-15">
+                  <input
+                    className="inp-cbx"
+                    id="cbx-15"
+                    name="flight"
+                    type="radio"
+                    style={{ display: "none" }}
+                  />
+
+                  <label className="cbx" htmlFor="cbx-15">
+                    <span>
+                      <svg width="12px" height="9px" viewBox="0 0 12 9">
+                        <polyline points="1 5 4 8 11 1" />
+                      </svg>
+                    </span>
+                    <span>One Way</span>
+                  </label>
+                </div> 
+
+                <div className="checkbox-wrapper-15">
+                  <input
+                    className="inp-cbx"
+                    id="cbx-16"
+                    name="flight"
+                    type="radio"
+                    style={{ display: "none" }}
+                  />
+
+                  <label className="cbx" htmlFor="cbx-16">
+                    <span>
+                      <svg width="12px" height="9px" viewBox="0 0 12 9">
+                        <polyline points="1 5 4 8 11 1" />
+                      </svg>
+                    </span>
+                    <span>Round Trip</span>
+                  </label>
+                </div>
+
+                <div className="checkbox-wrapper-15">
+                  <input
+                    className="inp-cbx"
+                    id="cbx-17"
+                    name="flight"
+                    type="radio"
+                    style={{ display: "none" }}
+                  />
+
+                  <label className="cbx" htmlFor="cbx-17">
+                    <span>
+                      <svg width="12px" height="9px" viewBox="0 0 12 9">
+                        <polyline points="1 5 4 8 11 1" />
+                      </svg>
+                    </span>
+                    <span>Multi City</span>
+                  </label>
+                </div>
               </div>
 
               <div className="form row g-4 mt-3 align-items-end">
@@ -175,13 +219,77 @@ const [index, setIndex] = useState(0);
               </div>
 
               <div className="mt-4">
-                <h6>SPECIAL FARES</h6>
+                <h6 className="mb-3"><b>SPECIAL FARES</b></h6>
                 <div className="d-flex gap-2 flex-wrap dfkmkdf">
-                  <button className="flight-fare-btn active">Regular</button>
-                  <button className="flight-fare-btn">Student</button>
-                  <button className="flight-fare-btn">Armed Forces</button>
-                  <button className="flight-fare-btn">Senior Citizen</button>
-                  <button className="flight-fare-btn">Doctor & Nurses</button>
+                  <div className="asdfhgjhhghgf">
+                    <input
+                      className="inp-cbx"
+                      id="cbx-lh"
+                      name="aghfhrr"
+                      type="radio"
+                      style={{ display: "none" }}
+                    />
+
+                    <label className="cbx" htmlFor="cbx-lh">                      
+                      <span>Regular</span>
+                    </label>
+                  </div>
+
+                  <div className="asdfhgjhhghgf">
+                    <input
+                      className="inp-cbx"
+                      id="cbx-ku"
+                      name="aghfhrr"
+                      type="radio"
+                      style={{ display: "none" }}
+                    />
+
+                    <label className="cbx" htmlFor="cbx-ku">                      
+                      <span>Student</span>
+                    </label>
+                  </div>
+
+                  <div className="asdfhgjhhghgf">
+                    <input
+                      className="inp-cbx"
+                      id="cbx-kh"
+                      name="aghfhrr"
+                      type="radio"
+                      style={{ display: "none" }}
+                    />
+
+                    <label className="cbx" htmlFor="cbx-kh">                      
+                      <span>Armed Forces</span>
+                    </label>
+                  </div>
+
+                  <div className="asdfhgjhhghgf">
+                    <input
+                      className="inp-cbx"
+                      id="cbx-gd"
+                      name="aghfhrr"
+                      type="radio"
+                      style={{ display: "none" }}
+                    />
+
+                    <label className="cbx" htmlFor="cbx-gd">                      
+                      <span>Senior Citizen</span>
+                    </label>
+                  </div>
+
+                  <div className="asdfhgjhhghgf">
+                    <input
+                      className="inp-cbx"
+                      id="cbx-asd"
+                      name="aghfhrr"
+                      type="radio"
+                      style={{ display: "none" }}
+                    />
+
+                    <label className="cbx" htmlFor="cbx-asd">                      
+                      <span>Doctor & Nurses</span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
