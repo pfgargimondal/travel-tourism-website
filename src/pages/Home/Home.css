@@ -32,7 +32,7 @@
 .hero-content {
     position: relative;
     color: #fff !important;
-    padding: 2rem 0 10rem 0;
+    padding: 8rem 0 10rem 0;
 }
 
 .offer-text {
@@ -188,10 +188,6 @@
   margin-left: 0.1vw;
 }
 
-.form p{
-  font-size: 0.7vw;
-}
-
 .form h5{
   font-weight: bold;
 }
@@ -328,27 +324,31 @@
         rgba(0,0,0,0.85) 100%
     );
 }
-.overlay {
+.destination-card .overlay {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 0;
+    left: 0;
     color: #fff;
     z-index: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.overlay h5 {
+.destination-card .overlay h5 {
     font-size: 20px;
     font-weight: 500;
-    margin-bottom: 10vw;
+    margin-bottom: 0 !important;
 }
 
-.overlay p {
+.destination-card .overlay p {
     font-size: 13px;
     margin: 0;
     opacity: 0.8;
 }
 
-.overlay h6 {
+.destination-card .overlay h6 {
     font-size: 18px;
     font-weight: 500;
     margin: 0;
@@ -522,9 +522,11 @@
     color: #1f2b3a;
 }
 
-.rating {
+.hotel-content .rating {
     font-size: 14px;
     color: #555;
+    position: initial;
+    background: var(--main-yellow-color);
 }
 
 .booknb
@@ -813,4 +815,29 @@
     border: 1px solid var(--blue-secondary-color);
     box-shadow: rgba(65, 142, 222, 0.12) 0px 2px 4px 0px, rgba(65, 142, 222, 0.32) 0px 2px 16px 0px;
     transition: all 0.2s ease;
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    .dnfggfshgjhfghdff.align-items-center{
+        align-items: normal !important;
+    }
+
+    .form h5{
+        margin-bottom: 5px !important;
+    }
+
+    .circle{
+        margin-inline: auto;
+    }
+
+    .doiejwrwer{
+        text-align: center;
+    }
+
+    .hotel-img{
+        height: auto;
+    }
 }

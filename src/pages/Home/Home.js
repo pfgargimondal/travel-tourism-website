@@ -195,21 +195,21 @@ const [index, setIndex] = useState(0);
                 </div>
 
                 <div className="col-lg-7">
-                  <div className="row align-items-center">
-                    <div className="col-md-4">
+                  <div className="row dnfggfshgjhfghdff align-items-center">
+                    <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Departure Date</label>
                       <h5>20 Feb’26</h5>
                       <p>Friday</p>
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Return Date</label>
                       <h6>
                         Book Round Trip <br /> to save extra
                       </h6>
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Travellers & Class</label>
                       <h5>1 Traveller</h5>
                       <p>Economy</p>
@@ -389,8 +389,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/mumbai.png" alt="" />
                 <div className="overlay">
                   <h5>Mumbai</h5>
-                  <p>Starting from</p>
-                  <h6>₹9,107</h6>
+                  
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹9,107</h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -400,8 +403,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/bangalore.png" alt="" />
                 <div className="overlay">
                   <h5>Bangalore</h5>
-                  <p>Starting from</p>
-                  <h6>₹11,398</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹11,398</h6>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -411,8 +417,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/pune.png" alt="" />
                 <div className="overlay">
                   <h5>Pune</h5>
-                  <p>Starting from</p>
-                  <h6>₹9,438</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹9,438</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -422,8 +431,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/kolkata.png" alt="" />
                 <div className="overlay">
                   <h5>Kolkata</h5>
-                  <p>Starting from</p>
-                  <h6>₹8,181</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹8,181</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -433,8 +445,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/hydrabad.png" alt="" />
                 <div className="overlay">
                   <h5>Hyderabad</h5>
-                  <p>Starting from</p>
-                  <h6>₹9,508</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹9,508</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -444,8 +459,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/goa.png" alt="" />
                 <div className="overlay">
                   <h5>Goa</h5>
-                  <p>Starting from</p>
-                  <h6>₹9,736</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹9,736</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -455,8 +473,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/chennai.png" alt="" />
                 <div className="overlay">
                   <h5>Chennai</h5>
-                  <p>Starting from</p>
-                  <h6>₹10,745</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹10,745</h6>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -466,8 +487,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/amhedabad.png" alt="" />
                 <div className="overlay">
                   <h5>Ahmedabad</h5>
-                  <p>Starting from</p>
-                  <h6>₹7,071</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹7,071</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -489,8 +513,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/topdesti.png" alt="" />
                 <div className="overlay">
                   <h5>Top Destination</h5>
-                  <p>Starting from</p>
-                  <h6>₹11,809</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹11,809</h6>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -500,8 +527,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/asia.png" alt="" />
                 <div className="overlay">
                   <h5>Asia</h5>
-                  <p>Starting from</p>
-                  <h6>₹11,809</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹11,809</h6>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -511,8 +541,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/mid-east.png" alt="" />
                 <div className="overlay">
                   <h5>Middle East</h5>
-                  <p>Starting from</p>
-                  <h6>₹20,021</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹20,021</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -522,8 +555,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/affrica.png" alt="" />
                 <div className="overlay">
                   <h5>Africa</h5>
-                  <p>Starting from</p>
-                  <h6>₹32,126</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹32,126</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -533,8 +569,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/europe.png" alt="" />
                 <div className="overlay">
                   <h5>Europe</h5>
-                  <p>Starting from</p>
-                  <h6>₹38,039</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹38,039</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -544,8 +583,11 @@ const [index, setIndex] = useState(0);
                 <img src="./images/northamerica.png" alt="" />
                 <div className="overlay">
                   <h5>North America</h5>
-                  <p>Starting from</p>
-                  <h6>₹56,545</h6>
+
+                  <div className="diewrwerew">
+                    <p>Starting from</p>
+                    <h6>₹56,545</h6>  
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -607,9 +649,11 @@ const [index, setIndex] = useState(0);
                 </div>
               </div>
 
-              <a href="/" className="btn btn-tour mt-4">
-                BOOK YOUR TRIP →
-              </a>
+              <div className="doiejwrwer">
+                <a href="/" className="btn btn-tour mt-4">
+                  BOOK YOUR TRIP →
+                </a>
+              </div>
             </div>
 
             <div className="travright col-lg-6 position-relative mt-5 mt-lg-0">

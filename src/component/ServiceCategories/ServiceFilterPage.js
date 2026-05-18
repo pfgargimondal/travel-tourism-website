@@ -1,10 +1,14 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { FlightFilter } from "../../pages";
 import { Hotel } from "../../pages/Hotel/Hotel";
+import { useEffect } from "react";
 
 const ServiceFilterPage = () => {
   const { slug } = useParams();
+  const location = useLocation();
 
+  useEffect(() => {
+  }, [location.pathname]);
   const routeComponents = {
     hotels: <Hotel />,
     flights: <FlightFilter />,

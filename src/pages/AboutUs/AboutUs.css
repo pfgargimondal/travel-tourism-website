@@ -122,7 +122,7 @@
 }
 
 .promo .grab_up_img {
-    max-width: 93%;
+    width: 100%;
 }
 
 /* POPULAR */
@@ -155,7 +155,6 @@
 .popular .grid-item img {
     width: 100%;
     height: 100%;
-    margin-top:22px;
     object-fit: contain;
     transition: .4s
 }
@@ -170,7 +169,8 @@
     left: 20px;
     color: #fff;
     font-weight: 600;
-    font-size: 15px
+    font-size: 15px;
+    z-index: 99;
 }
 
 .popular .overlay {
@@ -204,8 +204,11 @@
 .cruises,
 .museum {
     height: 47%;
-    margin-bottom: 28px;
+    margin-bottom: 12px;
+}
 
+.right-grid{
+    margin-top: 1rem;
 }
 
 .beach {
@@ -464,7 +467,7 @@
 }
 
 .price {
-    color: #1f2b3a;
+    color: #fff;
     font-weight: 700;
     font-size: medium;
 }

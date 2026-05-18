@@ -46,7 +46,7 @@ export const Hotel = () => {
   const fetchCities = async () => {
     try {
       const response = await http.post("city-list");
-    setCities(response?.data?.data || []);
+      setCities(response?.data?.data || []);
     } catch (error) {
       console.error("City API Error:", error);
     }
@@ -331,7 +331,7 @@ export const Hotel = () => {
                         <p>{"⭐".repeat(Number(hotel.hotel_rating || 0))}</p>
 
                         <div className="price">
-                          ₹10,980 <span>per night</span>
+                          ₹{Math.round(hotel.hotelPriceDetails?.total_fare ?? 0).toLocaleString("en-IN")} <span>per night</span>
                         </div>
                       </div>
                     </div>

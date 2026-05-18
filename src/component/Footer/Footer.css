@@ -99,3 +99,36 @@
     align-items: center;
     justify-content: center;
 }
+
+
+@media only screen and (max-width: 991px){
+    .payment-logos img{
+        height: auto;
+    }
+
+    .social-icons img {
+        width: auto;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    .footer-bottom > .container.d-flex{
+        flex-direction: column;
+    }
+
+    .footer-bottom .social-icons{
+        margin-top: 1rem;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 375px){
+    .payment-section{
+        flex-direction: column;
+    }
+}

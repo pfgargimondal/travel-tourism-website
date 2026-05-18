@@ -18,20 +18,27 @@ export const HotelFilter = () => {
   // eslint-disable-next-line
   const [checkOut, setCheckOut] = useState("");
   // eslint-disable-next-line
-  const [rooms, setRooms] = useState("1 Room 2 Adults");
-  // eslint-disable-next-line
   const [price, setPrice] = useState("₹0 - ₹2500");
-
+  // eslint-disable-next-line
+  const [roomCount, setRoomCount] = useState(1);
+  // eslint-disable-next-line
+  const [adultCount, setAdultCount] = useState(1);
+  // eslint-disable-next-line
+  const [childrenCount, setChildrenCount] = useState(0);
   // Hotel Data
   const [hotels, setHotels] = useState([]);
 
   // Set values from URL params
   useEffect(() => {
-    setSearch(searchParams.get("city") || "");
-    setCheckIn(searchParams.get("checkin") || "");
-    setCheckOut(searchParams.get("checkout") || "");
-    setRooms(searchParams.get("rooms") || "1 Room 2 Adults");
-    setPrice(searchParams.get("price") || "₹0 - ₹2500");
+      setSearch(searchParams.get("city") || "");
+      setCheckIn(searchParams.get("checkin") || "");
+      setCheckOut(searchParams.get("checkout") || "");
+
+      setRoomCount(Number(searchParams.get("rooms")) || 1);
+      setAdultCount(Number(searchParams.get("adults")) || 1);
+      setChildrenCount(Number(searchParams.get("children")) || 0);
+
+      setPrice(searchParams.get("price") || "₹0 - ₹2500");
   }, [searchParams]);
 
   // Fetch Hotels
@@ -40,10 +47,12 @@ export const HotelFilter = () => {
     const checkin = searchParams.get("checkin");
     const checkout = searchParams.get("checkout");
     const rooms = searchParams.get("rooms");
+    const adults = searchParams.get("adults");
+    const children = searchParams.get("children");
     const price = searchParams.get("price");
 
-    if (city || checkin || checkout || rooms || price) {
-      fetchHotels(city, checkin, checkout, rooms, price);
+    if (city || checkin || checkout || rooms) {
+      fetchHotels(city, checkin, checkout, rooms, adults, children, price);
     }
   }, [searchParams]);
 
@@ -52,17 +61,24 @@ export const HotelFilter = () => {
     checkin,
     checkout,
     rooms,
+    adults,
+    children,
     price
   ) => {
     setLoading(true);
+
     try {
       const response = await http.get(
-        `/hotels-search?city=${city}&checkin=${checkin}&checkout=${checkout}&rooms=${rooms}&price=${price}`
+        `/hotels-search?city=${city}
+        &checkin=${checkin}
+        &checkout=${checkout}
+        &rooms=${rooms}
+        &adults=${adults}
+        &children=${children}
+        &price=${price}`
       );
 
       setHotels(response.data.data);
-
-
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,8 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Home, ContactUs, AboutUs, Blog, BlogDetails, HotelFilter, HotelDetails, FlightFilter, PrivacyPolicy, TermsCondition, CustomerService, ReturnPolicy } from "../pages/index";
 import ServiceFilterPage from "../component/ServiceCategories/ServiceFilterPage";
 
 function Allroutes() {
+  const location = useLocation();
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -18,7 +19,7 @@ function Allroutes() {
       <Route path="/customer-service" element={<CustomerService />} />
       <Route path="/return-policy" element={<ReturnPolicy />} />
 
-      <Route path="/:slug" element={<ServiceFilterPage />} />
+      <Route path="/:slug" element={<ServiceFilterPage key={location.pathname}/>} />
     </Routes>
   );
 }
