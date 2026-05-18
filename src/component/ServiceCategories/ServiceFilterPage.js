@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const ServiceFilterPage = () => {
   const { slug } = useParams();
-  const location = useLocation();
+  const location = useLocation(); 
 
   useEffect(() => {
   }, [location.pathname]);
