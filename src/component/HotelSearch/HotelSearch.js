@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ServiceCategories } from '../ServiceCategories/ServiceCategories';
 import Loader from "../Loader/Loader";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export const HotelSearch = ({ cities = [] }) => {
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
@@ -10,10 +10,9 @@ export const HotelSearch = ({ cities = [] }) => {
     // eslint-disable-next-line
     const [selectedCity, setSelectedCity] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
-
+    // const location = useLocation();
     const navigate = useNavigate();
     const MAX_GUESTS_PER_ROOM = 8;
-    const [searchParams] = useSearchParams();
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
     // const [rooms, setRooms] = useState("1 Room 2 Adults");
@@ -84,17 +83,20 @@ export const HotelSearch = ({ cities = [] }) => {
 
 
     // set existing query params in fields
-    useEffect(() => {
-        setSearch(searchParams.get("city") || "");
-        setCheckIn(searchParams.get("checkin") || "");
-        setCheckOut(searchParams.get("checkout") || "");
+    // useEffect(() => {
+    //     const params = new URLSearchParams(location.search);
 
-        setRoomCount(Number(searchParams.get("rooms")) || 1);
-        setAdultCount(Number(searchParams.get("adults")) || 1);
-        setChildrenCount(Number(searchParams.get("children")) || 0);
+    //     setSearch(params.get("city") || "");
+    //     setCheckIn(params.get("checkin") || "");
+    //     setCheckOut(params.get("checkout") || "");
 
-        setPrice(searchParams.get("price") || "₹0 - ₹2500");
-    }, [searchParams]);
+    //     setRoomCount(Number(params.get("rooms")) || 1);
+    //     setAdultCount(Number(params.get("adults")) || 1);
+    //     setChildrenCount(Number(params.get("children")) || 0);
+
+    //     setPrice(params.get("price") || "₹0 - ₹2500");
+
+    // }, [location.search]);
 
     const handleSearch = () => {
         const params = new URLSearchParams({

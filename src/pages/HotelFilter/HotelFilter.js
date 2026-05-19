@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import http from "../../http";
 import Loader from "../../component/Loader/Loader";
 import { HotelSearch } from "../../component/HotelSearch/HotelSearch";
@@ -8,53 +8,27 @@ import "./HotelFilter.css";
 export const HotelFilter = () => {
 
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line
-  const [search, setSearch] = useState("");
-  // eslint-disable-next-line
-  const [checkIn, setCheckIn] = useState("");
-  // eslint-disable-next-line
-  const [checkOut, setCheckOut] = useState("");
-  // eslint-disable-next-line
-  const [price, setPrice] = useState("₹0 - ₹2500");
-  // eslint-disable-next-line
-  const [roomCount, setRoomCount] = useState(1);
-  // eslint-disable-next-line
-  const [adultCount, setAdultCount] = useState(1);
-  // eslint-disable-next-line
-  const [childrenCount, setChildrenCount] = useState(0);
   // Hotel Data
   const [hotels, setHotels] = useState([]);
 
-  // Set values from URL params
-  useEffect(() => {
-      setSearch(searchParams.get("city") || "");
-      setCheckIn(searchParams.get("checkin") || "");
-      setCheckOut(searchParams.get("checkout") || "");
-
-      setRoomCount(Number(searchParams.get("rooms")) || 1);
-      setAdultCount(Number(searchParams.get("adults")) || 1);
-      setChildrenCount(Number(searchParams.get("children")) || 0);
-
-      setPrice(searchParams.get("price") || "₹0 - ₹2500");
-  }, [searchParams]);
 
   // Fetch Hotels
   useEffect(() => {
-    const city = searchParams.get("city");
-    const checkin = searchParams.get("checkin");
-    const checkout = searchParams.get("checkout");
-    const rooms = searchParams.get("rooms");
-    const adults = searchParams.get("adults");
-    const children = searchParams.get("children");
-    const price = searchParams.get("price");
-
-    if (city || checkin || checkout || rooms) {
-      fetchHotels(city, checkin, checkout, rooms, adults, children, price);
-    }
-  }, [searchParams]);
+      const params = new URLSearchParams(location.search);
+      const city = params.get("city");
+      const checkin = params.get("checkin");
+      const checkout = params.get("checkout");
+      const rooms = params.get("rooms");
+      const adults = params.get("adults");
+      const children = params.get("children");
+      const price = params.get("price");
+      if (city || checkin || checkout || rooms) {
+        fetchHotels(city, checkin, checkout, rooms, adults, children, price);
+      }
+  }, [location.search]);
 
   const fetchHotels = async (
     city,
@@ -86,7 +60,7 @@ export const HotelFilter = () => {
     }
   };
 
-  console.log(hotels, 'hotels');
+  // console.log(hotels, 'hotels');
 
   return (
     <div>
@@ -562,10 +536,10 @@ export const HotelFilter = () => {
 
                       const headline = headlineMatch?.[1]?.trim();
 
-                      const location = locationMatch?.[1]?.trim();
+                      const hotelLocation = locationMatch?.[1]?.trim();
 
                       // Final Description
-                      const shortDescription = location || cleanDescription;
+                      const shortDescription = hotelLocation || cleanDescription;
 
                       return(
                         <div className="gfetyy89" key={index}>

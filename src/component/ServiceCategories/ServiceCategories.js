@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import http from "../../http";
 import "./ServiceCategories.css";
 import Loader from "../Loader/Loader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const ServiceCategories = ({ start, end }) => {
   const [serviceimageUrl, setserviceImageUrl] = useState("");
@@ -10,7 +10,6 @@ export const ServiceCategories = ({ start, end }) => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -61,7 +60,18 @@ export const ServiceCategories = ({ start, end }) => {
                 ? "active"
                 : ""
             }`}
-            onClick={() => navigate(`/${item.slug}`)}
+            // onClick={() => navigate(`/${item.slug}`)}
+            onClick={() => {
+              if(item.slug === "hotels"){
+                window.location.href = "/hotels";
+              }
+              else if(item.slug === "flights"){
+                window.location.href = "/flights";
+              }
+              else{
+                 window.location.href = `/${item.slug}`;
+              }
+            }}
           >
             <img
               src={`${serviceimageUrl}/${item.category_image}`}
