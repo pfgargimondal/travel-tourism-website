@@ -17,7 +17,7 @@ export const Register = ({ loginRegModal, setLoginRegModal, regModal, setRegModa
                         <h4 className="mb-3 text-dark text-center">Register New Account</h4>
                         <form>
                             <div className="mb-2">
-                                <label className="form-label text-dark"><i class="bi me-1 bi-envelope"></i> Full Name</label>
+                                <label className="form-label text-dark"><i class="bi me-1 bi-person"></i> Full Name</label>
                                 <input type="email" className="form-control custom-input" />
                             </div>
 
@@ -27,7 +27,7 @@ export const Register = ({ loginRegModal, setLoginRegModal, regModal, setRegModa
                             </div>
 
                             <div className="mb-2">
-                                <label className="form-label text-dark"><i class="bi me-1 bi-envelope"></i> Phone Number</label>
+                                <label className="form-label text-dark"><i class="bi me-1 bi-telephone"></i> Phone Number</label>
                                 <input type="number" className="form-control custom-input" />
                             </div>
 

@@ -11,15 +11,15 @@ export const BlogDetails = () => {
     const [relatedBlogs, setRelatedBlogs] = useState([]);
     const [imageBaseUrl, setImageBaseUrl] = useState("");
 
+    // eslint-disable-next-line
     const [banner, setBanner] = useState({});
+    // eslint-disable-next-line
     const [bannerUrl, setBannerUrl] = useState("");
 
     useEffect(() => {
           const fetchBanner = async () => {
             try {
               const res = await http.get("/get-blog-details-banner");
-    
-              console.log("Banner API:", res.data);
     
               setBanner(res.data.data); 
               setBannerUrl(res.data.image_url);
@@ -36,15 +36,13 @@ export const BlogDetails = () => {
     useEffect(() => {
         const fetchBlogDetails = async () => {
             try {
-            const res = await http.get(`/blog-details/${slug}`);
+                const res = await http.get(`/blog-details/${slug}`);
 
-            setBlog(res.data.data);
-            setRelatedBlogs(res.data.related_blogs || []);
-            setImageBaseUrl(res.data.image_url);
-            //console.log(res.data);
-
+                setBlog(res.data.data);
+                setRelatedBlogs(res.data.related_blogs || []);
+                setImageBaseUrl(res.data.image_url);
             } catch (err) {
-            console.error(err);
+                console.error(err);
             }
         };
 
@@ -55,7 +53,7 @@ export const BlogDetails = () => {
 
     return (
       <div>
-        <section class="hero-sectionc" style={{
+        {/* <section class="hero-sectionc" style={{
             background: `url(${bannerUrl}/${banner?.banner_image}) center center / cover no-repeat`
         }}>
             <div class="container text-center hero-content">
@@ -70,6 +68,28 @@ export const BlogDetails = () => {
                 />
                 
             </div>
+        </section> */}
+
+        <section class="hero-sectionc gjnfrdgsas" style={{
+            background: `url(${blog && blog.blog_image ? `${imageBaseUrl}/${blog.blog_image}` : "/images/default-blog.png"}) center center / cover no-repeat`
+        }}>
+            <div class="container gfrt text-center hero-content">
+                {/* 🔥 Title */}
+                <h1 className="blog-title">
+                    {blog ? blog.title : ""}
+                </h1>
+
+                <div className="fnsdjhf">
+                    <button className="btn-sddf">
+                        <i className="fa-regular fa-calendar"></i>{" "}
+                        {blog?.created_at
+                            ? new Date(blog.created_at).toDateString()
+                            : ""}
+                        <i className="fa-solid fa-minus rotate-line"></i>{" "}
+                        {blog ? blog.category_name : ""}
+                    </button>
+                </div>
+            </div>
         </section>
 
         
@@ -78,41 +98,12 @@ export const BlogDetails = () => {
                 <div class="row">
                     <div class="col-lg-9">
                         <div className="blog-main">
-                        <div className="fghffsd5fd">
-                            
-                            <img
-                            src={
-                                blog && blog.blog_image
-                                    ? `${imageBaseUrl}/${blog.blog_image}`
-                                    : "/images/default-blog.png"
-                                }
-                            alt={blog ? blog.title : "blog image"}
-                            />
-
-                            <div className="fnsdjhf">
-                            <button className="btn-sddf">
-                                <i className="fa-regular fa-calendar"></i>{" "}
-                                {blog?.created_at
-                                    ? new Date(blog.created_at).toDateString()
-                                    : ""}
-                                <i className="fa-solid fa-minus rotate-line"></i>{" "}
-                                {blog ? blog.category_name : ""}
-                            </button>
-                            </div>
-
-                        </div>
-
-                        {/* 🔥 Title */}
-                        <h2 className="blog-title">
-                            {blog ? blog.title : ""}
-                        </h2>
-
-                        {/* 🔥 Description (HTML from backend) */}
-                        {blog && blog.blog_description && (
-                            <div
-                                dangerouslySetInnerHTML={{ __html: blog.blog_description }}
-                            />
-                        )}
+                            {/* 🔥 Description (HTML from backend) */}
+                            {blog && blog.blog_description && (
+                                <div
+                                    dangerouslySetInnerHTML={{ __html: blog.blog_description }}
+                                />
+                            )}
                         </div>
                     </div>
 

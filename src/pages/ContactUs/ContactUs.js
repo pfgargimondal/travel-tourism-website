@@ -231,12 +231,14 @@ export const ContactUs = () => {
                                         <p style={{ color: "red" }}>{errors.message}</p>
                                     </div>
 
-                                    <button type="submit" className="btn send-btn">
-                                        <span>Send</span>
-                                        <span className="btn-icon">
-                                        <i className="fa-solid fa-arrow-right-long"></i>
-                                        </span>
-                                    </button>
+                                    <div className="iuejwoikoerwjer">
+                                        <button type="submit" className="btn send-btn">
+                                            <span>Send</span>
+                                            <span className="btn-icon">
+                                            <i className="fa-solid fa-arrow-right-long"></i>
+                                            </span>
+                                        </button>    
+                                    </div>                                    
                                 </form>
                             </div>
                         </div>

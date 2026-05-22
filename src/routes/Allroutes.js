@@ -13,7 +13,8 @@ import {
   PrivacyPolicy,
   TermsCondition,
   CustomerService,
-  ReturnPolicy
+  ReturnPolicy,
+  ThankYou
 } from "../pages";
 
 // function PageRenderer() {
@@ -42,6 +43,8 @@ function Allroutes() {
       <Route path="/terms-&-conditions" element={<TermsCondition />} />
       <Route path="/customer-service" element={<CustomerService />} />
       <Route path="/return-policy" element={<ReturnPolicy />} />
+
+      <Route path="/thank-you" element={<ThankYou />} />
 
       {/* <Route
         path="/:slug"

@@ -4,7 +4,7 @@
 
 .hero-sectionz{
     /* background: url("../images/tourist-carrying-baggage.jpg") center center/cover no-repeat; */
-    height: 65vh;
+    height: auto;
     position: relative;
 }
 
@@ -123,15 +123,12 @@ label {
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
     
-    .icon-box {
-      font-size: 28px;
-      color: #0ea5a4;
-      margin-bottom: 15px;
-      text-align:center;
-      margin:auto;
-      margin-bottom:15px;
-      
-    }
+.contact-card .icon-box{
+    font-size: 28px;
+    color: #0ea5a4;
+    margin-inline: auto;
+    text-align:center;
+}
 
 .contact-card h5 {
       font-weight: 600;
@@ -154,4 +151,16 @@ label {
 /* end  contact us  css by   prerana  */
 /* end  contact us  css by   prerana  */
 /* end  contact us  css by   prerana  */
+
+
+
+
+@media only screen and (max-width: 450px){
+    .contact-small,
+    .contact-title,
+    .contact-desc,
+    .iuejwoikoerwjer{
+        text-align: center;
+    }
+}
 

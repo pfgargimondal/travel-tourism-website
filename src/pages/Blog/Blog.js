@@ -81,71 +81,46 @@ const [activeIndex, setActiveIndex] = useState(0);
       <div className="container my-5">
         <div className="row">
           <div className="col-lg-8">
-            <div className="row g-4">
-
-              <div className="row">
-                {loading ? (
+            <div className="row">
+              {loading ? (
                 <p>Loading...</p>
-                ) : (
+              ) : (
                 blogDetails.map((blog, index) => (
-                <div className="col-md-6" key={index}>
-                <div className="blog-card">
+                  <div className="col-md-6" key={index}>
+                    <div className="blog-card">
 
-                <img
-                src={`${imageBaseUrl}/${blog.blog_image}`}
-                className="img-fluid"
-                alt={blog.title}
-                />
+                      <img
+                        src={`${imageBaseUrl}/${blog.blog_image}`}
+                        className="img-fluid"
+                        alt={blog.title}
+                      />
 
-                <div className="blog-content">
-                <div className="meta">
+                      <div className="blog-content">
+                        <div className="meta">
 
-                <span>
-                  {new Date(blog.created_at).toDateString()}
-                </span>
+                          <span>
+                            {new Date(blog.created_at).toDateString()}
+                          </span>
 
-                <span className="badge bg-light text-success">
-                  {blog.category_name}
-                </span>
+                          <span className="badge bg-light text-success">
+                            {blog.category_name}
+                          </span>
 
-                </div>
+                        </div>
 
-                <h5>{blog.title}</h5>
+                        <h5>{blog.title}</h5>
 
-                <p>{blog.short_description}</p>
+                        <p>{blog.short_description}</p>
 
-                <a href={`/blog/${blog.slug}`} className="read-btn">
-                Read More →
-                </a>
+                        <a href={`/blog/${blog.slug}`} className="read-btn">
+                          Read More →
+                        </a>
 
-                </div>
-                </div>
-                </div>
-                ))
-                )}
-              </div>
-
-              {/* <div className="col-md-6">
-                <div className="blog-card">
-                  <img src="./images/blogimg2.png" className="img-fluid" alt=""/>
-                  <div className="blog-content">
-                    <div className="meta">
-                      <span>29 August, 2025</span>
-                      <span className="badge bg-light text-success">Travel</span>
+                      </div>
                     </div>
-                    <h5>
-                      How Can You Traveling In London, United Kingdom From Italy
-                    </h5>
-                    <p>
-                      We offer carefully curated destinations and tours that
-                      capture the true essence.
-                    </p>
-                    <a href="/" className="read-btn">
-                      Read More →
-                    </a>
                   </div>
-                </div>
-              </div> */}
+                ))
+              )}
             </div>
           </div>
 
@@ -153,7 +128,7 @@ const [activeIndex, setActiveIndex] = useState(0);
             <div className="sidebar">
 
               <div className="sidebar-box">
-                <h6>Search Here</h6>
+                <h6 className="mb-3">Search Here</h6>
                 <div className="input-group">
                   <input
                     type="text"
@@ -164,8 +139,8 @@ const [activeIndex, setActiveIndex] = useState(0);
                 </div>
               </div>
 
-              <div className="category-box">
-                <h6>All Categories</h6>
+              <div className="category-box mt-4 mb-2">
+                <h6 className="mb-3">All Categories</h6>
                 <ul className="list-group">
                   <li className="list-group-item active btn-tour">All</li>
 
@@ -183,19 +158,19 @@ const [activeIndex, setActiveIndex] = useState(0);
                 </ul>
               </div>
               
-              <div className="sidebar-box1">
+              <div className="sidebar-box1 mt-3">
 
                   {/* Toggle Buttons */}
                   <div className="d-flex mb-3">
                     <button
-                      className={`btn ${activeTab === "popular" ? "btn-tour" : "btn1 btn-outline-secondary"} me-2`}
+                      className={`btn ${activeTab === "popular" ? "btn-tour btn-active" : "btn"} me-2`}
                       onClick={() => setActiveTab("popular")}
                     >
                       Popular
                     </button>
 
                     <button
-                      className={`btn ${activeTab === "recent" ? "btn-tour" : "btn1 btn-outline-secondary"}`}
+                      className={`btn ${activeTab === "recent" ? "btn-tour btn-active" : "btn"}`}
                       onClick={() => setActiveTab("recent")}
                     >
                       Recent

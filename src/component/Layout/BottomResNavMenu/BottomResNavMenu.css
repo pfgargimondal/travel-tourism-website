@@ -1,0 +1,16 @@
+.bottom-res-nav-menu{
+    z-index: 999;
+}
+
+.res-nav-menus{
+    padding: 5px 0.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-inline: 1rem;
+}
+
+.res-nav-menus i{
+    font-size: 1.4rem;
+}

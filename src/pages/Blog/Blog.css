@@ -5,7 +5,6 @@
 /* Blog Page */
 
 .hero-sections{
-    height: 65vh;
     position: relative;
 }
 
@@ -103,13 +102,16 @@
     
 }
 
-
+.category-box ul{
+    display: -webkit-inline-box;
+}
 
 .category-box li {
     background: #ffffff;
     border: 1px solid #e3e3e3;
-    padding: 18px 20px;
-    border-radius: 10px;
+    padding: 5px 20px;
+    border-radius: 10px !important;
+    margin-inline: 5px;
     margin-bottom: 15px;
     font-size: 16px;
     font-weight: 500;
@@ -118,15 +120,41 @@
     cursor: pointer;
 }
 
-.btn1{
+.category-box li.active{
+    background: var(--button-gradient-color);
+}
 
-   color: #fff;
-    margin-left: .5vw;
-    padding: 16px 58px;
+.sidebar-box h6,
+.category-box h6{
+    font-weight: 600;
+}
+
+.sidebar-box1 .btn-tour{
+    background: #fff !important;
+}
+
+.sidebar-box1 .btn{
+    border: 0;
     color: #000;
-    border-color: #000;
-    background-color: white;
+    border-radius: 5px 5px 0 0;
+    padding: 1rem 1rem !important;
+    border-bottom: 2px solid var(--light-black-text-color) !important;   
+    transition: all 0.2s ease;
+}
 
+.sidebar-box1 .btn:hover{
+    color: var(--main-green-color);
+    transition: all 0.2s ease;
+}
+
+.sidebar-box1 .btn-active{
+    border-bottom: 2px solid var(--main-green-color) !important;    
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-box .input-group input.form-control::placeholder{
+    font-size: 0.8rem;
 }
 
 
@@ -308,3 +336,13 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 /* end blog  css by   karina  */
 /* end blog  css by   karina  */
 /* end blog  css by   karina  */
+
+
+
+
+@media only screen and (max-width: 991px){
+    .hero-content {
+        padding: 8rem 0;
+    }
+}
+

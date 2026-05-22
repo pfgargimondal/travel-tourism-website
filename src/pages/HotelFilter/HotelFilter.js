@@ -80,8 +80,8 @@ export const HotelFilter = () => {
                 <div className="sdbfhsd55">
                   <div className="filter-box">
                     <div className="filter-header">
-                      <h5>Filters</h5>
-                      <span className="reset-btn">Reset</span>
+                      <h5 className="mb-0">Filters</h5>
+                      <span className="reset-btn d-flex align-items-center"><i className="bi me-1 bi-arrow-clockwise"></i> Reset</span>
                     </div>
 
                     <div className="filter-search">
@@ -92,42 +92,147 @@ export const HotelFilter = () => {
                       <h6>Suggested For You</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Last Minute Deals
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Last Minute Deals</p>
+                          </label>
+                        </div>
+
                         <span className="item-count">(217)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />5
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">5 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(217)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />4
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">4 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(397)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Breakfast Included
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Breakfast Included</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(1190)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />3
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">3 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(781)</span>
                       </div>
                     </div>
@@ -135,59 +240,206 @@ export const HotelFilter = () => {
                     <div className="filter-section">
                       <h6>Price Per Night</h6>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹999 - ₹1999
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹999 - ₹1999</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(218)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹1100 - ₹1999
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹1100 - ₹1999</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(342)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹1500 - ₹2999
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹1500 - ₹2999</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(187)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹2000 - ₹2999
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹2000 - ₹2999</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(264)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹2000 - ₹3500
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹2000 - ₹3500</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(95)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          ₹3999 - ₹5999
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">₹3999 - ₹5999</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(72)</span>
                       </div>
 
-                      <div className="price-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          10000+
-                        </label>
+                      <div className="suggested-item">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">10000+</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(21)</span>
                       </div>
                     </div>
@@ -195,18 +447,22 @@ export const HotelFilter = () => {
                     <div className="budget-filter">
                       <label className="budget-label">Your Budget</label>
 
-                      <div className="budget-row d-flex align-items-center gap-2">
-                        <input
-                          type="number"
-                          className="budget-input"
-                          placeholder="Min"
-                        />
-                        <span className="budget-sep">to</span>
-                        <input
-                          type="number"
-                          className="budget-input"
-                          placeholder="Max"
-                        />
+                      <div className="budget-row d-flex align-items-center justify-content-between gap-2">
+                        <div className="d-flex align-items-center gap-2">
+                          <input
+                            type="number"
+                            className="budget-input"
+                            placeholder="Min"
+                          />
+
+                          <span className="budget-sep">to</span>
+                          
+                          <input
+                            type="number"
+                            className="budget-input"
+                            placeholder="Max"
+                          />
+                        </div>
 
                         <button className="budget-btn">
                           <img
@@ -222,26 +478,89 @@ export const HotelFilter = () => {
                       <h6>Star Category</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />3
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">3 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(781)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />4
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">4 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(397)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />5
-                          Star
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">5 Star</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(217)</span>
                       </div>
                     </div>
@@ -250,40 +569,147 @@ export const HotelFilter = () => {
                       <h6>Property Type</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Apartment
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Apartment</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(781)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Villa
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Villa</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(397)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Hotel
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Hotel</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(217)</span>
                       </div>
+
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Resort
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Resort</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(125)</span>
                       </div>
+
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Homestay
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Homestay</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(75)</span>
                       </div>
                     </div>
@@ -292,100 +718,363 @@ export const HotelFilter = () => {
                       <h6>Top locations</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          North Goa
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">North Goa</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          South Goa
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">South Goa</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Baga Beach
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Baga Beach</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Panjim
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Panjim</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Calangute Beach
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Calangute Beach</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Candolim Beach
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Candolim Beach</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Vagator
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Vagator</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Anjuna Beach
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Anjuna Beach</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Palolem Beach
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Palolem Beach</p>
+                          </label>
+                        </div>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Candolim
-                        </label>
-                      </div>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Candolim</p>
+                          </label>
+                        </div>
+                      </div>                      
                     </div>
 
                     <div className="filter-section suggested-section">
                       <h6>Guests Love</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Wi‑Fi
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Wi‑Fi</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(322)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Spa
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Spa</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(6)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Swimming Pool
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Swimming Pool</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(272)</span>
                       </div>
 
@@ -400,34 +1089,118 @@ export const HotelFilter = () => {
                       <h6>Booking Preference</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Entire Villas & Apartments
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Entire Villas & Apartments</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(207)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Caretaker
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Caretaker</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(22)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Instant Book
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Instant Book</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(742)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Homestays
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Homestays</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(829)</span>
                       </div>
                     </div>
@@ -436,50 +1209,176 @@ export const HotelFilter = () => {
                       <h6>House Rules</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Self Check-In Available
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Self Check-In Available</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(152)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Smoking Allowed
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Smoking Allowed</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(529)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          All Male Groups Allowed
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">All Male Groups Allowed</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(326)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Unmarried Couples Allowed
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper"> Unmarried Couples Allowed</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(657)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Alcohol Allowed
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper"> Alcohol Allowed</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(353)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Pets Allowed
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper"> Pets Allowed</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(117)</span>
                       </div>
                     </div>
@@ -488,29 +1387,68 @@ export const HotelFilter = () => {
                       <h6>Deals & Offers</h6>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Travel ka Muhurat Sale
-                        </label>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper"> Travel ka Muhurat Sale</p>
+                          </label>
+                        </div>
+                        
                         <span className="item-count">(152)</span>
                       </div>
 
                       <div className="suggested-item">
-                        <label className="form-check-label">
-                          <input className="form-check-input" type="checkbox" />
-                          Lightning Drops
-                        </label>
-                        <span className="item-count">(529)</span>
-                      </div>
-                    </div>
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input
+                              className="checkbox__trigger visuallyhidden"
+                              type="checkbox"
+                            />
 
-                    <div className="sdnfhsdfsd">
-                      <button>Back to Top</button>
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7"></path>
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper"> Lightning Drops</p>
+                          </label>
+                        </div>
+                        
+                        <span className="item-count">(529)</span>
+                      </div>                      
                     </div>
                   </div>
                 </div>
                 <div className="filter-overlay" onclick="closeFilter()"></div>
               </div>
+              
               <div className="col-lg-9">
                 <div className="sebfghsfsdf">
 

@@ -205,6 +205,11 @@
     .res-nav-menu-backdrop.d-none{
         display: block !important;
     }
+
+    .new-header .res-toggle-bar i,
+    .new-header button.fsdgsadehtrfdewe i{
+        color: #000;
+    }    
 }
 
 

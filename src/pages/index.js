@@ -13,3 +13,5 @@ export {CustomerService} from "./CustomerService/CustomerService";
 export {ReturnPolicy} from "./ReturnPolicy/ReturnPolicy";
 export {Login} from "./Login/Login";
 export {Register} from "./Register/Register";
+export {PageNotFound} from "./PageNotFound/PageNotFound";
+export {ThankYou} from "./ThankYou/ThankYou";

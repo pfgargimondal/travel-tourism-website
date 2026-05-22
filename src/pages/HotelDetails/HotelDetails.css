@@ -8,7 +8,7 @@ font-family:Arial;
 .bannerhotel
 {
     width: 100%;
-    height: 450px;
+    padding: 15rem 0;
     /* background-image: url(./images/hotelbanner.png); */
     background-size: 100% 100%;
 }

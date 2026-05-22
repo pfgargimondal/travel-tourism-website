@@ -7,6 +7,12 @@ header{
   font-size: 13px;
 }
 
+.new-header .dfgsfadeae,
+.new-header .header-menu small,
+.new-header .sfsdghdcsdfrrerttr{
+    color: #000 !important;
+}
+
 .header-sticky{
     position: fixed;
     top: 0;
@@ -50,6 +56,7 @@ header{
 .sfsdghdcsdfrrerttr{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
+    cursor: pointer;
 }
 
 .diwejojiwerer{
@@ -190,4 +197,52 @@ button.fsdgsadehtrfdewe{
 .header-sticky .flight-menu-item.active:hover::after{
     height: 2px !important;
     background: var(--blue-primary-color);
+}
+
+.currncy-lang-drpdwn{
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    z-index: 999999;
+    width: 400px;
+    max-width: 80%;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.2s ease;
+}
+
+.currncy-lang-drpdwn-hide{
+    z-index: -999999;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.currncy-lang-drpdwn-backdrop.d-none{    
+    display: block !important;
+}
+
+.currncy-lang-drpdwn-backdrop{
+    z-index: 99999;
+    visibility: visible;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.currncy-lang-drpdwn-backdrop-hide{
+    z-index: -99999;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.dowenjrnhwerwer{
+    top: -1.5rem;
+    right: -1.5rem;
+    color: #000;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.dowenjrnhwerwer i{
+    font-size: 1.2rem;
+    line-height: 1;
 }

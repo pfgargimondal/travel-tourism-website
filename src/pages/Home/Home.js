@@ -169,7 +169,7 @@ const [index, setIndex] = useState(0);
                 </div>
               </div>
 
-              <div className="form row g-4 mt-3 align-items-end">
+              <div className="form row g-4 mt-3">
                 <div className="col-lg-5">
                   <div className="row align-items-center">
                     <div className="col-md-5 col-5">
@@ -195,7 +195,7 @@ const [index, setIndex] = useState(0);
                 </div>
 
                 <div className="col-lg-7">
-                  <div className="row dnfggfshgjhfghdff align-items-center">
+                  <div className="row dnfggfshgjhfghdff">
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Departure Date</label>
                       <h5>20 Feb’26</h5>

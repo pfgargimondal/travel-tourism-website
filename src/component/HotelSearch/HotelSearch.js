@@ -21,6 +21,7 @@ export const HotelSearch = ({ cities = [] }) => {
     const [roomCount, setRoomCount] = useState(1);
     const [adultCount, setAdultCount] = useState(1);
     const [childrenCount, setChildrenCount] = useState(0);
+    const [childrenAges, setChildrenAges] = useState([]);
     const totalGuests = adultCount + childrenCount;
     /*room count*/
 
@@ -49,15 +50,32 @@ export const HotelSearch = ({ cities = [] }) => {
 
     /*children count*/
 
-    const childIncrease = () => {
-        // setChildrenCount(prev => prev + 1);
-        if (totalGuests < roomCount * MAX_GUESTS_PER_ROOM) {
-            setChildrenCount(prev => prev + 1);
+    const handleChildrenCount = (type) => {
+        if (type === "increase") {
+            if (childrenCount === 2) return;
+            
+            const newCount = childrenCount + 1;
+
+            setChildrenCount(newCount);
+
+            setChildrenAges([...childrenAges, "1"]);
+        }
+
+        if (type === "decrease" && childrenCount > 0) {
+            const newCount = childrenCount - 1;
+
+            setChildrenCount(newCount);
+
+            setChildrenAges(childrenAges.slice(0, -1));
         }
     };
 
-    const childDecrease = () => {
-        setChildrenCount(prev => prev > 0 ? prev - 1 : 0);
+    const handleAgeChange = (index, value) => {
+        const updatedAges = [...childrenAges];
+
+        updatedAges[index] = value;
+
+        setChildrenAges(updatedAges);
     };
 
 
@@ -268,13 +286,50 @@ export const HotelSearch = ({ cities = [] }) => {
                                         </div>
 
                                         <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                            <button onClick={childDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                            <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
                                             <input type="number" value={childrenCount} placeholder="1" className="form-control" />
 
-                                            <button onClick={childIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                            <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                         </div>
                                     </div>
+
+                                    {childrenCount > 0 && (
+                                        <div className="diwerjwerwer mb-3">
+                                            <h6 className="mb-2">Age(s) of Children</h6>
+
+                                            <div className="dihuewreow d-inline-flex align-items-center">
+                                                {Array.from({ length: childrenCount }).map((_, index) => (
+                                                    <select
+                                                        className="form-select me-3"
+                                                        key={index}
+                                                        value={childrenAges[index]}
+                                                        onChange={(e) =>
+                                                            handleAgeChange(index, e.target.value)
+                                                        }
+                                                    >
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                    </select>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                     
                                     <h6 className="klkifyter mb-0">Please provide right number of children along with their right age for best options and prices.</h6>
 

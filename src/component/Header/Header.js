@@ -5,6 +5,8 @@ import { Login, Register } from "../../pages";
 
 import { ServiceCategories } from "../ServiceCategories/ServiceCategories";
 
+import { BottomResNavMenu } from "../../component";
+
 import Logo from "../../assets/images/COlgfJcjQfjCUywmAAiIwIAxQnnk1YYYP4j3NGUu.png";
 
 import "./Header.css";
@@ -12,11 +14,13 @@ import "./HeaderResponsive.css";
 
 
 
-export const Header = () => {
+
+export const Header = ({ headerNew }) => {
     const [headerSticky, setHeaderSticky] = useState(false);
     const [loginRegModal, setLoginRegModal] = useState(false);
     const [regModal, setRegModal] = useState(false);
     const [resNavToggle, setResNavToggle] = useState(false);
+    const [crrncyLangModal, setCrrncyLangModal] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,7 +36,7 @@ export const Header = () => {
 
     return (
         <div>
-            <header className={headerSticky ? "bg-white w-100 header-sticky" : "bg-transparent w-100 position-relative"}>
+            <header className={headerSticky ? `bg-white w-100 header-sticky ${headerNew ? "new-header" : ""}` : `bg-transparent w-100 position-relative ${headerNew ? "new-header" : ""}`}>
                 <div className="top-header py-2">
                     <div className="container">
                         <div className="d-flex align-items-center justify-content-between">
@@ -44,11 +48,13 @@ export const Header = () => {
 
                             {/* Left Logo */}
                             <div className="oifkepomtkret d-flex align-items-center">
-                                <img
-                                    src={Logo}
-                                    alt="logo"
-                                    style={{ height: "28px" }}
-                                />
+                                <Link to="/">
+                                    <img
+                                        src={Logo}
+                                        alt="logo"
+                                        style={{ height: "28px" }}
+                                    />
+                                </Link>
                             </div>
 
                             {/* Middle Menu */}
@@ -119,7 +125,7 @@ export const Header = () => {
                                         Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
                                     </button>
 
-                                    <div className="sfsdghdcsdfrrerttr d-flex align-items-center gap-2 rounded-1 p-2">
+                                    <div onClick={() => setCrrncyLangModal(prev => !prev)} className="sfsdghdcsdfrrerttr d-flex align-items-center gap-2 rounded-1 p-2 position-relative">
                                         <img src="./images/india.png" width={22} alt="" /> <span>INR</span>
 
                                         <span>|</span>
@@ -197,9 +203,56 @@ export const Header = () => {
                 </ul>
             </div>
 
+
+            {/* currncy lang dropdown start */}
+
+            <div onClick={() => setCrrncyLangModal(false)} className={crrncyLangModal ? "currncy-lang-drpdwn-backdrop d-none position-fixed w-100 h-100 start-0 end-0 bottom-0 top-0" : "currncy-lang-drpdwn currncy-lang-drpdwn-backdrop-hide d-none position-fixed w-100 h-100 start-0 end-0 bottom-0 top-0"}></div>
+
+            <div className={crrncyLangModal ? "currncy-lang-drpdwn position-fixed top-50 start-50 translate-middle bg-white p-3 rounded-2 mt-2" : "currncy-lang-drpdwn currncy-lang-drpdwn-hide position-fixed top-50 start-50 translate-middle bg-white p-3 rounded-2 mt-2"}>
+                <div onClick={() => setCrrncyLangModal(false)} className="dowenjrnhwerwer rounded-circle bg-white position-absolute">
+                    <i className="bi position-absolute start-50 top-50 translate-middle bi-x"></i>
+                </div>
+                
+                <div className="mb-3">
+                    <label className="form-label">Country</label>
+                
+                    <select name="" className="form-select" id="">
+                        <option value="India">India</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Currency</label>
+                
+                    <select name="" className="form-select" id="">
+                        <option value="India">INR | Indian Rupee</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Language</label>
+                
+                    <select name="" className="form-select" id="">
+                        <option value="India">ENG | English</option>
+                    </select>
+                </div>
+
+                <button className="btn btn-tour w-100">APPLY</button>
+            </div>
+
+            {/* currncy lang dropdown end */}
+
+
+
             <Login loginRegModal={loginRegModal} setLoginRegModal={setLoginRegModal} regModal={regModal} setRegModal={setRegModal} />
 
             <Register loginRegModal={loginRegModal} setLoginRegModal={setLoginRegModal} regModal={regModal} setRegModal={setRegModal} />
+
+
+
+            {(window.innerWidth <= 991) && (
+                <BottomResNavMenu />
+            )}
         </div>
     )
 }

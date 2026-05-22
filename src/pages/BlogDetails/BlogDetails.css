@@ -2,9 +2,11 @@
 /* strat blog details css by   nisha  */
 /* strat blog details css by   nisha  */
 .hero-sectionc{
-    /* background: url("../images/asd.png") center center/cover no-repeat; */
-    height: 85vh;
-    position: relative;
+  position: relative;
+}
+
+.gfrt{
+  padding: 12rem 0;
 }
 
 .hero-sectionc::before {
@@ -112,11 +114,6 @@ max-height:200px;
 font-size:20px;
 }
 
-.fnsdjhf {
-    margin-top:-60px;
-    margin-left: 20px;
-}
-
 /* Layout */
 .blog-grid {
   display: grid;
@@ -173,7 +170,7 @@ color:#fff;
 }
 
 .blog-main p {
-  color: #555;
+  color: #000;
   line-height: 1.7;
   margin-bottom: 20px;
 }

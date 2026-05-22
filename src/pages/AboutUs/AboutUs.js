@@ -31,8 +31,7 @@ export const AboutUs = () => {
       <div>
          {loading && <Loader/>}
         <section className="hero-sectionv" style={{
-            background: `url(${aboutUsDetails.image_url}/${aboutUsDetails.data?.banner_image}) center center/cover no-repeat`,
-            height: "400px"
+            background: `url(${aboutUsDetails.image_url}/${aboutUsDetails.data?.banner_image}) center center/cover no-repeat`
           }}>
         
             <div className="container text-center hero-content">
@@ -61,8 +60,8 @@ export const AboutUs = () => {
                         </div>
                     </div>
                     <div className="col-lg-6">
-                        <small style={{ color: "var(--main-green-color)", fontWeight: 600 }}>{aboutUsDetails.data?.second_section_heading}</small>
-                        <h2 className="fw-bold mt-2" style={{ fontSize: "34px", lineHeight: "1.3" }}>{aboutUsDetails.data?.second_section_title}</h2>
+                        <small className="diewiiwejijiwe" style={{ color: "var(--main-green-color)", fontWeight: 600 }}>{aboutUsDetails.data?.second_section_heading}</small>
+                        <h2 className="fw-bold diewiiwejijiwe mt-2" style={{ fontSize: "34px", lineHeight: "1.3" }}>{aboutUsDetails.data?.second_section_title}</h2>
                         <div className="text-muted"
                             dangerouslySetInnerHTML={{
                             __html: aboutUsDetails.data?.second_section_description && (aboutUsDetails.data.second_section_description),
@@ -86,7 +85,10 @@ export const AboutUs = () => {
                                 <p className="text-muted small">{aboutUsDetails.data?.seccod_section_descrition_two}</p>
                             </div>
                         </div>
-                        <a href="/" className="btn btn-teal mt-4">More About Travel <div className="arrow_journey"> → </div> </a>
+                        
+                        <div className="uhdnhiuew">
+                            <a href="/" className="btn btn-teal mt-4">More About Travel <div className="arrow_journey"> → </div> </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -258,7 +260,7 @@ export const AboutUs = () => {
             <div className="container">
                 <h5 style={{ color: "#dda927"}}>Top Deals</h5>
                 <h2 className="fw-bold mb-0">The Last <span style={{ color: "var(--main-green-color)" }}>Minute Deals</span></h2>
-                <p className="mb-4" style={{color: "#c0c0c0"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do
+                <p className="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do
                     eiusmod tempor incididunt ut labore.</p>
                 <div className="row g-4">
                     <div className="col-lg-4">
@@ -269,7 +271,7 @@ export const AboutUs = () => {
                                     </span></h5>
                                 <h4> <span style={{ color: "#e6e6e6", fontFamily: "'Playfair Display', sans-serif" }}> Norway Lake
                                     </span></h4>
-                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ (16)</div>
+                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ <span style={{ color: "#fff" }}>(16)</span></div>
                                 <div className="price">$180.00 <span
                                         style={{ color: "#c0c0c0", fontSize: "medium", fontWeight: 400 }}>| per person </span>
                                     <span style={{ marginLeft: "30px", color: "#bbb" }}>6 Days Tours</span>
@@ -284,7 +286,7 @@ export const AboutUs = () => {
                                 </h5>
                                 <h4> <span style={{ color: "#e6e6e6", fontFamily: "'Playfair Display', sans-serif" }}>New York City
                                     </span></h4>
-                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ (12)</div>
+                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ <span style={{ color: "#fff" }}>(12)</span></div>
                                 <div className="price">$140.00 <span
                                         style={{ color: "#c0c0c0", fontSize: "medium", fontWeight: 400 }}>| per person </span>
                                     <span style={{ marginLeft: "30px", color: "#bbb" }}>5 Days Tours</span>
@@ -301,7 +303,7 @@ export const AboutUs = () => {
                                 </h5>
                                 <h4><span style={{ color: "#e6e6e6", fontFamily: "'Playfair Display', sans-serif" }}>Malie
                                         City</span></h4>
-                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ (12)</div>
+                                <div className="stars mt-2 mb-2"> ⭐⭐⭐⭐⭐ <span style={{ color: "#fff" }}>(12)</span></div>
                                 <div className="price">$140.00 <span
                                         style={{ color: "#c0c0c0", fontSize: "medium", fontWeight: 400 }}>| per person </span>
                                     <span style={{ marginLeft: "30px", color: "#bbb" }}>3 Days Tours</span>

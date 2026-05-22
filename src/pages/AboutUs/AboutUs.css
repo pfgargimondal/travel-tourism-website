@@ -6,7 +6,6 @@
 
 .hero-sectionv{
     /* background: url("../images/people-taking-part-sustainable-travel-movement.jpg") center center/cover no-repeat; */
-    height: 65vh;
     position: relative;
 }
 
@@ -485,3 +484,38 @@
 /* end  About us    css by   Rohit  */
 /* end  About us    css by   Rohit  */
 /* end  About us    css by   Rohit  */
+
+
+
+
+@media only screen and (max-width: 991px){
+    .food,
+    .hiking,
+    .city,
+    .right-grid{
+        height: auto !important;
+    }
+
+    .section-wrapper{
+        margin-top: 0;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    .diewiiwejijiwe{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .uhdnhiuew,
+    .promo{
+        text-align: center;
+    }
+}
+
+
+
