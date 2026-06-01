@@ -62,6 +62,10 @@ export const HotelFilter = () => {
 
   // console.log(hotels, 'hotels');
 
+  const availableHotels = hotels?.filter(
+      (hotel) => hotel?.hotelFilter?.HotelResult?.length > 0
+  );
+
   return (
     <div>
       {loading && <Loader />}
@@ -1452,8 +1456,8 @@ export const HotelFilter = () => {
               <div className="col-lg-9">
                 <div className="sebfghsfsdf">
 
-                  {hotels?.length > 0 ? (
-                    hotels.map((hotel, index) => {
+                  {availableHotels?.length > 0 ? (
+                    availableHotels.map((hotel, index) => {
                       
                       // Clean Description
                       const cleanDescription = hotel.description
@@ -1556,11 +1560,11 @@ export const HotelFilter = () => {
                                   </div>
                                   <div className="fdjvfd78">
                                     <p>
-                                      From <span>₹2299 </span>
+                                      From <span>₹{Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.DayRates?.[0]?.[0]?.BasePrice|| 0).toLocaleString("en-IN")} </span>
                                     </p>
                                   </div>
                                   <div className="vdfv785">
-                                    <p>+ ₹ 3,543 taxes & fees per night</p>
+                                    <p>+ ₹ {Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.TotalTax|| 0).toLocaleString("en-IN")} taxes & fees per night</p>
                                   </div>
                                   <div className="sbfsdvfsf">
                                     <div className="vfddf">

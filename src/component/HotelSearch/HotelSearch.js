@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ServiceCategories } from '../ServiceCategories/ServiceCategories';
 import Loader from "../Loader/Loader";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ export const HotelSearch = ({ cities = [] }) => {
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
-    const [filteredCities, setFilteredCities] = useState([]);
+    // const [filteredCities, setFilteredCities] = useState([]);
     // eslint-disable-next-line
     const [selectedCity, setSelectedCity] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -16,7 +16,7 @@ export const HotelSearch = ({ cities = [] }) => {
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
     // const [rooms, setRooms] = useState("1 Room 2 Adults");
-    const [price, setPrice] = useState("₹0 - ₹2500");
+    // const [price, setPrice] = useState("₹0 - ₹2500");
     const [hotelGstsRmmsDrpdwn, setHotelGstsRmmsDrpdwn] = useState(false);
     const [roomCount, setRoomCount] = useState(1);
     const [adultCount, setAdultCount] = useState(1);
@@ -79,19 +79,26 @@ export const HotelSearch = ({ cities = [] }) => {
     };
 
 
-    useEffect(() => {
-        if (!search.trim()) {
-            setFilteredCities([]);
-            return;
-        }
+    // useEffect(() => {
+    //     if (!search.trim()) {
+    //         setFilteredCities([]);
+    //         return;
+    //     }
 
-        const filtered = cities.filter((city) =>
-            city.city_name.toLowerCase().includes(search.toLowerCase())
-        );
+    //     const filtered = cities.filter((city) =>
+    //         city.city_name.toLowerCase().includes(search.toLowerCase())
+    //     );
 
-        setFilteredCities(filtered.slice(0, 10));
-    }, [search, cities]);
+    //     setFilteredCities(filtered.slice(0, 10));
+    // }, [search, cities]);
 
+    const filteredCities = search.trim()
+    ? cities
+          .filter((city) =>
+              city.city_name.toLowerCase().includes(search.toLowerCase())
+          )
+          .slice(0, 10)
+    : [];
 
     const handleSelectCity = (city) => {
         setSelectedCity(city);
@@ -124,7 +131,7 @@ export const HotelSearch = ({ cities = [] }) => {
             rooms: roomCount,
             adults: adultCount,
             children: childrenCount,
-            price: price
+            // price: price
         });
 
         navigate(`/hotel-filter?${params.toString()}`);
@@ -210,26 +217,28 @@ export const HotelSearch = ({ cities = [] }) => {
                             )}
                         </div>
 
-                        <div className="col-md-2">
-                        <label>Check-In</label>
-                        <input
-                            type="date"
-                            id="checkin"
-                            className="form-control hotel-input big-date"
-                            value={checkIn}
-                            onChange={(e) => setCheckIn(e.target.value)}
-                        />
+                        <div className="col-md-3">
+                            <label>Check-In</label>
+                            <input
+                                type="date"
+                                id="checkin"
+                                className="form-control hotel-input big-date"
+                                value={checkIn}
+                                min={new Date().toISOString().split("T")[0]}
+                                onChange={(e) => setCheckIn(e.target.value)}
+                            />
                         </div>
 
-                        <div className="col-md-2">
-                        <label>Check-Out</label>
-                        <input
-                            type="date"
-                            id="checkout"
-                            className="form-control hotel-input big-date"
-                            value={checkOut}
-                            onChange={(e) => setCheckOut(e.target.value)}
-                        />
+                        <div className="col-md-3">
+                            <label>Check-Out</label>
+                            <input
+                                type="date"
+                                id="checkout"
+                                className="form-control hotel-input big-date"
+                                value={checkOut}
+                                min={checkIn}
+                                onChange={(e) => setCheckOut(e.target.value)}
+                            />
                         </div>
 
                         <div className="col-md-3 position-relative">
@@ -346,7 +355,7 @@ export const HotelSearch = ({ cities = [] }) => {
                                 </p>
                             )}                    
                         </div>
-                        <div className="col-md-2">
+                        {/* <div className="col-md-2">
                         <label>Price Per Night</label>
                         <select className="form-select hotel-input" 
                             value={price}
@@ -356,7 +365,7 @@ export const HotelSearch = ({ cities = [] }) => {
                             <option>₹2500 - ₹5000</option>
                             <option>₹5000+</option>
                         </select>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
