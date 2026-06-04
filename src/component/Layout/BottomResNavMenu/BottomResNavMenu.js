@@ -5,7 +5,7 @@ import "./BottomResNavMenu.css";
 export const BottomResNavMenu = () => {
   return (
     <div className="bottom-res-nav-menu d-flex align-items-center justify-content-center bg-white position-fixed bottom-0 start-0 end-0">
-      <div className="res-nav-menus">
+      <div className="res-nav-menus active">
         <i class="bi mb-1 bi-house-door-fill"></i>
 
         <span>Home</span>
@@ -17,10 +17,12 @@ export const BottomResNavMenu = () => {
         <span>My Trips</span>
       </div>
 
-      <div className="res-nav-menus">
-        <i class="bi mb-1 bi-search-heart-fill"></i>
+      <div className="res-nav-menus bg-white">
+        <div className="dweiojrwerwer mx-auto position-relative rounded-circle">
+          <i class="bi mb-1 bi-search-heart-fill top-50 start-50 position-absolute"></i>
+        </div>
 
-        <span>MCT</span>
+        <img src="./images/wdw.png" className="img-fluid" alt="" />
       </div>
 
       <div className="res-nav-menus">
@@ -30,7 +32,11 @@ export const BottomResNavMenu = () => {
       </div>
 
       <div className="res-nav-menus">
-        <i class="bi mb-1 bi-bag-heart-fill"></i>
+        <div className="diweurwer position-relative">
+          <i class="bi mb-1 bi-bag-heart-fill"></i>
+
+          <span className="position-absolute rounded-circle text-white">1</span>
+        </div>
 
         <span>Cart</span>
       </div>

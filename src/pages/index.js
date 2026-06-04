@@ -15,3 +15,7 @@ export {Login} from "./Login/Login";
 export {Register} from "./Register/Register";
 export {PageNotFound} from "./PageNotFound/PageNotFound";
 export {ThankYou} from "./ThankYou/ThankYou";
+export {UserProfile} from "./User/UserProfile";
+export {UserAccountSettings} from "./User/UserAccountSettings";
+export {UserBooking} from "./User/UserBooking";
+export {PasswordChange} from "./User/PasswordChange";

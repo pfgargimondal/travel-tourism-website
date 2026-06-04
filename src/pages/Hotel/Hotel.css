@@ -13,11 +13,6 @@
     --p-default-font-size: 1.2rem;
 }
 
-body {
-    background: #f4f4f4;
-    font-family: Arial;
-}
-
 .searchfilter {
     margin-top: -20%;
 }
@@ -565,12 +560,6 @@ label {
     cursor: pointer;
     padding: 6px 10px;
     border-radius: 50%;
-}
-
-
-body {
-    font-family: Arial;
-    background: #f5f7fa;
 }
 
 .container {

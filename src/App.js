@@ -18,7 +18,7 @@ function App() {
   const pathName = useLocation().pathname;  
 
   useEffect(() => {
-    const isHeaderNewIncluded = pathName.includes("/thank-you");
+    const isHeaderNewIncluded = ["/thank-you", "/user-profile", "/account-information", "/user-booking", "/change-password"].some(path => pathName.includes(path));
 
     isHeaderNewIncluded ? setHeaderNew(true) : setHeaderNew(false);
   }, [pathName]);
@@ -30,7 +30,7 @@ function App() {
       <Header headerNew={headerNew} />  
         {/* <div className="middle-wrapper"> */}
         
-        <main>
+        <main className={ headerNew ? "mt-0" : "" }>
           <Allroutes/>
         </main>
 

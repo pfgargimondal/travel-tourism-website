@@ -14,7 +14,11 @@ import {
   TermsCondition,
   CustomerService,
   ReturnPolicy,
-  ThankYou
+  ThankYou,
+  UserProfile,
+  UserAccountSettings,
+  UserBooking,
+  PasswordChange
 } from "../pages";
 
 // function PageRenderer() {
@@ -45,6 +49,11 @@ function Allroutes() {
       <Route path="/return-policy" element={<ReturnPolicy />} />
 
       <Route path="/thank-you" element={<ThankYou />} />
+
+      <Route path="/user-profile" element={<UserProfile />} />
+      <Route path="/account-information" element={<UserAccountSettings />} />
+      <Route path="/user-booking" element={<UserBooking />} />
+      <Route path="/change-password" element={<PasswordChange />} />
 
       {/* <Route
         path="/:slug"

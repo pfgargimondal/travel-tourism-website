@@ -313,28 +313,31 @@ export const Hotel = () => {
               >
                 {citieHotels.map((hotel, index) => (
                   <SwiperSlide key={index}>
-                    <div className="hotel-card">
-                      <div className="img-box">
-                        <img src={hotel.image} alt="" />
 
-                        <span className="rating">
-                          {hotel.hotel_rating}/5
-                        </span>
-                      </div>
+                    <Link to={`/hotel-details/${hotel.hotel_code}`}>
+                      <div className="hotel-card" >
+                        <div className="img-box">
+                          <img src={hotel.image} alt="" />
 
-                      <div className="card-body">
-                        <h4>{hotel.hotel_name}</h4>
+                          <span className="rating">
+                            {hotel.hotel_rating}/5
+                          </span>
+                        </div>
 
-                        <p>
-                          {hotel.address} 
-                        </p>
-                        <p>{"⭐".repeat(Number(hotel.hotel_rating || 0))}</p>
+                        <div className="card-body">
+                          <h4>{hotel.hotel_name}</h4>
 
-                        <div className="price">
-                          ₹{Math.round(hotel.hotelPriceDetails?.total_fare ?? 0).toLocaleString("en-IN")} <span>per night</span>
+                          <p>
+                            {hotel.address} 
+                          </p>
+                          <p>{"⭐".repeat(Number(hotel.hotel_rating || 0))}</p>
+
+                          <div className="price">
+                            ₹{Math.round(hotel.hotelPriceDetails?.total_fare ?? 0).toLocaleString("en-IN")} <span>per night</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>              
