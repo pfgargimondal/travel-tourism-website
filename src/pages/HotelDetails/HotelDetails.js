@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./HotelDetails.css";
+import { useParams } from "react-router-dom";
+import http from "../../http";
+import Loader from "../../component/Loader/Loader";
 
 export const HotelDetails = () => {
+
+  const { slug } = useParams();
+   // eslint-disable-next-line
+  const [hotelDetails, setHotelDetails] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      const fetchHotelDetails = async () => {
+        setLoading(true);
+        try {
+          const response = await http.get(`/get-hotel-details/${slug}`);
+  
+          setHotelDetails(response.data.data);
+  
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchHotelDetails();
+    }, [slug])
+
+  
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div>
-      <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}>
+      <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png') center center/cover no-repeat"}}>
         <div class="container">
           <div class="sdghsd">
             <h2>Hotel Details</h2>
