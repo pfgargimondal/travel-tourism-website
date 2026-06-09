@@ -396,10 +396,6 @@ main{
         font-size: 16px;
     }
 
-    .sidebar {
-        margin-top: 40px;
-    }
-
     .journey-grid {
         grid-template-columns: 1fr;
     }
@@ -413,7 +409,6 @@ main{
         text-align: center;
         gap: 10px;
     }
-
 }
 
 

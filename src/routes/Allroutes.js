@@ -17,8 +17,11 @@ import {
   ThankYou,
   UserProfile,
   UserAccountSettings,
+  PasswordChange,
   UserBooking,
-  PasswordChange
+  UserWishlist,
+  // MyTrips,
+  // HotelBooking
 } from "../pages";
 
 // function PageRenderer() {
@@ -38,8 +41,9 @@ function Allroutes() {
       <Route path="/blog/:slug" element={<BlogDetails />} />
 
       <Route path="/hotels" element={<Hotel />} />
-      <Route path="/hotel-filter" element={<HotelFilter />} />
+      <Route path="/hotel-filter" element={<HotelFilter />} />      
       <Route path="/hotel-details/:id" element={<HotelDetails />} />
+      {/* <Route path="/hotel-booking" element={<HotelBooking />} /> */}
 
       <Route path="/flight-filter" element={<FlightFilter />} />
 
@@ -53,6 +57,8 @@ function Allroutes() {
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/account-information" element={<UserAccountSettings />} />
       <Route path="/user-booking" element={<UserBooking />} />
+      {/* <Route path="/my-trips" element={<MyTrips />} /> */}
+      <Route path="/wishlist" element={<UserWishlist />} />
       <Route path="/change-password" element={<PasswordChange />} />
 
       {/* <Route

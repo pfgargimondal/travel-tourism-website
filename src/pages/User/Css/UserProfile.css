@@ -641,15 +641,6 @@
     color: var(--text-muted);
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
 .new-header.header-sticky {
     position: initial;
     animation: none;

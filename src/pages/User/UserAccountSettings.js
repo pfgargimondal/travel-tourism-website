@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { UserSideNavbar } from "./Component/UserSideNavbar/UserSideNavbar";
 
 import "./Css/UserAccountSettings.css";
@@ -5,10 +7,14 @@ import "./Css/UserAccountSettings.css";
 
 
 export const UserAccountSettings = () => {
+    const [isResUserNavOpen, setIsResUserNavOpen] = useState(false);
+
+
+
     return (
         <div className="container">
             <div className="dejnwirwer d-flex">
-                <UserSideNavbar />
+                <UserSideNavbar isResUserNavOpen={isResUserNavOpen} setIsResUserNavOpen={setIsResUserNavOpen} />  
 
                 {/* ══════════ MAIN ══════════ */}
                 <div className="main-wrap">
@@ -108,25 +114,23 @@ export const UserAccountSettings = () => {
                                     />
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                        <label className="form-label">New Password</label>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                        />
-                                    </div>
-
-                                    <div className="col-md-6 mb-3">
-                                        <label className="form-label">Confirm Password</label>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                        />
-                                    </div>
+                                <div className="col-md-6 mb-3">
+                                    <label className="form-label">New Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                    />
                                 </div>
 
-                                <div className="d-flex gap-2 justify-content-end mt-4">
+                                <div className="col-md-6 mb-3">
+                                    <label className="form-label">Confirm Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                    />
+                                </div>
+
+                                <div className="fsefeoikewprwer d-flex gap-2 justify-content-end mt-4">
                                     <button
                                         type="button"
                                         className="btn btn-outline-secondary"

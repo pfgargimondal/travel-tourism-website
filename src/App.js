@@ -18,7 +18,7 @@ function App() {
   const pathName = useLocation().pathname;  
 
   useEffect(() => {
-    const isHeaderNewIncluded = ["/thank-you", "/user-profile", "/account-information", "/user-booking", "/change-password"].some(path => pathName.includes(path));
+    const isHeaderNewIncluded = ["/thank-you", "/user-profile", "/account-information", "/user-booking", "/change-password", "/wishlist"].some(path => pathName.includes(path));
 
     isHeaderNewIncluded ? setHeaderNew(true) : setHeaderNew(false);
   }, [pathName]);

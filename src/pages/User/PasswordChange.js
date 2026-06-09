@@ -1,12 +1,18 @@
+import { useState } from "react";
+
 import { UserSideNavbar } from "./Component/UserSideNavbar/UserSideNavbar";
 
 
 
 export const PasswordChange = () => {
+    const [isResUserNavOpen, setIsResUserNavOpen] = useState(false);
+
+
+
     return (
         <div className="container">
             <div className="dejnwirwer d-flex">
-                <UserSideNavbar />
+                <UserSideNavbar isResUserNavOpen={isResUserNavOpen} setIsResUserNavOpen={setIsResUserNavOpen} />
 
                 {/* ══════════ MAIN ══════════ */}
                 <div className="main-wrap">

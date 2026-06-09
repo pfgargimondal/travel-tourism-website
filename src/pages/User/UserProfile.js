@@ -1,31 +1,39 @@
+import { useState } from "react";
+
 import { UserSideNavbar } from "./Component/UserSideNavbar/UserSideNavbar";
+
 import "./Css/UserProfile.css";
 
 
 
 export const UserProfile = () => {
+    const [isResUserNavOpen, setIsResUserNavOpen] = useState(false);
+
+
+
     return (
         <div className="container">
             <div className="dejnwirwer d-flex">
-                <UserSideNavbar />                
+                <UserSideNavbar isResUserNavOpen={isResUserNavOpen} setIsResUserNavOpen={setIsResUserNavOpen} />
 
                 {/* ══════════ MAIN ══════════ */}
                 <div className="main-wrap">
                     {/* Stat Cards Row */}
                     <div className="row g-3 mb-4">
-                        <div className="col-md-3 col-sm-6">
+                        <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div className="stat-card">
                                 <div className="stat-icon blue">
                                     <i className="bi bi-briefcase" />
                                 </div>
                                 <div className="label">Total Bookings</div>
                                 <div className="value">7</div>
-                                <a href="/user-booking" className="link-btn">
+                                <a href="/" className="link-btn">
                                     View all bookings <i className="bi bi-arrow-right" />
                                 </a>
                             </div>
                         </div>
-                        <div className="col-md-3 col-sm-6">
+
+                        <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div className="stat-card">
                                 <div className="stat-icon green">
                                     <i className="bi bi-calendar-check" />
@@ -37,7 +45,8 @@ export const UserProfile = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="col-md-3 col-sm-6">
+
+                        <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div className="stat-card">
                                 <div className="stat-icon purple">
                                     <i className="bi bi-wallet2" />
@@ -51,7 +60,8 @@ export const UserProfile = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="col-md-3 col-sm-6">
+
+                        <div className="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div className="stat-card">
                                 <div className="stat-icon amber">
                                     <i className="bi bi-star-fill" />
@@ -112,7 +122,7 @@ export const UserProfile = () => {
                             {/* My Bookings */}
                             <div className="section-header">
                                 <h5>My Bookings</h5>
-                                <a href="/user-booking">View All</a>
+                                <a href="/">View All</a>
                             </div>
                             <div className="bookings-card mb-4">
                                 <div className="booking-row">

@@ -503,6 +503,7 @@ label {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
 }
 
 /* Image */
@@ -518,12 +519,8 @@ label {
 
 .rating {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: #1a73e8;
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 6px;
+    top: 15px;
+    left: 15px;
     font-size: 12px;
 }
 
@@ -599,17 +596,8 @@ label {
     display: none;
 }
 
-/* CARD WIDTH MAGIC */
-.hotel-card {
-    flex: 0 0 calc(100% / 4.5);
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    min-width: 250px;
-}
-
 .hotel-card h4 {
-    padding: 10px;
+    color: #000;
 }
 
 .slider {
