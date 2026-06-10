@@ -5,12 +5,85 @@ import { FollowUsInstagram } from "../../component/FollowUsInstagram/FollowUsIns
 import { Testimonial } from "../Testimonial/Testimonial";
 import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
 import Loader from "../../component/Loader/Loader";
+// import DatePicker from "react-datepicker";
+// import "../../../node_modules/react-datepicker/dist/react-datepicker.css";
 export const Home = () => {
 const [homeContent, setHomeContent] = useState(null);
 const [homeBanners, setHomeBanners] = useState([]);
 const [imageUrl, setImageUrl] = useState("");
 const [loading, setLoading] = useState(false);
 const [index, setIndex] = useState(0);
+const [flightDrpdwn, setFlightDrpdwn] = useState(false);
+
+const [airportList, setAirportList] = useState([]);
+const [selectedOrigin, setSelectedOrigin] = useState("");
+const [selectedDestination, setSelectedDestination] = useState("");
+   // eslint-disable-next-line
+const [availableDates, setAvailableDates] = useState([]);
+   // eslint-disable-next-line
+const [selectedDate, setSelectedDate] = useState("");
+   // eslint-disable-next-line
+const [departureDate, setDepartureDate] = useState(null);
+   // eslint-disable-next-line
+const [returnDate, setReturnDate] = useState(null);
+
+
+const MAX_GUESTS_PER_ROOM = 8;
+
+
+const [roomCount, setRoomCount] = useState(1);
+const [adultCount, setAdultCount] = useState(1);
+const [childrenCount, setChildrenCount] = useState(0);
+
+const [childrenAges, setChildrenAges] = useState([]);
+const totalGuests = adultCount + childrenCount;
+
+/*room count*/
+
+  const roomIncrease = () => {
+      setRoomCount(prev => prev + 1);
+  };
+
+  const roomDecrease = () => {
+      setRoomCount(prev => prev > 1 ? prev - 1 : 1);
+  };
+
+
+  /*adult count*/
+
+  const adultIncrease = () => {
+      // setAdultCount(prev => prev + 1);
+      if (totalGuests < roomCount * MAX_GUESTS_PER_ROOM) {
+          setAdultCount(prev => prev + 1);
+      }
+  };
+
+  const adultDecrease = () => {
+      setAdultCount(prev => prev > 1 ? prev - 1 : 1);
+  };
+
+
+  /*children count*/
+
+  const handleChildrenCount = (type) => {
+      if (type === "increase") {
+          if (childrenCount === 2) return;
+          
+          const newCount = childrenCount + 1;
+
+          setChildrenCount(newCount);
+
+          setChildrenAges([...childrenAges, "1"]);
+      }
+
+      if (type === "decrease" && childrenCount > 0) {
+          const newCount = childrenCount - 1;
+
+          setChildrenCount(newCount);
+
+          setChildrenAges(childrenAges.slice(0, -1));
+      }
+  };
 
 
   useEffect(() => {
@@ -58,10 +131,95 @@ const [index, setIndex] = useState(0);
       return () => clearInterval(slider);
     }, [homeBanners]);
 
-    const slide = homeBanners[index];
+  const slide = homeBanners[index];
 
-    if (loading) return <Loader />;
-    if (!slide) return null;
+
+  useEffect(() => {
+    const fetchAirportList = async () => {
+      setLoading(true);
+
+      try {
+        const response = await http.get("/get-airport-list");
+
+        if (response.data.status) {
+          setAirportList(response.data.airportList.SectorsPIs || []);
+        }
+      } catch (error) {
+        console.error("Error fetching airport list:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAirportList();
+  }, []);
+
+  // Unique origins
+  const origins = [...new Set(airportList.map(item => item.Origin))];
+
+  // Destinations based on selected origin
+  const destinations = airportList
+    .filter(item => item.Origin === selectedOrigin)
+    .map(item => item.Destination);
+
+  // Update available dates when origin & destination selected
+  useEffect(() => {
+    if (!selectedOrigin || !selectedDestination) return;
+
+    const route = airportList.find(
+      item =>
+        item.Origin === selectedOrigin &&
+        item.Destination === selectedDestination
+    );
+
+    if (!route) return;
+
+    const dates = route.AvailableDates.split("|").map(date => {
+      const [month, day, year] = date.split("/");
+      return new Date(year, month - 1, day);
+    });
+
+    setAvailableDates(dates);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const availableToday = dates.find(
+      d => d.toDateString() === today.toDateString()
+    );
+
+    const availableTomorrow = dates.find(
+      d => d.toDateString() === tomorrow.toDateString()
+    );
+
+    const firstAvailable = dates.find(d => d >= today);
+
+    setDepartureDate(availableToday || firstAvailable || null);
+
+    if (availableTomorrow) {
+      setReturnDate(availableTomorrow);
+    } else {
+      const nextDate = dates.find(
+        d => d > (availableToday || firstAvailable)
+      );
+
+      setReturnDate(nextDate || null);
+    }
+  }, [selectedOrigin, selectedDestination, airportList]);
+
+  const handleSwap = () => {
+    const tempOrigin = selectedOrigin;
+    const tempDestination = selectedDestination;
+
+    setSelectedOrigin(tempDestination);
+    setSelectedDestination(tempOrigin);
+  };
+
+  if (loading) return <Loader />;
+  if (!slide) return null;
 
  
 
@@ -174,12 +332,33 @@ const [index, setIndex] = useState(0);
                   <div className="row align-items-center">
                     <div className="col-md-5 col-5">
                       <label>Departure From</label>
-                      <h5>New Delhi</h5>
-                      <p>DEL, Indira Gandhi International</p>
+
+                      {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
+                      <select
+                        className="form-control"
+                        value={selectedOrigin}
+                        onChange={(e) => {
+                          setSelectedOrigin(e.target.value);
+                          setSelectedDestination("");
+                          setSelectedDate("");
+                        }}
+                      >
+                        <option value="">Select Origin</option>
+
+                        {origins.map((origin, index) => (
+                          <option key={index} value={origin}>
+                            {origin}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div className="col-md-2 col-2 text-center">
-                      <div className="circle">
+                      <div className="circle" onClick={handleSwap}
+                        style={{
+                          cursor: "pointer",
+                          marginTop: "25px"
+                        }}>
                         <i className="fa-solid fa-right-left"></i>
                       </div>
                     </div>
@@ -187,8 +366,21 @@ const [index, setIndex] = useState(0);
                     <div className="col-md-5 col-5">
                       <div className="ps-3">
                         <label>Going To</label>
-                        <h5>Mumbai</h5>
-                        <p>BOM, Chattrapati Shivaji</p>
+                        {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
+                        <select
+                          className="form-control"
+                          value={selectedDestination}
+                          onChange={(e) => setSelectedDestination(e.target.value)}
+                          disabled={!selectedOrigin}
+                        >
+                          <option value="">Select Destination</option>
+
+                          {destinations.map((destination, index) => (
+                            <option key={index} value={destination}>
+                              {destination}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -198,21 +390,176 @@ const [index, setIndex] = useState(0);
                   <div className="row dnfggfshgjhfghdff">
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Departure Date</label>
-                      <h5>20 Feb’26</h5>
-                      <p>Friday</p>
+                      
+                      <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
+                      {/* <DatePicker
+                        selected={departureDate}
+                        onChange={(date) => setDepartureDate(date)}
+                        includeDates={availableDates}
+                        minDate={new Date()}
+                        dateFormat="dd MMM yyyy"
+                        className="form-control"
+                      /> */}
                     </div>
 
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Return Date</label>
-                      <h6>
-                        Book Round Trip <br /> to save extra
-                      </h6>
+                      
+                      <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
+                      {/* <DatePicker
+                        selected={returnDate}
+                        onChange={(date) => setReturnDate(date)}
+                        includeDates={availableDates}
+                        minDate={departureDate || new Date()}
+                        dateFormat="dd MMM yyyy"
+                        className="form-control"
+                      /> */}
                     </div>
 
-                    <div className="col-md-4 col-md-4 col-sm-6 col-6">
+                    <div className="col-md-4 col-md-4 col-sm-6 col-6 position-relative">
                       <label>Travellers & Class</label>
-                      <h5>1 Traveller</h5>
-                      <p>Economy</p>
+
+                      <div className="form-control hotel-input"
+                          onClick={() => setFlightDrpdwn(prev => !prev)}
+                      >
+                          {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
+                          {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
+                      </div>
+                      
+                      {flightDrpdwn && (
+                        <div className="rg-drpdwn dfghdgfsfee position-absolute p-4 rounded-2 bg-white">
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div className="diweirkwer d-flex flex-column">
+                                    <p className="mb-0 dnfreqer">Adults</p>
+
+                                    <span>12+ Years</span>
+                                </div>
+
+                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                    <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                    <input type="number" value={roomCount} placeholder="1" className="form-control" />
+
+                                    <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                </div>
+                            </div>
+
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div className="diweirkwer d-flex flex-column">
+                                    <p className="mb-0 dnfreqer">Children</p>
+
+                                    <span>2 - 12 Years</span>
+                                </div>
+
+                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                    <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                    <input type="number" value={adultCount} className="form-control" />
+
+                                    <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                </div>
+                            </div>
+
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div className="diweirkwer d-flex flex-column">
+                                    <p className="mb-0 dnfreqer">Infant</p>
+
+                                    <span>0 - 2 Years</span>
+                                </div>
+
+                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                    <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                    <input type="number" value={childrenCount} placeholder="1" className="form-control" />
+
+                                    <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                </div>
+                            </div>
+
+                            <div className="doeiwjrpwere">
+                              <div className="checkbox-wrapper-15">
+                                <input
+                                  className="inp-cbx"
+                                  id="cbx-16c"
+                                  name="flightad"
+                                  type="radio"
+                                  style={{ display: "none" }}
+                                />
+
+                                <label className="cbx" htmlFor="cbx-16c">
+                                  <span>
+                                    <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                      <polyline points="1 5 4 8 11 1" />
+                                    </svg>
+                                  </span>
+                                  <span>Economy</span>
+                                </label>
+                              </div>
+
+                              <div className="checkbox-wrapper-15">
+                                <input
+                                  className="inp-cbx"
+                                  id="cbx-16n"
+                                  name="flightad"
+                                  type="radio"
+                                  style={{ display: "none" }}
+                                />
+
+                                <label className="cbx" htmlFor="cbx-16n">
+                                  <span>
+                                    <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                      <polyline points="1 5 4 8 11 1" />
+                                    </svg>
+                                  </span>
+                                  <span>Premium Economy</span>
+                                </label>
+                              </div>
+
+                              <div className="checkbox-wrapper-15">
+                                <input
+                                  className="inp-cbx"
+                                  id="cbx-16j"
+                                  name="flightad"
+                                  type="radio"
+                                  style={{ display: "none" }}
+                                />
+
+                                <label className="cbx" htmlFor="cbx-16j">
+                                  <span>
+                                    <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                      <polyline points="1 5 4 8 11 1" />
+                                    </svg>
+                                  </span>
+                                  <span>Business</span>
+                                </label>
+                              </div>
+
+                              <div className="checkbox-wrapper-15">
+                                <input
+                                  className="inp-cbx"
+                                  id="cbx-16i"
+                                  name="flightad"
+                                  type="radio"
+                                  style={{ display: "none" }}
+                                />
+
+                                <label className="cbx" htmlFor="cbx-16i">
+                                  <span>
+                                    <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                      <polyline points="1 5 4 8 11 1" />
+                                    </svg>
+                                  </span>
+                                  <span>First Class</span>
+                                </label>
+                              </div>
+                            </div>
+
+                            <div className="text-end">
+                                <button onClick={() => setFlightDrpdwn(false)}
+                                  className="btn btn-tour mt-3">APPLY</button>
+                            </div>
+                        </div>
+                    )}  
                     </div>
                   </div>
                 </div>
