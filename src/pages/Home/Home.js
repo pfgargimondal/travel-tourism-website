@@ -5,8 +5,9 @@ import { FollowUsInstagram } from "../../component/FollowUsInstagram/FollowUsIns
 import { Testimonial } from "../Testimonial/Testimonial";
 import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
 import Loader from "../../component/Loader/Loader";
-// import DatePicker from "react-datepicker";
-// import "../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+   // eslint-disable-next-line
+import "../../../node_modules/react-datepicker/dist/react-datepicker.css";
 export const Home = () => {
 const [homeContent, setHomeContent] = useState(null);
 const [homeBanners, setHomeBanners] = useState([]);
@@ -390,30 +391,30 @@ const totalGuests = adultCount + childrenCount;
                   <div className="row dnfggfshgjhfghdff">
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Departure Date</label>
-                      
-                      <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
-                      {/* <DatePicker
+                         
+                      {/* <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
+                      <DatePicker
                         selected={departureDate}
                         onChange={(date) => setDepartureDate(date)}
                         includeDates={availableDates}
                         minDate={new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"
-                      /> */}
+                      />
                     </div>
 
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
                       <label>Return Date</label>
                       
-                      <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
-                      {/* <DatePicker
+                      {/* <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
+                      <DatePicker
                         selected={returnDate}
                         onChange={(date) => setReturnDate(date)}
                         includeDates={availableDates}
                         minDate={departureDate || new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"
-                      /> */}
+                      />
                     </div>
 
                     <div className="col-md-4 col-md-4 col-sm-6 col-6 position-relative">
