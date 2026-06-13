@@ -9,6 +9,7 @@ export const HotelBooking = () => {
     const [selectedUpgradeMeal, setSelectedUpgradeMeal] = useState(null);
     const [imprtntInfoModal, setImprtntInfoModal] = useState(false);
     const [selectedCoupon, setSelectedCoupon] = useState(null);
+    const [allCouponModal, setAllCouponModal] = useState(false);
 
     const handleSelectedUpgradeMeal = (value) => {
         setSelectedUpgradeMeal(prev => (prev === value) ? null : value);
@@ -32,6 +33,21 @@ export const HotelBooking = () => {
         setSelectedCoupon(prev => (prev === value) ? null : value);
     };
 
+    useEffect(() => {
+      const html = document.querySelector("html");
+
+        allCouponModal ? html.classList.add("overflow-hidden") : html.classList.remove("overflow-hidden");
+
+        return () => {
+            html.classList.remove("overflow-hidden")
+        };
+    }, [allCouponModal]);
+    
+
+    const handleAllModalToggle = () => {
+        setAllCouponModal(prev => !prev);
+    };
+
 
 
     return (
@@ -44,7 +60,7 @@ export const HotelBooking = () => {
 
                             <li><i className="bi bi-arrow-right"></i></li>
 
-                            <li>Review Your Booking</li>
+                            <li className="active">Review Your Booking</li>
 
                             <li><i className="bi bi-arrow-right"></i></li>
 
@@ -243,7 +259,7 @@ export const HotelBooking = () => {
                                                         <li>Pets are not allowed</li>
                                                     </ul>
 
-                                                    <p role="button" onClick={handleImprtntInfoModalToggle} className="blue-link mb-0">View More</p>
+                                                    <p role="button" onClick={handleImprtntInfoModalToggle} className="d-inline-block blue-link mb-0">View More</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -428,7 +444,7 @@ export const HotelBooking = () => {
                                         </div>
                                     </div>
                                     {/* Login Bar */}
-                                    <div className="login-bar py-3 mt-2">
+                                    <div className="login-bar p-3 mt-2">
                                         <p className="gdsdgsfaer small-text mb-0">
                                             <span>Login</span> to prefill traveller details and get access to secret
                                             deals
@@ -463,160 +479,167 @@ export const HotelBooking = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-3 sticky-top">
-                                {/* SUMMARY */}
-                                <div className="fgdfgdf mb-3">
-                                    <div className="summary overflow-hidden">
-                                        <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-wallet"></i> Fare Summary</h6>
+                            <div className="col-lg-3">
+                                <div className="sticky-top">
+                                    {/* SUMMARY */}
+                                    <div className="fgdfgdf mb-3">
+                                        <div className="summary overflow-hidden">
+                                            <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-wallet"></i> Fare Summary</h6>
 
-                                        <div className="diewnjrjwer px-3">
-                                            <table className="table mb-0">
-                                                <tr>
-                                                    <td><b>1 Room X 1 Night</b></td>
+                                            <div className="diewnjrjwer px-3">
+                                                <table className="table mb-0">
+                                                    <tr>
+                                                        <td><b>1 Room X 1 Night</b></td>
 
-                                                    <td>₹ 7,299</td>
-                                                </tr>
+                                                        <td>₹ 7,299</td>
+                                                    </tr>
 
-                                                <tr className="diewrwerwer">
-                                                    <td><b>Total Discount</b> <i className="fa-solid fa-info"></i></td>
+                                                    <tr className="diewrwerwer">
+                                                        <td><b>Total Discount</b> <i className="fa-solid fa-info"></i></td>
 
-                                                    <td>-₹ 4,041</td>
-                                                </tr>
+                                                        <td>-₹ 4,041</td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td><b>Price After Discount</b></td>
+                                                    <tr>
+                                                        <td><b>Price After Discount</b></td>
 
-                                                    <td>₹ 3,258</td>
-                                                </tr>
+                                                        <td>₹ 3,258</td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td><b>Taxes & Fees</b></td>
+                                                    <tr>
+                                                        <td><b>Taxes & Fees</b></td>
 
-                                                    <td>₹ 204</td>
-                                                </tr>
+                                                        <td>₹ 204</td>
+                                                    </tr>
 
-                                                <tr className="ojdeopekwrer">
-                                                    <td><b>Grand Total</b></td>
+                                                    <tr className="ojdeopekwrer">
+                                                        <td><b>Grand Total</b></td>
 
-                                                    <td><b>₹ 3,462</b></td>
-                                                </tr>
-                                            </table>
+                                                        <td><b>₹ 3,462</b></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {/* COUPON */}
-                                <div className="dfdff5585">
-                                    <div className="coupon-box">
-                                        <div className="coupon-banner">
-                                            <img src="./images/SL_040621_42020_15.jpg" alt="" />
-                                            {/* <h5 class="mt-2">Coupons and Offers</h5> */}
-                                        </div>
-                                        
-                                        <div className="hjhjk overflow-hidden mt-3">
-                                            <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-tags"></i>Coupon Codes</h6>
-
-                                            <div className="px-3 mt-3">
-                                                <div className="deiwhrwerwer position-relative">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control mb-3"
-                                                        placeholder="Enter coupon code"
-                                                        value={selectedCoupon ? selectedCoupon : ""}
-                                                        onChange={() => setSelectedCoupon(null)}
-                                                    />  
-
-                                                    <button onClick={() => setSelectedCoupon(null)} className={selectedCoupon ? "btn remove-coupon-btn position-absolute" : "btn position-absolute"}>{selectedCoupon ? "Remove" : "Apply"}</button>  
-                                                </div>                                            
-                                        
-                                                <div className="deiwhrwerwer">
-                                                    <label htmlFor="c1" className="coupon-card">
-                                                        <input type="radio" checked={selectedCoupon === "MMTTRAVEL"} onChange={() => handleSelectedModal("MMTTRAVEL")} name="ucfewfrew" id="c1" className="d-none position-absolute" />
-
-                                                        <div className="coupon-top d-flex align-items-center justify-content-between mb-1">
-                                                            <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
-                                                                <img
-                                                                    src="./images/discount.png"
-                                                                    className="coupon-icon"
-                                                                    alt=""
-                                                                />
-                                                                <strong className="frgrfg5559">MMTTRAVEL</strong>
-                                                            </div>
-
-                                                            <span className="discount">₹229 off</span>
-                                                        </div>
-                                                        <p className="desc mb-0">
-                                                            Log in to get up to 15% OFF.
-                                                            <br />
-                                                            Offer valid for new users only
-                                                        </p>
-                                                    </label>
+                                    {/* COUPON */}
+                                    <div className="dfdff5585">
+                                        <div className="coupon-box">
+                                            <div className="coupon-banner">
+                                                <img src="./images/SL_040621_42020_15.jpg" alt="" />
+                                                {/* <h5 class="mt-2">Coupons and Offers</h5> */}
+                                            </div>
                                             
-                                                    <label htmlFor="c2" className="coupon-card">
-                                                        <input type="radio" checked={selectedCoupon === "MMTSECUREV"} onChange={() => handleSelectedModal("MMTSECUREV")} name="ucfewfrew" id="c2" className="d-none position-absolute" />
+                                            <div className="hjhjk overflow-hidden mt-3">
+                                                <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-tags"></i>Coupon Codes</h6>
 
-                                                        <div className="coupon-top d-flex align-items-center justify-content-between">
-                                                            <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
-                                                                <img
-                                                                    src="./images/discount.png"
-                                                                    className="coupon-icon"
-                                                                    alt=""
-                                                                />
-                                                                <strong className="frgrfg5559">MMTSECUREV</strong>
-                                                            </div>
-                                                            <span className="discount">₹229 off</span>
+                                                <div className="bg-white px-3 mt-3">
+                                                    <div className="deiwhrwerwer position-relative mb-3">
+                                                        <div className="position-relative">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                placeholder="Enter coupon code"
+                                                                value={selectedCoupon ? selectedCoupon : ""}
+                                                                onChange={() => setSelectedCoupon(null)}
+                                                                disabled={selectedCoupon ? true : false}
+                                                            />  
+
+                                                            <button onClick={() => setSelectedCoupon(null)} className={selectedCoupon ? "btn remove-coupon-btn position-absolute" : "btn position-absolute"}>{selectedCoupon ? "Remove" : "Apply"}</button>  
                                                         </div>
-                                                        <p className="desc mb-0">
-                                                            Get an instant discount of ₹229 on your flight booking
-                                                            <br />
-                                                            and Trip Secure combo
-                                                        </p>
-                                                    </label>
 
-                                                    <label htmlFor="c3" className="coupon-card">
-                                                        <input type="radio" checked={selectedCoupon === "MMTSECUREL"} onChange={() => handleSelectedModal("MMTSECUREL")} name="ucfewfrew" id="c3" className="d-none position-absolute" />
+                                                        {selectedCoupon && <p className="copn-msge my-2">Congratulations! Instant Discount of Rs. ₹229 has been applied successfully.</p>}   
+                                                    </div>            
+                                            
+                                                    <div className="deiwhrwerwer">
+                                                        <label htmlFor="c1" className="coupon-card">
+                                                            <input type="radio" checked={selectedCoupon === "MMTTRAVEL"} onChange={() => handleSelectedModal("MMTTRAVEL")} name="ucfewfrew" id="c1" className="d-none position-absolute" />
 
-                                                        <div className="coupon-top d-flex align-items-center justify-content-between">
-                                                            <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
-                                                                <img
-                                                                    src="./images/discount.png"
-                                                                    className="coupon-icon"
-                                                                    alt=""
-                                                                />
-                                                                <strong className="frgrfg5559">MMTSECUREL</strong>
+                                                            <div className="coupon-top d-flex align-items-center justify-content-between mb-1">
+                                                                <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                                                    <img
+                                                                        src="./images/discount.png"
+                                                                        className="coupon-icon"
+                                                                        alt=""
+                                                                    />
+                                                                    <strong className="frgrfg5559">MMTTRAVEL</strong>
+                                                                </div>
+
+                                                                <span className="discount">₹229 off</span>
                                                             </div>
-                                                            <span className="discount">₹229 off</span>
-                                                        </div>
-                                                        <p className="desc mb-0">
-                                                            Get an instant discount of ₹229 on your flight booking
-                                                            <br />
-                                                            and Trip Secure combo
-                                                        </p>
-                                                    </label>
+                                                            <p className="desc mb-0">
+                                                                Log in to get up to 15% OFF.
+                                                                <br />
+                                                                Offer valid for new users only
+                                                            </p>
+                                                        </label>
+                                                
+                                                        <label htmlFor="c2" className="coupon-card">
+                                                            <input type="radio" checked={selectedCoupon === "MMTSECUREV"} onChange={() => handleSelectedModal("MMTSECUREV")} name="ucfewfrew" id="c2" className="d-none position-absolute" />
 
-                                                    <label htmlFor="c4" className="coupon-card">
-                                                        <input type="radio" checked={selectedCoupon === "MMTSECUREJ"} onChange={() => handleSelectedModal("MMTSECUREJ")} name="ucfewfrew" id="c4" className="d-none position-absolute" />
-
-                                                        <div className="coupon-top d-flex align-items-center justify-content-between">
-                                                            <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
-                                                                <img
-                                                                    src="./images/discount.png"
-                                                                    className="coupon-icon"
-                                                                    alt=""
-                                                                />
-                                                                <strong className="frgrfg5559">MMTSECUREJ</strong>
+                                                            <div className="coupon-top d-flex align-items-center justify-content-between">
+                                                                <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                                                    <img
+                                                                        src="./images/discount.png"
+                                                                        className="coupon-icon"
+                                                                        alt=""
+                                                                    />
+                                                                    <strong className="frgrfg5559">MMTSECUREV</strong>
+                                                                </div>
+                                                                <span className="discount">₹229 off</span>
                                                             </div>
-                                                            <span className="discount">₹ 229 off</span>
-                                                        </div>
-                                                        <p className="desc mb-0">
-                                                            Get an instant discount of ₹229 on your flight booking
-                                                            <br />
-                                                            and Trip Secure combo
-                                                        </p>
-                                                    </label>
-                                                </div>
+                                                            <p className="desc mb-0">
+                                                                Get an instant discount of ₹229 on your flight booking
+                                                                <br />
+                                                                and Trip Secure combo
+                                                            </p>
+                                                        </label>
 
-                                                <div className="fgderhsraerr text-center">
-                                                    <button className="btn sgsfeqaedqrrr pb-2">View All Coupons</button>
+                                                        <label htmlFor="c3" className="coupon-card">
+                                                            <input type="radio" checked={selectedCoupon === "MMTSECUREL"} onChange={() => handleSelectedModal("MMTSECUREL")} name="ucfewfrew" id="c3" className="d-none position-absolute" />
+
+                                                            <div className="coupon-top d-flex align-items-center justify-content-between">
+                                                                <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                                                    <img
+                                                                        src="./images/discount.png"
+                                                                        className="coupon-icon"
+                                                                        alt=""
+                                                                    />
+                                                                    <strong className="frgrfg5559">MMTSECUREL</strong>
+                                                                </div>
+                                                                <span className="discount">₹229 off</span>
+                                                            </div>
+                                                            <p className="desc mb-0">
+                                                                Get an instant discount of ₹229 on your flight booking
+                                                                <br />
+                                                                and Trip Secure combo
+                                                            </p>
+                                                        </label>
+
+                                                        <label htmlFor="c4" className="coupon-card">
+                                                            <input type="radio" checked={selectedCoupon === "MMTSECUREJ"} onChange={() => handleSelectedModal("MMTSECUREJ")} name="ucfewfrew" id="c4" className="d-none position-absolute" />
+
+                                                            <div className="coupon-top d-flex align-items-center justify-content-between">
+                                                                <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                                                    <img
+                                                                        src="./images/discount.png"
+                                                                        className="coupon-icon"
+                                                                        alt=""
+                                                                    />
+                                                                    <strong className="frgrfg5559">MMTSECUREJ</strong>
+                                                                </div>
+                                                                <span className="discount">₹ 229 off</span>
+                                                            </div>
+                                                            <p className="desc mb-0">
+                                                                Get an instant discount of ₹229 on your flight booking
+                                                                <br />
+                                                                and Trip Secure combo
+                                                            </p>
+                                                        </label>
+                                                    </div>
+
+                                                    <div className="fgderhsraerr text-center">
+                                                        <button onClick={handleAllModalToggle} className="btn sgsfeqaedqrrr pb-2">View All Coupons</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -739,6 +762,149 @@ export const HotelBooking = () => {
                     </section>
                 </div>
             </div>
+
+            {/* all coupon modal start */}
+
+            <div className={`${allCouponModal ? "all-coupon-modal-backdrop" : "all-coupon-modal-backdrop all-coupon-modal-backdrop-hide"} position-fixed w-100 h-100 top-0 start-0 bottom-0 end-0`}></div>
+
+            <div className={`${allCouponModal ? "all-coupon-modal" : "all-coupon-modal all-coupon-modal-hide"} d-flex flex-column bg-white top-0 bottom-0 px-4 py-3 position-fixed`}>
+                <div className="all-coupon-modal-header d-flex align-items-center justify-content-between">
+                    <h5 className="mb-0"><b>All Coupons</b></h5>
+
+                    <i onClick={handleAllModalToggle} className="fa-solid fa-xmark"></i>
+                </div>
+
+                <div className="all-coupon-modal-body">
+                    <div className="mt-3">
+                        <div className="deiwhrwerwer position-relative mb-3">
+                            <div className="position-relative">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter coupon code"
+                                    value={selectedCoupon ? selectedCoupon : ""}
+                                    onChange={() => setSelectedCoupon(null)}
+                                    disabled={selectedCoupon ? true : false}
+                                />  
+
+                                <button onClick={() => setSelectedCoupon(null)} className={selectedCoupon ? "btn remove-coupon-btn position-absolute" : "btn position-absolute"}>{selectedCoupon ? "Remove" : "Apply"}</button>
+                            </div>
+
+                            {selectedCoupon && <p className="copn-msge my-2">Congratulations! Instant Discount of Rs. ₹229 has been applied successfully.</p>}                              
+                        </div>                                            
+                
+                        <div className="deiwhrwerwer hjiejfriwejrwer pe-2">
+                            <label htmlFor="c1" className="coupon-card">
+                                <input type="radio" checked={selectedCoupon === "MMTTRAVEL"} onChange={() => handleSelectedModal("MMTTRAVEL")} name="ucfewfrew" id="c1" className="d-none position-absolute" />
+
+                                <div className="coupon-top d-flex align-items-center justify-content-between mb-1">
+                                    <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                        <img
+                                            src="./images/discount.png"
+                                            className="coupon-icon"
+                                            alt=""
+                                        />
+                                        <strong className="frgrfg5559">MMTTRAVEL</strong>
+                                    </div>
+
+                                    <span className="discount">₹229 off</span>
+                                </div>
+                                <p className="desc mb-0">
+                                    Log in to get up to 15% OFF.
+                                    <br />
+                                    Offer valid for new users only
+                                </p>
+                            </label>
+                    
+                            <label htmlFor="c2" className="coupon-card">
+                                <input type="radio" checked={selectedCoupon === "MMTSECUREV"} onChange={() => handleSelectedModal("MMTSECUREV")} name="ucfewfrew" id="c2" className="d-none position-absolute" />
+
+                                <div className="coupon-top d-flex align-items-center justify-content-between">
+                                    <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                        <img
+                                            src="./images/discount.png"
+                                            className="coupon-icon"
+                                            alt=""
+                                        />
+                                        <strong className="frgrfg5559">MMTSECUREV</strong>
+                                    </div>
+                                    <span className="discount">₹229 off</span>
+                                </div>
+                                <p className="desc mb-0">
+                                    Get an instant discount of ₹229 on your flight booking
+                                    <br />
+                                    and Trip Secure combo
+                                </p>
+                            </label>
+
+                            <label htmlFor="c3" className="coupon-card">
+                                <input type="radio" checked={selectedCoupon === "MMTSECUREL"} onChange={() => handleSelectedModal("MMTSECUREL")} name="ucfewfrew" id="c3" className="d-none position-absolute" />
+
+                                <div className="coupon-top d-flex align-items-center justify-content-between">
+                                    <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                        <img
+                                            src="./images/discount.png"
+                                            className="coupon-icon"
+                                            alt=""
+                                        />
+                                        <strong className="frgrfg5559">MMTSECUREL</strong>
+                                    </div>
+                                    <span className="discount">₹229 off</span>
+                                </div>
+                                <p className="desc mb-0">
+                                    Get an instant discount of ₹229 on your flight booking
+                                    <br />
+                                    and Trip Secure combo
+                                </p>
+                            </label>
+
+                            <label htmlFor="c4" className="coupon-card">
+                                <input type="radio" checked={selectedCoupon === "MMTSECUREJ"} onChange={() => handleSelectedModal("MMTSECUREJ")} name="ucfewfrew" id="c4" className="d-none position-absolute" />
+
+                                <div className="coupon-top d-flex align-items-center justify-content-between">
+                                    <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                        <img
+                                            src="./images/discount.png"
+                                            className="coupon-icon"
+                                            alt=""
+                                        />
+                                        <strong className="frgrfg5559">MMTSECUREJ</strong>
+                                    </div>
+                                    <span className="discount">₹ 229 off</span>
+                                </div>
+                                <p className="desc mb-0">
+                                    Get an instant discount of ₹229 on your flight booking
+                                    <br />
+                                    and Trip Secure combo
+                                </p>
+                            </label>
+
+                            <label htmlFor="c5" className="coupon-card">
+                                <input type="radio" checked={selectedCoupon === "MMTSECURER"} onChange={() => handleSelectedModal("MMTSECURER")} name="ucfewfrew" id="c5" className="d-none position-absolute" />
+
+                                <div className="coupon-top d-flex align-items-center justify-content-between">
+                                    <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
+                                        <img
+                                            src="./images/discount.png"
+                                            className="coupon-icon"
+                                            alt=""
+                                        />
+                                        <strong className="frgrfg5559">MMTSECURER</strong>
+                                    </div>
+                                    <span className="discount">₹ 229 off</span>
+                                </div>
+                                <p className="desc mb-0">
+                                    Get an instant discount of ₹229 on your flight booking
+                                    <br />
+                                    and Trip Secure combo
+                                </p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* all coupon modal end */}
         </>
     )
 }

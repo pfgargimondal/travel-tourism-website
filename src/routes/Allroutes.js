@@ -20,7 +20,8 @@ import {
   PasswordChange,
   UserBooking,
   UserWishlist,
-  HotelBooking
+  HotelBooking,
+  HotelPayment
 } from "../pages";
 
 // function PageRenderer() {
@@ -43,6 +44,7 @@ function Allroutes() {
       <Route path="/hotel-filter" element={<HotelFilter />} />      
       <Route path="/hotel-details/:id" element={<HotelDetails />} />
       <Route path="/hotel-booking" element={<HotelBooking />} />
+      <Route path="/hotel-payment" element={<HotelPayment />} />
 
       <Route path="/flight-filter" element={<FlightFilter />} />
 

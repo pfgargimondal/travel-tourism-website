@@ -7,6 +7,7 @@ export {HotelFilter} from "./HotelFilter/HotelFilter";
 export {Hotel} from "./Hotel/Hotel";
 export {HotelDetails} from "./HotelDetails/HotelDetails";
 export {HotelBooking} from "./HotelBooking/HotelBooking";
+export {HotelPayment} from "./HotelPayment/HotelPayment";
 export {FlightFilter} from "./FlightFilter/FlightFilter";
 export {PrivacyPolicy} from "./PrivacyPolicy/PrivacyPolicy";
 export {TermsCondition} from "./TermsCondition/TermsCondition";

@@ -1241,7 +1241,7 @@ h6.dshrysrfhety{
   top: 50%;
   right: 5px;
   transform: translateY(-50%);
-  font-weight: 600;
+  font-size: 0.9rem;
   color: var(--blue-primary-color);
   border: 0 !important;
 }
@@ -1264,6 +1264,10 @@ h6.dshrysrfhety{
   background: #fff;
 }
 
+.uihfsdfsff545 .hotel-card{
+  cursor: initial;
+}
+
 .deiwhrwerwer input{
   font-weight: 600;
   color: #000;
@@ -1284,4 +1288,44 @@ h6.dshrysrfhety{
 .fgderhsraerr .btn.sgsfeqaedqrrr{
   color: var(--blue-primary-color) !important;
   font-weight: 600;
+}
+
+.all-coupon-modal-backdrop{
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+}
+
+.all-coupon-modal-backdrop-hide{
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -9999999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.all-coupon-modal{
+  width: 400px;
+  max-width: 90%;
+  height: 100vh;
+  right: 0;
+  z-index: 999999;
+  transition: 0.4s ease-in-out;
+}
+
+.all-coupon-modal-hide{
+  right: -100%;
+  z-index: -99999;
+  transition: 0.1s ease-in-out;
+}
+
+.all-coupon-modal-body .hjiejfriwejrwer{
+  height: 80vh;
+  overflow-y: auto;
+}
+
+p.copn-msge{
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #068334;
 }
