@@ -15,7 +15,7 @@ import "./HeaderResponsive.css";
 
 
 
-export const Header = ({ headerNew }) => {
+export const Header = ({ headerNew, headerBlackText }) => {
     const [headerSticky, setHeaderSticky] = useState(false);
     const [loginRegModal, setLoginRegModal] = useState(false);
     const [regModal, setRegModal] = useState(false);
@@ -36,7 +36,7 @@ export const Header = ({ headerNew }) => {
 
     return (
         <div>
-            <header className={headerSticky ? `bg-white w-100 header-sticky ${headerNew ? "new-header" : ""}` : `bg-transparent w-100 position-relative ${headerNew ? "new-header" : ""}`}>
+            <header className={headerSticky ? `bg-white w-100 header-sticky ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""}` : `bg-transparent w-100 position-relative ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""}`}>
                 <div className="top-header py-2">
                     <div className="container">
                         <div className="d-flex align-items-center justify-content-between">

@@ -11,12 +11,14 @@
     --main-green-color: #00b4a8;
     --main-yellow-color: #E1C94F;
     --main-red-color: #A3261E;
+    --main-golden: #EFBF04;
     --blue-primary-color: #418ede;
     --blue-secondary-color: #07427f;
     --button-gradient-color: linear-gradient(45deg, #418ede, #07427f);
     --button-hover-gradient-color: linear-gradient(45deg, #07427f, #418ede);
     --light-black-text-color: #3C3B3B;
     --light-border-color: #bababa;
+    --card-border-color: #d7d7d7;
     --background-light-color: rgba(245, 245, 245, 0.61);
     --font-family-lato: "Lato", sans-serif;
     --h2-custom-font-size: 4.5rem;

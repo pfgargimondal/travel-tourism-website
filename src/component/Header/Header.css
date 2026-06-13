@@ -28,6 +28,18 @@ header{
     color: initial !important;
 }
 
+.black-text-header{
+    border-bottom: 1px solid var(--border);
+}
+
+.black-text-header .text-white{
+    color: #000 !important;
+}
+
+.black-text-header .top-header{
+    color: inherit !important;
+}
+
 @keyframes slideDown {
   from {
     transform: translateY(-100%);

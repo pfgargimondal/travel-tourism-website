@@ -14,20 +14,23 @@ import './App.css';
 
 function App() {
   const [headerNew, setHeaderNew] = useState(false);
+  const [headerBlackText, setHeaderBlackText] = useState(false);
   
   const pathName = useLocation().pathname;  
 
   useEffect(() => {
     const isHeaderNewIncluded = ["/thank-you", "/user-profile", "/account-information", "/user-booking", "/change-password", "/wishlist"].some(path => pathName.includes(path));
+    const isHeaderBlackTextIncluded = pathName.includes("/hotel-booking");
 
     isHeaderNewIncluded ? setHeaderNew(true) : setHeaderNew(false);
+    isHeaderBlackTextIncluded ? setHeaderBlackText(true) : setHeaderBlackText(false) ;
   }, [pathName]);
 
 
 
   return (
     <div className="App">
-      <Header headerNew={headerNew} />  
+      <Header headerNew={headerNew} headerBlackText={headerBlackText} />  
         {/* <div className="middle-wrapper"> */}
         
         <main className={ headerNew ? "mt-0" : "" }>
