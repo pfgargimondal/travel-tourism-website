@@ -139,7 +139,7 @@ export const HotelPayment = () => {
 
                                         {/* FORM */}
 
-                                        <div className="payment-content">
+                                        <div className="payment-content pe-0">
 
                                             <div className="mb-4">
 
@@ -243,9 +243,9 @@ export const HotelPayment = () => {
                     <div className="col-lg-3">
                         <div className="fgdfgdf mb-3">
                             <div className="summary overflow-hidden">
-                                <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-wallet"></i> Booking Summary</h6>
+                                <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-suitcase"></i> Booking Summary</h6>
 
-                                <div className="diewnjrjwer dgdgfswfsdfsdf px-3 py-2">
+                                <div className="diewnjrjwer dgdgfswfsdfsdf px-3 pt-2 pb-3">
                                     <p className="mb-1"><b>Vividus Hotels Bangalore</b></p>
 
                                     <div className="small-text">
@@ -257,7 +257,7 @@ export const HotelPayment = () => {
                                         <p className="mb-0">Sequeira waddo, Candolim, Bardez Goa, India</p>
                                     </div>
 
-                                    <div className="date-box">
+                                    <div className="date-box my-2">
                                         <div>
                                             <small>Check In</small>
 
@@ -279,41 +279,37 @@ export const HotelPayment = () => {
                                         </div>
                                     </div>
 
-                                    <div className="cdoiwejerer">
-                                        <p className="mb-0">You have selected the package for</p>
+                                    <div className="cdoiwejerer mb-2">
+                                        <p className="mb-1">You have selected the package for:</p>
 
-                                        <span>1 Room | 2 Adults | 1 Child</span>
+                                        <span className="d-flex flex-wrap gap-2">
+                                            <span><i className="bi bi-hospital"></i> 1 Room</span>
+
+                                            <span>|</span> 
+
+                                            <span><i className="bi bi-people"></i> 2 Adults</span> 
+
+                                            <span>|</span> 
+
+                                            <span><i className="fa-solid fa-baby"></i> 1 Child</span>
+                                        </span>
+                                    </div>
+
+                                    <div className="cdoiwejerer">
+                                        <p className="mb-1">Your chosen package includes:</p>
+
+                                        <div className="doiewjrwer d-flex flex-wrap gap-2">
+                                            <span>Standard Room</span>
+
+                                            <span>Breakfast not included (Non-Refundable)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="hotel-card mb-4">
-
-                            <h4></h4>
-
-                            <div className="hotel-box">
-
-                                <h5>
-                                    
-                                </h5>
-
-                            </div>
-
-                            
-
-                            <div className="traveller-info">
-
-                                <h6>Traveller Details</h6>
-
-                                <p>1 Adult Traveller</p>
-
-                            </div>
-
-                        </div>
-
                         <div className="fgdfgdf mb-3">
-                            <div className="summary overflow-hidden">
+                            <div className="summary hjhjk overflow-hidden">
                                 <h6 className="mb-0 px-3 py-2"><i className="bi me-1 bi-wallet"></i> Fare Summary</h6>
 
                                 <div className="diewnjrjwer px-3">

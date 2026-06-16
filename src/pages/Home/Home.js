@@ -6,8 +6,7 @@ import { Testimonial } from "../Testimonial/Testimonial";
 import { ServiceCategories } from "../../component/ServiceCategories/ServiceCategories";
 import Loader from "../../component/Loader/Loader";
 import DatePicker from "react-datepicker";
-   // eslint-disable-next-line
-import "../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 export const Home = () => {
 const [homeContent, setHomeContent] = useState(null);
 const [homeBanners, setHomeBanners] = useState([]);
@@ -164,8 +163,16 @@ const totalGuests = adultCount + childrenCount;
     .map(item => item.Destination);
 
   // Update available dates when origin & destination selected
+
   useEffect(() => {
-    if (!selectedOrigin || !selectedDestination) return;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (!selectedOrigin || !selectedDestination) {
+      setDepartureDate(today);
+      setAvailableDates([]);
+      return;
+    }
 
     const route = airportList.find(
       item =>
@@ -173,41 +180,27 @@ const totalGuests = adultCount + childrenCount;
         item.Destination === selectedDestination
     );
 
-    if (!route) return;
+    if (!route || !route.AvailableDates) {
+      setAvailableDates([]);
+      setDepartureDate(today);
+      return;
+    }
 
-    const dates = route.AvailableDates.split("|").map(date => {
-      const [month, day, year] = date.split("/");
-      return new Date(year, month - 1, day);
-    });
+    const dates = route.AvailableDates
+      .split("|")
+      .map(date => {
+        const [month, day, year] = date.split("/");
+        return new Date(year, month - 1, day);
+      });
 
     setAvailableDates(dates);
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const futureDates = dates.filter(d => d >= today);
 
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    const availableToday = dates.find(
-      d => d.toDateString() === today.toDateString()
-    );
-
-    const availableTomorrow = dates.find(
-      d => d.toDateString() === tomorrow.toDateString()
-    );
-
-    const firstAvailable = dates.find(d => d >= today);
-
-    setDepartureDate(availableToday || firstAvailable || null);
-
-    if (availableTomorrow) {
-      setReturnDate(availableTomorrow);
+    if (futureDates.length > 0) {
+      setDepartureDate(futureDates[0]);
     } else {
-      const nextDate = dates.find(
-        d => d > (availableToday || firstAvailable)
-      );
-
-      setReturnDate(nextDate || null);
+      setDepartureDate(today);
     }
   }, [selectedOrigin, selectedDestination, airportList]);
 
@@ -223,7 +216,6 @@ const totalGuests = adultCount + childrenCount;
   if (!slide) return null;
 
  
-
 
   return (
     <div>
@@ -396,7 +388,11 @@ const totalGuests = adultCount + childrenCount;
                       <DatePicker
                         selected={departureDate}
                         onChange={(date) => setDepartureDate(date)}
-                        includeDates={availableDates}
+                        // includeDates={
+                        //   availableDates.length > 0
+                        //     ? availableDates
+                        //     : undefined
+                        // }
                         minDate={new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"
@@ -410,8 +406,7 @@ const totalGuests = adultCount + childrenCount;
                       <DatePicker
                         selected={returnDate}
                         onChange={(date) => setReturnDate(date)}
-                        includeDates={availableDates}
-                        minDate={departureDate || new Date()}
+                        minDate={new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"
                       />

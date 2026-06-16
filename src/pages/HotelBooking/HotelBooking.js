@@ -95,7 +95,7 @@ export const HotelBooking = () => {
                                                 </div>
                                                 <img
                                                     src="https://images.unsplash.com/photo-1566073771259-6a8506099945"
-                                                    className="hotel-img"
+                                                    className="hotel-img" alt=""
                                                 />
                                             </div>
                                             {/* Check-in Section */}
@@ -143,12 +143,12 @@ export const HotelBooking = () => {
                                                     <div className="small-text">
                                                         Refund is not applicable for this booking
                                                     </div>
-                                                    <a href="#" className="blue-link sbgswfeqw">
+                                                    <a href="/" className="blue-link sbgswfeqw">
                                                         Cancellation policy details
                                                     </a>
                                                 </div>
                                                 <div className="text-end">
-                                                    <a href="#" className="blue-link">
+                                                    <a href="/" className="blue-link">
                                                         See Inclusions
                                                     </a>
                                                 </div>
@@ -459,15 +459,15 @@ export const HotelBooking = () => {
                                         />
                                         <label className="form-check-label small-text">
                                             By proceeding, I agree to MyCheapTickets &nbsp;
-                                            <Link to="#" className="blue-link">
+                                            <Link to="/" className="blue-link">
                                                 User Agreement
                                             </Link>
                                             , &nbsp;
-                                            <a href="#" className="blue-link">
+                                            <a href="/" className="blue-link">
                                                 Terms of Service
                                             </a>{" "}
                                             and &nbsp;
-                                            <a href="#" className="blue-link">
+                                            <a href="/" className="blue-link">
                                                 Cancellation &amp; Property Booking Policies
                                             </a>
                                             .
