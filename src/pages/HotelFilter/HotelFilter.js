@@ -13,7 +13,16 @@ export const HotelFilter = () => {
   const [loading, setLoading] = useState(false);
   // Hotel Data
   const [hotels, setHotels] = useState([]);
-
+  // eslint-disable-next-line
+  const [searchParams, setSearchParams] = useState({
+    city: "",
+    checkin: "",
+    checkout: "",
+    rooms: "",
+    adults: "",
+    children: "",
+    price: "",
+  });
 
   // Fetch Hotels
   useEffect(() => {
@@ -1530,9 +1539,10 @@ export const HotelFilter = () => {
                                               <>
                                                 ...{" "}
                                                 <span
-                                                  onClick={() =>
-                                                    navigate(`/hotel-details/${hotel.id}`)
-                                                  }
+                                                  onClick={() => {
+                                                    const params = new URLSearchParams(searchParams);
+                                                    navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
+                                                  }}
                                                   style={{
                                                     color: "black",
                                                     cursor: "pointer",
@@ -1577,9 +1587,12 @@ export const HotelFilter = () => {
                                     </div>
                                   </div>
                                   <div className="sdbds86">
-                                    <button onClick={() =>
-                                        navigate(`/hotel-details/${hotel.id}`)
-                                      }>View Details</button>
+                                    <button 
+                                      onClick={() => {
+                                        const params = new URLSearchParams(searchParams);
+                                        navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
+                                      }}
+                                    >View Details</button>
                                   </div>
                                 </div>
                               </div>

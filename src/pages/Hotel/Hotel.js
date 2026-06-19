@@ -169,7 +169,7 @@ export const Hotel = () => {
 
   return (
     <div>
-      <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
+      <div class="bannerhotel" style={{ background: "url('/images/hotelbanner.png')", padding: "15rem 0" }}></div>
 
       {/* <div class="jfdbvjfbv788">
         <section class="menu-section">
@@ -314,7 +314,7 @@ export const Hotel = () => {
                 {citieHotels.map((hotel, index) => (
                   <SwiperSlide key={index}>
 
-                    <Link to={`/hotel-details/${hotel.hotel_code}`}>
+                    {/* <Link to={`/hotel-details/${hotel.hotel_code}`}> */}
                       <div className="hotel-card" >
                         <div className="img-box">
                           <img src={hotel.image} alt="" />
@@ -337,7 +337,7 @@ export const Hotel = () => {
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    {/* </Link> */}
                   </SwiperSlide>
                 ))}
               </Swiper>              

@@ -142,7 +142,7 @@ const totalGuests = adultCount + childrenCount;
         const response = await http.get("/get-airport-list");
 
         if (response.data.status) {
-          setAirportList(response.data.airportList.SectorsPIs || []);
+          setAirportList(response.data.airportList || []);
         }
       } catch (error) {
         console.error("Error fetching airport list:", error);
@@ -155,12 +155,32 @@ const totalGuests = adultCount + childrenCount;
   }, []);
 
   // Unique origins
-  const origins = [...new Set(airportList.map(item => item.Origin))];
+  const origins = [
+    ...new Map(
+      airportList.map((item) => [
+        item.Origin,
+        {
+          code: item.Origin,
+          details: item.origin_details,
+        },
+      ])
+    ).values(),
+  ];
 
   // Destinations based on selected origin
-  const destinations = airportList
-    .filter(item => item.Origin === selectedOrigin)
-    .map(item => item.Destination);
+  const destinations = [
+    ...new Map(
+      airportList
+        .filter((item) => item.Origin === selectedOrigin)
+        .map((item) => [
+          item.Destination,
+          {
+            code: item.Destination,
+            details: item.destination_details,
+          },
+        ])
+    ).values(),
+  ];
 
   // Update available dates when origin & destination selected
 
@@ -169,33 +189,31 @@ const totalGuests = adultCount + childrenCount;
     today.setHours(0, 0, 0, 0);
 
     if (!selectedOrigin || !selectedDestination) {
-      setDepartureDate(today);
       setAvailableDates([]);
+      setDepartureDate(today);
       return;
     }
 
     const route = airportList.find(
-      item =>
+      (item) =>
         item.Origin === selectedOrigin &&
         item.Destination === selectedDestination
     );
 
-    if (!route || !route.AvailableDates) {
+    if (!route?.AvailableDates) {
       setAvailableDates([]);
       setDepartureDate(today);
       return;
     }
 
-    const dates = route.AvailableDates
-      .split("|")
-      .map(date => {
-        const [month, day, year] = date.split("/");
-        return new Date(year, month - 1, day);
-      });
+    const dates = route.AvailableDates.split("|").map((date) => {
+      const [month, day, year] = date.split("/");
+      return new Date(year, month - 1, day);
+    });
 
     setAvailableDates(dates);
 
-    const futureDates = dates.filter(d => d >= today);
+    const futureDates = dates.filter((d) => d >= today);
 
     if (futureDates.length > 0) {
       setDepartureDate(futureDates[0]);
@@ -205,11 +223,13 @@ const totalGuests = adultCount + childrenCount;
   }, [selectedOrigin, selectedDestination, airportList]);
 
   const handleSwap = () => {
-    const tempOrigin = selectedOrigin;
-    const tempDestination = selectedDestination;
+    if (!selectedOrigin || !selectedDestination) return;
 
-    setSelectedOrigin(tempDestination);
-    setSelectedDestination(tempOrigin);
+    const origin = selectedOrigin;
+    const destination = selectedDestination;
+
+    setSelectedOrigin(destination);
+    setSelectedDestination(origin);
   };
 
   if (loading) return <Loader />;
@@ -333,14 +353,15 @@ const totalGuests = adultCount + childrenCount;
                         onChange={(e) => {
                           setSelectedOrigin(e.target.value);
                           setSelectedDestination("");
-                          setSelectedDate("");
                         }}
                       >
                         <option value="">Select Origin</option>
 
                         {origins.map((origin, index) => (
-                          <option key={index} value={origin}>
-                            {origin}
+                          <option key={index} value={origin.code}>
+                            {origin.details
+                              ? `${origin.code} - ${origin.details?.city}, ${origin.details?.country} - ${origin.details?.airport_name}`
+                              : origin.code}
                           </option>
                         ))}
                       </select>
@@ -361,19 +382,21 @@ const totalGuests = adultCount + childrenCount;
                         <label>Going To</label>
                         {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                         <select
-                          className="form-control"
-                          value={selectedDestination}
-                          onChange={(e) => setSelectedDestination(e.target.value)}
-                          disabled={!selectedOrigin}
-                        >
-                          <option value="">Select Destination</option>
+                            className="form-control"
+                            value={selectedDestination}
+                            onChange={(e) => setSelectedDestination(e.target.value)}
+                            disabled={!selectedOrigin}
+                          >
+                            <option value="">Select Destination</option>
 
-                          {destinations.map((destination, index) => (
-                            <option key={index} value={destination}>
-                              {destination}
-                            </option>
-                          ))}
-                        </select>
+                            {destinations.map((destination, index) => (
+                              <option key={index} value={destination.code}>
+                                {destination.details
+                                  ? `${destination.code} - ${destination.details?.city}, ${destination.details?.country} - ${destination.details?.airport_name}`
+                                  : destination.code}
+                              </option>
+                            ))}
+                          </select>
                       </div>
                     </div>
                   </div>

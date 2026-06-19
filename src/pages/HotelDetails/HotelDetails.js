@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from "react";
 import "./HotelDetails.css";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import http from "../../http";
 import Loader from "../../component/Loader/Loader";
 
 export const HotelDetails = () => {
 
   const { slug } = useParams();
-   // eslint-disable-next-line
+  const [searchParams] = useSearchParams();
   const [hotelDetails, setHotelDetails] = useState(false);
   const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-      const fetchHotelDetails = async () => {
-        setLoading(true);
-        try {
-          const response = await http.get(`/get-hotel-details/${slug}`);
-  
-          setHotelDetails(response.data.data);
-  
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchHotelDetails();
-    }, [slug])
 
+  useEffect(() => {
+    const fetchHotelDetails = async () => {
+      setLoading(true);
+      try {
+        const checkin = searchParams.get("checkin");
+        const checkout = searchParams.get("checkout");
+        const rooms = searchParams.get("rooms");
+        const adults = searchParams.get("adults");
+        const children = searchParams.get("children");
+
+        const response = await http.get(
+          `/get-hotel-code-details/${slug}?checkin=${checkin}&checkout=${checkout}&rooms=${rooms}&adults=${adults}&children=${children}`
+        );
+
+        setHotelDetails(response.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHotelDetails();
+  }, [slug, searchParams]);
   
   if (loading) {
     return <Loader />;
@@ -52,16 +59,20 @@ export const HotelDetails = () => {
                 <div class="bhjdsfds">
                   <div class="sdbhjsdfds">
                     <h2>
-                      Aurika, Mumbai International Airport - Luxury by Lemon
-                      Tree Hotels
+                      {hotelDetails?.hotel_name}
                     </h2>
                     <div class="sbfsdvfsf">
                       <div class="vfddf">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                        {[...Array(5)].map((_, index) => (
+                          <i
+                            key={index}
+                            className={`fa-star ${
+                              index < Number(hotelDetails?.hotel_rating || 0)
+                                ? "fa-solid"
+                                : "fa-regular"
+                            }`}
+                          ></i>
+                        ))}
                       </div>
                       <div class="fdfdf5">
                         <p>star</p>
