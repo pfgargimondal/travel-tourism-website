@@ -28,7 +28,7 @@ export const HotelFilter = () => {
   useEffect(() => {
       const params = new URLSearchParams(location.search);
       const city = params.get("city");
-      const checkin = params.get("checkin");
+      const checkin = params.get("checkin"); 
       const checkout = params.get("checkout");
       const rooms = params.get("rooms");
       const adults = params.get("adults");
@@ -38,6 +38,8 @@ export const HotelFilter = () => {
         fetchHotels(city, checkin, checkout, rooms, adults, children, price);
       }
   }, [location.search]);
+
+ 
 
   const fetchHotels = async (
     city,
@@ -74,6 +76,8 @@ export const HotelFilter = () => {
   const availableHotels = hotels?.filter(
       (hotel) => hotel?.hotelFilter?.HotelResult?.length > 0
   );
+
+
 
   return (
     <div>
@@ -1492,6 +1496,8 @@ export const HotelFilter = () => {
                       // Final Description
                       const shortDescription = hotelLocation || cleanDescription;
 
+                      const params = new URLSearchParams(location.search);
+
                       return(
                         <div className="gfetyy89" key={index}>
                           <div className="sdhdss8899">
@@ -1540,7 +1546,6 @@ export const HotelFilter = () => {
                                                 ...{" "}
                                                 <span
                                                   onClick={() => {
-                                                    const params = new URLSearchParams(searchParams);
                                                     navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
                                                   }}
                                                   style={{
@@ -1589,7 +1594,6 @@ export const HotelFilter = () => {
                                   <div className="sdbds86">
                                     <button 
                                       onClick={() => {
-                                        const params = new URLSearchParams(searchParams);
                                         navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
                                       }}
                                     >View Details</button>

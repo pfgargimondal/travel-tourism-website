@@ -10,6 +10,7 @@ export const HotelDetails = () => {
   const [searchParams] = useSearchParams();
   const [hotelDetails, setHotelDetails] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showAllFacilities, setShowAllFacilities] = useState(false);
 
 
   useEffect(() => {
@@ -36,6 +37,125 @@ export const HotelDetails = () => {
 
     fetchHotelDetails();
   }, [slug, searchParams]);
+
+  const sectionsToRemove = [
+    "Accommodations:",
+    "Amenities:",
+    "Dining Options:",
+    "Nearby Location & Transportation:",
+    "Nearby Attractions:",
+    "Wellness And Activities:",
+    "Policies & Check-In Instructions:",
+  ];
+
+  let cleanDescription = hotelDetails?.description || "";
+
+  sectionsToRemove.forEach((section) => {
+    cleanDescription = cleanDescription.replace(
+      new RegExp(
+        `<p><strong>${section.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}<\\/strong>.*?(?=<p><strong>|$)`,
+        "is"
+      ),
+      ""
+    );
+  });
+
+  const getFacilityImage = (facility = "") => {
+    const name = facility.toLowerCase();
+
+    if (name.includes("wifi"))
+      return "https://img.icons8.com/fluency/48/wifi.png";
+
+    if (name.includes("pool"))
+      return "https://img.icons8.com/fluency/48/swimming-pool.png";
+
+    if (name.includes("spa"))
+      return "https://img.icons8.com/fluency/48/spa-flower.png";
+
+    if (
+      name.includes("fitness") ||
+      name.includes("gym") ||
+      name.includes("health club")
+    )
+      return "https://img.icons8.com/fluency/48/dumbbell.png";
+
+    if (name.includes("beach"))
+      return "https://img.icons8.com/fluency/48/beach.png";
+
+    if (name.includes("tennis"))
+      return "https://cdn-icons-png.flaticon.com/512/857/857455.png";
+
+    if (name.includes("parking"))
+      return "https://img.icons8.com/fluency/48/parking.png";
+
+    if (name.includes("breakfast") || name.includes("restaurant"))
+      return "https://img.icons8.com/fluency/48/restaurant.png";
+
+    if (name.includes("bar"))
+      return "https://img.icons8.com/fluency/48/cocktail.png";
+
+    if (name.includes("conference") || name.includes("meeting"))
+      return "https://img.icons8.com/fluency/48/conference-call.png";
+
+    if (name.includes("laundry"))
+      return "https://img.icons8.com/fluency/48/washing-machine.png";
+
+    if (name.includes("children") || name.includes("playground"))
+      return "https://img.icons8.com/fluency/48/playground.png";
+
+    if (name.includes("snorkeling"))
+      return "https://img.icons8.com/fluency/48/snorkel.png";
+
+    if (name.includes("volleyball"))
+      return "https://img.icons8.com/fluency/48/volleyball-player.png";
+
+    if (name.includes("library") || name.includes("books"))
+      return "https://img.icons8.com/fluency/48/books.png";
+
+    if (name.includes("atm"))
+      return "https://img.icons8.com/fluency/48/atm.png";
+
+    if (name.includes("concierge"))
+      return "https://img.icons8.com/fluency/48/concierge.png";
+
+    if (name.includes("garden"))
+      return "https://img.icons8.com/fluency/48/garden.png";
+
+    if (name.includes("library"))
+      return "https://img.icons8.com/fluency/48/books.png";
+
+    if (name.includes("steam"))
+      return "https://img.icons8.com/fluency/48/steam-room.png";
+
+    if (name.includes("sauna"))
+      return "https://img.icons8.com/fluency/48/sauna.png";
+
+    if (name.includes("luggage"))
+      return "https://img.icons8.com/fluency/48/luggage.png";
+
+    if (
+      name.includes("hair salon") ||
+      name.includes("salon") ||
+      name.includes("hairdresser") ||
+      name.includes("barber")
+    ) {
+      return "https://cdn-icons-png.flaticon.com/512/3050/3050525.png";
+    }
+    if (
+      name.includes("scuba") || name.includes("Scuba diving") || 
+      name.includes("diving")
+    ) {
+      return "https://img.icons8.com/fluency/48/scuba-diving.png";
+    }
+
+    if (name.includes("coffee") || name.includes("tea")) {
+      return "https://cdn-icons-png.flaticon.com/512/924/924514.png";
+    }
+    if (name.includes("television") || name.includes("tv"))
+      return "https://cdn-icons-png.flaticon.com/512/2503/2503508.png";
+
+    return "https://img.icons8.com/fluency/48/services.png";
+  };
   
   if (loading) {
     return <Loader />;
@@ -84,17 +204,26 @@ export const HotelDetails = () => {
                     <div class="row">
                       <div class="col-lg-8">
                         <div class="bhjddsfs">
-                          <img src="./images/Screenshot (87).png" alt="" />
+                          <img src={hotelDetails?.image} alt="" />
                         </div>
                       </div>
                       <div class="col-lg-4">
                         <div class="dfsdf542">
-                          <div class="hgcghghvfhg">
-                            <img src="./images/Screenshot (88).png" alt="" />
-                          </div>
-                          <div class="hgcghghvfhg2">
-                            <img src="./images/Screenshot (89).png" alt="" />
-                          </div>
+                          {hotelDetails?.hotel_images?.slice(0, 2).map((hotelImage, index, arr) => (
+                            <div className="hgcghghvfhg" key={index}>
+                              <img
+                                src={hotelImage.image_url}
+                                alt=""
+                                style={
+                                  index === arr.length - 1
+                                    ? {
+                                        marginTop: "10px",
+                                      }
+                                    : {}
+                                }
+                              />
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -102,15 +231,14 @@ export const HotelDetails = () => {
 
                   <div class="dsvbjhdvsdc">
                     <h5>About Property</h5>
-                    <p>
-                      There are many variations of passages of Lorem Ipsum
-                      available, but the majority have suffered alteration in
-                      some form, by injected humour, or randomised words which
-                      don't look even slightly believable
-                    </p>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: cleanDescription,
+                      }}
+                    />
                   </div>
 
-                  <div class="amenities-top d-flex gap-3 mb-3">
+                  <div class="amenities-top d-flex gap-3 mb-3 mt-3">
                     <button class="amenity-btn">
                       <img src="./images/prop1 (1).png" alt=""/>
                       Property Highlights
@@ -125,7 +253,20 @@ export const HotelDetails = () => {
                   <h2 class="amenities-title">Amenities</h2>
 
                   <div class="amenities-list d-flex align-items-center flex-wrap gap-4">
-                    <div class="amenity-item">
+                    {hotelDetails?.hotel_facilities
+                      ?.slice(0, showAllFacilities ? hotelDetails.hotel_facilities.length : 4)
+                      .map((hotelFacility, index) => (
+                        <div className="amenity-item" key={index}>
+                          <img
+                            src={getFacilityImage(hotelFacility.facility)}
+                            alt={hotelFacility.facility}
+                            width="32"
+                            height="32"
+                          />
+                          <span>{hotelFacility.facility}</span>
+                        </div>
+                      ))}
+                    {/* <div class="amenity-item">
                       <img src="./images/swimming-pool.png" alt=""/>
                       <span>Swimming Pool</span>
                     </div>
@@ -143,9 +284,16 @@ export const HotelDetails = () => {
                     <div class="amenity-item">
                       <img src="./images/ac.png" alt=""/>
                       <span>Air Conditioning</span>
-                    </div>
+                    </div> */}
 
-                    <button class="view-all-btn">View All</button>
+                    {hotelDetails?.hotel_facilities?.length > 4 && (
+                      <button
+                        className="view-all-btn"
+                        onClick={() => setShowAllFacilities(!showAllFacilities)}
+                      >
+                        {showAllFacilities ? "Show Less" : "View All"}
+                      </button>
+                    )}
                   </div>
 
                   <div class="hddssd78">
