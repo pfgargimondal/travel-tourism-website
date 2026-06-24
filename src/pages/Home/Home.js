@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import "./Home.css";
 import http from "../../http";
 import { FollowUsInstagram } from "../../component/FollowUsInstagram/FollowUsInstagram";
@@ -7,6 +9,9 @@ import { ServiceCategories } from "../../component/ServiceCategories/ServiceCate
 import Loader from "../../component/Loader/Loader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+
+
 export const Home = () => {
 const [homeContent, setHomeContent] = useState(null);
 const [homeBanners, setHomeBanners] = useState([]);
@@ -268,7 +273,7 @@ const totalGuests = adultCount + childrenCount;
 
           <div className="nbgfgf55">
             <button className="btn btn-tour mt-3">
-              TAKE A TOUR →
+              Take a Tour →
             </button>
           </div>
 
@@ -280,7 +285,7 @@ const totalGuests = adultCount + childrenCount;
           <ServiceCategories />
 
           <div className="flight-main-card">
-            <div className="flight-content-area">
+            <div className="flight-content-area mt-3">
               <div className="flight-trip-type d-flex align-items-center mb-3">
                 <div className="checkbox-wrapper-15">
                   <input
@@ -340,7 +345,7 @@ const totalGuests = adultCount + childrenCount;
                 </div>
               </div>
 
-              <div className="form row g-4 mt-3">
+              <div className="form row g-4">
                 <div className="col-lg-5">
                   <div className="row align-items-center">
                     <div className="col-md-5 col-5">
@@ -665,14 +670,14 @@ const totalGuests = adultCount + childrenCount;
 
       <div className="ghaadasd">
         <div className="text-center mt-4 ">
-          <button className="flight-search-btn">SEARCH</button>
+          <button className="flight-search-btn">Search</button>
         </div>
       </div>
 
       <section className="top-destinations py-5">
         <div className="container">
-          <div className="text-center mb-5">
-            <h2 className="main-title">
+          <div className="text-center mb-4">
+            <h2 className="main-title mb-2" data-aos="fade-down">
               {words[0]}{" "}
               <span>{words.slice(1).join(" ")}</span>
             </h2>
@@ -745,237 +750,253 @@ const totalGuests = adultCount + childrenCount;
       </section>
       <section className="popular-destinations py-5">
         <div className="container">
-          <h4 className="section-title mb-4">
-            {homeContent?.third_section_heading}
-          </h4>
+          <div className="dieworwerwer mb-5">
+            <div className="row align-items-center mb-4">
+              <div className="col-lg-5">
+                <h2 className="secondary-heading mb-0">
+                  {homeContent?.third_section_heading}
+                </h2>
+              </div>
 
-          <div className="row g-4 domestic-row">
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/mumbai.png" alt="" />
-                <div className="overlay">
-                  <h5>Mumbai</h5>
-                  
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹9,107</h6>
+              <div className="col-lg-7">
+                <div className="dasbnzfxdgdxdfd text-end">
+                  <Link to="/">
+                    <button className="btn btn-tour">See all the locations ↗</button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="row g-4 domestic-row">
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/mumbai.png" alt="" />
+                  <div className="overlay">
+                    <h5>Mumbai</h5>
+                    
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹9,107</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/bangalore.png" alt="" />
+                  <div className="overlay">
+                    <h5>Bangalore</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹11,398</h6>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/pune.png" alt="" />
+                  <div className="overlay">
+                    <h5>Pune</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹9,438</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/kolkata.png" alt="" />
+                  <div className="overlay">
+                    <h5>Kolkata</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹8,181</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/hydrabad.png" alt="" />
+                  <div className="overlay">
+                    <h5>Hyderabad</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹9,508</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/goa.png" alt="" />
+                  <div className="overlay">
+                    <h5>Goa</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹9,736</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/chennai.png" alt="" />
+                  <div className="overlay">
+                    <h5>Chennai</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹10,745</h6>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg custom-col">
+                <div className="destination-card">
+                  <img src="./images/amhedabad.png" alt="" />
+                  <div className="overlay">
+                    <h5>Ahmedabad</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹7,071</h6>  
+                    </div>                  
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/bangalore.png" alt="" />
-                <div className="overlay">
-                  <h5>Bangalore</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹11,398</h6>
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/pune.png" alt="" />
-                <div className="overlay">
-                  <h5>Pune</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹9,438</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/kolkata.png" alt="" />
-                <div className="overlay">
-                  <h5>Kolkata</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹8,181</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/hydrabad.png" alt="" />
-                <div className="overlay">
-                  <h5>Hyderabad</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹9,508</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/goa.png" alt="" />
-                <div className="overlay">
-                  <h5>Goa</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹9,736</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/chennai.png" alt="" />
-                <div className="overlay">
-                  <h5>Chennai</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹10,745</h6>
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-6 col-md-4 col-lg custom-col">
-              <div className="destination-card">
-                <img src="./images/amhedabad.png" alt="" />
-                <div className="overlay">
-                  <h5>Ahmedabad</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹7,071</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div className="text-center mt-4">
-            <a href="/" className="btn btn-tour">
-              See all the locations ↗
-            </a>
-          </div>
+          <div className="dieworwerwer pt-5">
+            <div className="row align-items-center mb-4">
+              <div className="col-lg-6">
+                <h2 className="secondary-heading mb-0">
+                  {homeContent?.mid_section_heading}
+                </h2>
+              </div>
 
-          <h4 className="section-title mt-5 mb-4">
-            {homeContent?.mid_section_heading}
-          </h4>
-
-          <div className="row g-4">
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/topdesti.png" alt="" />
-                <div className="overlay">
-                  <h5>Top Destination</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹11,809</h6>
-                  </div>                  
+              <div className="col-lg-6">
+                <div className="dasbnzfxdgdxdfd text-end">
+                  <Link to="/">
+                    <button className="btn btn-tour">See all the locations ↗</button>
+                  </Link>
                 </div>
               </div>
             </div>
 
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/asia.png" alt="" />
-                <div className="overlay">
-                  <h5>Asia</h5>
+            <div className="row g-4">
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/topdesti.png" alt="" />
+                  <div className="overlay">
+                    <h5>Top Destination</h5>
 
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹11,809</h6>
-                  </div>                  
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹11,809</h6>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/asia.png" alt="" />
+                  <div className="overlay">
+                    <h5>Asia</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹11,809</h6>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/mid-east.png" alt="" />
+                  <div className="overlay">
+                    <h5>Middle East</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹20,021</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/affrica.png" alt="" />
+                  <div className="overlay">
+                    <h5>Africa</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹32,126</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/europe.png" alt="" />
+                  <div className="overlay">
+                    <h5>Europe</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹38,039</h6>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-2">
+                <div className="destination-card">
+                  <img src="./images/northamerica.png" alt="" />
+                  <div className="overlay">
+                    <h5>North America</h5>
+
+                    <div className="diewrwerew">
+                      <p>Starting from</p>
+                      <h6>₹56,545</h6>  
+                    </div>                  
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/mid-east.png" alt="" />
-                <div className="overlay">
-                  <h5>Middle East</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹20,021</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/affrica.png" alt="" />
-                <div className="overlay">
-                  <h5>Africa</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹32,126</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/europe.png" alt="" />
-                <div className="overlay">
-                  <h5>Europe</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹38,039</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-2">
-              <div className="destination-card">
-                <img src="./images/northamerica.png" alt="" />
-                <div className="overlay">
-                  <h5>North America</h5>
-
-                  <div className="diewrwerew">
-                    <p>Starting from</p>
-                    <h6>₹56,545</h6>  
-                  </div>                  
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-4">
-            <a href="/" className="btn btn-tour">
-              See all the locations ↗
-            </a>
           </div>
         </div>
       </section>
-      <section className="travel-section">
+      <section className="travel-section py-5">
         <div className="container">
           <div className="row align-items-center">
             <div className="travleft col-lg-6">
-              <span className="small-heading">{homeContent?.fourth_section_heading}</span>
+              <span className="small-heading" data-aos="fade-in">{homeContent?.fourth_section_heading}</span>
 
-              <h1 className="main-heading mt-3">
+              <h2 className="secondary-heading sdgzdfsdF mt-3" data-aos="fade-right">
                 {firstLine} <br />
                 {secondLine}
-              </h1>
+              </h2>
 
               <div className="description mt-3"
               dangerouslySetInnerHTML={{
@@ -991,8 +1012,10 @@ const totalGuests = adultCount + childrenCount;
                       alt="" 
                     />
                 </div>
+
                 <div>
-                  <h5>{homeContent?.fourth_section_title_one}</h5>
+                  <h5 className="mb-2">{homeContent?.fourth_section_title_one}</h5>
+
                   <div
                 dangerouslySetInnerHTML={{
                   __html: homeContent?.fourth_section_description_one
@@ -1005,8 +1028,10 @@ const totalGuests = adultCount + childrenCount;
                 <div className="icon-box">
                   <img src={`${imageUrl}/${homeContent?.fourth_section_logo_two}`}  alt="" />
                 </div>
+
                 <div>
-                  <h5>{homeContent?.fourth_section_title_two}</h5>
+                  <h5 className="mb-2">{homeContent?.fourth_section_title_two}</h5>
+
                   <div
                 dangerouslySetInnerHTML={{
                   __html: homeContent?.fourth_section_description_two
@@ -1017,24 +1042,24 @@ const totalGuests = adultCount + childrenCount;
 
               <div className="doiejwrwer">
                 <a href="/" className="btn btn-tour mt-4">
-                  BOOK YOUR TRIP →
+                  Book Your Trip →
                 </a>
               </div>
             </div>
 
             <div className="travright col-lg-6 position-relative mt-5 mt-lg-0">
-
               <img src={`${imageUrl}/${homeContent?.fourth_section_logo}`} 
                 className="watermark-icon"
+                data-aos="zoom-in"
                 alt="Compass Icon"/>
 
-              <img
+              <img data-aos="fade-in"
                 src={`${imageUrl}/${homeContent?.fourth_section_back_image}`} 
                 className="img-fluid big-image"
                 alt="Boats"
               />
 
-              <div className="sm-card">
+              <div className="sm-card" data-aos="fade-right">
                 <img
                   src={`${imageUrl}/${homeContent?.fourth_section_front_image}`} 
                   className="img-fluid"
@@ -1047,7 +1072,7 @@ const totalGuests = adultCount + childrenCount;
       </section>
       <section className="recommended-hotels py-5">
         <div className="container">
-          <h2 className="section-title mb-4">Recommended Hotels</h2>
+          <h2 className="secondary-heading mb-5 text-center">Recommended Hotels</h2>
 
           <div className="row g-4">
             <div className="col-lg-4 col-md-6">
@@ -1213,12 +1238,15 @@ const totalGuests = adultCount + childrenCount;
 
       <section className="top-deals py-5">
         <div className="container text-center">
-          <h2 className="deals-title">
-            The Last <span>Minute Deals</span>
-          </h2>
-          <p className="deals-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
+          <div className="cdzbgdffcd">
+            <h2 className="deals-title mb-2" data-aos="fade-down">
+              The Last <span>Minute Deals</span>
+            </h2>
+            
+            <p className="deals-desc mb-0">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+          </div>
 
           <div className="row g-4 mt-4">
             <div className="col-lg-4 col-md-6">

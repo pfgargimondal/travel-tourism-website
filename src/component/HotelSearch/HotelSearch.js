@@ -53,7 +53,7 @@ export const HotelSearch = ({ cities = [] }) => {
     const handleChildrenCount = (type) => {
         if (type === "increase") {
             if (childrenCount === 2) return;
-            
+
             const newCount = childrenCount + 1;
 
             setChildrenCount(newCount);
@@ -93,12 +93,12 @@ export const HotelSearch = ({ cities = [] }) => {
     // }, [search, cities]);
 
     const filteredCities = search.trim()
-    ? cities
-          .filter((city) =>
-              city.city_name.toLowerCase().includes(search.toLowerCase())
-          )
-          .slice(0, 10)
-    : [];
+        ? cities
+            .filter((city) =>
+                city.city_name.toLowerCase().includes(search.toLowerCase())
+            )
+            .slice(0, 10)
+        : [];
 
     const handleSelectCity = (city) => {
         setSelectedCity(city);
@@ -137,114 +137,117 @@ export const HotelSearch = ({ cities = [] }) => {
         navigate(`/hotel-filter?${params.toString()}`);
     };
 
-  return (
-    <div>
-        {loading && <Loader />}
-        <div className="jfdbvjfbv788">
-            <section className="menu-section">
-            <div className="container my-5">
-                <ServiceCategories />
+    return (
+        <div>
+            {loading && <Loader />}
+            <div className="jfdbvjfbv788">
+                <section className="menu-section">
+                    <div className="container my-5">
+                        <ServiceCategories />
 
-                <div className="flight-main-card">
-                    <div className="d-flex align-items-center gap-3 mb-3">
-                        <div className="checkbox-wrapper-15">
-                            <input
-                                className="inp-cbx"
-                                id="cbx-sadw"
-                                name="htl"
-                                type="checkbox"
-                                style={{ display: "none" }}
-                            />
+                        <div className="flight-main-card hotel-search-options-wrapper">
+                            <div className="d-flex align-items-center gap-3 my-3">
+                                <div className="checkbox-wrapper-15">
+                                    <input
+                                        className="inp-cbx"
+                                        id="cbx-sadw"
+                                        name="htl"
+                                        type="checkbox"
+                                        style={{ display: "none" }}
+                                    />
 
-                            <label className="cbx" htmlFor="cbx-sadw">
-                                <span>
-                                <svg width="12px" height="9px" viewBox="0 0 12 9">
-                                    <polyline points="1 5 4 8 11 1" />
-                                </svg>
-                                </span>
-                                <span>Upto 4 Rooms</span>
-                            </label>
-                        </div>
-                        
-                        <div className="checkbox-wrapper-15 d-flex align-items-center">
-                            <input
-                                className="inp-cbx"
-                                id="cbx-fdf"
-                                name="htl"
-                                type="checkbox"
-                                style={{ display: "none" }}
-                            />
-
-                            <label className="cbx" htmlFor="cbx-fdf">
-                                <span>
-                                <svg width="12px" height="9px" viewBox="0 0 12 9">
-                                    <polyline points="1 5 4 8 11 1" />
-                                </svg>
-                                </span>
-                                <span>Group Deals</span>
-                            </label>
-
-                            <span className="badge ms-1 bg-danger">new</span>
-                        </div>
-                    </div>
-
-                    <div className="row align-items-center g-4">
-                        <div className="col-md-3 position-relative">
-                        <label>City, Property Name Or Location</label>
-                        <input
-                            type="text"
-                            className="form-control hotel-input"
-                            placeholder="Enter City (e.g Goa)"
-                            value={search}
-                            onChange={(e) => {
-                                setSearch(e.target.value);
-                                setShowDropdown(true);
-                            }}
-                            />
-
-                            {showDropdown && filteredCities.length > 0 && (
-                            <div className="city-dropdown">
-                                {filteredCities.map((city) => (
-                                <div
-                                    key={city.city_code}
-                                    className="city-item"
-                                    onClick={() => handleSelectCity(city)}
-                                >
-                                    {city.city_name}
+                                    <label className="cbx mb-0" htmlFor="cbx-sadw">
+                                        <span>
+                                            <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                                <polyline points="1 5 4 8 11 1" />
+                                            </svg>
+                                        </span>
+                                        <span>Upto 4 Rooms</span>
+                                    </label>
                                 </div>
-                                ))}
+
+                                <div className="checkbox-wrapper-15">
+                                    <input
+                                        className="inp-cbx"
+                                        id="cbx-fdf"
+                                        name="htl"
+                                        type="checkbox"
+                                        style={{ display: "none" }}
+                                    />
+
+                                    <label className="cbx mb-0" htmlFor="cbx-fdf">
+                                        <span>
+                                            <svg width="12px" height="9px" viewBox="0 0 12 9">
+                                                <polyline points="1 5 4 8 11 1" />
+                                            </svg>
+                                        </span>
+                                        <span>Group Deals</span>
+                                    </label>
+                                </div>
                             </div>
-                            )}
-                        </div>
 
-                        <div className="col-md-3">
-                            <label>Check-In</label>
-                            <input
-                                type="date"
-                                id="checkin"
-                                className="form-control hotel-input big-date"
-                                value={checkIn}
-                                min={new Date().toISOString().split("T")[0]}
-                                onChange={(e) => setCheckIn(e.target.value)}
-                            />
-                        </div>
+                            <div className="row align-items-center g-4">
+                                <div className="col-md-3 position-relative">
+                                    <label className="form-label">City, Property Name Or Location</label>
+                                    
+                                    <div className="idjweiuhwerkowerewr position-relative">
+                                        <input
+                                            type="text"
+                                            className="form-control hotel-input"
+                                            placeholder="Enter City (e.g Goa)"
+                                            value={search}
+                                            onChange={(e) => {
+                                                setSearch(e.target.value);
+                                                setShowDropdown(true);
+                                            }}
+                                        />
 
-                        <div className="col-md-3">
-                            <label>Check-Out</label>
-                            <input
-                                type="date"
-                                id="checkout"
-                                className="form-control hotel-input big-date"
-                                value={checkOut}
-                                min={checkIn}
-                                onChange={(e) => setCheckOut(e.target.value)}
-                            />
-                        </div>
+                                        <i className="bi position-absolute bi-geo-alt-fill"></i>
+                                    </div>
 
-                        <div className="col-md-3 position-relative">
-                            <label>Rooms & Guests</label>
+                                    {showDropdown && filteredCities.length > 0 && (
+                                        <div className="city-dropdown">
+                                            {filteredCities.map((city) => (
+                                                <div
+                                                    key={city.city_code}
+                                                    className="city-item"
+                                                    onClick={() => handleSelectCity(city)}
+                                                >
+                                                    {city.city_name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
 
-                            {/* <select className="form-control hotel-input"
+                                <div className="col-md-3">
+                                    <label className="form-label">Check-In</label>
+                                    <input
+                                        type="date"
+                                        id="checkin"
+                                        className="form-control hotel-input big-date"
+                                        value={checkIn}
+                                        min={new Date().toISOString().split("T")[0]}
+                                        onChange={(e) => setCheckIn(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-md-3">
+                                    <label className="form-label">Check-Out</label>
+                                    <input
+                                        type="date"
+                                        id="checkout"
+                                        className="form-control hotel-input big-date"
+                                        value={checkOut}
+                                        min={checkIn}
+                                        onChange={(e) => setCheckOut(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="col-md-3 position-relative">
+                                    <label className="form-label">Rooms & Guests</label>
+
+                                    {/* <select className="form-control hotel-input"
                                 value={rooms}
                                 onChange={(e) => setRooms(e.target.value)}
                             >
@@ -253,109 +256,109 @@ export const HotelSearch = ({ cities = [] }) => {
                                 <option>2 Rooms 4 Adults</option>
                             </select> */}
 
-                            <div className="form-control hotel-input"
-                               onClick={() => setHotelGstsRmmsDrpdwn(prev => !prev)}
-                            >
-                                {roomCount} Room{roomCount > 1 ? "s" : ""} •{" "}
-                                {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
-                                {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
-                            </div>
-
-                            {hotelGstsRmmsDrpdwn && (
-                                <div className="rg-drpdwn position-absolute p-4 rounded-2 bg-white">
-                                    <div className="d-flex align-items-center justify-content-between mb-3">
-                                        <p className="mb-0 dnfreqer">Room</p>
-
-                                        <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                            <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
-
-                                            <input type="number" value={roomCount} placeholder="1" className="form-control" />
-
-                                            <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                        </div>
+                                    <div className="form-control hotel-input"
+                                        onClick={() => setHotelGstsRmmsDrpdwn(prev => !prev)}
+                                    >
+                                        {roomCount} Room{roomCount > 1 ? "s" : ""} •{" "}
+                                        {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
+                                        {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
                                     </div>
 
-                                    <div className="d-flex align-items-center justify-content-between mb-3">
-                                        <p className="mb-0 dnfreqer">Adults</p>
+                                    {hotelGstsRmmsDrpdwn && (
+                                        <div className="rg-drpdwn position-absolute p-4 rounded-2 bg-white">
+                                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                                <p className="mb-0 dnfreqer">Room</p>
 
-                                        <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                            <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                    <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                            <input type="number" value={adultCount} className="form-control" />
+                                                    <input type="number" value={roomCount} placeholder="1" className="form-control" />
 
-                                            <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                        </div>
-                                    </div>
+                                                    <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                                </div>
+                                            </div>
 
-                                    <div className="d-flex align-items-center justify-content-between mb-3">
-                                        <div className="diweirkwer d-flex flex-column">
-                                            <p className="mb-0 dnfreqer">Children</p>
+                                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                                <p className="mb-0 dnfreqer">Adults</p>
 
-                                            <span>0 - 17 Years Old</span>
-                                        </div>
+                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                    <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                        <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                            <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                                    <input type="number" value={adultCount} className="form-control" />
 
-                                            <input type="number" value={childrenCount} placeholder="1" className="form-control" />
+                                                    <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                                </div>
+                                            </div>
 
-                                            <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                        </div>
-                                    </div>
+                                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                                <div className="diweirkwer d-flex flex-column">
+                                                    <p className="mb-0 dnfreqer">Children</p>
 
-                                    {childrenCount > 0 && (
-                                        <div className="diwerjwerwer mb-3">
-                                            <h6 className="mb-2">Age(s) of Children</h6>
+                                                    <span>0 - 17 Years Old</span>
+                                                </div>
 
-                                            <div className="dihuewreow d-inline-flex align-items-center">
-                                                {Array.from({ length: childrenCount }).map((_, index) => (
-                                                    <select
-                                                        className="form-select me-3"
-                                                        key={index}
-                                                        value={childrenAges[index]}
-                                                        onChange={(e) =>
-                                                            handleAgeChange(index, e.target.value)
-                                                        }
-                                                    >
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                        <option value="11">11</option>
-                                                        <option value="12">12</option>
-                                                        <option value="13">13</option>
-                                                        <option value="14">14</option>
-                                                        <option value="15">15</option>
-                                                        <option value="16">16</option>
-                                                        <option value="17">17</option>
-                                                    </select>
-                                                ))}
+                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                    <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                                    <input type="number" value={childrenCount} placeholder="1" className="form-control" />
+
+                                                    <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                                </div>
+                                            </div>
+
+                                            {childrenCount > 0 && (
+                                                <div className="diwerjwerwer mb-3">
+                                                    <h6 className="mb-2">Age(s) of Children</h6>
+
+                                                    <div className="dihuewreow d-inline-flex align-items-center">
+                                                        {Array.from({ length: childrenCount }).map((_, index) => (
+                                                            <select
+                                                                className="form-select me-3"
+                                                                key={index}
+                                                                value={childrenAges[index]}
+                                                                onChange={(e) =>
+                                                                    handleAgeChange(index, e.target.value)
+                                                                }
+                                                            >
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                                <option value="11">11</option>
+                                                                <option value="12">12</option>
+                                                                <option value="13">13</option>
+                                                                <option value="14">14</option>
+                                                                <option value="15">15</option>
+                                                                <option value="16">16</option>
+                                                                <option value="17">17</option>
+                                                            </select>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <h6 className="klkifyter mb-0">Please provide right number of children along with their right age for best options and prices.</h6>
+
+                                            <div className="text-end">
+                                                <button onClick={() => setHotelGstsRmmsDrpdwn(false)}
+                                                    className="btn btn-tour mt-3">APPLY</button>
                                             </div>
                                         </div>
                                     )}
-                                    
-                                    <h6 className="klkifyter mb-0">Please provide right number of children along with their right age for best options and prices.</h6>
 
-                                    <div className="text-end">
-                                        <button onClick={() => setHotelGstsRmmsDrpdwn(false)}
-                                         className="btn btn-tour mt-3">APPLY</button>
-                                    </div>
+                                    {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
+                                        <p className="text-danger mt-2 mb-0">
+                                            Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
+                                        </p>
+                                    )}
                                 </div>
-                            )}    
-
-                            {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
-                                <p className="text-danger mt-2 mb-0">
-                                    Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
-                                </p>
-                            )}                    
-                        </div>
-                        {/* <div className="col-md-2">
+                                {/* <div className="col-md-2">
                         <label>Price Per Night</label>
                         <select className="form-select hotel-input" 
                             value={price}
@@ -366,16 +369,16 @@ export const HotelSearch = ({ cities = [] }) => {
                             <option>₹5000+</option>
                         </select>
                         </div> */}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div className="ghaadasd">
+                    <div className="text-center mt-4 ">
+                        <button className="flight-search-btn" onClick={handleSearch}>SEARCH</button>
                     </div>
                 </div>
             </div>
-            </section>
-            <div className="ghaadasd">
-            <div className="text-center mt-4 ">
-                <button className="flight-search-btn"  onClick={handleSearch}>SEARCH</button>
-            </div>
-            </div>
         </div>
-    </div>
-  )
+    )
 }

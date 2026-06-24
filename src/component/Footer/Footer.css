@@ -5,12 +5,16 @@
     color: #fff;
 }
 
+.main-footer p{
+    color: #fff !important;
+}
+
 .footer-logo {
     font-weight: 700;
 }
 
 .footer-links li {
-    margin-bottom: 8px;
+    margin-bottom: 0.8rem;
 }
 
 .footer-links a {
@@ -69,10 +73,12 @@
 
 .social-icons img{
     width: 3vw;
+    transition: 0.2s ease-in-out;
 }
 
 .social-icons img:hover {
     transform: scale(1.15);
+    transition: 0.2s ease-in-out;
 }
 
 

@@ -14,11 +14,6 @@
         transition: all 0.3s ease;
     }
 
-    .form-label,
-    .form-check-label{
-        color: #000 !important;
-    }
-
     .reg-login-wrapper-hide{
         z-index: -99999999;
         visibility: hidden;

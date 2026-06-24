@@ -566,7 +566,7 @@ export const HotelDetails = () => {
         </div>
       </div>
 
-      <div class="dbvhjdxcxbvdxsvsdfs">
+      {/* <div class="dbvhjdxcxbvdxsvsdfs">
         <div class="container">
           <div class="vdsjhbdsfsd">
             <div class="gfetyy89">
@@ -1806,7 +1806,7 @@ export const HotelDetails = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div class="sdjdhbchjdc">
         <section class="location-section mt-4">

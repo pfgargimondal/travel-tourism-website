@@ -253,11 +253,6 @@ font-weight:700;
   width:100%;
 }
 
-.jfdbvjfbv788 
-{
-    margin-top:-26%;
-}
-
 .fbvhjd img
 {
     width: 100%;
@@ -642,7 +637,6 @@ font-weight:700;
 .flight-menu-item {
   text-align: center;
   font-size: 14px;
-  color: #555;
   cursor: pointer;
   position: relative;
 }
@@ -675,7 +669,6 @@ font-weight:700;
   padding: 25px;
   padding-bottom:44px;
   border-radius: 15px;
-  margin-top: 20px;
 }
 
 /* Search Button */
@@ -706,7 +699,6 @@ font-weight:700;
 .flight-menu-item {
   text-align: center;
   font-size: 14px;
-  color: #555;
   cursor: pointer;
   position: relative;
 }
@@ -733,36 +725,6 @@ font-weight:700;
   border-radius: 5px;
 }
 
-/* CARD */
-.flight-main-card {
-  background: #fff;
-  padding: 25px;
-  padding-bottom:44px;
-  border-radius: 15px;
-  margin-top: 20px;
-}
-
-/* INPUT STYLE */
-.hotel-input {
-  border: none;
-  border-bottom: 1px solid #ddd;
-  border-radius: 0;
-  font-weight: 600;
-  color: #000;
-  padding-left: 0;
-}
-
-.hotel-input:focus {
-  box-shadow: none;
-  border-bottom: 2px solid #007bff;
-}
-
-/* LABEL */
-label {
-  font-size: 12px;
-  color: #777;
-  font-weight: 500;
-}
 
 /* BUTTON */
 .search-btn {
@@ -827,15 +789,14 @@ label {
 
 /* Menu Item */
 .flight-menu-item{
-    cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    height:70px;
-    width:70px;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    color:#555;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  height:70px;
+  width:70px;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
 }
 
 /* Icon */

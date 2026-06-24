@@ -9,7 +9,6 @@ export const Footer = () => {
 
             <div class="container">
                 <div class="row">
-
                     <div class="col-lg-4 mb-4">
                         <h3 class="footer-logo">Ticket Booking</h3>
                         <p>

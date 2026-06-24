@@ -6,6 +6,9 @@ import { Footer, Header } from './component';
 
 
 import Allroutes from './routes/Allroutes';
+import AOS from "aos";
+
+import "aos/dist/aos.css";
 
 
 import './App.css';
@@ -25,6 +28,13 @@ function App() {
     isHeaderNewIncluded ? setHeaderNew(true) : setHeaderNew(false);
     isHeaderBlackTextIncluded ? setHeaderBlackText(true) : setHeaderBlackText(false) ;
   }, [pathName]);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
 
 
 

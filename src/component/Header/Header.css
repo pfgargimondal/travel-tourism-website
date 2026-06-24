@@ -69,6 +69,7 @@ header{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     cursor: pointer;
+    font-weight: 500;
 }
 
 .diwejojiwerer{
@@ -126,10 +127,12 @@ button.fsdgsadehtrfdewe{
 
 .header-sticky .flight-menu-item span{
     white-space: nowrap;
-    width: 4.5rem;
+    width: 4rem;
     text-overflow: ellipsis;
     overflow: hidden;    
     font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--light-black-text-color);
 }
 
 .header-sticky .flight-menu-item img {
@@ -207,8 +210,13 @@ button.fsdgsadehtrfdewe{
 }
 
 .header-sticky .flight-menu-item.active:hover::after{
-    height: 2px !important;
+    height: 3px !important;
+    width: 60%;
     background: var(--blue-primary-color);
+}
+
+.header-sticky .top-header.py-2{
+    padding-bottom: 0 !important;
 }
 
 .currncy-lang-drpdwn{

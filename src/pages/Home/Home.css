@@ -41,22 +41,6 @@
     margin-bottom:0;
 }
 
-.btn-tour {
-    background: var(--button-gradient-color);
-    color: #fff;
-    padding: 10px 28px;
-    border-radius: 6px;
-    border: 1px solid var(--blue-primary-color);
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-tour:hover {
-    background: var(--button-hover-gradient-color);
-    color: #fff;
-    transition: all 0.3s ease-in-out;
-    border: 1px solid var(--blue-primary-color);
-}
-
 .hero-subtitle {
     font-size: 18px;
 }
@@ -210,11 +194,15 @@
 
 .main-title span {
     color: var(--blue-primary-color);
+    font-family: var(--font-family-spinnaker);
 }
 
 .section-desc {
-    color: #777;
-    font-size: 14px;
+    color: var(--light-black-text-color);
+}
+
+.section-desc p span{
+    color: var(--light-black-text-color) !important;
 }
 
 /* Cards */
@@ -228,10 +216,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: 0.3s ease-in-out;
 }
 
 .destiny-card:hover img {
     transform: scale(1.08);
+    transition: 0.3s ease-in-out;
 }
 
 /* Overlay */
@@ -259,7 +249,7 @@
 }
 
 .country {
-    color: #74efee;
+    color: var(--main-yellow-color) !important;
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -268,12 +258,36 @@
     font-weight: 600;
 }
 
+.top-deals .ratings{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.top-deals .ratings span{
+    color: #fff;
+}
+
+.top-deals .price-row{
+    margin-bottom: 0;
+    align-items: center;
+}
+
+.top-deals .price-row strong{
+    font-size: 1.4rem;
+}
+
 /* Tour Badge */
 .tour-badge {
-    background: var(--blue-primary-color);
-    padding: 6px 14px;
+    background: linear-gradient(to right, var(--main-yellow-color) 50%, #fff);
+    padding: 2px 8px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid #fff;
+    color: #000;
+    box-shadow: var(--light-box-shadow);
+    cursor: default;
 }
 
 /* Card Sizes */
@@ -303,6 +317,13 @@
     overflow: hidden;
     cursor: pointer;
     transition: 0.3s ease;
+    box-shadow: var(--light-box-shadow);
+    transition: 0.3s ease-in-out;
+}
+
+.destination-card:hover{
+    box-shadow: var(--light-box-shadow-hover);
+    transition: 0.3s ease-in-out;
 }
 
 .destination-card img {
@@ -325,20 +346,30 @@
         rgba(0,0,0,0.85) 100%
     );
 }
+
+.top-destinations .card-content h4{
+    margin-bottom: 0 !important;
+}
+
 .destination-card .overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     color: #fff;
     z-index: 2;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-align: center;
+}
+
+h2.secondary-heading{
+    font-weight: 600;
 }
 
 .destination-card .overlay h5 {
-    font-size: 20px;
+    font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 0 !important;
 }
@@ -366,13 +397,14 @@
     font-weight: 600;
     font-size: 14px;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 /* Main Heading */
 .main-heading {
     font-size: 40px;
     font-weight: 700;
-    color: #0a1f44;
+    color: var(--blue-secondary-color);
     line-height: 1.3;
 }
 
@@ -421,6 +453,17 @@
     top: 4%;
     width: 7.7vw;
     z-index: 1;
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate{
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .big-image {
@@ -453,15 +496,16 @@
 }
 
 /* Card */
-.hotel-card {
+.recommended-hotels .hotel-card {
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    box-shadow: var(--light-box-shadow);
     transition: 0.3s ease;
 }
 
-.hotel-card:hover {
+.recommended-hotels .hotel-card:hover {
+    box-shadow: var(--light-box-shadow-hover);
     transform: translateY(-6px);
 }
 
@@ -505,7 +549,7 @@
 }
 
 /* Image */
-.hotel-img {
+.recommended-hotels .hotel-img {
     height: 220px;
     width: 100%;
     object-fit: cover;
@@ -619,11 +663,7 @@
 
 .deals-title span {
     color: var(--blue-primary-color);
-}
-
-.deals-desc {
-    color: #777;
-    margin-top: 10px;
+    font-family: var(--font-family-spinnaker);
 }
 
 .deal-card {
@@ -662,11 +702,6 @@
 
 
 /* ===== Content Wrapper ===== */
-.flight-content-area{
-    width:90%;
-    margin:auto;
-    margin-top:15px;
-}
 
 /* Trip Type */
 .flight-trip-type label{
@@ -825,6 +860,10 @@
 
 .rg-drpdwn.dfghdgfsfee.rg-drpdwn {
     width: 300px;
+}
+
+.sdgzdfsdF{
+    font-size: 2.5rem;
 }
 
 

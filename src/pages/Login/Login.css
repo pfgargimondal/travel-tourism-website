@@ -44,11 +44,6 @@
         border:1px solid rgba(255,255,255,0.2);
     }
 
-    .form-label,
-    .form-check-label{
-        color: #000 !important;
-    }
-
     /* INPUT */
     .custom-input{
         background: #fff;
