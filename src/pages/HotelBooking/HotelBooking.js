@@ -128,7 +128,7 @@ export const HotelBooking = () => {
                                             </div>
                                             {/* Room Section */}
                                             <div className="section-divider" />
-                                            <div className="d-flex justify-content-between">
+                                            <div className="d-flex justify-content-between jhgfdafdghsd">
                                                 <div>
                                                     <h5 className="fw-bold mb-1">Suite with Balcony</h5>
                                                     <div className="small-text">2 Adults</div>
@@ -332,8 +332,10 @@ export const HotelBooking = () => {
                                         <div className="doiewrjwrwer row align-items-center mb-4">
                                             <div className="col-lg-3">
                                                 <div className="diweuhwerwer d-flex align-items-center">
-                                                    <div className="diuwerwer">
-                                                        Room 1
+                                                    <div className="diuwerwer position-relative">
+                                                        <img src="./images/dew.png" alt="" />
+
+                                                        <span className="position-absolute">Room 1</span>
                                                     </div>
 
                                                     <h6 className="mb-0 text-center">Adult 1</h6>
@@ -378,8 +380,10 @@ export const HotelBooking = () => {
                                         <div className="doiewrjwrwer row align-items-center mb-4">
                                             <div className="col-lg-3">
                                                 <div className="diweuhwerwer d-flex align-items-center">
-                                                    <div className="diuwerwer">
-                                                        Room 2
+                                                    <div className="diuwerwer position-relative">
+                                                        <img src="./images/dew.png" alt="" />
+
+                                                        <span className="position-absolute">Room 2</span>
                                                     </div>
 
                                                     <h6 className="mb-0 text-center">Adult 1</h6>
@@ -474,7 +478,7 @@ export const HotelBooking = () => {
                                         </label>
                                     </div>
                                     {/* Pay Button */}
-                                    <div className="mt-3">
+                                    <div className="fbcfgsddefd mt-3">
                                         <button className="pay-btn">PAY NOW</button>
                                     </div>
                                 </div>

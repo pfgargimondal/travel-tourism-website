@@ -21,7 +21,9 @@ import {
   UserBooking,
   UserWishlist,
   HotelBooking,
-  HotelPayment
+  HotelPayment,
+  BusFilter,
+  Visa
 } from "../pages";
 
 // function PageRenderer() {
@@ -47,6 +49,10 @@ function Allroutes() {
       <Route path="/hotel-payment" element={<HotelPayment />} />
 
       <Route path="/flight-filter" element={<FlightFilter />} />
+
+      <Route path="/bus-filter" element={<BusFilter />} />
+
+      <Route path="/visa" element={<Visa />} />
 
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-&-conditions" element={<TermsCondition />} />

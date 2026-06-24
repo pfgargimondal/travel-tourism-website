@@ -206,3 +206,14 @@
         border-bottom: 1px solid #eee;
     }
 }
+
+
+
+
+
+@media only screen and (max-width: 600px){
+    .payment-header{
+        flex-direction: column;
+        
+    }
+}

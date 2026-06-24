@@ -242,12 +242,6 @@ font-weight:700;
   color:#555;
 }
 
-/* DIVIDER LINE BETWEEN COLS */
-.col-lg-3:not(:last-child),
-.col-lg-2{
-  border-right:1px solid #eee;
-}
-
 /* BUTTON */
 .search-btn-hotel{
   background:#0ea5a4;

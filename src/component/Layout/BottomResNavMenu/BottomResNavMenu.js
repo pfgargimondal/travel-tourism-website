@@ -22,7 +22,7 @@ export const BottomResNavMenu = () => {
           <i class="bi mb-1 bi-search-heart-fill top-50 start-50 position-absolute"></i>
         </div>
 
-        <img src="./images/wdw.png" className="img-fluid" alt="" />
+        <img src="./images/logomini.png" className="img-fluid" alt="" />
       </div>
 
       <div className="res-nav-menus">

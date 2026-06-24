@@ -473,22 +473,6 @@
   border: 1px solid #e0e0e0;
 }
 
-.login-box {
-  background: #eef3f7;
-  padding: 12px 15px;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-}
-
-.login-box a {
-  color: #007bff;
-  font-weight: 600;
-  text-decoration: none;
-}
-
 .section-title {
   font-weight: 600;
   font-size: 16px;
@@ -513,16 +497,6 @@
   font-weight: 500;
   text-decoration: none;
   font-size: 14px;
-}
-
-.form-label {
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.form-control, .form-select {
-  font-size: 14px;
-  height: 40px;
 }
 
 .checkbox-label {
@@ -551,12 +525,6 @@
 .form-check-label {
   cursor: pointer;
   margin-left: 6px;
-}
-
-/* Hover effect */
-.form-check:hover {
-  background: #f1f6ff;
-  border-radius: 6px;
 }
 
 /* Active text color */
@@ -1137,19 +1105,18 @@ span.duiewjrewr{
 
 
 
-.diuwerwer{
-  background-image: url(../../../public/images/dew.png);
-  background-repeat: no-repeat;
-  background-size: contain;
+.diuwerwer img{
+  width: 8rem;
+}
+
+.diuwerwer span{
   display: block;
   font-size: 14px;
   font-weight: 500;
-  height: 31px;
-  flex: 1;
-  text-align: right;
-  line-height: 2.2;
-  padding-right: 1.4rem;
   color: var(--light-black-text-color);
+  top: 50%;
+  right: 20%;
+  transform: translateY(-50%);
 }
 
 .diweuhwerwer h6{
@@ -1328,4 +1295,53 @@ p.copn-msge{
   font-size: 0.78rem;
   line-height: 1.5;
   color: #068334;
+}
+
+
+
+
+@media only screen and (max-width: 991px){
+  .doiewrjwrwer{
+    gap: 1rem;
+  }
+
+  .doiewrjwrwer.mb-4{
+    margin-bottom: 2.5rem !important;
+  }
+
+  .fgerfer88.sgbdrsfweqeqe > .row{
+    gap: 3rem;
+  }
+
+  .fbcfgsddefd{
+    text-align: center;
+  }
+}
+
+
+
+
+@media only screen and (max-width: 767px){
+  .sgbdrsfweqeqe .hotel-card {
+    padding: 15px;
+  }
+
+  .d-flex:has(.jdfikgjdfg){
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dfgdfg85{
+    margin-bottom: 1rem;
+  }
+
+  .jhgfdafdghsd{
+    flex-direction: column;
+    gap: 1rem
+  }
+
+  .imprtnt-info-modal-header.px-4,
+  .imprtnt-info-modal-body.p-4{
+    padding: 1rem !important;
+  }
 }
