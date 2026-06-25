@@ -1,5 +1,5 @@
 import "./FlightFilter.css";
-import { FollowUsInstagram } from "../../component/FollowUsInstagram/FollowUsInstagram";
+import { FollowUsInstagram } from "../../../component/FollowUsInstagram/FollowUsInstagram";
 export const FlightFilter = () => {
 
     return (

@@ -11,7 +11,7 @@ export const HotelDetails = () => {
   const [hotelDetails, setHotelDetails] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showAllFacilities, setShowAllFacilities] = useState(false);
-
+  const [expandedRooms, setExpandedRooms] = useState({});
 
   useEffect(() => {
     const fetchHotelDetails = async () => {
@@ -386,180 +386,206 @@ export const HotelDetails = () => {
           <div class="vdsjhbdsfsd">
             <div class="gfetyy89">
               <div class="sdhdss8899">
-                <div class="row">
-                  <div class="col-lg-8">
-                    <div class="fgfdfgd78">
-                      <div class="row">
-                        <div class="col-lg-6">
-                          <div class="dshfdsfs58788">
-                            <div class="fbvhjd">
-                              <img src="./images/hotel3.png" alt="" />
+                {hotelDetails?.hotel_rooms?.map((hotelRoom, index) => {
+                  const amenities = hotelRoom.RoomDescription
+                    ?.replace(/&/g, "")
+                    .split(",")
+                    .flatMap(item =>
+                      item.split(/\s-\s/).map(part =>
+                        part
+                          .trim()
+                          .replace(/^(and|a|an)\s+/i, "")
+                      )
+                    )
+                    .filter(item => item.length > 0);
+                    const isExpanded = expandedRooms[index] || false;
+                    return(
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <div class="fgfdfgd78">
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="dshfdsfs58788">
+                                <div class="fbvhjd">
+                                  <img
+                                    src={hotelRoom.imageURL ? JSON.parse(hotelRoom.imageURL)?.[0] : ""}
+                                    alt="Hotel Room"
+                                  />
 
-                              <div class="wishlist-icon">
-                                <img
-                                  src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
-                                  alt="heart"
-                                />
+                                  <div class="wishlist-icon">
+                                    <img
+                                      src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+                                      alt="heart"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="bhjvgasds54">
+                                  <div class="sdbhjdsd">
+                                    <h4>
+                                      {hotelRoom.RoomName}
+                                    </h4>
+                                  </div>
+                                  <div class="room-features">
+                                    <div class="feature-row">
+                                      <img
+                                        src="/images/iconstw (1).png"
+                                        alt="Square footage"
+                                      />
+                                      <span>{hotelRoom.RoomSize}</span>
+                                    </div>
+{/* 
+                                    <div class="feature-row">
+                                      <img
+                                        src="./images/iconstw (2).png"
+                                        alt="View type"
+                                      />
+                                      <span>Courtyard View</span>
+                                    </div>
+
+                                    <div class="feature-row">
+                                      <img
+                                        src="./images/iconstw (3).png"
+                                        alt="Beds"
+                                      />
+                                      <span>2 Single Bed(s)</span>
+                                    </div>
+
+                                    <div class="feature-row">
+                                      <img
+                                        src="images/iconstw (4).png"
+                                        alt="Bathroom"
+                                      />
+                                      <span>1 Bathroom</span>
+                                    </div> */}
+
+                                    <div class="feature-row highlight">
+                                      <img
+                                        src="/images/electric.png"
+                                        alt="Modern facilities"
+                                      />
+                                      <span>
+                                        Well appointed room with modern facilities
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="amenities_wrap_box">
+                                  <ul class="amenities_list">
+                                      {(isExpanded ? amenities : amenities.slice(0, 6)).map((item, i) => (
+                                        <li key={i}>{item}</li>
+                                      ))}
+                                  </ul>
+
+                                  {amenities.length > 6 && (
+                                    <button
+                                      className="amenities_more_link"
+                                      onClick={() =>
+                                        setExpandedRooms(prev => ({
+                                          ...prev,
+                                          [index]: !prev[index]
+                                        }))
+                                      }
+                                    >
+                                      {isExpanded ? "Show Less" : "More Details"}
+                                    </button>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div class="bhjvgasds54">
-                              <div class="sdbhjdsd">
-                                <h4>
-                                  Fairfield by Marriott Mumbai Andheri West
-                                </h4>
+                            <div class="col-lg-6">
+                              <div class="fdgfdgdfg7885">
+                                <div class="dsbhjsdsf">
+                                  <h4>Room with Breakfast + Lunch/Dinner</h4>
+                                </div>
+                                <div class="dnhjd54564">
+                                  <div class="room-features">
+                                    <div class="feature-row">
+                                      <img
+                                        src="./images/iconstw (5).png"
+                                        alt="Square footage"
+                                      />
+                                      <span>
+                                        10% off on 1 session of 90 mins Spa  
+                                      </span>
+                                    </div>
+
+                                    <div class="feature-row">
+                                      <img
+                                        src="./images/iconstw (6).png"
+                                        alt="View type"
+                                      />
+                                      <span>
+                                        15% off on Food & Beverage services  
+                                      </span>
+                                    </div>
+
+                                    <div class="feature-row">
+                                      <img
+                                        src="./images/iconstw (7).png"
+                                        alt="Beds"
+                                      />
+                                      <span>Breakfast included  </span>
+                                    </div>
+
+                                    <div class="feature-row">
+                                      <img
+                                        src="images/iconstw (8).png"
+                                        alt="Bathroom"
+                                      />
+                                      <span>Lunch Or Dinner included  </span>
+                                    </div>
+
+                                    <div class="sdhbfdsfsfd">
+                                      <h6>Experiences Included</h6>
+                                      <p>
+                                        Enjoy Happy Hours with 1+1 offer on
+                                        Alcoholic Drinks, Soft Beverages
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                              <div class="room-features">
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (1).png"
-                                    alt="Square footage"
-                                  />
-                                  <span>280 sq.ft (26 sq.mt)</span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (2).png"
-                                    alt="View type"
-                                  />
-                                  <span>Courtyard View</span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (3).png"
-                                    alt="Beds"
-                                  />
-                                  <span>2 Single Bed(s)</span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="images/iconstw (4).png"
-                                    alt="Bathroom"
-                                  />
-                                  <span>1 Bathroom</span>
-                                </div>
-
-                                <div class="feature-row highlight">
-                                  <img
-                                    src="./images/electric.png"
-                                    alt="Modern facilities"
-                                  />
-                                  <span>
-                                    Well appointed room with modern facilities
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="amenities_wrap_box">
-                              <ul class="amenities_list">
-                                <li>Mineral Water</li>
-                                <li>Air Conditioning</li>
-                                <li>Housekeeping</li>
-                                <li>In-room Dining</li>
-                                <li>Iron/Ironing Board</li>
-                                <li>Wi-Fi</li>
-                              </ul>
-
-                              <a href="/" class="amenities_more_link">
-                                More Details
-                              </a>
                             </div>
                           </div>
                         </div>
-                        <div class="col-lg-6">
-                          <div class="fdgfdgdfg7885">
-                            <div class="dsbhjsdsf">
-                              <h4>Room with Breakfast + Lunch/Dinner</h4>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="njhbfsf">
+                          <div class="vbhsf">
+                            <h4>Excellent</h4>
+                            <p>4.5/5</p>
+                          </div>
+                          <div class="sdknhf55">
+                            <p>(655 Rating)</p>
+                          </div>
+                          <div class="fdjvfd78">
+                            <p>
+                              From <span>₹3699 </span>
+                            </p>
+                          </div>
+                          <div class="vdfv785">
+                            <p>+ ₹ 3,543 taxes & fees per Night</p>
+                          </div>
+                          <div class="sbfsdvfsf">
+                            <div class="vfddf">
+                              <i class="fa-solid fa-star"></i>
+                              <i class="fa-solid fa-star"></i>
+                              <i class="fa-solid fa-star"></i>
+                              <i class="fa-solid fa-star"></i>
+                              <i class="fa-solid fa-star"></i>
                             </div>
-                            <div class="dnhjd54564">
-                              <div class="room-features">
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (5).png"
-                                    alt="Square footage"
-                                  />
-                                  <span>
-                                    10% off on 1 session of 90 mins Spa  
-                                  </span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (6).png"
-                                    alt="View type"
-                                  />
-                                  <span>
-                                    15% off on Food & Beverage services  
-                                  </span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="./images/iconstw (7).png"
-                                    alt="Beds"
-                                  />
-                                  <span>Breakfast included  </span>
-                                </div>
-
-                                <div class="feature-row">
-                                  <img
-                                    src="images/iconstw (8).png"
-                                    alt="Bathroom"
-                                  />
-                                  <span>Lunch Or Dinner included  </span>
-                                </div>
-
-                                <div class="sdhbfdsfsfd">
-                                  <h6>Experiences Included</h6>
-                                  <p>
-                                    Enjoy Happy Hours with 1+1 offer on
-                                    Alcoholic Drinks, Soft Beverages
-                                  </p>
-                                </div>
-                              </div>
+                            <div class="fdfdf5">
+                              <p>star</p>
                             </div>
+                          </div>
+                          <div class="sdbds86uu">
+                            <button>Book Now</button>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="njhbfsf">
-                      <div class="vbhsf">
-                        <h4>Excellent</h4>
-                        <p>4.5/5</p>
-                      </div>
-                      <div class="sdknhf55">
-                        <p>(655 Rating)</p>
-                      </div>
-                      <div class="fdjvfd78">
-                        <p>
-                          From <span>₹3699 </span>
-                        </p>
-                      </div>
-                      <div class="vdfv785">
-                        <p>+ ₹ 3,543 taxes & fees per Night</p>
-                      </div>
-                      <div class="sbfsdvfsf">
-                        <div class="vfddf">
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                          <i class="fa-solid fa-star"></i>
-                        </div>
-                        <div class="fdfdf5">
-                          <p>star</p>
-                        </div>
-                      </div>
-                      <div class="sdbds86uu">
-                        <button>Book Now</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    )
+                    })}
               </div>
             </div>
           </div>

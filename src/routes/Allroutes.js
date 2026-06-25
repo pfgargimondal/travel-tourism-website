@@ -66,7 +66,7 @@ function Allroutes() {
       <Route path="/user-booking" element={<UserBooking />} />
       <Route path="/wishlist" element={<UserWishlist />} />
       <Route path="/change-password" element={<PasswordChange />} />
-
+ 
       {/* <Route
         path="/:slug"
         element={<PageRenderer />}

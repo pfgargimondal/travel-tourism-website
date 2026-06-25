@@ -10,7 +10,7 @@ export {HotelBooking} from "./HotelBooking/HotelBooking";
 export {HotelPayment} from "./HotelPayment/HotelPayment";
 export {BusFilter} from "./Bus/BusFilter";
 export {Visa} from "./Visa/Visa";
-export {FlightFilter} from "./FlightFilter/FlightFilter";
+export {FlightFilter} from "./Flight/FlightFilter/FlightFilter";
 export {PrivacyPolicy} from "./PrivacyPolicy/PrivacyPolicy";
 export {TermsCondition} from "./TermsCondition/TermsCondition";
 export {CustomerService} from "./CustomerService/CustomerService";
@@ -19,6 +19,8 @@ export {Login} from "./Login/Login";
 export {Register} from "./Register/Register";
 export {PageNotFound} from "./PageNotFound/PageNotFound";
 export {ThankYou} from "./ThankYou/ThankYou";
+
+
 
 
 
