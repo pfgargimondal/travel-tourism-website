@@ -23,7 +23,6 @@ export const FlightFilter = () => {
     useEffect(() => {
         const fetchFlights = async () => {
             setLoading(true);
-
             try {
                 const payload = {
                     origin,
@@ -36,9 +35,10 @@ export const FlightFilter = () => {
                     tripType,
                     cabinClass
                 };
-  
                 const response = await http.post('/flight-search', payload);
-                setFlightsList(response.data.data || []);
+                console.log(response.data, 'response');
+                setFlightsList(response.data);
+                
             } catch (error) {
                 console.log(error);
             }
