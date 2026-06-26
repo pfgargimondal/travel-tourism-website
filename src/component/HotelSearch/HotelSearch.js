@@ -2,6 +2,9 @@ import { useState } from "react";
 import { ServiceCategories } from '../ServiceCategories/ServiceCategories';
 import Loader from "../Loader/Loader";
 import { useNavigate } from "react-router-dom";
+
+
+
 export const HotelSearch = ({ cities = [] }) => {
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
@@ -22,6 +25,7 @@ export const HotelSearch = ({ cities = [] }) => {
     const [adultCount, setAdultCount] = useState(1);
     const [childrenCount, setChildrenCount] = useState(0);
     const [childrenAges, setChildrenAges] = useState([]);
+    const [inputFieldsBorder, setInputFieldsBorder] = useState(false);
     const totalGuests = adultCount + childrenCount;
     /*room count*/
 
@@ -221,154 +225,167 @@ export const HotelSearch = ({ cities = [] }) => {
                                 </div>
 
                                 <div className="col-md-3">
-                                    <label className="form-label">Check-In</label>
-                                    <input
-                                        type="date"
-                                        id="checkin"
-                                        className="form-control hotel-input big-date"
-                                        value={checkIn}
-                                        min={new Date().toISOString().split("T")[0]}
-                                        onChange={(e) => setCheckIn(e.target.value)}
-                                    />
+                                    <div className="ixjamdfoief fxnsdfccs">
+                                        <label className="form-label">Check-In</label>
+
+                                        <input
+                                            type="date"
+                                            id="checkin"
+                                            className="form-control hotel-input"
+                                            value={checkIn}
+                                            min={new Date().toISOString().split("T")[0]}
+                                            onChange={(e) => setCheckIn(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="col-md-3">
-                                    <label className="form-label">Check-Out</label>
-                                    <input
-                                        type="date"
-                                        id="checkout"
-                                        className="form-control hotel-input big-date"
-                                        value={checkOut}
-                                        min={checkIn}
-                                        onChange={(e) => setCheckOut(e.target.value)}
-                                    />
+                                    <div className="ixjamdfoief fxnsdfccs">
+                                        <label className="form-label">Check-Out</label>
+
+                                        <input
+                                            type="date"
+                                            id="checkout"
+                                            className="form-control hotel-input"
+                                            value={checkOut}
+                                            min={checkIn}
+                                            onChange={(e) => setCheckOut(e.target.value)}
+                                        />
+                                    </div>                                    
                                 </div>
 
                                 <div className="col-md-3 position-relative">
-                                    <label className="form-label">Rooms & Guests</label>
+                                    <div className="ixjamdfoief xbdzfnfxbdv">
+                                        <label className="form-label">Rooms & Guests</label>
 
-                                    {/* <select className="form-control hotel-input"
-                                value={rooms}
-                                onChange={(e) => setRooms(e.target.value)}
-                            >
-                                <option>1 Room 2 Adults</option>
-                                <option>1 Room 1 Adult</option>
-                                <option>2 Rooms 4 Adults</option>
-                            </select> */}
+                                        {/* <select className="form-control hotel-input"
+                                            value={rooms}
+                                            onChange={(e) => setRooms(e.target.value)}
+                                        >
+                                            <option>1 Room 2 Adults</option>
+                                            <option>1 Room 1 Adult</option>
+                                            <option>2 Rooms 4 Adults</option>
+                                        </select> */}
 
-                                    <div className="form-control hotel-input"
-                                        onClick={() => setHotelGstsRmmsDrpdwn(prev => !prev)}
-                                    >
-                                        {roomCount} Room{roomCount > 1 ? "s" : ""} •{" "}
-                                        {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
-                                        {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
-                                    </div>
+                                        <div className={`form-control ${inputFieldsBorder ? "nkfnjihijmkfcsd" : ""} lmflojlkerr hotel-input position-relative`}
+                                            onClick={() => {
+                                                setHotelGstsRmmsDrpdwn(prev => !prev);
+                                                setInputFieldsBorder(prev => !prev);
+                                            }}
+                                        >
+                                            <i className="bi position-absolute vbzvsbzdb  bi-person-fill"></i>
 
-                                    {hotelGstsRmmsDrpdwn && (
-                                        <div className="rg-drpdwn position-absolute p-4 rounded-2 bg-white">
-                                            <div className="d-flex align-items-center justify-content-between mb-3">
-                                                <p className="mb-0 dnfreqer">Room</p>
+                                            {roomCount} Room{roomCount > 1 ? "s" : ""} •{" "}
+                                            {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
+                                            {childrenCount} Child{childrenCount > 0 ? "ren" : ""}                                            
+                                        </div>
 
-                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                                    <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                        {hotelGstsRmmsDrpdwn && (
+                                            <div className="rg-drpdwn position-absolute p-4 rounded-2 bg-white">
+                                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                                    <p className="mb-0 dnfreqer">Room</p>
 
-                                                    <input type="number" value={roomCount} placeholder="1" className="form-control" />
+                                                    <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                        <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                                    <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                                </div>
-                                            </div>
+                                                        <input type="number" value={roomCount} placeholder="1" className="form-control" />
 
-                                            <div className="d-flex align-items-center justify-content-between mb-3">
-                                                <p className="mb-0 dnfreqer">Adults</p>
-
-                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                                    <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
-
-                                                    <input type="number" value={adultCount} className="form-control" />
-
-                                                    <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                                </div>
-                                            </div>
-
-                                            <div className="d-flex align-items-center justify-content-between mb-3">
-                                                <div className="diweirkwer d-flex flex-column">
-                                                    <p className="mb-0 dnfreqer">Children</p>
-
-                                                    <span>0 - 17 Years Old</span>
-                                                </div>
-
-                                                <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                                    <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
-
-                                                    <input type="number" value={childrenCount} placeholder="1" className="form-control" />
-
-                                                    <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
-                                                </div>
-                                            </div>
-
-                                            {childrenCount > 0 && (
-                                                <div className="diwerjwerwer mb-3">
-                                                    <h6 className="mb-2">Age(s) of Children</h6>
-
-                                                    <div className="dihuewreow d-inline-flex align-items-center">
-                                                        {Array.from({ length: childrenCount }).map((_, index) => (
-                                                            <select
-                                                                className="form-select me-3"
-                                                                key={index}
-                                                                value={childrenAges[index]}
-                                                                onChange={(e) =>
-                                                                    handleAgeChange(index, e.target.value)
-                                                                }
-                                                            >
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                                <option value="5">5</option>
-                                                                <option value="6">6</option>
-                                                                <option value="7">7</option>
-                                                                <option value="8">8</option>
-                                                                <option value="9">9</option>
-                                                                <option value="10">10</option>
-                                                                <option value="11">11</option>
-                                                                <option value="12">12</option>
-                                                                <option value="13">13</option>
-                                                                <option value="14">14</option>
-                                                                <option value="15">15</option>
-                                                                <option value="16">16</option>
-                                                                <option value="17">17</option>
-                                                            </select>
-                                                        ))}
+                                                        <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                                     </div>
                                                 </div>
-                                            )}
 
-                                            <h6 className="klkifyter mb-0">Please provide right number of children along with their right age for best options and prices.</h6>
+                                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                                    <p className="mb-0 dnfreqer">Adults</p>
 
-                                            <div className="text-end">
-                                                <button onClick={() => setHotelGstsRmmsDrpdwn(false)}
-                                                    className="btn btn-tour mt-3">APPLY</button>
+                                                    <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                        <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                                        <input type="number" value={adultCount} className="form-control" />
+
+                                                        <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                                    <div className="diweirkwer d-flex flex-column">
+                                                        <p className="mb-0 dnfreqer">Children</p>
+
+                                                        <span>0 - 17 Years Old</span>
+                                                    </div>
+
+                                                    <div className="defgeghwewr d-flex align-items-center px-2 py-1">
+                                                        <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+
+                                                        <input type="number" value={childrenCount} placeholder="1" className="form-control" />
+
+                                                        <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                                    </div>
+                                                </div>
+
+                                                {childrenCount > 0 && (
+                                                    <div className="diwerjwerwer mb-3">
+                                                        <h6 className="mb-2">Age(s) of Children</h6>
+
+                                                        <div className="dihuewreow d-inline-flex align-items-center">
+                                                            {Array.from({ length: childrenCount }).map((_, index) => (
+                                                                <select
+                                                                    className="form-select me-3"
+                                                                    key={index}
+                                                                    value={childrenAges[index]}
+                                                                    onChange={(e) =>
+                                                                        handleAgeChange(index, e.target.value)
+                                                                    }
+                                                                >
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                    <option value="13">13</option>
+                                                                    <option value="14">14</option>
+                                                                    <option value="15">15</option>
+                                                                    <option value="16">16</option>
+                                                                    <option value="17">17</option>
+                                                                </select>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <h6 className="klkifyter mb-0">Please provide right number of children along with their right age for best options and prices.</h6>
+
+                                                <div className="text-end">
+                                                    <button onClick={() => setHotelGstsRmmsDrpdwn(false)}
+                                                        className="btn btn-tour mt-3">APPLY</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
 
-                                    {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
-                                        <p className="text-danger mt-2 mb-0">
-                                            Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
-                                        </p>
-                                    )}
+                                        {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
+                                            <p className="text-danger mt-2 mb-0">
+                                                Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
+                                            </p>
+                                        )}
+                                    </div>                                    
                                 </div>
                                 {/* <div className="col-md-2">
-                        <label>Price Per Night</label>
-                        <select className="form-select hotel-input" 
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                        >
-                            <option>₹0 - ₹2500</option>
-                            <option>₹2500 - ₹5000</option>
-                            <option>₹5000+</option>
-                        </select>
-                        </div> */}
+                                <label>Price Per Night</label>
+                                <select className="form-select hotel-input" 
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                >
+                                    <option>₹0 - ₹2500</option>
+                                    <option>₹2500 - ₹5000</option>
+                                    <option>₹5000+</option>
+                                </select>
+                                </div> */}
                             </div>
                         </div>
                     </div>

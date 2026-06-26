@@ -1,25 +1,5 @@
-:root {
-    --main-green-color: #00b4a8;
-    --main-red-color: #A3261E;
-    --blue-primary-color: #418ede;
-    --blue-secondary-color: #07427f;
-    --button-gradient-color: linear-gradient(45deg, #418ede, #07427f);
-    --button-hover-gradient-color: linear-gradient(45deg, #07427f, #418ede);
-    --light-black-text-color: #3C3B3B;
-    --background-light-color: rgba(245, 245, 245, 0.61);
-    --font-family-lato: "Lato", sans-serif;
-    --h2-custom-font-size: 4.5rem;
-    --h2-main-normal-font-size: 2.8rem;
-    --p-default-font-size: 1.2rem;
-}
-
 .searchfilter {
     margin-top: -20%;
-}
-
-.mainsection {
-    padding: 60px 0;
-    margin-top: 5%;
 }
 
 .filter-box {
@@ -37,9 +17,13 @@
 }
 
 .reset-btn {
-    color: #0ea5a4;
-    font-size: 14px;
+    color: var(--light-highlighted-text-color);
     cursor: pointer;
+    font-weight: 500;
+}
+
+.reset-btn i{
+    color: var(--main-green-color);
 }
 
 .filter-search input {
@@ -246,22 +230,8 @@ input[type="range"] {
 
 .fbvhjd img {
     width: 100%;
-    height: 270px;
+    
     border-radius: 12px;
-}
-
-.gfetyy89 {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 12px;
-    border: 1px solid #00a6a6;
-    margin-bottom: 20px;
-
-}
-
-.sdhdss8899 {
-    padding: 15px;
-
-
 }
 
 .dsbhjsdsf h4 {
@@ -352,10 +322,29 @@ input[type="range"] {
     color: var(--main-green-color);
 }
 
-.idjweiuhwerkowerewr input.form-control{
-    padding-left: 3rem;
+.ixjamdfoief .hotel-input{
+    font-weight: 600;
+    color: var(--light-black-text-color);
     border: 1px solid var(--border);
     border-radius: 10px;
+}
+
+.vbzvsbzdb{
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5%;
+    color: var(--main-green-color);
+}
+
+.idjweiuhwerkowerewr input.form-control,
+.xbdzfnfxbdv .hotel-input{
+    padding-left: 2.2rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.xbdzfnfxbdv .nkfnjihijmkfcsd{
+    border: 1px solid var(--main-green-color);
 }
 
 .big-date {

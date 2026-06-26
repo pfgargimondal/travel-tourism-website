@@ -105,17 +105,9 @@
 /* MENU */
 
 
-
-.big-date {
-    font-size: 20px;
-    font-weight: 700;
-    color: #000;
-}
-
 .big-date {
     font-size: 22px;
     font-weight: 700;
-    color: #000;
     cursor: pointer;
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import http from "../../http";
@@ -13,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 export const Home = () => {
+
+const navigate = useNavigate();
 const [homeContent, setHomeContent] = useState(null);
 const [homeBanners, setHomeBanners] = useState([]);
 const [imageUrl, setImageUrl] = useState("");
@@ -32,35 +34,41 @@ const [departureDate, setDepartureDate] = useState(null);
    // eslint-disable-next-line
 const [returnDate, setReturnDate] = useState(null);
 
+const [tripType, setTripType] = useState(0);
+const [cabinClass, setCabinClass] = useState(0);
 
-const MAX_GUESTS_PER_ROOM = 8;
+// const MAX_GUESTS_PER_ROOM = 8;
 
 
-const [roomCount, setRoomCount] = useState(1);
+// const [roomCount, setRoomCount] = useState(1);
 const [adultCount, setAdultCount] = useState(1);
 const [childrenCount, setChildrenCount] = useState(0);
 
 const [childrenAges, setChildrenAges] = useState([]);
-const totalGuests = adultCount + childrenCount;
+
+const [infantCount, setInfantCount] = useState(0);
+const [infantAges, setInfantAges] = useState([]);
+
+// const totalGuests = adultCount + childrenCount + infantCount;
 
 /*room count*/
 
-  const roomIncrease = () => {
-      setRoomCount(prev => prev + 1);
-  };
+  // const roomIncrease = () => {
+  //     setRoomCount(prev => prev + 1);
+  // };
 
-  const roomDecrease = () => {
-      setRoomCount(prev => prev > 1 ? prev - 1 : 1);
-  };
+  // const roomDecrease = () => {
+  //     setRoomCount(prev => prev > 1 ? prev - 1 : 1);
+  // };
 
 
   /*adult count*/
 
   const adultIncrease = () => {
       // setAdultCount(prev => prev + 1);
-      if (totalGuests < roomCount * MAX_GUESTS_PER_ROOM) {
+      // if (totalGuests < roomCount * MAX_GUESTS_PER_ROOM) {
           setAdultCount(prev => prev + 1);
-      }
+      // }
   };
 
   const adultDecrease = () => {
@@ -89,6 +97,27 @@ const totalGuests = adultCount + childrenCount;
           setChildrenAges(childrenAges.slice(0, -1));
       }
   };
+
+  const handleInfantCount = (type) => {
+      if (type === "increase") {
+          if (infantCount === 2) return;
+          
+          const newCount = infantCount + 1;
+
+          setInfantCount(newCount);
+
+          setInfantAges([...infantAges, "1"]);
+      }
+
+      if (type === "decrease" && infantCount > 0) {
+          const newCount = infantCount - 1;
+
+          setInfantCount(newCount);
+
+          setInfantAges(infantAges.slice(0, -1));
+      }
+  };
+
 
 
   useEffect(() => {
@@ -163,9 +192,9 @@ const totalGuests = adultCount + childrenCount;
   const origins = [
     ...new Map(
       airportList.map((item) => [
-        item.Origin,
+        item.origin,
         {
-          code: item.Origin,
+          code: item.origin,
           details: item.origin_details,
         },
       ])
@@ -176,11 +205,11 @@ const totalGuests = adultCount + childrenCount;
   const destinations = [
     ...new Map(
       airportList
-        .filter((item) => item.Origin === selectedOrigin)
+        .filter((item) => item.origin === selectedOrigin)
         .map((item) => [
-          item.Destination,
+          item.destination,
           {
-            code: item.Destination,
+            code: item.destination,
             details: item.destination_details,
           },
         ])
@@ -201,8 +230,8 @@ const totalGuests = adultCount + childrenCount;
 
     const route = airportList.find(
       (item) =>
-        item.Origin === selectedOrigin &&
-        item.Destination === selectedDestination
+        item.origin === selectedOrigin &&
+        item.destination === selectedDestination
     );
 
     if (!route?.AvailableDates) {
@@ -236,6 +265,35 @@ const totalGuests = adultCount + childrenCount;
     setSelectedOrigin(destination);
     setSelectedDestination(origin);
   };
+
+  const handleFlightSearch = () => {
+
+      const searchData = {
+          origin: selectedOrigin,
+          destination: selectedDestination,
+
+          departureDate: departureDate
+              ? departureDate.toISOString().split("T")[0]
+              : "",
+
+          returnDate: returnDate
+              ? returnDate.toISOString().split("T")[0]
+              : "",
+
+          adults: adultCount,
+          children: childrenCount,
+          infants: infantCount,
+
+          tripType: tripType,
+          cabinClass: cabinClass
+      };
+      const params = new URLSearchParams(searchData);
+      navigate(`/flight-filter?${params.toString()}`);
+  };
+
+
+
+
 
   if (loading) return <Loader />;
   if (!slide) return null;
@@ -294,6 +352,8 @@ const totalGuests = adultCount + childrenCount;
                     name="flight"
                     type="radio"
                     style={{ display: "none" }}
+                    checked={tripType === 0}
+                    onChange={() => setTripType(0)}
                   />
 
                   <label className="cbx" htmlFor="cbx-15">
@@ -313,6 +373,8 @@ const totalGuests = adultCount + childrenCount;
                     name="flight"
                     type="radio"
                     style={{ display: "none" }}
+                    checked={tripType === 1}
+                    onChange={() => setTripType(1)}
                   />
 
                   <label className="cbx" htmlFor="cbx-16">
@@ -332,6 +394,8 @@ const totalGuests = adultCount + childrenCount;
                     name="flight"
                     type="radio"
                     style={{ display: "none" }}
+                    checked={tripType === 2}
+                    onChange={() => setTripType(2)}
                   />
 
                   <label className="cbx" htmlFor="cbx-17">
@@ -448,6 +512,7 @@ const totalGuests = adultCount + childrenCount;
                       >
                           {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
                           {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
+                          {infantCount} Infant{infantCount > 0 ? "s" : ""}
                       </div>
                       
                       {flightDrpdwn && (
@@ -460,11 +525,11 @@ const totalGuests = adultCount + childrenCount;
                                 </div>
 
                                 <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                    <button onClick={roomDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                    <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                    <input type="number" value={roomCount} placeholder="1" className="form-control" />
+                                    <input type="number" value={adultCount} placeholder="1" className="form-control" />
 
-                                    <button onClick={roomIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                    <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                 </div>
                             </div>
 
@@ -476,11 +541,11 @@ const totalGuests = adultCount + childrenCount;
                                 </div>
 
                                 <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                    <button onClick={adultDecrease} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                    <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                    <input type="number" value={adultCount} className="form-control" />
+                                    <input type="number" value={childrenCount} className="form-control" />
 
-                                    <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                    <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                 </div>
                             </div>
 
@@ -492,11 +557,11 @@ const totalGuests = adultCount + childrenCount;
                                 </div>
 
                                 <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                    <button onClick={() => handleChildrenCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                    <button onClick={() => handleInfantCount("decrease")} className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
 
-                                    <input type="number" value={childrenCount} placeholder="1" className="form-control" />
+                                    <input type="number" value={infantCount} placeholder="1" className="form-control" />
 
-                                    <button onClick={() => handleChildrenCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                    <button onClick={() => handleInfantCount("increase")} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                 </div>
                             </div>
 
@@ -508,6 +573,8 @@ const totalGuests = adultCount + childrenCount;
                                   name="flightad"
                                   type="radio"
                                   style={{ display: "none" }}
+                                  checked={cabinClass === "0"}
+                                  onChange={() => setCabinClass("0")}
                                 />
 
                                 <label className="cbx" htmlFor="cbx-16c">
@@ -527,6 +594,8 @@ const totalGuests = adultCount + childrenCount;
                                   name="flightad"
                                   type="radio"
                                   style={{ display: "none" }}
+                                  checked={cabinClass === "3"}
+                                  onChange={() => setCabinClass("3")}
                                 />
 
                                 <label className="cbx" htmlFor="cbx-16n">
@@ -546,6 +615,8 @@ const totalGuests = adultCount + childrenCount;
                                   name="flightad"
                                   type="radio"
                                   style={{ display: "none" }}
+                                  checked={cabinClass === "1"}
+                                  onChange={() => setCabinClass("1")}
                                 />
 
                                 <label className="cbx" htmlFor="cbx-16j">
@@ -565,6 +636,8 @@ const totalGuests = adultCount + childrenCount;
                                   name="flightad"
                                   type="radio"
                                   style={{ display: "none" }}
+                                  checked={cabinClass === "2"}
+                                  onChange={() => setCabinClass("2")}
                                 />
 
                                 <label className="cbx" htmlFor="cbx-16i">
@@ -670,7 +743,7 @@ const totalGuests = adultCount + childrenCount;
 
       <div className="ghaadasd">
         <div className="text-center mt-4 ">
-          <button className="flight-search-btn">Search</button>
+          <button className="flight-search-btn" onClick={handleFlightSearch}>Search</button>
         </div>
       </div>
 

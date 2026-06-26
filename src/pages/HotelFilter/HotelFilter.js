@@ -86,7 +86,7 @@ export const HotelFilter = () => {
 
       <HotelSearch />
 
-      <div className="mainsection">
+      <div className="mainsection hhsdfh58558">
         <div className="container">
           <div className="dfdfgfg">
             <div className="row">
@@ -106,359 +106,363 @@ export const HotelFilter = () => {
                     </div>
 
                     <div className="filter-section suggested-section">
-                      <h6>Suggested For You</h6>
+                      <h6 className="mb-3">Suggested For You</h6>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                      <div className="fijkfokweer">
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">Last Minute Deals</p>
-                          </label>
+                              <p className="checkbox__textwrapper">Last Minute Deals</p>
+                            </label>
+                          </div>
+
+                          <span className="item-count">(217)</span>
                         </div>
 
-                        <span className="item-count">(217)</span>
-                      </div>
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
-
-                            <p className="checkbox__textwrapper">5 Star</p>
-                          </label>
+                              <p className="checkbox__textwrapper">5 Star</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(217)</span>
                         </div>
-                        
-                        <span className="item-count">(217)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">4 Star</p>
-                          </label>
+                              <p className="checkbox__textwrapper">4 Star</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(397)</span>
                         </div>
-                        
-                        <span className="item-count">(397)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">Breakfast Included</p>
-                          </label>
+                              <p className="checkbox__textwrapper">Breakfast Included</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(1190)</span>
                         </div>
-                        
-                        <span className="item-count">(1190)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">3 Star</p>
-                          </label>
+                              <p className="checkbox__textwrapper">3 Star</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(781)</span>
                         </div>
-                        
-                        <span className="item-count">(781)</span>
                       </div>
                     </div>
 
                     <div className="filter-section">
-                      <h6>Price Per Night</h6>
+                      <h6 className="mb-3">Price Per Night</h6>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                      <div className="fijkfokweer">
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹999 - ₹1999</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹999 - ₹1999</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(218)</span>
                         </div>
-                        
-                        <span className="item-count">(218)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹1100 - ₹1999</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹1100 - ₹1999</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(342)</span>
                         </div>
-                        
-                        <span className="item-count">(342)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹1500 - ₹2999</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹1500 - ₹2999</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(187)</span>
                         </div>
-                        
-                        <span className="item-count">(187)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹2000 - ₹2999</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹2000 - ₹2999</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(264)</span>
                         </div>
-                        
-                        <span className="item-count">(264)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹2000 - ₹3500</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹2000 - ₹3500</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(95)</span>
                         </div>
-                        
-                        <span className="item-count">(95)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">₹3999 - ₹5999</p>
-                          </label>
+                              <p className="checkbox__textwrapper">₹3999 - ₹5999</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(72)</span>
                         </div>
-                        
-                        <span className="item-count">(72)</span>
-                      </div>
 
-                      <div className="suggested-item">
-                        <div className="checkbox-wrapper-33">
-                          <label className="checkbox">
-                            <input
-                              className="checkbox__trigger visuallyhidden"
-                              type="checkbox"
-                            />
+                        <div className="suggested-item">
+                          <div className="checkbox-wrapper-33">
+                            <label className="checkbox">
+                              <input
+                                className="checkbox__trigger visuallyhidden"
+                                type="checkbox"
+                              />
 
-                            <span className="checkbox__symbol">
-                              <svg
-                                aria-hidden="true"
-                                className="icon-checkbox"
-                                width="28px"
-                                height="28px"
-                                viewBox="0 0 28 28"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M4 14l8 7L24 7"></path>
-                              </svg>
-                            </span>
+                              <span className="checkbox__symbol">
+                                <svg
+                                  aria-hidden="true"
+                                  className="icon-checkbox"
+                                  width="28px"
+                                  height="28px"
+                                  viewBox="0 0 28 28"
+                                  version="1.1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M4 14l8 7L24 7"></path>
+                                </svg>
+                              </span>
 
-                            <p className="checkbox__textwrapper">10000+</p>
-                          </label>
+                              <p className="checkbox__textwrapper">10000+</p>
+                            </label>
+                          </div>
+                          
+                          <span className="item-count">(21)</span>
                         </div>
-                        
-                        <span className="item-count">(21)</span>
-                      </div>
+                      </div>                      
                     </div>
 
                     <div className="budget-filter">
@@ -1505,7 +1509,7 @@ export const HotelFilter = () => {
                               <div className="col-lg-9">
                                 <div className="fgfdfgd78">
                                   <div className="row">
-                                    <div className="col-lg-6">
+                                    <div className="col-lg-4">
                                       <div className="fbvhjd">
                                         <img src={hotel.image} alt="" />
 
@@ -1517,99 +1521,139 @@ export const HotelFilter = () => {
                                         </div> */}
                                       </div>
                                     </div>
-                                    <div className="col-lg-6">
-                                      <div className="dsbhjsdsf">
-                                        <h4>
-                                          {hotel.hotel_name}
-                                        </h4>
-                                        <h6>
-                                          <i className="fa-solid fa-location-dot"></i> &nbsp;
-                                          {hotel.address}
-                                        </h6>
-                                        {/* Headline */}
-                                          {headline && (
-                                            <p className="mt-1">
-                                              HeadLine : {headline}
-                                            </p>
-                                          )}
 
-                                          {/* Location */}
-                                          <div className="mt-1">
-                                            {headline
-                                              ? shortDescription?.split(" ")?.slice(0, 18)?.join(" ")
-                                              : shortDescription?.split(" ")?.slice(0, 25)?.join(" ")
-                                            }
+                                    <div className="col-lg-8">
+                                      <div className="dsbhjsdsf d-flex flex-column justify-content-between h-100">
+                                        <div className="dueuiwejasd">
+                                          <h4 className="mb-2">
+                                            {hotel.hotel_name}
+                                          </h4>
 
-                                            {shortDescription?.split(" ")?.length >
-                                              (headline ? 18 : 25) && (
-                                              <>
-                                                ...{" "}
-                                                <span
-                                                  onClick={() => {
-                                                    navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
-                                                  }}
-                                                  style={{
-                                                    color: "black",
-                                                    cursor: "pointer",
-                                                    fontWeight: "600",
-                                                  }}
-                                                >
-                                                  Read More
-                                                </span>
-                                              </>
+                                          <h6 className="mb-3">
+                                            <i className="fa-solid fa-location-dot"></i> &nbsp;
+                                            {hotel.address}
+                                          </h6>
+
+                                          {/* Headline */}
+                                            {headline && (
+                                              <p className="mt-1">
+                                                HeadLine : {headline}
+                                              </p>
                                             )}
+
+                                            {/* Location */}
+                                            <p className="sgfsvdfgf mt-1 mb-0">
+                                              {headline
+                                                ? shortDescription?.split(" ")?.slice(0, 18)?.join(" ")
+                                                : shortDescription?.split(" ")?.slice(0, 25)?.join(" ")
+                                              }
+
+                                              {shortDescription?.split(" ")?.length >
+                                                (headline ? 18 : 25) && (
+                                                <>
+                                                  ...{" "}
+                                                  <span
+                                                    onClick={() => {
+                                                      navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
+                                                    }}
+                                                    style={{
+                                                      color: "var(--main-green-color)",
+                                                      cursor: "pointer",
+                                                      fontWeight: "600",
+                                                    }}
+                                                  >
+                                                    Read More
+                                                  </span>
+                                                </>
+                                              )}
+                                            </p>
+                                        </div>
+
+                                        <div className="diehfsdf d-flex align-items-center gap-1">
+                                          <div className="iudhewijjrrr p-2">
+                                            <img src="./images/gift.png" alt="" />
                                           </div>
+
+                                          <h6 className="mb-0">Long Stay Benefits</h6>
+                                        </div>
+
+                                        <div className="djiwehriwer d-flex align-items-center gap-2">
+                                          <div className="diehrknjiwer d-flex align-items-center p-2 rounded-3">
+                                            <img src="./images/leaves.png" className="me-1" alt="" />
+
+                                            <div className="duewhrwer">
+                                              <p className="mb-0">20% off pm</p>
+
+                                              <p className="mb-0">Spa Session</p>
+                                            </div>
+                                          </div>
+
+                                          <div className="diehrknjiwer d-flex align-items-center p-2 rounded-3">
+                                            <img src="./images/leaves.png" className="me-1" alt="" />
+
+                                            <div className="duewhrwer">
+                                              <p className="mb-0">20% off on</p>
+
+                                              <p className="mb-0">Food & Beverage Services</p>
+                                            </div>
+                                          </div>
+
+                                          <div className="diehrknjiwer d-flex align-items-center p-2 rounded-3">
+                                            <img src="./images/leaves.png" className="me-1" alt="" />
+
+                                            <div className="duewhrwer">
+                                              <p className="mb-0">20% off on</p>
+
+                                              <p className="mb-0">Laundry Service (upto 2 clothing items)</p>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+
                               <div className="col-lg-3">
-                                <div className="njhbfsf">
-                                  <div className="vbhsf">
-                                    <h4>Excellent </h4>
-                                    <p>{hotel.hotel_rating}/5</p>
-                                  </div>
-                                  <div className="sdknhf55">
-                                    {/* <p>(655 Ratings)</p> */}
-                                  </div>
-                                  <div className="fdjvfd78">
-                                    <p>
-                                      From <span>₹{Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.DayRates?.[0]?.[0]?.BasePrice|| 0).toLocaleString("en-IN")} </span>
-                                    </p>
-                                  </div>
-                                  <div className="vdfv785">
-                                    <p>+ ₹ {Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.TotalTax|| 0).toLocaleString("en-IN")} taxes & fees per night</p>
-                                  </div>
-                                  <div className="sbfsdvfsf">
-                                    <div className="vfddf">
-                                      {[...Array(Number(hotel.hotel_rating || 0))].map((_, i) => (
-                                        <i key={i} className="fa-solid fa-star"></i>
-                                      ))}
+                                <div className="njhbfsf d-flex flex-column justify-content-between h-100">
+                                  <div className="dinweirowerwer">
+                                    <div className="fdjvfd78 mb-2">
+                                      <p className="mb-0 d-flex flex-column gap-1">
+                                        From <span>₹{Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.DayRates?.[0]?.[0]?.BasePrice|| 0).toLocaleString("en-IN")} </span>
+                                      </p>
                                     </div>
-                                    <div className="fdfdf5">
-                                      <p>star</p>
+
+                                    <div className="vdfv785 mb-2">
+                                      <p className="mb-0">+ ₹ {Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.TotalTax|| 0).toLocaleString("en-IN")} taxes & fees per night</p>
                                     </div>
                                   </div>
-                                  <div className="sdbds86">
-                                    <button 
-                                      onClick={() => {
-                                        navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
-                                      }}
-                                    >View Details</button>
+
+                                  <div className="iduweoijrwer">
+                                    <div className="sbfsdvfsf align-items-center mb-4">
+                                      <div className="vfddf">
+                                        {[...Array(Number(hotel.hotel_rating || 0))].map((_, i) => (
+                                          <i key={i} className="fa-solid fa-star"></i>
+                                        ))}
+                                      </div>
+
+                                      <div className="vbhsf">
+                                        <span className="tour-badge">{hotel.hotel_rating}/5 Stars</span>
+                                      </div>
+                                    </div>
+
+                                    <div className="sdbds86">
+                                      <button className="btn-tour w-100 py-2"
+                                        onClick={() => {
+                                          navigate(`/hotel-details/${hotel.hotel_code}?${params.toString()}`);
+                                        }}
+                                      >View Details <i className="bi ms-1 bi-arrow-up-right-circle"></i></button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="hddssd78">
-                              <h6>Long Stay Benefits</h6>
-                              <p>
-                                20% off on session of Spa 20% off on Food & Beverage
-                                services 20% Off on Laundry service for upto 2
-                                clothing item(s)
-                              </p>
-                            </div>
+                            </div>                            
                           </div>
+                          
                           <div className="tfty885r">
                             <h6>SBI Debit Card Offer - Get INR 5000 Off!</h6>
                           </div>

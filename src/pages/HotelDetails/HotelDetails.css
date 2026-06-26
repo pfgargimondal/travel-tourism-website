@@ -26,22 +26,6 @@
     padding: 40px  0;
 }
 
-.sbfsdvfsf 
-{
-    display: flex;
-}
-
-.vfddf i 
-{
-    color: gold;
-    margin-left: -4px;
-}
-
-.fdfdf5 
-{
-    margin-left: 5px;
-}
-
 
 .bhjdsfds 
 {
@@ -144,31 +128,6 @@
   border-radius:8px;
   font-weight:500;
   margin-left:auto;
-}
-
-
-.hddssd78 
-{
-    border: 1px solid #00a6a6;
-    border-radius: 8px;
-    padding: 15px;
-}
-
-.hddssd78 
-{
-    margin-top: 20px;
-}
-
-.hddssd78 h6 
-{
-    font-weight: 600;
-    color: #00a6a6;
-
-}
-
-.hddssd78 p
-{
-  margin-bottom: 0;
 }
 
 /* CARD */
@@ -281,137 +240,15 @@
   border:0;
 }
 
-
-.gfetyy89 
-{   
-     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 12px;
-    border: 1px solid #00a6a6;
-    margin-bottom: 20px;
-
-}
-
-.sdhdss8899 
-{
-    padding: 15px;
-
-
-}
-
-.dsbhjsdsf h4
-{
+.dsbhjsdsf h4{
    font-weight: 600;
    color: black;
-}
-
-.dsbhjsdsf h6
-{
-   font-weight: 500;
-   color: rgb(110, 110, 110);
-   font-size: 14px;
-}
-
-.dsbhjsdsf 
-{
-    /* border-right: 1px solid #00a6a6; */
-    padding-right: 10px;
-    /* height: 270px; */
-}
-
-.vbhsf 
-{
-    display: flex;
-}
-
-.vbhsf  h4
-{
-   font-weight: 600;
-   color: black;
-   margin-bottom: 0;
-} 
-
-.vbhsf  p
-{
-    padding: 5px 8px;
-    background-color: #00a6a6;
-    font-size: 13px;
-    color: white;
-    font-weight: 600;
-    margin-left: 10px;
-    border-radius: 6px;
-    margin-bottom: 0;
-
-}
-
-.fdjvfd78 p
-{
-    font-size: 15px;
-    color: #666;
-    margin-bottom: 0;
-}
-
-.fdjvfd78 span 
-{
-    font-size: 27px !important;
-    color: #00a6a6;
-    font-weight: 600;
-    margin-bottom: 0;
 }
 
 .sdknhf55 p 
 {
     margin-bottom: 0;
     color: gray;
-}
-
-.sbfsdvfsf 
-{
-    display: flex;
-}
-
-.vfddf i 
-{
-    color: gold;
-    margin-left: -4px;
-}
-
-.fdfdf5 
-{
-    margin-left: 5px;
-}
-
-.sdbds86 button
-{
-  border: 2px solid #00a6a6;
-  color: #00a6a6;
-  font-weight: 600;
-  padding: 10px 20px;
-  border-radius: 8px;
-
-}
-
-.hddssd78 
-{
-    border: 1px solid #00a6a6;
-    border-radius: 8px;
-    padding: 15px;
-}
-
-.hddssd78 
-{
-    margin-top: 20px;
-}
-
-.hddssd78 h6 
-{
-    font-weight: 600;
-    color: #00a6a6;
-
-}
-
-.hddssd78 p
-{
-  margin-bottom: 0;
 }
 
 .tfty885r 
@@ -423,18 +260,6 @@
     font-weight: 500;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-}
-
-.fbvhjd{
-  position:relative;
-  overflow:hidden;
-  border-radius:10px;
-}
-
-.fbvhjd img{
-  width:100%;
-  display:block;
-  border-radius:10px;
 }
 
 /* HEART ICON */
@@ -532,23 +357,10 @@
     /* border-right: 1px solid rgb(197, 194, 194); */
 }
 
-.fdgfdgdfg7885 
-{
-    padding: 10px;
-        height: 310px;
-        border-bottom: 1px solid rgb(204, 212, 214);
-
-    /* border-right: 1px solid rgb(197, 194, 194); */
-
-
-}
-
-.njhbfsf 
-{
-    padding: 10px;
-    height: 310px;
-     border-bottom: 1px solid rgb(204, 212, 214);
-
+.fdgfdgdfg7885{
+  padding: 10px;
+  height: 310px;
+  border-bottom: 1px solid rgb(204, 212, 214);
 }
 
 .location-header p {

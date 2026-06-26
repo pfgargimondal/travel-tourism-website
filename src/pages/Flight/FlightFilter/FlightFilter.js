@@ -1,6 +1,64 @@
 import "./FlightFilter.css";
 import { FollowUsInstagram } from "../../../component/FollowUsInstagram/FollowUsInstagram";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import http from "../../../http";
+import Loader from "../../../component/Loader/Loader";
 export const FlightFilter = () => {
+
+    const [searchParams] = useSearchParams();
+    const [flightList, setFlightsList] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const origin = searchParams.get("origin");
+    const destination = searchParams.get("destination");
+    const departureDate = searchParams.get("departureDate");
+    const returnDate = searchParams.get("returnDate");
+    const adults = searchParams.get("adults");
+    const children = searchParams.get("children");
+    const infants = searchParams.get("infants");
+    const tripType = searchParams.get("tripType");
+    const cabinClass = searchParams.get("cabinClass");
+
+    useEffect(() => {
+        const fetchFlights = async () => {
+            setLoading(true);
+
+            try {
+                const payload = {
+                    origin,
+                    destination,
+                    departureDate,
+                    returnDate,
+                    adults,
+                    children,
+                    infants,
+                    tripType,
+                    cabinClass
+                };
+  
+                const response = await http.post('/flight-search', payload);
+                setFlightsList(response.data.data || []);
+            } catch (error) {
+                console.log(error);
+            }
+            setLoading(false);
+        };
+
+        fetchFlights();
+    }, [
+        origin,
+        destination,
+        departureDate,
+        returnDate,
+        adults,
+        children,
+        infants,
+        tripType,
+        cabinClass
+    ]);
+
+    if (loading) return <Loader />;
 
     return (
       <div>
@@ -158,8 +216,7 @@ export const FlightFilter = () => {
                         </div>
                     
                     </div>
-                                        <div class="flight-filter-box">
-
+                    <div class="flight-filter-box">
                         <div class="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
                             
                             <div class="flight-filter-left">
@@ -339,90 +396,167 @@ export const FlightFilter = () => {
                         <button class="sign-btn">Sign In</button>
                     </div>
                     
-                    <div class="flight-card">
-                    
-                        <div class="flight-top d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="heart"><img src="./images/likeicon.png" alt="" /></div>
-                                <span class="cheapest">Cheapest</span>
+                    {flightList?.TripDetails?.[0]?.Flights?.map((flight, index) => {
+                        const firstSegment = flight.Segments[0];
+                        const lastSegment = flight.Segments[flight.Segments.length - 1];
+
+                        const cheapestFare = flight.Fares[0]?.FareDetails[0];
+
+                        return (
+                            <div className="flight-card" key={index}>
+
+                                <div className="flight-top d-flex justify-content-between align-items-center">
+                                    <div className="d-flex align-items-center gap-2">
+                                        <div className="heart">
+                                            <img src="./images/likeicon.png" alt="" />
+                                        </div>
+
+                                        <span className="cheapest">
+                                            {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
+                                        </span>
+                                    </div>
+
+                                    <span className="rating">5.0</span>
+                                </div>
+
+                                <div className="flight-body">
+
+                                    <h5 className="mb-4 fw-semibold">
+                                        {flight.IsLCC ? "Low Cost Carrier" : "Full Service Airline"}
+                                    </h5>
+
+                                    <div className="row align-items-center">
+
+                                        {/* Airline Details */}
+                                        <div className="col-lg-2">
+                                            <div className="d-flex align-items-center gap-2">
+
+                                                <img
+                                                    src={`https://raw.githubusercontent.com/npow/airline-logos/master/airlines/${firstSegment.Airline_Code}.png`}
+                                                    className="airline-logo"
+                                                    alt=""
+                                                    onError={(e) => {
+                                                        e.target.src = "./images/indigo.png";
+                                                    }}
+                                                />
+
+                                                <div className="gfjh55">
+                                                    <div className="fw-semibold">
+                                                        {firstSegment.Airline_Name}
+                                                    </div>
+
+                                                    <small className="text-muted">
+                                                        {firstSegment.Airline_Code}
+                                                        {firstSegment.Flight_Number}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <a href="/" className="compare-link">
+                                                Add to compare +
+                                            </a>
+                                        </div>
+
+                                        {/* Time Section */}
+                                        <div className="col-lg-5">
+                                            <div className="time-wrapper">
+
+                                                <div className="text-center">
+                                                    <h4 className="mb-0">
+                                                        {firstSegment.Departure_DateTime.split(" ")[1]}
+                                                    </h4>
+
+                                                    <small>
+                                                        {firstSegment.Origin_City}
+                                                    </small>
+                                                </div>
+
+                                                <div className="duration-wrapper text-center">
+
+                                                    <small>
+                                                        {flight.Segments
+                                                            .map(segment => segment.Duration)
+                                                            .join(" + ")}
+                                                    </small>
+
+                                                    <div className="duration-line"></div>
+
+                                                </div>
+
+                                                <div className="text-center">
+                                                    <h4 className="mb-0">
+                                                        {lastSegment.Arrival_DateTime.split(" ")[1]}
+                                                    </h4>
+
+                                                    <small>
+                                                        {lastSegment.Destination_City}
+                                                    </small>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        {/* Price */}
+                                        <div className="col-lg-2">
+                                            <div className="price-section">
+                                                <small>From</small>
+
+                                                <h4>
+                                                    <strong>
+                                                        ₹ {cheapestFare?.Total_Amount?.toLocaleString()}
+                                                    </strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                        {/* Extra Information */}
+                                        <div className="col-lg-3 text-end">
+
+                                            <div className="row">
+
+                                                <div className="ontime mb-2">
+                                                    <img src="./images/watch.png" alt="" />
+                                                    {flight.Fares[0]?.Seats_Available} Seats Left
+                                                </div>
+
+                                                <button className="btn btn-tour">
+                                                    Select Flight
+                                                </button>
+
+                                                <div className="stop-info mt-2">
+                                                    <img src="./images/stop.png" alt="" />
+
+                                                    {flight.Segments.length === 1
+                                                        ? "Non Stop"
+                                                        : `${flight.Segments.length - 1} Stop, ${flight.Segments
+                                                            .slice(0, -1)
+                                                            .map(s => s.Destination)
+                                                            .join(", ")}`}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div className="offer-strip">
+                                    Cabin: {
+                                        cheapestFare?.FareClasses?.[0]?.CabinClass
+                                    } | Baggage: {
+                                        cheapestFare?.Free_Baggage?.Check_In_Baggage
+                                    } Check-In | {
+                                        cheapestFare?.Free_Baggage?.Hand_Baggage
+                                    } Cabin
+                                </div>
+
                             </div>
-                            <span class="rating">5.0</span>
-                        </div>
-                    
-                        <div class="flight-body">
-                    
-                            <h5 class="mb-4 fw-semibold">Free Seat with VISA Signature*</h5>
-                    
-                            <div class="row align-items-center">
-                    
-                                <div class="col-lg-2">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img src="./images/indigo.png" class="airline-logo" alt="" />
-                                        <div class="gfjh55">
-                                            <div class="fw-semibold">Indigo</div>
-                                            <small class="text-muted">SB1254</small>
-                                        </div>
-                                    </div>
-                                    <a href="/" class="compare-link">Add to compare +</a>
-                                </div>
-                    
-                                <div class="col-lg-5">
-                                    <div class="time-wrapper">
-                    
-                                        <div class="text-center">
-                                            <h4 class="mb-0">22:30</h4>
-                                            <small>New Delhi</small>
-                                        </div>
-                    
-                                        <div class="duration-wrapper text-center">
-                                            <small>02h 20m</small>
-                                            <div class="duration-line"></div>
-                                        </div>
-                    
-                                        <div class="text-center">
-                                            <h4 class="mb-0">22:30</h4>
-                                            <small>Mumbai</small>
-                                        </div>
-                    
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-2">
-                                    <div class="price-section">
-                                        <small>From</small>
-                                        <h4><strong>₹ 8,900</strong></h4>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-3 text-end">
-                                    <div class="row">
-                                        
-                                        <div class="ontime mb-2">
-                                            <img src="./images/watch.png" alt="" /> 90% On Time
-                                        </div>
-                        
-                                        <button class="btn btn-tour">Search Hotel</button>
-                        
-                                        <div class="stop-info mt-2">
-                                            <img src="./images/stop.png" alt="" /> 1 Stop , Patna
-                                        </div>
-                                            
-                                    </div>
+                        );
+                    })}
 
-                    
-                                </div>
-                    
-                            </div>
-                    
-                        </div>
-
-                        <div class="offer-strip">
-                            Get ₹ 215 OFF using code MMTSUPER | FLAT 12% OFF on ICICI Bank Credit Cards using ICICIFEST
-                        </div>
-
-                    </div>
-
-                    <div class="flight-card">
+                    {/* <div class="flight-card">
                     
                         <div class="flight-top d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center gap-2">
@@ -735,7 +869,7 @@ export const FlightFilter = () => {
                             Get ₹ 215 OFF using code MMTSUPER | FLAT 12% OFF on ICICI Bank Credit Cards using ICICIFEST
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
