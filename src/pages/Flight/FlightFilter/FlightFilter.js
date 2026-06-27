@@ -1,6 +1,6 @@
 import "./FlightFilter.css";
 import { FollowUsInstagram } from "../../../component/FollowUsInstagram/FollowUsInstagram";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
@@ -9,6 +9,7 @@ export const FlightFilter = () => {
     const [searchParams] = useSearchParams();
     const [flightList, setFlightsList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const origin = searchParams.get("origin");
     const destination = searchParams.get("destination");
@@ -38,9 +39,7 @@ export const FlightFilter = () => {
                     cabinClass
                 };
                 const response = await http.post('/flight-search', payload);
-                console.log(response.data, 'response');
                 setFlightsList(response.data);
-                
             } catch (error) {
                 console.log(error);
             }
@@ -70,6 +69,14 @@ export const FlightFilter = () => {
         return date.toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "short",
+        });
+    };
+
+    const handleFlightDetails = (flight) => {
+        navigate("/flight-details", {
+            state: {
+                flight
+            }
         });
     };
 
@@ -392,7 +399,7 @@ export const FlightFilter = () => {
                 <div class="col-lg-9">
                 
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="fw-semibold mb-0">7 Flights Found on Your Search</h5>
+                        <h5 class="fw-semibold mb-0">{flightList?.TripDetails?.[0]?.Flights?.length} Flights Found on Your Search</h5>
                 
                         <div class="sort-area">
                             <img src="./images/listicon.png" alt="" />
@@ -545,7 +552,7 @@ export const FlightFilter = () => {
                                                     {flight.Fares[0]?.Seats_Available} Seats Left
                                                 </div>
 
-                                                <button className="btn btn-tour">
+                                                <button className="btn btn-tour" onClick={() => handleFlightDetails(flight)}>
                                                     Select Flight
                                                 </button>
 

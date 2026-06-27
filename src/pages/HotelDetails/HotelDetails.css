@@ -21,11 +21,6 @@
 
 }
 
-.cndscds455{
-    width: 100%;
-    padding: 40px  0;
-}
-
 
 .bhjdsfds 
 {
@@ -37,19 +32,30 @@
 
 }
 
-.bhjddsfs img
-{
-    width: 100%;
-    height: 450px;
-    border-radius: 12px;
+.bhjddsfs{
+  height: 370px;
 }
 
-.hgcghghvfhg img
-{
+.bhjddsfs img{
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.hgcghghvfhg{
+  height: 175px;
+}
+
+.hgcghghvfhg:first-child{
+  margin-bottom: 20px;
+}
+
+.hgcghghvfhg img{
     width: 100%;
-    height: 220px;
-    /* margin-top: 10px; */
+    height: 100%;
     border-radius: 12px;
+    object-fit: cover;
 
 }
 
@@ -70,16 +76,8 @@
     font-weight: 600;
 }
 
-.dsvbjhdvsdc h5
-{
-    padding-top: 15px;
-    color: black;
-    font-weight: 600;
-    margin-bottom: 0;
-}
-.dsvbjhdvsdc p
-{
-    color: black;
+.dsvbjhdvsdc h5{
+  font-weight: 600;
 }
 
 
@@ -180,7 +178,7 @@
 
 /* RATING */
 .rating-box{
-  background:#0ea5a4;
+  background: var(--success);
   color:#fff;
   padding:6px 10px;
   border-radius:6px;
@@ -191,6 +189,14 @@
   font-size:12px;
   color:#0ea5a4;
   text-decoration:none;
+}
+
+.bcbsdbszsd .rating-box{
+  height: max-content;
+}
+
+.sdhgxifoijjd h6{
+  font-size: 0.8rem;
 }
 
 /* MAP */
@@ -249,17 +255,6 @@
 {
     margin-bottom: 0;
     color: gray;
-}
-
-.tfty885r 
-{
-    background-color: #00a6a6;
-    color: white;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
 }
 
 /* HEART ICON */
@@ -1087,6 +1082,62 @@
 .amenities_more_link:hover {
   text-decoration: underline;
 }
+
+h6.jkvnxlkjvkxccv{
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--light-highlighted-text-color);
+}
+
+.jkvnxlkjvkxccv i{
+  color: var(--main-green-color);
+}
+
+.xfhgxdvxcv p{
+  font-size: 0.8rem;
+  color: var(--blue-primary-color) !important;
+  border: 1px dashed var(--blue-primary-color);
+  background: color-mix(in srgb, var(--blue-primary-color) 10%, #fff 80%);
+  line-height: 1;
+  border-radius: 3px;
+}
+
+.hotel-detls-wrppr .hotel-card{
+  margin-bottom: 1rem;
+}
+
+.duijewkijuler-tabs .tab-content > .tab-pane{
+  display: block;
+}
+
+.duijewkijuler-tabs .fade:not(.show){
+  opacity: 1;
+}
+
+.duijewkijuler-tabs .mkooijokerr{
+  border-radius: 10px;
+  border: 1px solid var(--card-border-color) !important;
+}
+
+.duijewkijuler-tabs .mkooijokerr button.nav-link{
+  border: 1px solid #fff;
+}
+
+.duijewkijuler-tabs .mkooijokerr button.active{
+  border-bottom: 3px solid var(--main-green-color);
+}
+
+.duijewkijuler-tabs .mkooijokerr.sticky-top{
+  top: 12%;
+}
+
+.mkooijokerr a .nav-link{
+  color: #000;
+  font-weight: 500;
+}
+
+
+
 
 /* Mobile responsive (optional) */
 @media (max-width: 991px) {

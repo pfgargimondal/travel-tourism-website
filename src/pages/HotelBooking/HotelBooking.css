@@ -588,30 +588,6 @@
   gap: 10px;
 }
 
-.tab-btn {
-  padding: 6px 14px;
-  border: 1px solid #ccc;
-  background: #eeeeee;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 11px;
-}
-
-.tab-btn.active {
-  background: #e6f0ff;
-  border-color: #0d6efd;
-  color: #0d6efd;
-}
-
-/* Tab Content */
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
 /* Coupon Card */
 .deiwhrwerwer .coupon-card {
   background: #fff;

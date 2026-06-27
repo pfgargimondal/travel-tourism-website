@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-
+import { Link, useLocation } from "react-router-dom";
 import "./FlightDetails.css";
-
-
 
 export const FlightDetails = () => {
     const [imprtntInfoModal, setImprtntInfoModal] = useState(false);
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [allCouponModal, setAllCouponModal] = useState(false);
+
+    const location = useLocation();
+    const flight = location.state?.flight;
+
+    console.log(flight, 'flightDetails');
 
     useEffect(() => {
         const html = document.querySelector("html");

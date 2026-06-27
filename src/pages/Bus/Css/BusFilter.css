@@ -361,17 +361,6 @@
     color: #777;
 }
 
-/* RATING */
-.rating-box {
-    background: #1a7f37;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-block;
-}
-
 .rating-count {
     font-size: 12px;
     color: #555;

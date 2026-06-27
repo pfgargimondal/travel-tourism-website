@@ -1510,8 +1510,10 @@ export const HotelFilter = () => {
                                 <div className="fgfdfgd78">
                                   <div className="row">
                                     <div className="col-lg-4">
-                                      <div className="fbvhjd">
+                                      <div className="fbvhjd position-relative">
                                         <img src={hotel.image} alt="" />
+
+                                        <button className="xbzgsczxcrr rounded-pill position-absolute px-2 py-1"><i className="fa-regular me-1 fa-images"></i> 25 Photos</button>
 
                                         {/* <div className="wishlist-icon">
                                           <img
@@ -1522,7 +1524,7 @@ export const HotelFilter = () => {
                                       </div>
                                     </div>
 
-                                    <div className="col-lg-8">
+                                    <div className="col-lg-8 ps-lg-0">
                                       <div className="dsbhjsdsf d-flex flex-column justify-content-between h-100">
                                         <div className="dueuiwejasd">
                                           <h4 className="mb-2">
@@ -1536,7 +1538,7 @@ export const HotelFilter = () => {
 
                                           {/* Headline */}
                                             {headline && (
-                                              <p className="mt-1">
+                                              <p className="sgfsvdfgf my-1">
                                                 HeadLine : {headline}
                                               </p>
                                             )}
@@ -1569,20 +1571,20 @@ export const HotelFilter = () => {
                                             </p>
                                         </div>
 
-                                        <div className="diehfsdf d-flex align-items-center gap-1">
-                                          <div className="iudhewijjrrr p-2">
+                                        <div className="diehfsdf d-flex align-items-center gap-1 mt-2 mb-1">
+                                          <div className="iudhewijjrrr p-2 me-1">
                                             <img src="./images/gift.png" alt="" />
                                           </div>
 
                                           <h6 className="mb-0">Long Stay Benefits</h6>
                                         </div>
 
-                                        <div className="djiwehriwer d-flex align-items-center gap-2">
+                                        <div className="djiwehriwer d-flex align-items-center gap-1">
                                           <div className="diehrknjiwer d-flex align-items-center p-2 rounded-3">
                                             <img src="./images/leaves.png" className="me-1" alt="" />
 
                                             <div className="duewhrwer">
-                                              <p className="mb-0">20% off pm</p>
+                                              <p className="mb-0">20% off on</p>
 
                                               <p className="mb-0">Spa Session</p>
                                             </div>
@@ -1604,7 +1606,7 @@ export const HotelFilter = () => {
                                             <div className="duewhrwer">
                                               <p className="mb-0">20% off on</p>
 
-                                              <p className="mb-0">Laundry Service (upto 2 clothing items)</p>
+                                              <p className="mb-0">Laundry Service (upto 2 items)</p>
                                             </div>
                                           </div>
                                         </div>
@@ -1651,11 +1653,18 @@ export const HotelFilter = () => {
                                   </div>
                                 </div>
                               </div>
-                            </div>                            
-                          </div>
-                          
-                          <div className="tfty885r">
-                            <h6>SBI Debit Card Offer - Get INR 5000 Off!</h6>
+                            </div>  
+
+                            <div className="tfty885r mt-4 d-flex align-items-center px-3 py-2 justify-content-between">
+                              <div className="dsoijfcosdc">
+                                <h6 className="mb-0">
+                                  <img src="./images/vzdvs.png" className="me-3" alt="" /> 
+                                  
+                                  SBI Debit Card Offer &nbsp; &nbsp; | &nbsp; &nbsp; Get INR 5000 Off!</h6>
+                              </div>
+
+                              <button className="btn btn-light overflow-hidden position-relative py-1 d-flex align-items-center"><span>Know More</span> <i className="fa-solid fa-arrow-right"></i></button>
+                            </div>                          
                           </div>
                         </div>
                       );

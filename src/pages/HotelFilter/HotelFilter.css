@@ -247,10 +247,14 @@ font-weight:700;
    color: black;
 }
 
+.diehfsdf .iudhewijjrrr{
+  border: 5px solid color-mix(in srgb, var(--main-green-color) 20%, #fff 80%);
+}
+
 .dsbhjsdsf h6
 {
-  color: var(--light-highlighted-text-color);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .dsbhjsdsf h6 i{
@@ -265,17 +269,23 @@ font-weight:700;
 }
 
 .diehrknjiwer p{
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.5;
 }
 
 .diehrknjiwer img {
-  width: 1.5rem;
+  width: 1.4rem;
 }
 
 .diehrknjiwer{
+  width: calc(100% - 30px);
   background: color-mix(in srgb, var(--main-green-color) 10%, #fff 90%);
+}
+
+.duewhrwer p:last-child{
+  font-weight: 600;
+  color: #000 !important;
 }
 
 .iudhewijjrrr{
@@ -293,7 +303,7 @@ font-weight:700;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: grayscale(255);
+  filter: invert(1);
 }
 
 
@@ -355,13 +365,52 @@ font-weight:700;
 
 .tfty885r 
 {
-  background-color: #00a6a6;
+  background: linear-gradient(45deg, var(--blue-secondary-color), var(--main-green-color));
   color: #fff;
-  padding: 10px;
   font-size: 15px;
   font-weight: 500;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-radius: 12px;
+}
+
+.tfty885r button{
+  color: var(--main-green-color);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tfty885r button span{
+  position: absolute;
+  left: -10rem;
+  transition: 0.2s ease-in-out;
+  margin-right: 5px;
+}
+
+.tfty885r button:hover span{
+  position: initial;
+  transition: 0.2s ease-in-out;
+}
+
+.tfty885r button:hover{
+  background: #fff;
+  border: #fff;
+}
+
+.tfty885r button i{
+  line-height: 2;
+}
+
+.dsoijfcosdc h6 img{
+  width: 3rem;
+}
+
+button.xbzgsczxcrr{
+  right: 5%;
+  bottom: 5%;
+  font-size: 10px;
+  border: 0;
+  background: rgba(0,0,0,0.38);
+  backdrop-filter: blur(20px);
+  color: #fff;
 }
 
 .fbvhjd{
