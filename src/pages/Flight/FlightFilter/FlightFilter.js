@@ -18,6 +18,7 @@ export const FlightFilter = () => {
     const children = searchParams.get("children");
     const infants = searchParams.get("infants");
     const tripType = searchParams.get("tripType");
+    const travelType = searchParams.get("travelType");
     const cabinClass = searchParams.get("cabinClass");
 
     useEffect(() => {
@@ -33,6 +34,7 @@ export const FlightFilter = () => {
                     children,
                     infants,
                     tripType,
+                    travelType,
                     cabinClass
                 };
                 const response = await http.post('/flight-search', payload);
@@ -55,8 +57,21 @@ export const FlightFilter = () => {
         children,
         infants,
         tripType,
+        travelType,
         cabinClass
     ]);
+
+    const formatFlightDate = (dateTime) => {
+        const [datePart] = dateTime.split(" ");
+        const [month, day, year] = datePart.split("/");
+
+        const date = new Date(year, month - 1, day);
+
+        return date.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+        });
+    };
 
     if (loading) return <Loader />;
 
@@ -65,7 +80,6 @@ export const FlightFilter = () => {
             <section class="hero-section" style={{
                 background: "url('./images/asd.png') center center / cover no-repeat"
             }}>
-
  
         <div class="container text-center hero-content">
 
@@ -411,18 +425,22 @@ export const FlightFilter = () => {
                                             <img src="./images/likeicon.png" alt="" />
                                         </div>
 
-                                        <span className="cheapest">
+                                        {/* <span className="cheapest">
                                             {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
-                                        </span>
+                                        </span> */}
+                                        <h5 className="mb-1 fw-semibold">
+                                            {flight.IsLCC ? "Low Cost Carrier" : "Full Service Airline"}
+                                        </h5>
                                     </div>
 
-                                    <span className="rating">5.0</span>
+                                    {/* <span className="rating">5.0</span> */}
                                 </div>
 
                                 <div className="flight-body">
 
                                     <h5 className="mb-4 fw-semibold">
-                                        {flight.IsLCC ? "Low Cost Carrier" : "Full Service Airline"}
+                                        {firstSegment.Destination_City.replace(/\s*\(.*?\)/g, "").trim()} to {firstSegment.Origin_City.replace(/\s*\(.*?\)/g, "").trim()},
+                                         &nbsp; {formatFlightDate(firstSegment.Departure_DateTime)}
                                     </h5>
 
                                     <div className="row align-items-center">
@@ -452,9 +470,9 @@ export const FlightFilter = () => {
                                                 </div>
                                             </div>
 
-                                            <a href="/" className="compare-link">
+                                            {/* <a href="/" className="compare-link">
                                                 Add to compare +
-                                            </a>
+                                            </a> */}
                                         </div>
 
                                         {/* Time Section */}
@@ -467,16 +485,24 @@ export const FlightFilter = () => {
                                                     </h4>
 
                                                     <small>
-                                                        {firstSegment.Origin_City}
+                                                        Terminal {firstSegment.Origin_Terminal}
                                                     </small>
                                                 </div>
 
                                                 <div className="duration-wrapper text-center">
 
                                                     <small>
-                                                        {flight.Segments
+                                                        {/* {flight.Segments
                                                             .map(segment => segment.Duration)
-                                                            .join(" + ")}
+                                                            .join(" + ")} */}
+                                                        {
+                                                            flight.Segments
+                                                                .map(segment => {
+                                                                const [hours, minutes] = segment.Duration.split(":");
+                                                                return `${hours}h ${minutes}m`;
+                                                                })
+                                                                .join(" + ")
+                                                        }
                                                     </small>
 
                                                     <div className="duration-line"></div>
@@ -489,7 +515,7 @@ export const FlightFilter = () => {
                                                     </h4>
 
                                                     <small>
-                                                        {lastSegment.Destination_City}
+                                                        Terminal {lastSegment.Destination_Terminal}
                                                     </small>
                                                 </div>
 
@@ -515,7 +541,7 @@ export const FlightFilter = () => {
                                             <div className="row">
 
                                                 <div className="ontime mb-2">
-                                                    <img src="./images/watch.png" alt="" />
+                                                    <img src="./images/seat.png" alt="" style={{ "maxHeight": "23px" }}/>
                                                     {flight.Fares[0]?.Seats_Available} Seats Left
                                                 </div>
 

@@ -36,7 +36,8 @@ const [returnDate, setReturnDate] = useState(null);
 
 const [tripType, setTripType] = useState(0);
 const [cabinClass, setCabinClass] = useState(0);
-
+// eslint-disable-next-line
+const [travelType, setTravelType] = useState(0);
 // const MAX_GUESTS_PER_ROOM = 8;
 
 
@@ -224,19 +225,19 @@ const [infantAges, setInfantAges] = useState([]);
 
     if (!selectedOrigin || !selectedDestination) {
       setAvailableDates([]);
-      setDepartureDate(today);
+      setDepartureDate(null);
       return;
     }
 
     const route = airportList.find(
-      (item) =>
+      item =>
         item.origin === selectedOrigin &&
         item.destination === selectedDestination
     );
 
     if (!route?.AvailableDates) {
       setAvailableDates([]);
-      setDepartureDate(today);
+      setDepartureDate(null);
       return;
     }
 
@@ -247,13 +248,10 @@ const [infantAges, setInfantAges] = useState([]);
 
     setAvailableDates(dates);
 
-    const futureDates = dates.filter((d) => d >= today);
+    // Set first available date only when route changes
+    const futureDates = dates.filter(d => d >= today);
+    setDepartureDate(futureDates[0] || today);
 
-    if (futureDates.length > 0) {
-      setDepartureDate(futureDates[0]);
-    } else {
-      setDepartureDate(today);
-    }
   }, [selectedOrigin, selectedDestination, airportList]);
 
   const handleSwap = () => {
@@ -266,6 +264,13 @@ const [infantAges, setInfantAges] = useState([]);
     setSelectedDestination(origin);
   };
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
   const handleFlightSearch = () => {
 
       const searchData = {
@@ -273,27 +278,23 @@ const [infantAges, setInfantAges] = useState([]);
           destination: selectedDestination,
 
           departureDate: departureDate
-              ? departureDate.toISOString().split("T")[0]
+              ? formatDate(departureDate)
               : "",
 
           returnDate: returnDate
-              ? returnDate.toISOString().split("T")[0]
+              ? formatDate(returnDate)
               : "",
 
           adults: adultCount,
           children: childrenCount,
           infants: infantCount,
-
+          travelType: travelType,
           tripType: tripType,
           cabinClass: cabinClass
       };
       const params = new URLSearchParams(searchData);
       navigate(`/flight-filter?${params.toString()}`);
   };
-
-
-
-
 
   if (loading) return <Loader />;
   if (!slide) return null;
@@ -479,12 +480,15 @@ const [infantAges, setInfantAges] = useState([]);
                       {/* <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                       <DatePicker
                         selected={departureDate}
-                        onChange={(date) => setDepartureDate(date)}
                         // includeDates={
                         //   availableDates.length > 0
                         //     ? availableDates
                         //     : undefined
                         // }
+                        onChange={(date) => {
+                          // console.log(date); // Check if new date is coming
+                          setDepartureDate(date);
+                        }}
                         minDate={new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"

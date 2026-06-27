@@ -66,7 +66,7 @@ export const ServiceCategories = ({ start, end }) => {
                 window.location.href = "/hotels";
               }
               else if(item.slug === "flights"){
-                window.location.href = "/flights";
+                window.location.href = "/";
               }
               else{
                  window.location.href = `/${item.slug}`;
