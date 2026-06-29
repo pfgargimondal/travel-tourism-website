@@ -50,7 +50,7 @@ function Allroutes() {
       <Route path="/hotel-payment" element={<HotelPayment />} />
 
       <Route path="/flight-filter" element={<FlightFilter />} />
-      <Route path="/flight-details" element={<FlightDetails />} />
+      <Route path="/flight-details/:flightId" element={<FlightDetails />} />
 
       <Route path="/bus-filter" element={<BusFilter />} />
 

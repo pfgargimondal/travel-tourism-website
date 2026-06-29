@@ -1,16 +1,49 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import "./FlightDetails.css";
 
 export const FlightDetails = () => {
+
     const [imprtntInfoModal, setImprtntInfoModal] = useState(false);
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [allCouponModal, setAllCouponModal] = useState(false);
-
+      // eslint-disable-next-line
+    const { flightId } = useParams();
     const location = useLocation();
     const flight = location.state?.flight;
+    const firstSegment = flight.Segments[0];
+    const lastSegment = flight.Segments[flight.Segments.length - 1];
+    const cheapestFare = flight.Fares[0]?.FareDetails[0];
 
-    console.log(flight, 'flightDetails');
+    const travelDate = new Date(flight.TravelDate);
+
+    const formattedDate = travelDate.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "short",
+        day: "numeric",
+    });
+
+    const parseDate = (dateStr) => {
+        const [datePart, timePart] = dateStr.split(" ");
+        const [month, day, year] = datePart.split("/");
+        return new Date(`${year}-${month}-${day}T${timePart}`);
+    };
+
+    const departureDate = parseDate(firstSegment.Departure_DateTime);
+    const arrivalDate = parseDate(lastSegment.Arrival_DateTime);
+
+    const totalMinutes = Math.floor((arrivalDate - departureDate) / (1000 * 60));
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    const totalDuration = `${hours}h ${minutes}m`;
+    const stops = flight.Segments.length - 1;
+
+    const departureTime = firstSegment.Departure_DateTime.split(" ")[1];
+    const arrivalTime = lastSegment.Arrival_DateTime.split(" ")[1];
+
+
 
     useEffect(() => {
         const html = document.querySelector("html");
@@ -72,12 +105,24 @@ export const FlightDetails = () => {
                                         {/* HEADER */}
                                         <div className="flight-header">
                                             <div className="ciuajmcokzxc d-flex gap-2 align-items-center">
-                                                <img className="airline-logo m-0" alt="" src="./images/indigo.png" />
+                                                <img
+                                                    src={`https://images.kiwi.com/airlines/64/${firstSegment.Airline_Code}.png`}
+                                                    className="airline-logo m-0"
+                                                    alt=""
+                                                    onError={(e) => {
+                                                        e.target.src = "./images/indigo.png";
+                                                    }}
+                                                />
                                             
                                                 <div>
-                                                    <h4 className="fw-bold mb-1">Mumbai → Kolkata</h4>
+                                                    <h4 className="fw-bold mb-1">{firstSegment.Origin_City.replace(/\s*\(.*?\)/g, "").trim()} → {firstSegment.Destination_City.replace(/\s*\(.*?\)/g, "").trim()}</h4>
                                                 
-                                                    <p className="mb-0">Thursday, Mar 19 | <span>Non Stop · 2h 35m</span></p>
+                                                    <p className="mb-0">
+                                                        {formattedDate} |{" "}
+                                                        <span>
+                                                            {stops === 0 ? "Non Stop" : `${stops} Stop${stops > 1 ? "s" : ""}`} · {totalDuration}
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
                                             
@@ -91,34 +136,34 @@ export const FlightDetails = () => {
                                         {/* AIRLINE */}
                                         <div className="mt-4 d-flex justify-content-between">
                                             <div className="duiewjkijdasx d-flex align-items-center">
-                                                <p className="mb-0"><strong>IndiGo</strong> <span>6E 676</span></p>
+                                                <p className="mb-0"><strong>{firstSegment.Airline_Name}</strong> <span>{firstSegment.Airline_Code} {firstSegment.Flight_Number}</span></p>
 
-                                                <span className="badge bg-light text-dark ms-3 p-1">Airbus A321</span>
+                                                <span className="badge bg-light text-dark ms-3 p-1">Airbus {firstSegment.Aircraft_Type}</span>
                                             </div>
 
                                             <h6 className="mb-0">
-                                                Economy • <span style={{ color: '#0ea5a4' }}>MMTSPECIAL</span>
+                                                {cheapestFare?.FareClasses?.[0]?.CabinClass} • <span style={{ color: '#0ea5a4' }}>{cheapestFare?.FareClasses?.[0]?.FareBasis}</span>
                                             </h6>
                                         </div>
 
                                         {/* TIMELINE */}
                                         <div className="timeline mt-4">
                                             <div>
-                                                <div className="time">20:15</div>
-                                                <div className="airport">Mumbai</div>
+                                                <div className="time">{departureTime}</div>
+                                                <div className="airport">{firstSegment.Origin_City.replace(/\s*\(.*?\)/g, "").trim()}</div>
                                             </div>
 
-                                            <div className="duration text-center">2h 35m</div>
+                                            <div className="duration text-center">{totalDuration}</div>
 
                                             <div>
-                                                <div className="time">22:50</div>
-                                                <div className="airport">Kolkata</div>
+                                                <div className="time">{arrivalTime}</div>
+                                                <div className="airport">{firstSegment.Destination_City.replace(/\s*\(.*?\)/g, "").trim()}</div>
                                             </div>
                                         </div>
 
                                         {/* BAGGAGE */}
                                         <div className="baggage">
-                                            🧳 Cabin: 7Kg (1 piece) / Adult &nbsp;&nbsp; | &nbsp;&nbsp; 🧳 Check-in: 15Kg
+                                            🧳 Cabin: {cheapestFare?.Free_Baggage?.Hand_Baggage} / Adult &nbsp;&nbsp; | &nbsp;&nbsp; 🧳 Check-in: {cheapestFare?.Free_Baggage?.Check_In_Baggage}
                                         </div>
 
                                         {/* NOTICE */}

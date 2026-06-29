@@ -73,7 +73,7 @@ export const FlightFilter = () => {
     };
 
     const handleFlightDetails = (flight) => {
-        navigate("/flight-details", {
+        navigate(`/flight-details/${flight.Flight_Id}`, {
             state: {
                 flight
             }
@@ -418,6 +418,7 @@ export const FlightFilter = () => {
                     </div>
                     
                     {flightList?.TripDetails?.[0]?.Flights?.map((flight, index) => {
+                        console.log(flight, 'flight');
                         const firstSegment = flight.Segments[0];
                         const lastSegment = flight.Segments[flight.Segments.length - 1];
 
@@ -446,7 +447,7 @@ export const FlightFilter = () => {
                                 <div className="flight-body">
 
                                     <h5 className="mb-4 fw-semibold">
-                                        {firstSegment.Destination_City.replace(/\s*\(.*?\)/g, "").trim()} to {firstSegment.Origin_City.replace(/\s*\(.*?\)/g, "").trim()},
+                                        {firstSegment.Origin_City.replace(/\s*\(.*?\)/g, "").trim()} to {firstSegment.Destination_City.replace(/\s*\(.*?\)/g, "").trim()},
                                          &nbsp; {formatFlightDate(firstSegment.Departure_DateTime)}
                                     </h5>
 
@@ -457,7 +458,7 @@ export const FlightFilter = () => {
                                             <div className="d-flex align-items-center gap-2">
 
                                                 <img
-                                                    src={`https://raw.githubusercontent.com/npow/airline-logos/master/airlines/${firstSegment.Airline_Code}.png`}
+                                                    src={`https://images.kiwi.com/airlines/64/${firstSegment.Airline_Code}.png`}
                                                     className="airline-logo"
                                                     alt=""
                                                     onError={(e) => {
