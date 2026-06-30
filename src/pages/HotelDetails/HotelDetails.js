@@ -41,6 +41,8 @@ export const HotelDetails = () => {
     fetchHotelDetails();
   }, [slug, searchParams]);
 
+  const remainingImages = hotelDetails?.hotel_images?.length - 4;
+
   const sectionsToRemove = [
     "Accommodations:",
     "Amenities:",
@@ -741,47 +743,36 @@ export const HotelDetails = () => {
                       <div className="dbydfff854">
                         <section className="guest-gallery-section mt-4">
                           <div className="diuejfmjsdf gallery-box p-3">
-                            <h5 className="mb-3">Photos by Guests</h5>
+                            <h5 className="mb-3">Hotel Photos</h5>
 
                             <div className="row g-3">
-                              <div className="col">
-                                <img
-                                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945"
-                                  className="gallery-img" alt=""
-                                />
-                              </div>
+                              {hotelDetails?.hotel_images?.slice(3, 8).map((hotelImage, index) => (
+                                  <div className="col" key={index}>
+                                      <img
+                                          src={hotelImage.image_url}
+                                          className="gallery-img"
+                                          alt=""
+                                      />
+                                  </div>
+                              ))}
 
-                              <div className="col">
-                                <img
-                                  src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
-                                  className="gallery-img" alt=""
-                                />
-                              </div>
+                              {hotelDetails?.hotel_images?.length > 3 && (
+                                  <div className="col position-relative">
+                                      <img
+                                          src={
+                                              hotelDetails.hotel_images[
+                                                  hotelDetails.hotel_images.length - 1
+                                              ].image_url
+                                          }
+                                          className="gallery-img overlay-img"
+                                          alt=""
+                                      />
 
-                              <div className="col">
-                                <img
-                                  src="https://images.unsplash.com/photo-1590490360182-c33d57733427"
-                                  className="gallery-img" alt=""
-                                />
-                              </div>
-
-                              <div className="col">
-                                <img
-                                  src="https://images.unsplash.com/photo-1611892440504-42a792e24d32"
-                                  className="gallery-img" alt=""
-                                />
-                              </div>
-
-                              <div className="col position-relative">
-                                <img
-                                  src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461"
-                                  className="gallery-img overlay-img" alt=""
-                                />
-
-                                <div className="overlay-text" onclick="openGallery()">
-                                  +1484 Guest Photos
-                                </div>
-                              </div>
+                                      <div className="overlay-text">
+                                          +{remainingImages} Guest Photos
+                                      </div>
+                                  </div>
+                              )}
                             </div>
                           </div>
                         </section>
