@@ -202,7 +202,7 @@ button.fsdgsadehtrfdewe{
 
 .header-sticky .hdr-sticky-drpdwn .flight-menu-item:hover::after{
     width: 100%;
-    background: var(--light-border-color);
+    background: var(--border);
 }
 
 .header-sticky .flight-menu-item:hover{
