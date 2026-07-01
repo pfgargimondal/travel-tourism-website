@@ -225,7 +225,7 @@ export const HotelDetails = () => {
                           </Link> */}
                         </div>
 
-                        <span className="rating-box mb-0">hotelDetails?.hotel_rating || 0</span>
+                        <span className="rating-box mb-0">{hotelDetails?.hotel_rating || 0}</span>
                       </div>
                     </div>
                   
