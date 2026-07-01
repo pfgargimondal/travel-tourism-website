@@ -81,6 +81,10 @@ main{
     margin-top: -4rem;
 }
 
+main.header-sticky-show-filter-wrapper{
+    margin-top: 0;
+}
+
 input{
     font-family: var(--font-family-raleway);
     font-weight: 600 !important;

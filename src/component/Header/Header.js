@@ -15,7 +15,7 @@ import "./HeaderResponsive.css";
 
 
 
-export const Header = ({ headerNew, headerBlackText }) => {
+export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
     const [headerSticky, setHeaderSticky] = useState(false);
     const [loginRegModal, setLoginRegModal] = useState(false);
     const [regModal, setRegModal] = useState(false);
@@ -36,7 +36,10 @@ export const Header = ({ headerNew, headerBlackText }) => {
 
     return (
         <div>
-            <header className={headerSticky ? `bg-white w-100 header-sticky ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""}` : `bg-transparent w-100 position-relative ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""}`}>
+            <header className={headerSticky ? 
+                `bg-white w-100 header-sticky ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""} ${headerStickyShow ? "header-sticky-show" : ""}` : 
+                `bg-transparent w-100 position-relative ${headerNew ? "new-header" : ""} ${headerBlackText ? "black-text-header" : ""} ${headerStickyShow ? "header-sticky-show" : ""}`
+                }>
                 <div className="top-header py-2">
                     <div className="container">
                         <div className="d-flex align-items-center justify-content-between">
@@ -59,7 +62,7 @@ export const Header = ({ headerNew, headerBlackText }) => {
 
                             {/* Middle Menu */}
                             <div className="sifjdnosjkjhjmre d-flex align-items-center header-menu">
-                                {!headerSticky && (
+                                {!(headerSticky || headerStickyShow) && (
                                     <div className="asdoijodjokpkoie d-flex align-items-center gap-2">
                                         <span className="icon-circle">🏠</span>
                                         <div>
@@ -106,7 +109,7 @@ export const Header = ({ headerNew, headerBlackText }) => {
                                     </div>
                                 </div>
 
-                                {!headerSticky && (
+                                {!(headerSticky || headerStickyShow) && (
                                     <div className="asdoijodjokpkoie d-flex align-items-center gap-2">
                                         <div className="diwejojiwerer rounded-circle position-relative">
                                             <img src="./images/sdeqw.png" className="position-absolute top-50 start-50 translate-middle" width={15} alt="" />

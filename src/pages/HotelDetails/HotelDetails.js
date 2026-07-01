@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+// eslint-disable-next-line
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import http from "../../http";
 import Loader from "../../component/Loader/Loader";
@@ -191,7 +192,7 @@ export const HotelDetails = () => {
                           {hotelDetails?.hotel_name}
                         </h4>
 
-                        <h6 className="jkvnxlkjvkxccv mb-2"><i className="fa-solid me-1 fa-location-dot"></i> 46,1St Main Road, Gokula 1St Stage Mathikere, Yeswanthpur, Bengaluru, Karnataka 560054</h6>
+                        <h6 className="jkvnxlkjvkxccv mb-2"><i className="fa-solid me-1 fa-location-dot"></i> {hotelDetails?.address}</h6>
                         
                         <div className="sbfsdvfsf d-flex align-items-center">
                           <div className="vfddf me-1">
@@ -215,14 +216,16 @@ export const HotelDetails = () => {
 
                       <div className="bcbsdbszsd d-flex gap-2">                        
                         <div className="sdhgxifoijjd text-end">
-                          <h6 className="mb-0">Excellent <span className="small text-muted">(412 Ratings)</span></h6>
+                          <h6 className="mb-0">Excellent 
+                            {/* <span className="small text-muted">(412 Ratings)</span> */}
+                          </h6>
                         
-                          <Link to="/" className="review-link">
+                          {/* <Link to="/" className="review-link">
                             <b>All Reviews</b>
-                          </Link>
+                          </Link> */}
                         </div>
 
-                        <span className="rating-box mb-0">4.3</span>
+                        <span className="rating-box mb-0">hotelDetails?.hotel_rating || 0</span>
                       </div>
                     </div>
                   
@@ -235,7 +238,7 @@ export const HotelDetails = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="dfsdf542">
-                            {hotelDetails?.hotel_images?.slice(0, 2).map((hotelImage, index, arr) => (
+                            {hotelDetails?.hotel_images?.slice(0, 1).map((hotelImage, index, arr) => (
                               <div className="hgcghghvfhg" key={index}>
                                 <img
                                   src={hotelImage.image_url}
@@ -243,6 +246,19 @@ export const HotelDetails = () => {
                                 />
                               </div>
                             ))}
+                            {hotelDetails?.hotel_images?.length > 1 && (
+                              <div className="col position-relative hgcghghvfhg">
+                                <img
+                                  src={hotelDetails.hotel_images[1].image_url}
+                                  className="gallery-img overlay-img"
+                                  alt="Hotel"
+                                />
+
+                                <div className="overlay-text">
+                                  +{hotelDetails.hotel_images.length - 1} All Photos
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -274,13 +290,18 @@ export const HotelDetails = () => {
                           <i class="fa-solid fa-bed"></i>
                         </div>
 
-                        <h5 className="room-title mb-0">Bed in 8 Bed Mixed Dormitory</h5>
+                        <h5 className="room-title mb-0">{hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.Name?.[0]}</h5>
                       </div>
 
                       <div className="dlozaclznokxcnzxc py-3">
                         <p className="small text-muted mb-2"><i className="fa-solid me-1 fa-user"></i> Fits 1 Adult</p>
                       
-                        <p className="small text-muted mb-2"><i className="fa-solid me-1 fa-shield-halved"></i> Non-Refundable</p>
+                        <p className="small text-muted mb-2">
+                          <i className="fa-solid me-1 fa-shield-halved"></i>
+                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.IsRefundable === false
+                              ? 'Non-Refundable'
+                              : 'Refundable'}
+                        </p>
 
                         <p className="small text-muted mb-0"><i class="fa-solid me-1 fa-moon"></i> Per Night</p>
                       </div>
@@ -624,25 +645,7 @@ export const HotelDetails = () => {
                                     <span>{hotelFacility.facility}</span>
                                   </div>
                                 ))}
-                              {/* <div className="amenity-item">
-                                <img src="./images/swimming-pool.png" alt=""/>
-                                <span>Swimming Pool</span>
-                              </div>
-
-                              <div className="amenity-item">
-                                <img src="./images/wifi.png" alt=""/>
-                                <span>Free Wifi</span>
-                              </div>
-
-                              <div className="amenity-item">
-                                <img src="./images/power.png" alt=""/>
-                                <span>Power Back up</span>
-                              </div>
-
-                              <div className="amenity-item">
-                                <img src="./images/ac.png" alt=""/>
-                                <span>Air Conditioning</span>
-                              </div> */}                              
+                                                         
                             </div>
 
                             <div className="text-end">
@@ -665,7 +668,14 @@ export const HotelDetails = () => {
                       id="attrctns"
                     >
                       <div className="hotel-card">
-                        <p className="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi in ex molestiae commodi vero quaerat ullam porro. Quo, ratione deserunt.</p>
+                        <h5 className="mb-3">Attractions</h5>
+                        <ul className="attraction-list">
+                            {hotelDetails?.hotel_attractions?.map((hotelAttraction, index) => (
+                                <li className="amenity-item" key={index}>
+                                    {hotelAttraction.title} {hotelAttraction.attraction}
+                                </li>
+                            ))}
+                        </ul>
                       </div>                        
                     </div>
                     
