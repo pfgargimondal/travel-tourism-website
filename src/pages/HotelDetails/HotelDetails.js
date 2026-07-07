@@ -56,6 +56,19 @@ export const HotelDetails = () => {
 
   let cleanDescription = hotelDetails?.description || "";
 
+  const totalFare = Math.round(
+    hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.TotalFare || 0
+  );
+
+  const promotion =
+    hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.RoomPromotion?.[0] || "";
+
+  const discountPercent = Number(promotion.match(/\d+/)?.[0] || 0);
+
+  const discountedPrice = (
+    totalFare - (totalFare * discountPercent) / 100
+  ).toFixed(0);
+
   sectionsToRemove.forEach((section) => {
     cleanDescription = cleanDescription.replace(
       new RegExp(
@@ -161,6 +174,15 @@ export const HotelDetails = () => {
       return "https://cdn-icons-png.flaticon.com/512/2503/2503508.png";
 
     return "https://img.icons8.com/fluency/48/services.png";
+  };
+
+  const handleViewAll = () => {
+    setActiveTab("rooms");
+
+    document.getElementById("rooms")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
   
   if (loading) {
@@ -311,14 +333,16 @@ export const HotelDetails = () => {
                           <p className="mb-0">Price per night</p>
 
                           <div className="dokcknzsicnisd d-flex align-items-center flex-wrap gap-2">
-                            <span>₹3699</span>
+                            <span>₹{discountedPrice}</span>
 
-                            <span>₹4200</span>  
+                            <span>
+                              ₹{totalFare}
+                            </span>  
                           </div>                          
                         </div>
 
                         <div className="vdfv785">
-                          <p className="mb-0">+&nbsp;₹&nbsp;3,543&nbsp;taxes &amp; fees per Night</p>
+                          <p className="mb-0">+&nbsp;₹&nbsp;{Math.round(hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.TotalTax)}&nbsp;taxes &amp; fees per Night</p>
                         </div>
                       </div>
 
@@ -326,9 +350,14 @@ export const HotelDetails = () => {
                       <button className="btn-tour w-100">Book This Now</button>
 
                       <div className="xvbzxbcfndddd mt-2">                        
-                        <button className="btn-tour view-btn w-100 mb-3">View All (8)</button>
+                        <button className="btn-tour view-btn w-100 mb-3" onClick={handleViewAll}>View All (8)</button>
 
-                        <p className="mb-0 d-block text-center"><i className="bi me-1 bi-shield-shaded"></i> Non-Refundable</p>
+                        <p className="mb-0 d-block text-center">
+                          <i className="bi me-1 bi-shield-shaded"></i> 
+                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.IsRefundable === false
+                              ? 'Non-Refundable'
+                              : 'Refundable'}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -365,11 +394,11 @@ export const HotelDetails = () => {
                               <i className="bi position-absolute bi-tag-fill"></i>
                             </span>
 
-                            <span className="d-flex bg-white align-items-center justify-content-center rounded-circle text-center">5 Minutes Deal</span>
+                            {/* <span className="d-flex bg-white align-items-center justify-content-center rounded-circle text-center">5 Minutes Deal</span> */}
                           </div>
 
                           <p className="small mb-0">
-                            Congrats! You are getting a discount of <span>₹218</span> as a Last Minute Deal.
+                             Congratulations! You're getting <span>{promotion.replace("Save:", "")}</span> discount.
                           </p>
                         </div>
                       </div>

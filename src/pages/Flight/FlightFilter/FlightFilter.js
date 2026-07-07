@@ -1,16 +1,25 @@
-import "./FlightFilter.css";
 import { FollowUsInstagram } from "../../../component/FollowUsInstagram/FollowUsInstagram";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
+
+import "./FlightFilter.css";
+
+
+
 export const FlightFilter = () => {
   const [searchParams] = useSearchParams();
   const [flightList, setFlightsList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showFareModal, setShowFareModal] = useState(false);
   const [selectedFlight, setSelectedFlight] = useState(null);
-  const [fareApiData, setFareApiData] = useState({});
+  const [fareApiData, setFareApiData] = useState({}); 
+  const [airportList, setAirportList] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -24,6 +33,22 @@ export const FlightFilter = () => {
   const tripType = searchParams.get("tripType");
   const travelType = searchParams.get("travelType");
   const cabinClass = searchParams.get("cabinClass");
+
+
+  const [selectedOrigin, setSelectedOrigin] = useState(origin || "");
+  const [selectedDestination, setSelectedDestination] = useState(destination || "");
+  const [selectedDepartureDate, setSelectedDepartureDate] = useState(departureDate || "");
+  const [selectedReturnDate, setSelectedReturnDate] = useState(returnDate || "");
+
+  const [adultCount, setAdultCount] = useState(Number(adults) || 1);
+  const [childrenCount, setChildrenCount] = useState(Number(children) || 0);
+  const [infantCount, setInfantCount] = useState(Number(infants) || 0);
+
+  const [selectedCabinClass, setSelectedCabinClass] = useState(cabinClass || "0");
+     // eslint-disable-next-line
+  const [selectedTripType, setSelectedTripType] = useState(tripType || "0");
+  const [flightDrpdwn, setFlightDrpdwn] = useState(false);
+
 
   useEffect(() => {
     const fetchFlights = async () => {
@@ -62,6 +87,53 @@ export const FlightFilter = () => {
     travelType,
     cabinClass,
   ]);
+
+  
+
+
+  useEffect(() => {
+    const fetchAirportList = async () => {
+      try {
+        const response = await http.get("/get-airport-list");
+
+        if (response.data.status) {
+          setAirportList(response.data.airportList || []);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAirportList();
+  }, []);
+
+
+  const origins = [
+    ...new Map(
+      airportList.map((item) => [
+        item.origin,
+        {
+          code: item.origin,
+          details: item.origin_details,
+        },
+      ])
+    ).values(),
+  ];
+
+  const destinations = [
+    ...new Map(
+      airportList
+        .filter((item) => item.origin === selectedOrigin)
+        .map((item) => [
+          item.destination,
+          {
+            code: item.destination,
+            details: item.destination_details,
+          },
+        ])
+    ).values(),
+  ];
+
 
   const formatFlightDate = (dateTime) => {
     const [datePart] = dateTime.split(" ");
@@ -118,6 +190,74 @@ export const FlightFilter = () => {
       },
     });
   };
+
+
+
+  const adultIncrease = () => {
+    setAdultCount((prev) => prev + 1);
+  };
+
+  const adultDecrease = () => {
+    setAdultCount((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleChildrenCount = (type) => {
+    if (type === "increase") {
+      setChildrenCount((prev) => prev + 1);
+    } else {
+      setChildrenCount((prev) => (prev > 0 ? prev - 1 : 0));
+    }
+  };
+
+  const handleInfantCount = (type) => {
+    if (type === "increase") {
+      setInfantCount((prev) => prev + 1);
+    } else {
+      setInfantCount((prev) => (prev > 0 ? prev - 1 : 0));
+    }
+  };
+
+
+
+
+  const handleSearchFlight = () => {
+    const formatDate = (date) => {
+      if (!date) return "";
+
+      const d = new Date(date);
+
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
+
+    const params = new URLSearchParams({
+      origin: selectedOrigin,
+      destination: selectedDestination,
+      departureDate: formatDate(selectedDepartureDate),
+      returnDate: formatDate(selectedReturnDate),
+      adults: adultCount,
+      children: childrenCount,
+      infants: infantCount,
+      tripType: selectedTripType,
+      travelType,
+      cabinClass: selectedCabinClass,
+    });
+
+    navigate(`/flight-filter?${params.toString()}`);
+  };
+
+  
+
+  const handleSwap = () => {
+    if (!selectedOrigin || !selectedDestination) return;
+
+    const origin = selectedOrigin;
+    const destination = selectedDestination;
+
+    setSelectedOrigin(destination);
+    setSelectedDestination(origin);
+  };
+
+
 
   if (loading) return <Loader />;
 
@@ -200,24 +340,28 @@ export const FlightFilter = () => {
                               <div className="col-md-5 col-5">
                                 <label className="form-label">Departure From</label>
 
-                                {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                                 <select
                                   className="form-control"
+                                  value={selectedOrigin}
+                                  onChange={(e) => {
+                                    setSelectedOrigin(e.target.value);
+                                    setSelectedDestination("");
+                                  }}
                                 >
                                   <option value="">Select Origin</option>
 
-                                  {/* {origins.map((origin, index) => (
+                                  {origins.map((origin, index) => (
                                     <option key={index} value={origin.code}>
                                       {origin.details
-                                        ? `${origin.code} - ${origin.details?.city}, ${origin.details?.country} - ${origin.details?.airport_name}`
+                                        ? `${origin.code} - ${origin.details.city}, ${origin.details.country} - ${origin.details.airport_name}`
                                         : origin.code}
                                     </option>
-                                  ))} */}
+                                  ))}
                                 </select>
                               </div>
 
                               <div className="col-md-2 col-2 text-center">
-                                <div className="circle"
+                                <div className="circle" onClick={handleSwap}
                                   style={{
                                     cursor: "pointer",
                                     marginTop: "25px"
@@ -229,19 +373,22 @@ export const FlightFilter = () => {
                               <div className="col-md-5 col-5">
                                 <div className="ps-3">
                                   <label className="form-label">Going To</label>
-                                  {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
+
                                   <select
                                     className="form-control"
+                                    value={selectedDestination}
+                                    onChange={(e) => setSelectedDestination(e.target.value)}
+                                    disabled={!selectedOrigin}
                                   >
                                     <option value="">Select Destination</option>
 
-                                    {/* {destinations.map((destination, index) => (
+                                    {destinations.map((destination, index) => (
                                       <option key={index} value={destination.code}>
                                         {destination.details
-                                          ? `${destination.code} - ${destination.details?.city}, ${destination.details?.country} - ${destination.details?.airport_name}`
+                                          ? `${destination.code} - ${destination.details.city}, ${destination.details.country} - ${destination.details.airport_name}`
                                           : destination.code}
                                       </option>
-                                    ))} */}
+                                    ))}
                                   </select>
                                 </div>
                               </div>
@@ -253,50 +400,52 @@ export const FlightFilter = () => {
                               <div className="col-md-4 col-md-4 col-sm-6 col-6">
                                 <label className="form-label">Departure Date</label>
 
-                                <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
-
-                                {/* <DatePicker
-                                  selected={departureDate}
-                                  // includeDates={
-                                  //   availableDates.length > 0
-                                  //     ? availableDates
-                                  //     : undefined
-                                  // }
-                                  onChange={(date) => {
-                                    // console.log(date); // Check if new date is coming
-                                    // setDepartureDate(date);
-                                  }}
+                                <DatePicker
+                                  selected={
+                                    selectedDepartureDate
+                                      ? new Date(selectedDepartureDate)
+                                      : null
+                                  }
+                                  onChange={(date) => setSelectedDepartureDate(date)}
                                   minDate={new Date()}
                                   dateFormat="dd MMM yyyy"
                                   className="form-control"
-                                /> */}
+                                />
                               </div>
 
                               <div className="col-md-4 col-md-4 col-sm-6 col-6">
                                 <label className="form-label">Return Date</label>
 
-                                <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" />
-                                {/* <DatePicker
-                                  selected={returnDate}
-                                  // onChange={(date) => setReturnDate(date)}
+                                <DatePicker
+                                  selected={
+                                    selectedReturnDate
+                                      ? new Date(selectedReturnDate)
+                                      : null
+                                  }
+                                  onChange={(date) => setSelectedReturnDate(date)}
                                   minDate={new Date()}
                                   dateFormat="dd MMM yyyy"
                                   className="form-control"
-                                /> */}
+                                />
                               </div>
 
                               <div className="col-md-4 col-md-4 col-sm-6 col-6 position-relative">
                                 <label className="form-label">Travellers & Class</label>
 
-                                <div className="form-control hotel-input"
-                                    // onClick={() => setFlightDrpdwn(prev => !prev)}
-                                >
+                                {/* <div className="form-control hotel-input" */}
+                                    {/* onClick={() => setFlightDrpdwn(prev => !prev)} */}
+                                {/* > */}
                                     {/* {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "} */}
                                     {/* {childrenCount} Child{childrenCount > 0 ? "ren" : ""} */}
                                     {/* {infantCount} Infant{infantCount > 0 ? "s" : ""} */}
+                                {/* </div> */}
+
+                                <div className="form-control hotel-input vdxbfcsffff" onClick={() => setFlightDrpdwn(prev => !prev)}>
+                                  {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
+                                  {childrenCount} Child • {infantCount} Infant
                                 </div>
 
-                                {/* {flightDrpdwn && ( */}
+                                {flightDrpdwn && (
                                   <div className="rg-drpdwn dfghdgfsfee position-absolute p-4 rounded-2 bg-white">
                                       <div className="d-flex align-items-center justify-content-between mb-3">
                                           <div className="diweirkwer d-flex flex-column">
@@ -306,17 +455,25 @@ export const FlightFilter = () => {
                                           </div>
 
                                           <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                              <button 
-                                                // onClick={adultDecrease} 
-                                                className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                              <button
+                                                type="button"
+                                                onClick={adultDecrease}
+                                                className="btn-transparent"
+                                              >
+                                                <i className="bi bi-dash-lg"></i>
+                                              </button>
 
                                               <input type="number"
-                                              //  value={adultCount}
+                                               value={adultCount}
                                                 placeholder="1" className="form-control" />
 
-                                              <button 
-                                                // onClick={adultIncrease} 
-                                                className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                              <button
+                                                type="button"
+                                                onClick={adultIncrease}
+                                                className="btn-transparent"
+                                              >
+                                                <i className="bi bi-plus-lg"></i>
+                                              </button>
                                           </div>
                                       </div>
 
@@ -328,17 +485,25 @@ export const FlightFilter = () => {
                                           </div>
 
                                           <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                              <button 
-                                                // onClick={() => handleChildrenCount("decrease")}
-                                                className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleChildrenCount("decrease")}
+                                              className="btn-transparent"
+                                            >
+                                              <i className="bi bi-dash-lg"></i>
+                                            </button>
 
                                               <input type="number" 
-                                                // value={childrenCount} 
+                                                value={childrenCount} 
                                                 className="form-control" />
 
-                                              <button 
-                                                // onClick={() => handleChildrenCount("increase")} 
-                                                className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleChildrenCount("increase")}
+                                              className="btn-transparent"
+                                            >
+                                              <i className="bi bi-plus-lg"></i>
+                                            </button>
                                           </div>
                                       </div>
 
@@ -350,17 +515,25 @@ export const FlightFilter = () => {
                                           </div>
 
                                           <div className="defgeghwewr d-flex align-items-center px-2 py-1">
-                                              <button 
-                                                // onClick={() => handleInfantCount("decrease")}
-                                                className="btn-transparent"><i class="bi bi-dash-lg"></i></button>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleInfantCount("decrease")}
+                                              className="btn-transparent"
+                                            >
+                                              <i className="bi bi-dash-lg"></i>
+                                            </button>
 
                                               <input type="number"
-                                              //  value={infantCount} 
+                                               value={infantCount} 
                                                 placeholder="1" className="form-control" />
 
-                                              <button 
-                                                // onClick={() => handleInfantCount("increase")}
-                                                className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleInfantCount("increase")}
+                                              className="btn-transparent"
+                                            >
+                                              <i className="bi bi-plus-lg"></i>
+                                            </button>
                                           </div>
                                       </div>
 
@@ -372,7 +545,8 @@ export const FlightFilter = () => {
                                             name="flightad"
                                             type="radio"
                                             style={{ display: "none" }}
-                                            checked={cabinClass === "0"}
+                                            checked={selectedCabinClass === "0"}
+                                            onChange={() => setSelectedCabinClass("0")}
                                             // onChange={() => setCabinClass("0")}
                                           />
 
@@ -393,7 +567,8 @@ export const FlightFilter = () => {
                                             name="flightad"
                                             type="radio"
                                             style={{ display: "none" }}
-                                            checked={cabinClass === "3"}
+                                            checked={selectedCabinClass === "3"}
+                                            onChange={() => setSelectedCabinClass("3")}
                                             // onChange={() => setCabinClass("3")}
                                           />
 
@@ -414,7 +589,8 @@ export const FlightFilter = () => {
                                             name="flightad"
                                             type="radio"
                                             style={{ display: "none" }}
-                                            checked={cabinClass === "1"}
+                                            checked={selectedCabinClass === "1"}
+                                            onChange={() => setSelectedCabinClass("1")}
                                             // onChange={() => setCabinClass("1")}
                                           />
 
@@ -435,7 +611,8 @@ export const FlightFilter = () => {
                                             name="flightad"
                                             type="radio"
                                             style={{ display: "none" }}
-                                            checked={cabinClass === "2"}
+                                            checked={selectedCabinClass === "2"}
+                                            onChange={() => setSelectedCabinClass("2")}
                                             // onChange={() => setCabinClass("2")}
                                           />
 
@@ -451,12 +628,19 @@ export const FlightFilter = () => {
                                       </div>
 
                                       <div className="text-end">
-                                          <button 
-                                            // onClick={() => setFlightDrpdwn(false)}
-                                            className="btn btn-tour mt-3">APPLY</button>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setFlightDrpdwn(false);
+                                              handleSearchFlight();
+                                            }}
+                                            className="btn btn-tour mt-3"
+                                          >
+                                            APPLY
+                                          </button>
                                       </div>
                                   </div>
-                                {/* )} */}
+                                )}
                               </div>
                             </div>
                           </div>
@@ -540,7 +724,7 @@ export const FlightFilter = () => {
                       </div>
 
                       <div className="col-lg-2">
-                        <button class="searchbt">Search Flight</button>
+                        <button className="searchbt" onClick={handleSearchFlight}>Search Flight</button>
                       </div>
                     </div>
                   </div>
@@ -552,29 +736,6 @@ export const FlightFilter = () => {
 
         <section class=" py-5">
           <div class="container">
-            <div class="fgdfgdfgd5">
-              <div class="row g-3 align-items-end">
-                <div class="col-lg-3 col-6">
-                  <label class="form-label">City From</label>
-                  <input type="text" class="form-control" placeholder="Kolkata" />
-                </div>
-
-                <div class="col-lg-3 col-6">
-                  <label class="form-label">City To</label>
-                  <input type="text" class="form-control" placeholder="Delhi" />
-                </div>
-
-                <div class="col-lg-3 col-6">
-                  <label class="form-label">Date</label>
-                  <input type="date" class="form-control" value="2026-02-28" />
-                </div>
-
-                <div class="col-lg-3 col-6">
-                  <button class="searchbt">Search Flight</button>
-                </div>
-              </div>
-            </div>
-
             <div class="airlines-row mt-5">
               <div class="airline-item">
                 <img src="./images/americaair.jpg" alt="" />
@@ -1035,223 +1196,233 @@ export const FlightFilter = () => {
                   );
                 })}
 
+
+
+                {/*flight fare modal*/}
+
+                <div className={`${(showFareModal && selectedFlight) ? "flight-fare-modal-backdrop" : "flight-fare-modal-backdrop flight-fare-modal-backdrop-hide"} position-fixed top-0 start-0 end-0 bottom-0 w-100 h-100`}></div>
+
                 {showFareModal && selectedFlight && (
-                  <div className="modal fade show d-block" tabIndex="-1">
-                    <div className="modal-dialog modal-lg">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title">
-                            Flight Details and Fare Options available for you!
-                          </h5>
+                  <div className={`${(showFareModal && selectedFlight) ? "flight-fare-modal" : "flight-fare-modal flight-fare-modal-hide"} bg-white position-fixed start-50 top-50 translate-middle`}>
+                    <div className="flight-modal-content">
+                      <div className="flight-modal-header d-flex align-items-center justify-content-between px-4 py-3">
+                        <h5 className="flight-modal-title mb-0">
+                           <img src="./images/favicon.png" className="me-1" alt="" /> <b>Flight Details and Fare Options available for you!</b>
+                        </h5>
 
-                          <button
-                            type="button"
-                            className="btn-close"
-                            onClick={() => setShowFareModal(false)}
+                        <button
+                          type="button"
+                          className="btn-close"
+                          onClick={() => setShowFareModal(false)}
+                        />
+                      </div>
+
+                      <div className="flight-modal-body px-4 py-3">
+                        <h5>
+                          <b>{selectedFlight.Segments[0].Origin} - {selectedFlight.Segments[selectedFlight.Segments.length - 1].Destination}</b>
+                        </h5>
+
+                        <p className="nfkjiuiewnjer mb-4">
+                          <img
+                            src={`https://images.kiwi.com/airlines/64/${selectedFlight.Segments[0].Airline_Code}.png`}
+                            className="airline-logo m-0 me-2"
+                            alt=""
+                            onError={(e) => {
+                              e.target.src = "./images/indigo.png";
+                            }}
                           />
-                        </div>
-
-                        <div className="modal-body">
-                          <h6>
-                            {selectedFlight.Segments[0].Origin} -
-                            {
-                              selectedFlight.Segments[
-                                selectedFlight.Segments.length - 1
-                              ].Destination
-                            }
-                          </h6>
-
-                          <p className="text-muted">
-                            <img
-                              src={`https://images.kiwi.com/airlines/64/${selectedFlight.Segments[0].Airline_Code}.png`}
-                              className="airline-logo m-0"
-                              alt=""
-                              onError={(e) => {
-                                e.target.src = "./images/indigo.png";
-                              }}
-                            />{" "}
-                            {selectedFlight.Segments[0].Airline_Name} · Departure
-                            at{" "}
-                            {
-                              selectedFlight.Segments[0].Departure_DateTime.split(
-                                " ",
-                              )[1]
-                            }{" "}
-                            - Arrival at{" "}
-                            {
-                              selectedFlight.Segments[
-                                selectedFlight.Segments.length - 1
-                              ].Arrival_DateTime.split(" ")[1]
-                            }
-                          </p>
-                          <hr />
+                          {selectedFlight.Segments[0].Airline_Name} · Departure at
+                          {
+                            selectedFlight.Segments[0].Departure_DateTime.split(
+                              " ",
+                            )[1]
+                          }{" "}
+                          - Arrival at{" "}
+                          {
+                            selectedFlight.Segments[
+                              selectedFlight.Segments.length - 1
+                            ].Arrival_DateTime.split(" ")[1]
+                          }
+                        </p>
+                        
+                        <div className="icsklmdjfisdfsdf row">
                           {selectedFlight.Fares.map((fare, fareIndex) => {
                             const apiFareDetails = fareApiData[fare.Fare_Id];
+
                             return (
-                              <div
-                                key={fareIndex}
-                                className="border rounded p-3 mb-3"
-                              >
-                                <h6>Fare Option {fareIndex + 1}</h6>
+                              <div className="col-lg-4 mb-4">
+                                <label htmlFor={fareIndex}
+                                  key={fareIndex}
+                                  className="iujnefjwrwer rounded mb-3"
+                                >
+                                  <input type="radio" id={fareIndex} value="" name="cfsdvfvsf" className="position-absolute d-none" />
 
-                                {fare.FareDetails.map((detail, detailIndex) => (
-                                  <div key={detailIndex} className="row">
+                                  {fare.FareDetails.map((detail, detailIndex) => (
+                                    <div key={detailIndex} className="ifuejwifhuer">
+                                      <div className="sgdhsfasdff">
+                                        <h4 className="fw-bold mb-0 p-3">
+                                            ₹ {detail.Total_Amount.toLocaleString()}
+                                            <span
+                                                className="text-muted fw-normal"
+                                                style={{ fontSize: "14px" }}
+                                            >
+                                                per adult
+                                            </span>
+                                        </h4>
 
-                                    <div className="col-md-3">
-                                      <div className="border rounded p-3 h-100">
+                                        <div
+                                            className="text-uppercase text-muted"
+                                            style={{ fontSize: "13px" }}
+                                        >
+                                            {fare.ProductClass === "R"
+                                                ? "SAVER"
+                                                : fare.ProductClass === "F"
+                                                ? "FLEXI"
+                                                : fare.ProductClass === "P"
+                                                ? "PREMIUM"
+                                                : detail.FareClasses?.[0]?.CabinClass}
+                                        </div>
+                                      </div> 
 
-                                          <h3 className="fw-bold mb-1">
-                                              ₹ {detail.Total_Amount.toLocaleString()}
-                                              <span
-                                                  className="text-muted fw-normal"
-                                                  style={{ fontSize: "14px" }}
-                                              >
-                                                  {" "}per adult
-                                              </span>
-                                          </h3>
+                                      <div className="doieasjdlmsoijf p-3">
+                                        {/* Baggage */}
+                                        <div className="djnskmlfdsf mb-3">
+                                          <h6 className="mb-2">Baggage</h6>
 
-                                          <div
-                                              className="text-uppercase text-muted"
-                                              style={{ fontSize: "13px" }}
-                                          >
-                                              {fare.ProductClass === "R"
-                                                  ? "SAVER"
-                                                  : fare.ProductClass === "F"
-                                                  ? "FLEXI"
-                                                  : fare.ProductClass === "P"
-                                                  ? "PREMIUM"
-                                                  : detail.FareClasses?.[0]?.CabinClass}
+                                          <div className="nxcvxfdcdd mb-1">
+                                            <p className="mb-0 d-flex align-items-center">
+                                              <i className="bi me-2 bi-check2-circle"></i>
+
+                                              {detail.Free_Baggage?.Hand_Baggage} Cabin Baggage
+                                            </p>
                                           </div>
 
-                                      </div>
-                                  </div>  
-                                    {/* Baggage */}
-                                    <div className="col-md-4">
-                                      <h6 className="fw-bold">Baggage</h6>
+                                          <div className="nxcvxfdcdd">
+                                            <p className="mb-0 d-flex align-items-center">
+                                              <i className="bi me-2 bi-check2-circle"></i>
 
-                                      <div className="mb-2">
-                                        ✅ {detail.Free_Baggage?.Hand_Baggage}{" "}
-                                        Cabin Baggage
-                                      </div>
+                                              {detail.Free_Baggage?.Check_In_Baggage} Check-in Baggage
+                                            </p>
+                                          </div>
+                                        </div>
 
-                                      <div>
-                                        ✅ {detail.Free_Baggage?.Check_In_Baggage}{" "}
-                                        Check-in Baggage
-                                      </div>
-                                    </div>
+                                        {/* Flexibility */}
+                                        <div className="djnskmlfdsf">
+                                          <h6 className="mb-2">Flexibility</h6>
 
-                                    {/* Flexibility */}
-                                    <div className="col-md-4">
-                                      <h6 className="fw-bold">Flexibility</h6>
+                                          <div className="duihsfijsd mb-3 py-2">
+                                            <h6 className="mb-2">Cancellation Charges</h6>
 
-                                      <div className="mb-3">
-                                        <strong>Cancellation Charges</strong>
+                                            {detail.CancellationCharges?.map(
+                                              (charge, idx) => (
+                                                <div key={idx} className="ccnxdfdzsd d-flex mt-1">
+                                                  <i className="bi me-2 bi-dash-circle"></i>
+                                                  
+                                                  <p className="mb-0">
+                                                    {charge.ValueType === 1
+                                                      ? `${charge.Value}% of fare`
+                                                      : `₹${Number(charge.Value).toLocaleString()}`}{" "}
+                                                    if cancelled between{" "}
+                                                    <strong>
+                                                      {charge.DurationFrom}
+                                                    </strong>{" "}
+                                                    {charge.DurationTypeFrom === 0
+                                                      ? "hrs"
+                                                      : "days"}{" "}
+                                                    to{" "}
+                                                    <strong>{charge.DurationTo}</strong>{" "}
+                                                    {charge.DurationTypeTo === 0
+                                                      ? "hrs"
+                                                      : "days"}{" "}
+                                                    before departure
+                                                  </p>
+                                                </div>
+                                              ),
+                                            )}
+                                          </div>
 
-                                        {detail.CancellationCharges?.map(
-                                          (charge, idx) => (
-                                            <div key={idx} className="mt-1">
-                                              🟡{" "}
-                                              {charge.ValueType === 1
-                                                ? `${charge.Value}% of fare`
-                                                : `₹${Number(charge.Value).toLocaleString()}`}{" "}
-                                              if cancelled between{" "}
-                                              <strong>
-                                                {charge.DurationFrom}
-                                              </strong>{" "}
-                                              {charge.DurationTypeFrom === 0
-                                                ? "hrs"
-                                                : "days"}{" "}
-                                              to{" "}
-                                              <strong>{charge.DurationTo}</strong>{" "}
-                                              {charge.DurationTypeTo === 0
-                                                ? "hrs"
-                                                : "days"}{" "}
-                                              before departure
-                                            </div>
-                                          ),
-                                        )}
-                                      </div>
+                                          {/* Reschedule Charges */}
+                                          <div>
+                                            <strong>Date Change Charges</strong>
 
-                                      {/* Reschedule Charges */}
-                                      <div>
-                                        <strong>Date Change Charges</strong>
+                                            {detail.RescheduleCharges?.map(
+                                              (charge, idx) => (
+                                                <div key={idx} className="mt-1">
+                                                  🟡{" "}
+                                                  {charge.ValueType === 1
+                                                    ? `${charge.Value}% of fare`
+                                                    : `₹${Number(charge.Value).toLocaleString()}`}{" "}
+                                                  if changed between{" "}
+                                                  <strong>
+                                                    {charge.DurationFrom}
+                                                  </strong>{" "}
+                                                  {charge.DurationTypeFrom === 0
+                                                    ? "hrs"
+                                                    : "days"}{" "}
+                                                  to{" "}
+                                                  <strong>{charge.DurationTo}</strong>{" "}
+                                                  {charge.DurationTypeTo === 0
+                                                    ? "hrs"
+                                                    : "days"}{" "}
+                                                  before departure
+                                                </div>
+                                              ),
+                                            )}
+                                          </div>
+                                        </div>
 
-                                        {detail.RescheduleCharges?.map(
-                                          (charge, idx) => (
-                                            <div key={idx} className="mt-1">
-                                              🟡{" "}
-                                              {charge.ValueType === 1
-                                                ? `${charge.Value}% of fare`
-                                                : `₹${Number(charge.Value).toLocaleString()}`}{" "}
-                                              if changed between{" "}
-                                              <strong>
-                                                {charge.DurationFrom}
-                                              </strong>{" "}
-                                              {charge.DurationTypeFrom === 0
-                                                ? "hrs"
-                                                : "days"}{" "}
-                                              to{" "}
-                                              <strong>{charge.DurationTo}</strong>{" "}
-                                              {charge.DurationTypeTo === 0
-                                                ? "hrs"
-                                                : "days"}{" "}
-                                              before departure
-                                            </div>
-                                          ),
-                                        )}
-                                      </div>
-                                    </div>
+                                        {/* Seats & Meals */}
+                                        <div className="cfxdbxgvndfasd">
+                                          <h6 className="fw-bold">
+                                            Seats, Meals & More
+                                          </h6>
 
-                                    {/* Seats & Meals */}
-                                    <div className="col-md-4">
-                                      <h6 className="fw-bold">
-                                        Seats, Meals & More
-                                      </h6>
+                                          <div className="mb-2">
+                                            🟡 Chargeable Seats
+                                          </div>
 
-                                      <div className="mb-2">
-                                        🟡 Chargeable Seats
-                                      </div>
-
-                                      <div>
-                                        🟡{" "}
-                                        {fare.Food_onboard === "P"
-                                          ? "Chargeable Meals"
-                                          : "Complimentary Meals"}
+                                          <div>
+                                            🟡{" "}
+                                            {fare.Food_onboard === "P"
+                                              ? "Chargeable Meals"
+                                              : "Complimentary Meals"}
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  ))}
 
-                                {apiFareDetails?.status && (
-                                  <div className="mt-3">
-                                    <h6>Fare Rules</h6>
+                                  {apiFareDetails?.status && (
+                                    <div className="mt-3">
+                                      <h6>Fare Rules</h6>
 
-                                    {apiFareDetails?.fareDetails?.FareRules?.map(
-                                      (rule, ruleIndex) => (
-                                        <div
-                                          key={ruleIndex}
-                                          className="border-top pt-2 mt-2"
-                                          dangerouslySetInnerHTML={{
-                                            __html: rule.FareRuleDesc,
-                                          }}
-                                        />
-                                      ),
-                                    )}
-                                  </div>
-                                )}
-                              </div>
+                                      {apiFareDetails?.fareDetails?.FareRules?.map(
+                                        (rule, ruleIndex) => (
+                                          <div
+                                            key={ruleIndex}
+                                            className="border-top pt-2 mt-2"
+                                            dangerouslySetInnerHTML={{
+                                              __html: rule.FareRuleDesc,
+                                            }}
+                                          />
+                                        ),
+                                      )}
+                                    </div>
+                                  )}
+                                </label>
+                              </div>                                
                             );
                           })}
                         </div>
+                      </div>
 
-                        <div className="modal-footer">
-                          <button
-                            className="btn btn-secondary"
-                            onClick={() => setShowFareModal(false)}
-                          >
-                            Close
-                          </button>
-                        </div>
+                      <div className="flight-modal-footer">
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => setShowFareModal(false)}
+                        >
+                          Close
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -417,11 +417,14 @@
     padding: 30px 30px 25px 30px;
 }
 
+p.nfkjiuiewnjer{
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 /* Airline */
 .airline-logo {
-    width: 50px;
-    margin-right: 0.4vw;
-    margin-bottom: 0.5vw;
+    width: 2rem;
 }
 
 .compare-link {
@@ -579,6 +582,106 @@ main.header-sticky-show-filter-wrapper .sdfsdf655{
 .srch-filtr-wrpper .flight-main-card{
     box-shadow: none;
     border-bottom: 1px solid var(--border);
+}
+
+.vdxbfcsffff{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flight-fare-modal{
+    visibility: visible;
+    opacity: 1;
+    z-index: 999999999;
+    transition: 0.3s ease-in-out;
+}
+
+.flight-fare-modal-hide{
+    visibility: hidden;
+    opacity: 0;
+    z-index: -999999999;
+    transition: 0.3s ease-in-out;
+}
+
+.flight-fare-modal-backdrop{
+    background: rgba(0, 0, 0, 0.6);
+    visibility: visible;
+    opacity: 1;
+    z-index: 999999999;
+    backdrop-filter: blur(5px);
+}
+
+.flight-fare-modal-backdrop-hide{
+    visibility: hidden;
+    opacity: 0;
+    z-index: -999999999;
+}
+
+.flight-fare-modal{
+    border-radius: 10px;
+    width: 1050px;
+}
+
+.flight-modal-body{
+    height: 520px;
+    overflow-y: auto;
+}
+
+h5.flight-modal-title img{
+    width: 2.5rem;
+}
+
+.iujnefjwrwer{
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+.iujnefjwrwer:has(input:checked){
+    border: 1px solid var(--blue-primary-color);
+    transition: 0.3s ease-in-out;
+    background: linear-gradient(45deg, #fff 70%, color-mix(in srgb, var(--blue-primary-color) 50%, #fff 60%));
+    box-shadow: var(--light-box-shadow);
+}
+
+.sgdhsfasdff h4{
+    border-bottom: 1px solid var(--border);
+}
+
+.iujnefjwrwer:has(input:checked) .sgdhsfasdff h4{
+    border-bottom-color: transparent;
+}
+
+.djnskmlfdsf h6{
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.nxcvxfdcdd p{
+    font-size: 0.8rem;
+    color: #000 !important;
+}
+
+.nxcvxfdcdd p i{
+    color: var(--success);
+}
+
+.duihsfijsd h6,
+.ccnxdfdzsd,
+.ccnxdfdzsd p{
+    font-size: 0.8rem;
+    color: #000 !important;
+}
+
+.duihsfijsd{
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.ccnxdfdzsd i{
+    color: var(--main-red-color);
 }
 
 
