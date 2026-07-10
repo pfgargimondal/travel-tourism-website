@@ -19,6 +19,11 @@ export const FlightFilter = () => {
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [fareApiData, setFareApiData] = useState({}); 
   const [airportList, setAirportList] = useState([]);
+  const [fareRules, setFareRules] = useState(null);
+
+  const handleFareRules = (id) => {
+    setFareRules(fareRules === id ? null : id);
+  };
 
 
   const navigate = useNavigate();
@@ -134,7 +139,7 @@ export const FlightFilter = () => {
     ).values(),
   ];
 
-
+     // eslint-disable-next-line
   const formatFlightDate = (dateTime) => {
     const [datePart] = dateTime.split(" ");
     const [month, day, year] = datePart.split("/");
@@ -734,10 +739,10 @@ export const FlightFilter = () => {
           </div>
         </section>
 
-        <section class=" py-5">
-          <div class="container">
-            <div class="airlines-row mt-5">
-              <div class="airline-item">
+        <section className="cdsnxfggfsD pt-5 pb-3">
+          <div className="container">
+            <div className="airlines-row">
+              <div className="airline-item">
                 <img src="./images/americaair.jpg" alt="" />
                 <div>
                   <h6>American Airline</h6>
@@ -745,7 +750,7 @@ export const FlightFilter = () => {
                 </div>
               </div>
 
-              <div class="airline-item">
+              <div className="airline-item">
                 <img src="./images/deltaair.png" alt="" />
                 <div>
                   <h6>Delta Airlines</h6>
@@ -753,7 +758,7 @@ export const FlightFilter = () => {
                 </div>
               </div>
 
-              <div class="airline-item">
+              <div className="airline-item">
                 <img src="./images/emiratesair.jpg" alt="" />
                 <div>
                   <h6>Emirates</h6>
@@ -761,7 +766,7 @@ export const FlightFilter = () => {
                 </div>
               </div>
 
-              <div class="airline-item">
+              <div className="airline-item">
                 <img src="./images/franceair.png" alt="" />
                 <div>
                   <h6>Air France</h6>
@@ -769,7 +774,7 @@ export const FlightFilter = () => {
                 </div>
               </div>
 
-              <div class="airline-item">
+              <div className="airline-item">
                 <img src="./images/quaterair.jpg" alt="" />
                 <div>
                   <h6>Qatar Airways</h6>
@@ -780,146 +785,147 @@ export const FlightFilter = () => {
           </div>
         </section>
 
-        <section class="flight-results-section py-5">
-          <div class="container">
-            <div class="row g-4">
+        <section className="flight-results-section py-5">
+          <div className="container">
+            <div className="row g-4">
               {/* <!-- ================= LEFT FILTER SIDEBAR ================= --> */}
-              <div class="col-lg-3">
-                <div class="filter-card sticky-top">
-                  <div class="filter-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Filters</h5>
-                    <a href="/" class="reset-link">
-                      Reset
+              <div className="col-lg-3">
+                <div className="filter-card sticky-top">
+                  <div className="filter-header d-flex justify-content-between align-items-center">
+                    <h5 className="mb-0">Filters</h5>
+
+                    <a style={{ color: "var(--blue-primary-color)" }} href="/" className="reset-link">
+                      <i className="fa-solid fa-arrow-rotate-left"></i> <b>Reset</b>
                     </a>
                   </div>
 
-                  <div class="filter-section">
-                    <label class="filter-label">Search by Airline Names</label>
+                  <div className="filter-section">
+                    <label className="filter-label">Search by Airline Names</label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Search by Airline Names"
                     />
                   </div>
 
-                  <div class="flight-filter-box">
-                    <div class="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
-                      <div class="flight-filter-left">
+                  <div className="flight-filter-box">
+                    <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                      <div className="flight-filter-left">
                         <img
                           src="./images/upplane.png"
-                          class="flight-filter-img"
+                          className="flight-filter-img"
                           alt=""
                         />
-                        <span class="flight-filter-title">Departure Times</span>
+                        <span className="flight-filter-title">Departure Times</span>
                       </div>
 
-                      <i class="fa-solid fa-caret-up flight-filter-icon"></i>
+                      <i className="fa-solid fa-caret-up flight-filter-icon"></i>
                     </div>
 
-                    <div class="flight-filter-content">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">American Airlines</label>
+                    <div className="flight-filter-content">
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">American Airlines</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">Delta Airlines</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">Delta Airlines</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">Emirates</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">Emirates</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">Air France</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">Air France</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">Japan Airlines</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">Japan Airlines</label>
                       </div>
                     </div>
                   </div>
-                  <div class="flight-filter-box">
-                    <div class="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
-                      <div class="flight-filter-left">
+                  <div className="flight-filter-box">
+                    <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                      <div className="flight-filter-left">
                         <img
                           src="./images/upplane.png"
-                          class="flight-filter-img"
+                          className="flight-filter-img"
                           alt=""
                         />
-                        <span class="flight-filter-title">Flights Times</span>
+                        <span className="flight-filter-title">Flights Times</span>
                       </div>
 
-                      <i class="fa-solid fa-caret-up flight-filter-icon"></i>
+                      <i className="fa-solid fa-caret-up flight-filter-icon"></i>
                     </div>
 
-                    <div class="flight-filter-content">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">6.00pm-12.00am</label>
+                    <div className="flight-filter-content">
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">6.00pm-12.00am</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">10.10pm-2.3apm</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">10.10pm-2.3apm</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">11.00pm-3.10am</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">11.00pm-3.10am</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">1.20am-4.40am</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">1.20am-4.40am</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">5.30am-12.00pm</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">5.30am-12.00pm</label>
                       </div>
                     </div>
                   </div>
 
-                  <div class="filter-section">
-                    <div class="filter-title d-flex align-items-center">
+                  <div className="filter-section">
+                    <div className="filter-title d-flex align-items-center">
                       <img src="./images/priceicon.png" alt="" />
                       <span>Fare Type</span>
                     </div>
 
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" />
-                      <label class="form-check-label">Show Refundable Only</label>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" />
+                      <label className="form-check-label">Show Refundable Only</label>
                     </div>
 
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" />
-                      <label class="form-check-label">
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" />
+                      <label className="form-check-label">
                         Show Non Refundable Only
                       </label>
                     </div>
                   </div>
 
-                  <div class="flight-time-filter-box">
-                    <div class="flight-time-filter-header d-flex justify-content-between align-items-center flight-time-toggle">
-                      <div class="flight-time-left">
+                  <div className="flight-time-filter-box">
+                    <div className="flight-time-filter-header d-flex justify-content-between align-items-center flight-time-toggle">
+                      <div className="flight-time-left">
                         <img
                           src="./images/upplane.png"
-                          class="flight-time-img"
+                          className="flight-time-img"
                           alt=""
                         />
-                        <span class="flight-time-title">Departure Times</span>
+                        <span className="flight-time-title">Departure Times</span>
                       </div>
 
-                      <i class="fa-solid fa-caret-up flight-time-icon"></i>
+                      <i className="fa-solid fa-caret-up flight-time-icon"></i>
                     </div>
 
-                    <div class="flight-time-content">
-                      <select class="flight-time-select form-select">
+                    <div className="flight-time-content">
+                      <select className="flight-time-select form-select">
                         <option>Anytime</option>
                         <option>Morning</option>
                         <option>Afternoon</option>
@@ -929,22 +935,22 @@ export const FlightFilter = () => {
                     </div>
                   </div>
 
-                  <div class="flight-arrival-filter-box">
-                    <div class="flight-arrival-filter-header d-flex justify-content-between align-items-center flight-arrival-toggle">
-                      <div class="flight-arrival-left">
+                  <div className="flight-arrival-filter-box">
+                    <div className="flight-arrival-filter-header d-flex justify-content-between align-items-center flight-arrival-toggle">
+                      <div className="flight-arrival-left">
                         <img
                           src="./images/downplane.png"
-                          class="flight-arrival-img"
+                          className="flight-arrival-img"
                           alt=""
                         />
-                        <span class="flight-arrival-title">Arrival Times</span>
+                        <span className="flight-arrival-title">Arrival Times</span>
                       </div>
 
-                      <i class="fa-solid fa-caret-up flight-arrival-icon"></i>
+                      <i className="fa-solid fa-caret-up flight-arrival-icon"></i>
                     </div>
 
-                    <div class="flight-arrival-content">
-                      <select class="flight-arrival-select form-select">
+                    <div className="flight-arrival-content">
+                      <select className="flight-arrival-select form-select">
                         <option>Anytime</option>
                         <option>Morning</option>
                         <option>Afternoon</option>
@@ -954,44 +960,44 @@ export const FlightFilter = () => {
                     </div>
                   </div>
 
-                  <div class="flight-review-filter-box">
-                    <div class="flight-review-filter-header d-flex justify-content-between align-items-center flight-review-toggle">
-                      <div class="flight-review-left">
+                  <div className="flight-review-filter-box">
+                    <div className="flight-review-filter-header d-flex justify-content-between align-items-center flight-review-toggle">
+                      <div className="flight-review-left">
                         <img
                           src="./images/reviewicon.png"
-                          class="flight-review-img"
+                          className="flight-review-img"
                           alt=""
                         />
-                        <span class="flight-review-title">Reviews</span>
+                        <span className="flight-review-title">Reviews</span>
                       </div>
 
-                      <i class="fa-solid fa-caret-up flight-review-icon"></i>
+                      <i className="fa-solid fa-caret-up flight-review-icon"></i>
                     </div>
 
-                    <div class="flight-review-content">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">⭐⭐⭐⭐⭐ 5 Star</label>
+                    <div className="flight-review-content">
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">⭐⭐⭐⭐⭐ 5 Star</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">⭐⭐⭐⭐ 4 Star</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">⭐⭐⭐⭐ 4 Star</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">⭐⭐⭐ 3 Star</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">⭐⭐⭐ 3 Star</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">⭐⭐ 2 Star</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">⭐⭐ 2 Star</label>
                       </div>
 
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" />
-                        <label class="form-check-label">⭐ 1 Star</label>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" />
+                        <label className="form-check-label">⭐ 1 Star</label>
                       </div>
                     </div>
                   </div>
@@ -999,16 +1005,16 @@ export const FlightFilter = () => {
               </div>
 
               {/* <!-- ================= RIGHT SIDE GOES HERE ================= --> */}
-              <div class="col-lg-9">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                  <h5 class="fw-semibold mb-0">
+              <div className="col-lg-9">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h5 className="fw-semibold mb-0">
                     {flightList?.TripDetails?.[0]?.Flights?.length} Flights Found
                     on Your Search
                   </h5>
 
-                  <div class="sort-area">
-                    <img src="./images/listicon.png" alt="" />
-                    <span>Sort By :</span>
+                  <div className="sort-area">                    
+                    <p className="mb-0">Sort By :</p>
+                    
                     <select>
                       <option>Recommended</option>
                       <option>Lowest Price</option>
@@ -1017,186 +1023,278 @@ export const FlightFilter = () => {
                   </div>
                 </div>
 
-                <div class="save-banner mb-4">
+                <div className="save-banner mb-4">
                   <span>
                     Save an average of 15% on thousands of flights when you're
                     signed in
                   </span>
-                  <button class="sign-btn">Sign In</button>
+                  <button className="sign-btn">Sign In</button>
                 </div>
 
-                {flightList?.TripDetails?.[0]?.Flights?.map((flight, index) => {
-                  const firstSegment = flight.Segments[0];
-                  const lastSegment = flight.Segments[flight.Segments.length - 1];
+                <div className="flight-filtr-wrppr">
+                  {flightList?.TripDetails?.[0]?.Flights?.map((flight, index) => {
+                    const firstSegment = flight.Segments[0];
+                    const lastSegment = flight.Segments[flight.Segments.length - 1];
 
-                  const cheapestFare = flight.Fares[0]?.FareDetails[0];
+                    const cheapestFare = flight.Fares[0]?.FareDetails[0];
 
-                  return (
-                    <div className="flight-card" key={index}>
-                      <div className="flight-top d-flex justify-content-between align-items-center">
-                        <div className="d-flex align-items-center gap-2">
-                          <div className="heart">
-                            <img src="./images/likeicon.png" alt="" />
+                    return (
+                      <div className="flight-card" key={index}>
+                        <div className="flight-top d-flex justify-content-between align-items-center mb-4">
+                          <div className="uhncoikcdf d-flex align-items-center">
+                            <div className="heart bg-white">
+                              <img src="./images/likeicon.png" alt="" />
+                            </div>
+
+                            {/* <span className="cheapest">
+                                                {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
+                                            </span> */}
+                            <p className="mb-0">
+                              {flight.IsLCC
+                                ? "Low Cost Carrier"
+                                : "Full Service Airline"}
+                            </p>
                           </div>
 
-                          {/* <span className="cheapest">
-                                              {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
-                                          </span> */}
-                          <h5 className="mb-1 fw-semibold">
-                            {flight.IsLCC
-                              ? "Low Cost Carrier"
-                              : "Full Service Airline"}
-                          </h5>
+                          {/* <span className="rating">5.0</span> */}
+
+                          <div className="stop-info">
+                            {/* <img src="./images/stop.png" alt="" /> */}
+
+                            {flight.Segments.length === 1
+                              ? "Non Stop"
+                              : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
+                                  0,
+                                  -1,
+                                )
+                                  .map((s) => s.Destination)
+                                  .join(", ")}`}
+                          </div>
                         </div>
 
-                        {/* <span className="rating">5.0</span> */}
-                      </div>
+                        <div className="flight-body">
+                          <div className="duihnjaka">
+                            <div className="row">
+                              {/* Airline Details */}
+                              <div className="col-lg-9 pe-lg-0">
+                                <div className="d-flex align-items-center justify-content-between gap-2">
+                                  <div className="uiajsdkcoijzczx d-flex gap-3 align-items-center justify-content-between">
+                                    <img
+                                      src={`https://images.kiwi.com/airlines/64/${firstSegment.Airline_Code}.png`}
+                                      className="airline-logo"
+                                      alt=""
+                                      onError={(e) => {
+                                        e.target.src = "./images/indigo.png";
+                                      }}
+                                    />
 
-                      <div className="flight-body">
-                        <h5 className="mb-4 fw-semibold">
-                          {firstSegment.Origin_City.replace(
-                            /\s*\(.*?\)/g,
-                            "",
-                          ).trim()}{" "}
-                          to{" "}
-                          {firstSegment.Destination_City.replace(
-                            /\s*\(.*?\)/g,
-                            "",
-                          ).trim()}
-                          , &nbsp;{" "}
-                          {formatFlightDate(firstSegment.Departure_DateTime)}
-                        </h5>
+                                    <div className="gfjh55">
+                                      <div className="fw-semibold">
+                                        {firstSegment.Airline_Name}
+                                      </div>
 
-                        <div className="row align-items-center">
-                          {/* Airline Details */}
-                          <div className="col-lg-2">
-                            <div className="d-flex align-items-center gap-2">
-                              <img
-                                src={`https://images.kiwi.com/airlines/64/${firstSegment.Airline_Code}.png`}
-                                className="airline-logo"
-                                alt=""
-                                onError={(e) => {
-                                  e.target.src = "./images/indigo.png";
-                                }}
-                              />
+                                      <p className="mb-0">
+                                        <small className="sjkdnfslfs text-muted">
+                                          {firstSegment.Airline_Code} {firstSegment.Flight_Number}
+                                        </small>
+                                      </p>
+                                    </div>
+                                  </div>
 
-                              <div className="gfjh55">
-                                <div className="fw-semibold">
-                                  {firstSegment.Airline_Name}
+                                  <div className="d-flex align-items-center justify-content-between">
+                                    <div className="price-section d-flex flex-column align-items-end">
+                                      <p className="mb-0">
+                                        <small className="sjkdnfslfs">From</small>
+                                      </p>                                      
+
+                                      <h4 className="mb-0">
+                                        <strong>
+                                          ₹ {cheapestFare?.Total_Amount?.toLocaleString()}
+                                        </strong>
+                                      </h4>
+
+                                      <small>per traveller</small>
+                                    </div>                                    
+                                  </div>
                                 </div>
 
-                                <small className="text-muted">
-                                  {firstSegment.Airline_Code}
-                                  {firstSegment.Flight_Number}
-                                </small>
+                                {/* <a href="/" className="compare-link">
+                                                      Add to compare +
+                                                  </a> */}
+
+                                <div className="row align-items-center my-4">
+                                  {/* Airline Details */}
+                                  <div className="col-lg-2">
+                                    <div className="gfjh55 text-start ps-3">
+                                      <h5 className="fw-semibold mb-0 d-flex flex-column gap-1">
+                                        <span>
+                                          {firstSegment.Origin_City.match(/\((.*?)\)/)?.[1] || ""}
+                                        </span>
+
+                                        <span>
+                                          {firstSegment.Origin_City.replace(
+                                            /\s*\(.*?\)/g,
+                                            "",
+                                          ).trim()}
+                                        </span>
+
+                                        {/* to
+                                        {firstSegment.Destination_City.replace(
+                                          /\s*\(.*?\)/g,
+                                          "",
+                                        ).trim()} */}
+                                        {/* {formatFlightDate(firstSegment.Departure_DateTime)} */}
+                                      </h5>
+
+                                      <small style={{ fontWeight: 500, color: "var(--light-highlighted-text-color)" }}>Terminal {firstSegment.Origin_Terminal}</small>
+                                    </div>
+
+                                    {/* <a href="/" className="compare-link">
+                                                          Add to compare +
+                                                      </a> */}
+                                  </div>
+
+                                  {/* Time Section */}
+                                  <div className="col-lg-8">
+                                    <div className="time-wrapper d-flex justify-content-between gap-4">
+                                      <div className="text-center pt-1">
+                                        <h5 className="mb-0">
+                                          {firstSegment.Departure_DateTime.split(" ")[1]}
+                                        </h5>                                        
+                                      </div>
+
+                                      <div className="duration-wrapper flex-fill text-center">
+                                        <small className="dyusbnbsdhfc">
+                                          {/* {flight.Segments
+                                                                      .map(segment => segment.Duration)
+                                                                      .join(" + ")} */}
+                                          {flight.Segments.map((segment) => {
+                                            const [hours, minutes] =
+                                              segment.Duration.split(":");
+                                            return `${hours}h ${minutes}m`;
+                                          }).join(" + ")}
+                                        </small>
+
+                                        <div className="dinsjihfnsidhfsdf d-flex align-items-center justify-content-center position-relative my-2">
+                                          <span className="flgt-drtn-circle d-block"></span>      
+
+                                          <span className="flgt-drtn-line d-block"></span>
+
+                                          <span className="flgt-drtn-circle d-block"></span>  
+
+                                          <div className="dijsenifjsdf position-absolute text-center">
+                                            <i className="bi bi-airplane-engines d-block text-white"></i>
+                                          </div>                                          
+                                        </div>
+
+                                        <small className="dyusbnbsdhfc">
+                                          <div className="stop-info mt-2">
+                                            {/* <img src="./images/stop.png" alt="" /> */}
+
+                                            {flight.Segments.length === 1
+                                              ? "Non Stop"
+                                              : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
+                                                  0,
+                                                  -1,
+                                                )
+                                                  .map((s) => s.Destination)
+                                                  .join(", ")}`}
+                                          </div>
+                                        </small>                                        
+                                      </div>
+
+                                      <div className="text-center pt-1">
+                                        <h5 className="mb-0">
+                                          {lastSegment.Arrival_DateTime.split(" ")[1]}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Price */}
+                                  <div className="col-lg-2">
+                                    <div className="gfjh55 text-end">
+                                      <h5 className="fw-semibold d-flex flex-column mb-0 gap-1">                                        
+                                        <span>
+                                          {firstSegment.Destination_City.match(/\((.*?)\)/)?.[1] || ""}
+                                        </span>
+
+                                        <span>
+                                          {firstSegment.Destination_City.replace(
+                                            /\s*\(.*?\)/g,
+                                            "",
+                                          ).trim()}
+                                        </span>
+
+                                        {/* {formatFlightDate(firstSegment.Departure_DateTime)} */}
+                                      </h5>
+
+                                      <small style={{ fontWeight: 500, color: "var(--light-highlighted-text-color)" }}>Terminal {lastSegment.Destination_Terminal}</small>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
 
-                            {/* <a href="/" className="compare-link">
-                                                  Add to compare +
-                                              </a> */}
-                          </div>
-
-                          {/* Time Section */}
-                          <div className="col-lg-5">
-                            <div className="time-wrapper">
-                              <div className="text-center">
-                                <h4 className="mb-0">
-                                  {firstSegment.Departure_DateTime.split(" ")[1]}
-                                </h4>
-
-                                <small>
-                                  Terminal {firstSegment.Origin_Terminal}
-                                </small>
-                              </div>
-
-                              <div className="duration-wrapper text-center">
-                                <small>
-                                  {/* {flight.Segments
-                                                              .map(segment => segment.Duration)
-                                                              .join(" + ")} */}
-                                  {flight.Segments.map((segment) => {
-                                    const [hours, minutes] =
-                                      segment.Duration.split(":");
-                                    return `${hours}h ${minutes}m`;
-                                  }).join(" + ")}
-                                </small>
-
-                                <div className="duration-line"></div>
-                              </div>
-
-                              <div className="text-center">
-                                <h4 className="mb-0">
-                                  {lastSegment.Arrival_DateTime.split(" ")[1]}
-                                </h4>
-
-                                <small>
-                                  Terminal {lastSegment.Destination_Terminal}
-                                </small>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Price */}
-                          <div className="col-lg-2">
-                            <div className="price-section">
-                              <small>From</small>
-
-                              <h4>
-                                <strong>
-                                  ₹ {cheapestFare?.Total_Amount?.toLocaleString()}
-                                </strong>
-                              </h4>
-                            </div>
-                          </div>
-
-                          {/* Extra Information */}
-                          <div className="col-lg-3 text-end">
-                            <div className="row">
-                              <div className="ontime mb-2">
-                                <img
-                                  src="./images/seat.png"
-                                  alt=""
-                                  style={{ maxHeight: "23px" }}
-                                />
-                                {flight.Fares[0]?.Seats_Available} Seats Left
-                              </div>
-
-                              <button
-                                className="btn btn-tour"
-                                onClick={() => handleFlightFareDetails(flight)}
-                              >
-                                View Price
-                              </button>
-
-                              <div className="stop-info mt-2">
-                                <img src="./images/stop.png" alt="" />
-
-                                {flight.Segments.length === 1
-                                  ? "Non Stop"
-                                  : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
-                                      0,
-                                      -1,
-                                    )
-                                      .map((s) => s.Destination)
-                                      .join(", ")}`}
+                              {/* Price */}
+                              <div className="col-lg-3">
+                                <div className="dikijasdlfdsf text-end pt-3">
+                                  <button
+                                    className="btn btn-tour mb-2"
+                                    onClick={() => handleFlightFareDetails(flight)}
+                                  >
+                                    View Price
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
+
+                        <div className="offer-strip d-flex justify-content-between align-items-center">
+                          <div className="doasjjishnidchsd d-flex align-items-center gap-2">
+                            <div className="dosncjknzkczxc position-relative rounded-circle">
+                              <img src="./images/seatb.png" className="position-absolute top-50 start-50 translate-middle img-fluid" alt="" />
+                            </div>
+
+                            <div className="dinsdlcjiodsfc">
+                              <small>Cabin</small> <p className="mb-0">{cheapestFare?.FareClasses?.[0]?.CabinClass}</p>
+                            </div>
+                          </div>
+
+                          <div className="doasjjishnidchsd d-flex align-items-center gap-2">
+                            <div className="dosncjknzkczxc position-relative rounded-circle">
+                              <img src="./images/luggageb.png" className="position-absolute top-50 start-50 translate-middle img-fluid" alt="" />
+                            </div>
+
+                            <div className="dinsdlcjiodsfc">
+                              <small>Baggage</small> <p className="mb-0">{cheapestFare?.Free_Baggage?.Check_In_Baggage} Check-In</p>
+                            </div>
+                          </div>
+
+                          <div className="doasjjishnidchsd d-flex align-items-center gap-2">
+                            <div className="dosncjknzkczxc position-relative rounded-circle">
+                              <img src="./images/school-bag.png" className="position-absolute top-50 start-50 translate-middle img-fluid" alt="" />
+                            </div>
+
+                            <div className="dinsdlcjiodsfc">
+                              <small>Cabin Baggage</small> <p className="mb-0">{cheapestFare?.Free_Baggage?.Hand_Baggage}</p>
+                            </div>
+                          </div>
+
+                          <div className="doasjjishnidchsd d-flex align-items-center gap-2">
+                            <div className="dosncjknzkczxc position-relative rounded-circle">
+                              <img src="./images/fire.png" className="position-absolute top-50 start-50 translate-middle img-fluid" alt="" />
+                            </div>
+
+                            <div className="dinsdlcjiodsfc">
+                              <small>Seats Left</small> <p className="mb-0">{flight.Fares[0]?.Seats_Available} Seats Left</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-
-                      <div className="offer-strip">
-                        Cabin: {cheapestFare?.FareClasses?.[0]?.CabinClass} |
-                        Baggage: {cheapestFare?.Free_Baggage?.Check_In_Baggage}{" "}
-                        Check-In | {cheapestFare?.Free_Baggage?.Hand_Baggage}{" "}
-                        Cabin
-                      </div>
-                    </div>
-                  );
-                })}
-
-
+                    );
+                  })}
+                </div>
 
                 {/*flight fare modal*/}
 
@@ -1253,27 +1351,27 @@ export const FlightFilter = () => {
                               <div className="col-lg-4 mb-4">
                                 <label htmlFor={fareIndex}
                                   key={fareIndex}
-                                  className="iujnefjwrwer rounded mb-3"
+                                  className="iujnefjwrwer position-relative rounded mb-3 h-100"
                                 >
                                   <input type="radio" id={fareIndex} value="" name="cfsdvfvsf" className="position-absolute d-none" />
 
-                                  {fare.FareDetails.map((detail, detailIndex) => (
-                                    <div key={detailIndex} className="ifuejwifhuer">
-                                      <div className="sgdhsfasdff">
-                                        <h4 className="fw-bold mb-0 p-3">
-                                            ₹ {detail.Total_Amount.toLocaleString()}
-                                            <span
-                                                className="text-muted fw-normal"
-                                                style={{ fontSize: "14px" }}
-                                            >
-                                                per adult
-                                            </span>
-                                        </h4>
+                                  <div className="djiasndkcsi d-flex justify-content-between flex-column h-100">
+                                    {fare.FareDetails.map((detail, detailIndex) => (
+                                      <div key={detailIndex} className="ifuejwifhuer">
+                                        <div className="sgdhsfasdff position-relative">
+                                          <h5 className="fw-bold mb-0 p-3">
+                                              ₹ {detail.Total_Amount.toLocaleString()}
+                                              <span
+                                                  className="cdhnzdfsfzxdd text-muted ms-1"
+                                                  style={{ fontSize: "14px" }}
+                                              >
+                                                  per adult
+                                              </span>
+                                          </h5>
 
-                                        <div
-                                            className="text-uppercase text-muted"
+                                          <div className="ijcdsknejke position-absolute top-50 text-uppercase text-white px-3"
                                             style={{ fontSize: "13px" }}
-                                        >
+                                          >
                                             {fare.ProductClass === "R"
                                                 ? "SAVER"
                                                 : fare.ProductClass === "F"
@@ -1281,134 +1379,155 @@ export const FlightFilter = () => {
                                                 : fare.ProductClass === "P"
                                                 ? "PREMIUM"
                                                 : detail.FareClasses?.[0]?.CabinClass}
-                                        </div>
-                                      </div> 
+                                          </div>
+                                        </div> 
 
-                                      <div className="doieasjdlmsoijf p-3">
-                                        {/* Baggage */}
-                                        <div className="djnskmlfdsf mb-3">
-                                          <h6 className="mb-2">Baggage</h6>
+                                        <div className="doieasjdlmsoijf p-3">
+                                          {/* Baggage */}
+                                          <div className="djnskmlfdsf mb-3">
+                                            <h6 className="mb-2">Baggage</h6>
 
-                                          <div className="nxcvxfdcdd mb-1">
-                                            <p className="mb-0 d-flex align-items-center">
-                                              <i className="bi me-2 bi-check2-circle"></i>
+                                            <div className="nxcvxfdcdd mb-1">
+                                              <p className="mb-0 d-flex align-items-center">
+                                                <i className="bi me-2 bi-check-circle-fill"></i>
 
-                                              {detail.Free_Baggage?.Hand_Baggage} Cabin Baggage
-                                            </p>
+                                                {detail.Free_Baggage?.Hand_Baggage} Cabin Baggage
+                                              </p>
+                                            </div>
+
+                                            <div className="nxcvxfdcdd">
+                                              <p className="mb-0 d-flex align-items-center">
+                                                <i className="bi me-2 bi-check-circle-fill"></i>
+
+                                                {detail.Free_Baggage?.Check_In_Baggage} Check-in Baggage
+                                              </p>
+                                            </div>
                                           </div>
 
-                                          <div className="nxcvxfdcdd">
-                                            <p className="mb-0 d-flex align-items-center">
-                                              <i className="bi me-2 bi-check2-circle"></i>
+                                          {/* Flexibility */}
+                                          <div className="djnskmlfdsf">
+                                            <h6 className="mb-2">Flexibility</h6>
 
-                                              {detail.Free_Baggage?.Check_In_Baggage} Check-in Baggage
-                                            </p>
-                                          </div>
-                                        </div>
+                                            <div className="duihsfijsd py-2">
+                                              <h6 className="mb-2">Cancellation Charges</h6>
 
-                                        {/* Flexibility */}
-                                        <div className="djnskmlfdsf">
-                                          <h6 className="mb-2">Flexibility</h6>
+                                              {detail.CancellationCharges?.map(
+                                                (charge, idx) => (
+                                                  <div key={idx} className="ccnxdfdzsd d-flex mt-1">
+                                                    <i className="bi me-2 bi-dash-circle-fill"></i>
+                                                    
+                                                    <p className="mb-0">
+                                                      {charge.ValueType === 1
+                                                        ? `${charge.Value}% of fare`
+                                                        : `₹${Number(charge.Value).toLocaleString()}`}{" "}
+                                                      if cancelled between{" "}
+                                                      <strong>
+                                                        {charge.DurationFrom}
+                                                      </strong>{" "}
+                                                      {charge.DurationTypeFrom === 0
+                                                        ? "hrs"
+                                                        : "days"}{" "}
+                                                      to{" "}
+                                                      <strong>{charge.DurationTo}</strong>{" "}
+                                                      {charge.DurationTypeTo === 0
+                                                        ? "hrs"
+                                                        : "days"}{" "}
+                                                      before departure
+                                                    </p>
+                                                  </div>
+                                                ),
+                                              )}
+                                            </div>
 
-                                          <div className="duihsfijsd mb-3 py-2">
-                                            <h6 className="mb-2">Cancellation Charges</h6>
+                                            {/* Reschedule Charges */}
+                                            <div className="duihsfijsd py-2">
+                                              <h6 className="mb-2">Date Change Charges</h6>
 
-                                            {detail.CancellationCharges?.map(
-                                              (charge, idx) => (
-                                                <div key={idx} className="ccnxdfdzsd d-flex mt-1">
-                                                  <i className="bi me-2 bi-dash-circle"></i>
-                                                  
-                                                  <p className="mb-0">
-                                                    {charge.ValueType === 1
-                                                      ? `${charge.Value}% of fare`
-                                                      : `₹${Number(charge.Value).toLocaleString()}`}{" "}
-                                                    if cancelled between{" "}
-                                                    <strong>
-                                                      {charge.DurationFrom}
-                                                    </strong>{" "}
-                                                    {charge.DurationTypeFrom === 0
-                                                      ? "hrs"
-                                                      : "days"}{" "}
-                                                    to{" "}
-                                                    <strong>{charge.DurationTo}</strong>{" "}
-                                                    {charge.DurationTypeTo === 0
-                                                      ? "hrs"
-                                                      : "days"}{" "}
-                                                    before departure
-                                                  </p>
-                                                </div>
-                                              ),
-                                            )}
-                                          </div>
+                                              {detail.RescheduleCharges?.map(
+                                                (charge, idx) => (
+                                                  <div key={idx} className="ccnxdfdzsd d-flex mt-1">
+                                                    <i className="bi me-2 bi-dash-circle-fill"></i>
 
-                                          {/* Reschedule Charges */}
-                                          <div>
-                                            <strong>Date Change Charges</strong>
+                                                    <p className="mb-0">
 
-                                            {detail.RescheduleCharges?.map(
-                                              (charge, idx) => (
-                                                <div key={idx} className="mt-1">
-                                                  🟡{" "}
-                                                  {charge.ValueType === 1
-                                                    ? `${charge.Value}% of fare`
-                                                    : `₹${Number(charge.Value).toLocaleString()}`}{" "}
-                                                  if changed between{" "}
-                                                  <strong>
-                                                    {charge.DurationFrom}
-                                                  </strong>{" "}
-                                                  {charge.DurationTypeFrom === 0
-                                                    ? "hrs"
-                                                    : "days"}{" "}
-                                                  to{" "}
-                                                  <strong>{charge.DurationTo}</strong>{" "}
-                                                  {charge.DurationTypeTo === 0
-                                                    ? "hrs"
-                                                    : "days"}{" "}
-                                                  before departure
-                                                </div>
-                                              ),
-                                            )}
-                                          </div>
-                                        </div>
-
-                                        {/* Seats & Meals */}
-                                        <div className="cfxdbxgvndfasd">
-                                          <h6 className="fw-bold">
-                                            Seats, Meals & More
-                                          </h6>
-
-                                          <div className="mb-2">
-                                            🟡 Chargeable Seats
+                                                      {charge.ValueType === 1
+                                                        ? `${charge.Value}% of fare`
+                                                        : `₹${Number(charge.Value).toLocaleString()}`}{" "}
+                                                      if changed between{" "}
+                                                      <strong>
+                                                        {charge.DurationFrom}
+                                                      </strong>{" "}
+                                                      {charge.DurationTypeFrom === 0
+                                                        ? "hrs"
+                                                        : "days"}{" "}
+                                                      to{" "}
+                                                      <strong>{charge.DurationTo}</strong>{" "}
+                                                      {charge.DurationTypeTo === 0
+                                                        ? "hrs"
+                                                        : "days"}{" "}
+                                                      before departure
+                                                    </p>
+                                                  </div>
+                                                ),
+                                              )}
+                                            </div>
                                           </div>
 
-                                          <div>
-                                            🟡{" "}
-                                            {fare.Food_onboard === "P"
-                                              ? "Chargeable Meals"
-                                              : "Complimentary Meals"}
+                                          {/* Seats & Meals */}
+                                          <div className="djnskmlfdsf zbzbszdsad py-2">
+                                            <h6 className="mb-2">
+                                              Seats, Meals & More
+                                            </h6>
+
+                                            <div className="mb-1">
+                                              <i className="bi me-2 bi-check-circle-fill"></i>
+                                              
+                                              Chargeable Seats
+                                            </div>
+
+                                            <div>
+                                              <i className="bi me-2 bi-check-circle-fill"></i>
+                                              
+                                              {fare.Food_onboard === "P"
+                                                ? "Chargeable Meals"
+                                                : "Complimentary Meals"}
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  ))}
+                                    ))}
 
-                                  {apiFareDetails?.status && (
-                                    <div className="mt-3">
-                                      <h6>Fare Rules</h6>
+                                    {apiFareDetails?.status && (
+                                      <div className="djnskmlfdsf">
+                                        <div className="d-flex align-items-center justify-content-between px-3 pb-3">
+                                          <h6 className="d-flex align-items-center mb-0">
+                                            <i className="bi me-1 text-center text-white bi-info-lg"></i> Fare Rules
+                                          </h6>  
 
-                                      {apiFareDetails?.fareDetails?.FareRules?.map(
-                                        (rule, ruleIndex) => (
-                                          <div
-                                            key={ruleIndex}
-                                            className="border-top pt-2 mt-2"
-                                            dangerouslySetInnerHTML={{
-                                              __html: rule.FareRuleDesc,
-                                            }}
-                                          />
-                                        ),
-                                      )}
-                                    </div>
-                                  )}
+                                          <i onClick={() => handleFareRules(fareIndex)} className="bi bi-chevron-down"></i>                                      
+                                        </div>
+
+                                        {fareRules === fareIndex && (
+                                          <div className="xnfgsfsdcfe sdjkcnsidjcije position-absolute bg-white w-100 rounded-2 border-top px-3 p-3">
+                                            {apiFareDetails?.fareDetails?.FareRules?.map(
+                                              (rule, ruleIndex) => (
+                                                <div key={ruleIndex}
+                                                  className="pt-2"
+                                                  dangerouslySetInnerHTML={{
+                                                    __html: rule.FareRuleDesc,
+                                                  }}
+                                                />
+                                              ),
+                                            )}
+                                          </div>
+                                        )}
+
+                                        <div className="okcmksxdcmkvsoij text-end p-3">
+                                          <button className="btn-tour py-2">Book Now</button>
+                                        </div>                                 
+                                      </div>
+                                    )}                                    
+                                  </div>
                                 </label>
                               </div>                                
                             );
@@ -1416,14 +1535,9 @@ export const FlightFilter = () => {
                         </div>
                       </div>
 
-                      <div className="flight-modal-footer">
-                        <button
-                          className="btn btn-secondary"
-                          onClick={() => setShowFareModal(false)}
-                        >
-                          Close
-                        </button>
-                      </div>
+                      {/* <div className="flight-modal-footer text-center px-4 py-2">
+                        <button className="btn-tour">Book Now</button>
+                      </div> */}
                     </div>
                   </div>
                 )}

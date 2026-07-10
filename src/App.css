@@ -69,11 +69,13 @@ label{
     color: var(--light-highlighted-text-color) !important;
 }
 
-span{
+span,
+small{
     font-family: var(--font-family-raleway);
 }
 
-label{
+label,
+small{
     font-size: 0.8rem;
 }
 
