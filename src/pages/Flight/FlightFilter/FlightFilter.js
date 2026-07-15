@@ -20,6 +20,7 @@ export const FlightFilter = () => {
   const [fareApiData, setFareApiData] = useState({}); 
   const [airportList, setAirportList] = useState([]);
   const [fareRules, setFareRules] = useState(null);
+  const [flightFilterResToggle, setFlightFilterResToggle] = useState(false);
 
   const handleFareRules = (id) => {
     setFareRules(fareRules === id ? null : id);
@@ -138,6 +139,14 @@ export const FlightFilter = () => {
         ])
     ).values(),
   ];
+
+  const selectedOriginDetails = origins.find(
+    (item) => item.code === selectedOrigin
+  );
+
+  const selectedDestinationDetails = destinations.find(
+    (item) => item.code === selectedDestination
+  );
 
      // eslint-disable-next-line
   const formatFlightDate = (dateTime) => {
@@ -274,7 +283,46 @@ export const FlightFilter = () => {
 
         {/* <!-- ================= FLIGHT SEARCH SECTION ================= --> */}
         <section className="menu-section srch-filtr-wrpper">
-          <div className="xvbzcnvxbdvffg">
+          {window.innerWidth <= 600 && (
+            <>
+              <div className="disnikjfisdf my-3">
+                <div className="container">
+                  <div className="duinushducsdc bg-white p-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="fvgdfvd">
+                        <div className="docmosdfsdf">
+                          <h4 className="mb-1">{selectedOriginDetails?.details?.city} - {selectedDestinationDetails?.details?.city}</h4>
+
+                          <p className="mb-0">16 Jul | 1 Adult | Economy</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bgujhgb">
+                        <div className="docmosdfsdf">
+                          <span
+                            className="d-flex flex-column align-items-center gap-1"
+                            onClick={() => setFlightFilterResToggle(prev => !prev)}
+                          ><i className="fa-solid fa-pencil"></i> Edit</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={`${flightFilterResToggle ? "flight-filtr-responsve-backdrop" : "flight-filtr-responsve-backdrop flight-filtr-responsve-backdrop-hide"} position-fixed start-0 top-0 bottom-0 end-0`}></div>
+            </>
+          )}
+
+          <div className={`${flightFilterResToggle ? "xvbzcnvxbdvffg xvbzcnvxbdvffg-show" : "xvbzcnvxbdvffg"}`}>
+            {window.innerWidth <= 600 && (
+              <div className="jdhbjejndkjwerewr d-flex align-items-center justify-content-between position-relative text-center p-2">
+                <h5 className="mb-0">Modify Flight Search</h5>
+
+                <i onClick={() => setFlightFilterResToggle(false)} className="fa-solid fa-xmark"></i>
+              </div>
+            )}
+            
             <div className="flight-main-card p-0">
               <div className="flight-content-area">
                 <div className="flight-trip-type">

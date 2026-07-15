@@ -85,6 +85,7 @@
     width: 18%;
     height: 50px;
     padding: 10px;
+    background: #fff;
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
@@ -165,6 +166,10 @@ small.bgdbxzvxcv{
     box-shadow: var(--light-box-shadow);
 }
 
+.duration-wrapper{
+    overflow: hidden;
+}
+
 .flight-filter-left {
     display: flex;
     align-items: center;
@@ -178,14 +183,19 @@ small.bgdbxzvxcv{
 .flight-filter-title {
     font-size: 15px;
     font-weight: 500;
+    color: #000;
 }
 
 .flight-filter-box {
-    margin-top: 10px;
+    margin-top: 1.4rem;
 }
 
 .flight-filter-content {
     margin-top: 12px;
+}
+
+.flht-fltr-wrapper .checkbox__textwrapper{
+    color: var(--light-black-text-color) !important;
 }
 
 .flight-filter-icon {
@@ -214,6 +224,7 @@ small.bgdbxzvxcv{
 .flight-time-title {
     font-size: 15px;
     font-weight: 500;
+    color: #000 !important;
 }
 
 .flight-time-content {
@@ -242,6 +253,7 @@ small.bgdbxzvxcv{
 .flight-arrival-title {
     font-size: 15px;
     font-weight: 500;
+    color: #000;
 }
 
 .flight-arrival-content {
@@ -479,15 +491,33 @@ p.nfkjiuiewnjer{
     height: 1.4rem;
     border-radius: 50%;
     background: var(--main-green-color);
-    flex-shrink: 0;
-    left: 50%;
-    transform: translateX(-50%);    
+    flex-shrink: 0;    
+    transform: translateX(-50%); 
+    transition: 1.5s ease-in-out;   
 }
 
 .dijsenifjsdf i{
     font-size: 0.9rem;
     transform: rotate(90deg);
     line-height: 1.6;
+}
+
+.dijsenifjsdf.show-ini{
+    left: 50%;
+}
+
+.dijsenifjsdf.hide-ini{
+    left: -50%;
+}
+
+.flight-card:hover .dijsenifjsdf.hide-ini{
+    left: 50%;
+    transition: 1.5s ease-in-out;
+}
+
+.flight-card:hover .dijsenifjsdf.show-ini{
+    left: 150%;
+    transition: 1.5s ease-in-out;
 }
 
 .dyusbnbsdhfc{
@@ -499,7 +529,6 @@ p.nfkjiuiewnjer{
 .price-section small {
     color: #666;
     font-size: 12px;
-    margin-right: 0.5vw;
 }
 
 .price-section h4 {
@@ -762,20 +791,40 @@ span.cdhnzdfsfzxdd{
     color: #000 !important;
 }
 
+.xnfgsfsdcfe:before{
+    position: absolute;
+    content: "";
+    border-top: 8px solid transparent;
+	border-right: 16px solid var(--blue-primary-color);
+	border-bottom: 8px solid transparent;
+    left: -5%;
+    bottom: 6.2rem;
+}
+
 .sdjkcnsidjcije{
     border: 1px solid var(--border);
     box-shadow: var(--light-box-shadow);
     right: -100%;
-    bottom: 0;
     height: calc(100% - 50%);
+    bottom: 0;
     z-index: 99999;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .sdjkcnsidjcije{
     right: initial;
     left: -100%;
+}
+
+.icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .xnfgsfsdcfe:before{
+    left: initial;
+    right: -5%;
+    transform: scale(-1);
+}
+
+.jifjisiudj{
+    height: calc(100% - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .djnskmlfdsf h6 i{
@@ -874,29 +923,157 @@ small.sjkdnfslfs{
     height: 100%;
 }
 
+.unjcisdosidd i{
+    font-size: 1.2rem;
+    color: var(--light-highlighted-text-color);
+}
+
+.jniujoijik input::placeholder{
+    font-size: 0.9rem;
+    font-weight: 500 !important;
+}
+
+.jniujoijik .form-label{
+    font-weight: 600;
+    color: #000 !important;
+}
 
 
 /* End  Flight   css by   Nisha  */
 /* End  Flight   css by   Nisha  */
 /* End  Flight   css by   Nisha  */
 /* End  Flight   css by   Nisha  */
+
+
+
+
+@media only screen and (max-width: 991px){
+    .airlines-row{      
+        flex-wrap: nowrap;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 0.5rem;
+    }
+
+    .airline-item{
+        width: auto;
+        height: auto;
+        gap: 5px;
+        padding: 10px 5px;
+        margin-bottom: 0;
+    }
+
+    .cdsnxfggfsD.pt-5{
+        padding-top: 1.4rem !important;
+    }
+
+    .airline-item h6,
+    .airline-item p {
+        white-space: nowrap;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    .srch-filtr-wrpper .flight-trip-type > .container{
+        justify-content: center;
+    }
+
+    .react-datepicker-wrapper{
+        width: 100%;
+    }
+
+    .rg-drpdwn.dfghdgfsfee.rg-drpdwn{
+        left: 5%;
+    }    
+
+    .fuinsdjkfhds.ps-3{
+        padding-left: 0 !important;
+    }
+
+    .duinushducsdc{
+        border-radius: 10px;
+        border: 1px solid var(--border);
+    }
+
+    .docmosdfsdf span{
+        color: var(--blue-secondary-color);
+        font-weight: 500;
+    }
+
+    .docmosdfsdf h4{
+        font-weight: 600;
+    }
+
+    .docmosdfsdf p{
+        font-size: 0.9rem;
+    }
+
+    .srch-filtr-wrpper .flight-trip-type .checkbox-wrapper-15{
+        text-align: center;
+    }
+
+    .srch-filtr-wrpper .flight-trip-type .checkbox-wrapper-15 label{
+        margin-bottom: 0 !important;
+        white-space: nowrap;
+    }
+
+    .flight-filtr-responsve-backdrop{
+        opacity: 1;
+        visibility: visible;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99999;
+    }
+
+    .flight-filtr-responsve-backdrop-hide{
+        opacity: 0;
+        visibility: hidden;
+        z-index: -99999;
+    }
+
+    .xvbzcnvxbdvffg{
+        position: fixed;
+        background: #fff;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: -999999;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.2s ease-in-out;
+    }
+
+    .xvbzcnvxbdvffg-show{
+        z-index: 999999;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.2s ease-in-out;
+    }
+
+    .jdhbjejndkjwerewr h5{
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .jdhbjejndkjwerewr i{
+        font-size: 1.1rem;
+        color: var(--light-highlighted-text-color);
+    }
+
+    .cdsnxfggfsD.pt-5{
+        padding-top: 0 !important;
+    }
+}
+
+
+
 
 
 @media (max-width:576px) {
-
-    .airlines-row {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-
-    }
-
     .gfjh55 {
         margin-left: 10px;
-    }
-
-    .airline-item {
-        width: 100%;
     }
 
     .time-wrapper {
@@ -908,4 +1085,19 @@ small.sjkdnfslfs{
         margin-top: 12px;
     }
 
+}
+
+
+
+
+
+@media only screen and (max-width: 470px){
+    .srch-filtr-wrpper .flight-trip-type > .container {
+        justify-content: initial;
+        overflow-x: auto;
+    }
+
+    .srch-filtr-wrpper .flight-trip-type > .container > .checkbox-wrapper-15.me-4{
+        margin-right: 0.5rem !important;
+    }
 }
