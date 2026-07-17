@@ -817,7 +817,7 @@ span.cdhnzdfsfzxdd{
 
 .icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .xnfgsfsdcfe:before{
     left: initial;
-    right: -5%;
+    right: -5.5%;
     transform: scale(-1);
 }
 
@@ -959,7 +959,7 @@ small.sjkdnfslfs{
         width: auto;
         height: auto;
         gap: 5px;
-        padding: 10px 5px;
+        padding: 8px 5px;
         margin-bottom: 0;
     }
 
@@ -971,7 +971,208 @@ small.sjkdnfslfs{
     .airline-item p {
         white-space: nowrap;
     }
+
+    .flight-results-section.py-5{
+        padding-top: 1rem !important;
+    }
+
+    .filter-card .filter-header{
+        position: fixed;
+        bottom: 12%;
+        left: 50%;
+        width: 55%;
+        transform: translateX(-50%);
+        margin-bottom: 0;
+        background: #fff;
+        padding: 15px;
+        border-radius: 50px;
+        border: 1px solid var(--border);
+        z-index: 9999;
+        box-shadow: var(--light-box-shadow);        
+    }
+
+    .filter-card .filter-header h5{
+        font-weight: 600;
+    }
+
+    .filter-card .filter-header h5 i.d-none{
+        display: inline-block !important;
+        color: var(--blue-secondary-color);
+    }
+
+    a.reset-link{
+        color: var(--blue-primary-color);
+    }
+
+    a.reset-link.disabled{
+        color: var(--card-border-color);
+    }
+
+    .disennksjhkf{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+        width: 70%;
+        background: #fff;
+        z-index: 999999;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.2s ease-in-out;
+    }
+
+    .disennksjhkf-hide{
+        left: -100%;
+        z-index: -999999;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.2s ease-in-out;
+    }
+
+    .filter-card-res-backdrop{
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 99999;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .filter-card-res-backdrop-hide{
+        z-index: -99999;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .filter-card.sticky-top{
+        position: initial;
+    }
+
+    .disennksjhkf .filter-section{
+        margin-top: 0;
+        border-top: 0;
+        padding-top: 0;
+    }
+
+    .filter-card .filter-header:before{
+        position: absolute;
+        content: "";
+        width: 2px;
+        height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--border);
+    }
+
+    .dimodjhiuhsdf{
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .dijnsihfsdlf{
+        height: calc(100% - 3rem);
+        overflow-y: auto;
+    }
+
+    .dimodjhiuhsdf h5{
+        font-weight: 600;
+    }
+    
+    .react-datepicker-wrapper{
+        width: 100%;
+    }
+
+    .flight-filtr-wrppr .flight-body .dikijasdlfdsf button.mb-2{
+        margin-bottom: 1.4rem !important;
+    }
+
+    .dikijasdlfdsf.pt-3{
+        padding-top: 0 !important;
+    }
+
+    .dikijasdlfdsf{
+        border-left: 0;
+    }
+
+    .dikijasdlfdsf.text-end{
+        text-align: center !important;
+    }
+
+    .offer-strip{
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-inline: 0.5rem;
+    }
+
+    .gfjh55 small {
+        white-space: nowrap;
+    }
+
+    .flight-fare-modal{
+        max-width: 95%;
+    }
+
+    h5.flight-modal-title img {
+        width: 1.8rem;
+        height: 100%;
+    }
+
+    .flight-modal-header.px-4,
+    .flight-modal-body.px-4{
+        padding-inline: 0.5rem !important;
+    }
+
+    .flight-modal-body {
+        height: 85vh;
+    }
+
+    .sdjkcnsidjcije.position-absolute{
+        position: relative !important;
+        right: initial;
+        bottom: initial;
+    }
+
+    .jifjisiudj{
+        max-height: 25rem;
+        height: auto;
+    }
+
+    .unjcisdosidd.d-flex{
+        display: none !important;
+    }
+
+    .xnfgsfsdcfe:before {
+        left: initial;
+        bottom: initial;
+        right: 1.5%;
+        top: -4%;
+        transform: rotate(90deg);
+    }
+
+    .flight-modal-header{
+        gap: 10px;
+    }
+
+    .icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .sdjkcnsidjcije{
+        left: initial;
+    }
+
+    .icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .xnfgsfsdcfe:before{
+        transform: rotate(90deg);
+        right: 4%;
+    }
 }
+
+
+
+
+
+@media only screen and (max-width: 797px){
+    .xnfgsfsdcfe:before {
+        right: 2%;
+    }
+}
+
+
 
 
 
@@ -1012,6 +1213,10 @@ small.sjkdnfslfs{
         font-size: 0.9rem;
     }
 
+    .xnfgsfsdcfe:before {
+        right: 3%;
+    }
+
     .srch-filtr-wrpper .flight-trip-type .checkbox-wrapper-15{
         text-align: center;
     }
@@ -1026,6 +1231,7 @@ small.sjkdnfslfs{
         visibility: visible;
         background: rgba(0, 0, 0, 0.6);
         z-index: 99999;
+        backdrop-filter: blur(5px);
     }
 
     .flight-filtr-responsve-backdrop-hide{
@@ -1037,13 +1243,14 @@ small.sjkdnfslfs{
     .xvbzcnvxbdvffg{
         position: fixed;
         background: #fff;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         z-index: -999999;
         opacity: 0;
         visibility: hidden;
         transition: 0.2s ease-in-out;
+        width: 95%;
     }
 
     .xvbzcnvxbdvffg-show{
@@ -1051,11 +1258,13 @@ small.sjkdnfslfs{
         opacity: 1;
         visibility: visible;
         transition: 0.2s ease-in-out;
+        border-radius: 10px;
     }
 
     .jdhbjejndkjwerewr h5{
-        font-size: 0.9rem;
-        font-weight: 500;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
     }
 
     .jdhbjejndkjwerewr i{
@@ -1065,7 +1274,115 @@ small.sjkdnfslfs{
 
     .cdsnxfggfsD.pt-5{
         padding-top: 0 !important;
+    }        
+
+    .ajhfbmuihehee.d-flex{
+        flex-direction: column;
     }
+
+    .ajhfbmuihehee.align-items-center{
+        align-items: initial !important;
+    }
+
+    .ajhfbmuihehee h5.mb-0{
+        margin-bottom: 1.5rem !important;
+    }
+
+    .sort-area{
+        justify-content: end;
+    }
+
+    .sign-btn{
+        white-space: nowrap;
+    }
+
+    .flight-filtr-wrppr .flight-card {
+        padding: 10px;
+    }
+
+    .flight-filtr-wrppr .flight-card .flight-top.mb-4{
+        margin-bottom: 0.8rem !important;
+    }
+
+    .gfjh55.ps-3{
+        padding-left: 0 !important;
+    }
+
+    .gfjh55 h5 span:first-child{
+        font-size: 1rem;
+    }
+
+    .gfjh55 h5 span:last-child{
+        font-size: 0.7rem !important;
+    }
+
+    .time-wrapper.gap-4{
+        gap: 5px !important;
+    }
+
+    .time-wrapper h5{
+        font-size: 1rem;
+    }
+
+    .icsnduhh.row{
+        flex-wrap: nowrap !important;
+    }
+
+    .icsnduhh .col-2{
+        width: auto;
+    }
+
+    .icsnduhh .col-8{
+        width: auto;
+        padding-inline: 0 !important;
+        flex: 1;
+    }
+
+    .time-wrapper .stop-info{
+        padding-inline: 0;
+        font-size: 10px;
+    }
+
+    .time-wrapper small.ufsidnfijsdfsdf{
+        font-size: 10px;
+        display: block;
+    }
+
+    .uhncoikcdf p {
+        font-size: 0.7rem;
+        padding-right: 10px;
+    }
+
+    .stop-info{
+        font-size: 0.7rem;
+        padding-inline: 10px;
+    }    
+
+    .dinsdlcjiodsfc p {
+        font-size: 0.8rem !important;
+    }
+
+    .dinsdlcjiodsfc small {
+        font-size: 0.7rem;
+    }
+
+    .flight-modal-title{
+        display: flex;
+        font-size: 1rem;
+        align-items: center;
+    }
+
+    i.uinjocjso-icon{
+        font-size: 1.1rem;
+    }
+    
+    .sdjkcnsidjcije.pe-0{
+        padding-right: 1rem !important;
+    }
+
+    .col-lg-3.jiksnzjisd{
+        margin-top: 0;
+    }    
 }
 
 
@@ -1073,19 +1390,20 @@ small.sjkdnfslfs{
 
 
 @media (max-width:576px) {
-    .gfjh55 {
-        margin-left: 10px;
-    }
-
     .time-wrapper {
         gap: 12vw;
         margin-top: 12px;
     }
+}
 
-    .price-section {
-        margin-top: 12px;
+
+
+
+
+@media only screen and (max-width: 460px) {
+    .xnfgsfsdcfe:before {
+        right: 4%;
     }
-
 }
 
 
@@ -1100,5 +1418,104 @@ small.sjkdnfslfs{
 
     .srch-filtr-wrpper .flight-trip-type > .container > .checkbox-wrapper-15.me-4{
         margin-right: 0.5rem !important;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 393px) {
+    .filter-card .filter-header h5{
+        font-size: 1rem;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 375px) {
+    .gfjh55 h5 span:first-child,
+    .time-wrapper h5 {
+        font-size: 0.9rem;
+    }
+
+    .gfjh55 h5 span:last-child,
+    .gfjh55 small {
+        font-size: 0.6rem !important;
+    }
+
+    .dinsdlcjiodsfc p {
+        font-size: 0.75rem !important;
+    }
+
+    .xnfgsfsdcfe:before {
+        right: 5%;
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 360px){
+    .filter-card .filter-header{
+        width: 95%;
+    }
+
+    .docmosdfsdf h4 {
+        font-size: 1rem;
+    }
+
+    .docmosdfsdf p{
+        font-size: 0.8rem;
+    }
+
+    .ajhfbmuihehee h5.mb-0 {
+        font-size: 1.1rem;
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 336px){
+    .gfjh55 h5 span:first-child,
+    .time-wrapper h5 {
+        font-size: 0.8rem;
+    }
+
+    .price-section h4{
+        font-size: 1rem;
+    }
+
+    small.sjkdnfslfs{
+        font-size: 10px !important;
+    }
+
+    .time-wrapper small.ufsidnfijsdfsdf,
+    .time-wrapper .stop-info {
+        font-size: 8px;
+    }
+
+    .dinsjihfnsidhfsdf span.flgt-drtn-circle {
+        flex-shrink: 0;
+    }
+
+    .dinsdlcjiodsfc p {
+        font-size: 0.7rem !important;
+    }
+
+    .dinsdlcjiodsfc small,
+    .uhncoikcdf p,
+    .stop-info{
+        font-size: 0.6rem;
+    }
+
+    .offer-strip{
+        padding-inline: 0;
     }
 }

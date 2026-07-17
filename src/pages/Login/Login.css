@@ -125,3 +125,17 @@
 .fhjkljytre{
     text-decoration: underline !important;
 }
+
+
+
+
+
+@media only screen and (max-width: 600px){
+    .login-box{
+        padding: 15px !important;
+    }
+
+    .ifjisjdokidf{
+        flex-direction: column;
+    }
+}

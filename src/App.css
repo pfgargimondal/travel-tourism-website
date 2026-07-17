@@ -662,6 +662,21 @@ section-heading h2 {
     }
 }
 
+
+
+
+
+@media only screen and (max-width: 336px){
+    .btn-tour {
+        padding: 6px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
 @media only screen and (max-width: 280px) {
     header .navbar-brand img {
         width: 8rem;
