@@ -847,8 +847,9 @@ export const FlightFilter = () => {
                     </a>
                   </div>
 
-                  <div className="filter-section">
-                    <label className="filter-label">Search by Airline Names</label>
+                  <div className="filter-section jniujoijik">
+                    <label className="form-label">Search by Airline Names</label>
+                    
                     <input
                       type="text"
                       className="form-control"
@@ -856,7 +857,7 @@ export const FlightFilter = () => {
                     />
                   </div>
 
-                  <div className="flight-filter-box">
+                  <div className="flight-filter-box flht-fltr-wrapper">
                     <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
                       <div className="flight-filter-left">
                         <img
@@ -871,33 +872,128 @@ export const FlightFilter = () => {
                     </div>
 
                     <div className="flight-filter-content">
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">American Airlines</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">American Airlines</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">Delta Airlines</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Delta Airliness</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">Emirates</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Emirates</p>
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Air France</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">Air France</label>
-                      </div>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">Japan Airlines</label>
-                      </div>
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">Japan Airlines</p>
+                          </label>
+                        </div>
+                      </div>                      
                     </div>
                   </div>
-                  <div className="flight-filter-box">
+                  <div className="flight-filter-box flht-fltr-wrapper">
                     <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
                       <div className="flight-filter-left">
                         <img
@@ -912,53 +1008,184 @@ export const FlightFilter = () => {
                     </div>
 
                     <div className="flight-filter-content">
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">6.00pm-12.00am</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">6.00pm-12.00am</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">10.10pm-2.3apm</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">10.10pm-2.3apm</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">11.00pm-3.10am</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">11.00pm-3.10am</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">1.20am-4.40am</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">1.20am-4.40am</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">5.30am-12.00pm</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">5.30am-12.00pm</p>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="filter-section">
-                    <div className="filter-title d-flex align-items-center">
+                    <div className="flight-filter-title d-flex align-items-center mb-2">
                       <img src="./images/priceicon.png" alt="" />
                       <span>Fare Type</span>
                     </div>
 
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" />
-                      <label className="form-check-label">Show Refundable Only</label>
+                    <div className="form-check suggested-item ps-0">
+                      <div className="checkbox-wrapper-33">
+                        <label className="checkbox">
+                          <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                          <span className="checkbox__symbol">
+                            <svg
+                              aria-hidden="true"
+                              className="icon-checkbox"
+                              width="28px"
+                              height="28px"
+                              viewBox="0 0 28 28"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path d="M4 14l8 7L24 7" />
+                            </svg>
+                          </span>
+
+                          <p className="checkbox__textwrapper">Show Refundable Only</p>
+                        </label>
+                      </div>
                     </div>
 
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" />
-                      <label className="form-check-label">
-                        Show Non Refundable Only
-                      </label>
+                    <div className="form-check suggested-item ps-0">
+                      <div className="checkbox-wrapper-33">
+                        <label className="checkbox">
+                          <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                          <span className="checkbox__symbol">
+                            <svg
+                              aria-hidden="true"
+                              className="icon-checkbox"
+                              width="28px"
+                              height="28px"
+                              viewBox="0 0 28 28"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path d="M4 14l8 7L24 7" />
+                            </svg>
+                          </span>
+
+                          <p className="checkbox__textwrapper">Show Non Refundable Only</p>
+                        </label>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flight-time-filter-box">
+                  <div className="flight-time-filter-box mt-4">
                     <div className="flight-time-filter-header d-flex justify-content-between align-items-center flight-time-toggle">
                       <div className="flight-time-left">
                         <img
@@ -983,7 +1210,7 @@ export const FlightFilter = () => {
                     </div>
                   </div>
 
-                  <div className="flight-arrival-filter-box">
+                  <div className="flight-arrival-filter-box mt-4">
                     <div className="flight-arrival-filter-header d-flex justify-content-between align-items-center flight-arrival-toggle">
                       <div className="flight-arrival-left">
                         <img
@@ -1008,7 +1235,7 @@ export const FlightFilter = () => {
                     </div>
                   </div>
 
-                  <div className="flight-review-filter-box">
+                  <div className="flight-review-filter-box mt-3">
                     <div className="flight-review-filter-header d-flex justify-content-between align-items-center flight-review-toggle">
                       <div className="flight-review-left">
                         <img
@@ -1016,36 +1243,131 @@ export const FlightFilter = () => {
                           className="flight-review-img"
                           alt=""
                         />
-                        <span className="flight-review-title">Reviews</span>
+                        <span className="flight-filter-title">Reviews</span>
                       </div>
 
                       <i className="fa-solid fa-caret-up flight-review-icon"></i>
                     </div>
 
                     <div className="flight-review-content">
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">⭐⭐⭐⭐⭐ 5 Star</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">⭐⭐⭐⭐⭐ 5 Star</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">⭐⭐⭐⭐ 4 Star</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">⭐⭐⭐⭐ 4 Star</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">⭐⭐⭐ 3 Star</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">⭐⭐⭐ 3 Star</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">⭐⭐ 2 Star</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">⭐⭐ 2 Star</p>
+                          </label>
+                        </div>
                       </div>
 
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" />
-                        <label className="form-check-label">⭐ 1 Star</label>
+                      <div className="form-check suggested-item ps-0">
+                        <div className="checkbox-wrapper-33">
+                          <label className="checkbox">
+                            <input value="American Airlines" className="checkbox__trigger visuallyhidden" type="checkbox" />
+
+                            <span className="checkbox__symbol">
+                              <svg
+                                aria-hidden="true"
+                                className="icon-checkbox"
+                                width="28px"
+                                height="28px"
+                                viewBox="0 0 28 28"
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M4 14l8 7L24 7" />
+                              </svg>
+                            </span>
+
+                            <p className="checkbox__textwrapper">⭐ 1 Star</p>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1228,9 +1550,13 @@ export const FlightFilter = () => {
 
                                           <span className="flgt-drtn-line d-block"></span>
 
-                                          <span className="flgt-drtn-circle d-block"></span>  
+                                          <span className="flgt-drtn-circle d-block"></span> 
+                                          
+                                          <div className="dijsenifjsdf hide-ini position-absolute text-center">
+                                            <i className="bi bi-airplane-engines d-block text-white"></i>
+                                          </div>
 
-                                          <div className="dijsenifjsdf position-absolute text-center">
+                                          <div className="dijsenifjsdf show-ini position-absolute text-center">
                                             <i className="bi bi-airplane-engines d-block text-white"></i>
                                           </div>                                          
                                         </div>
@@ -1552,15 +1878,21 @@ export const FlightFilter = () => {
                                             <i className="bi me-1 text-center text-white bi-info-lg"></i> Fare Rules
                                           </h6>  
 
-                                          <i onClick={() => handleFareRules(fareIndex)} className="bi bi-chevron-down"></i>                                      
+                                          <i onClick={() => handleFareRules(fareIndex)} className={`${fareRules === fareIndex ? "bi-chevron-left" : "bi-chevron-right"} bi`}></i>                                      
                                         </div>
 
                                         {fareRules === fareIndex && (
-                                          <div className="xnfgsfsdcfe sdjkcnsidjcije position-absolute bg-white w-100 rounded-2 border-top px-3 p-3">
+                                          <div className="xnfgsfsdcfe sdjkcnsidjcije position-absolute bg-white w-100 rounded-2 border-top p-3 pe-0">
+                                            <div className="unjcisdosidd me-3 d-flex align-items-center justify-content-between mb-4">
+                                              <h6 className="mb-0 d-flex align-items-center"><i className="bi me-1 d-inline-block text-center text-white bi-info-lg"></i> Fare Rules</h6>
+
+                                              <i className="fa-solid fa-xmark" onClick={() => setFareRules(false)}></i>
+                                            </div>
+
                                             {apiFareDetails?.fareDetails?.FareRules?.map(
                                               (rule, ruleIndex) => (
                                                 <div key={ruleIndex}
-                                                  className="pt-2"
+                                                  className="jifjisiudj"
                                                   dangerouslySetInnerHTML={{
                                                     __html: rule.FareRuleDesc,
                                                   }}
