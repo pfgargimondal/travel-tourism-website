@@ -20,6 +20,7 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
     const [regModal, setRegModal] = useState(false);
     const [resNavToggle, setResNavToggle] = useState(false);
     const [crrncyLangModal, setCrrncyLangModal] = useState(false);
+     // eslint-disable-next-line
     const [resHomeFlightSearchToggle, setResHomeFlightSearchToggle] = useState(false);
 
     useEffect(() => {
