@@ -152,12 +152,19 @@
     font-size: 1vw;
 }
 
-.circle{
-  width: 2vw;
-  height: 2vw;
-  border: 1px solid var(--blue-secondary-color);
+.res-btwn-crcl .circle{
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--light-border-color);
   border-radius: 50%;
   line-height: 1.8;
+  background: #fff;
+  animation: none;
+}
+
+.res-btwn-crcl .circle i{
+    color: var(--blue-secondary-color);
+    margin-left: 0;
 }
 
 .form h6{
@@ -413,7 +420,6 @@ h2.secondary-heading{
     color: #6c757d;
     font-size: 15px;
     line-height: 1.6;
-    max-width: 500px;
 }
 
 .feature-box h5 {
@@ -866,6 +872,187 @@ h2.secondary-heading{
     font-size: 2.5rem;
 }
 
+.unsduhfsdiujfsdf .form label.form-label{
+    font-weight: 600;
+    color: #000 !important;
+}
+
+
+
+
+@media only screen and (max-width: 991px){
+    .uinenrhr.ps-3{
+        padding-left: 0 !important;
+    }
+
+    .hero-section{
+        display: none;
+    }
+
+    .hero-section::before{
+        display: none;
+    }
+
+    .menu-section{
+        margin-top: 0;
+    }
+
+    .flight-filter-options-res-wrapper{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        width: 80%;
+        z-index: 99999;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .flight-filter-options-res-wrapper-hide{
+        z-index: -99999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .flight-filter-options-wrapper-backdrop{
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        z-index: 99999;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .flight-filter-options-wrapper-backdrop-hide{
+        z-index: -99999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .flight-filter-options-header h4{
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .flight-filter-options-header i{
+        font-size: 1.1rem;
+    }
+
+    .flight-filter-options-res-wrapper.flight-main-card{
+        padding-bottom: 25px;
+    }
+    
+    .aihcishdf .ifnishdfds:first-child{
+        width: 60%;
+    }
+
+    .aihcishdf .ifnishdfds:last-child{
+        width: 40%;
+    }
+
+    .country{
+        font-size: 0.9rem;
+    }
+
+    .top-destinations .card-content h4 {
+        font-size: 1.1rem;
+    }
+
+    .tour-badge {
+        font-size: 10px;
+    }
+
+    h2.main-title,
+    h2.secondary-heading,
+    h2.deals-title {
+        font-size: 2rem;
+    }
+    
+    h2.secondary-heading{
+        text-align: center;
+    }
+
+    .dasbnzfxdgdxdfd.text-end{
+        text-align: center !important;
+        margin-top: 1rem;
+    }
+
+    .travleft span.small-heading{
+        display: block;
+        text-align: center;
+    }
+    
+    .contentrgdfg .small-heading,
+    .bncxfbfsdfc p{
+        text-align: center;
+    }
+
+    h2.secondary-heading br{
+        display: none;
+    }
+
+    .doiejwrwer{
+        text-align: center;
+    }
+
+    .travright{
+        width: 60%;
+        margin-inline: auto;
+    }
+
+    .watermark-icon {
+        right: 60%;
+    }
+
+    .sm-card {
+        width: 31vw;
+    }
+
+    .deal-card img,
+    .destination-card img{
+        height: auto !important;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 830px){
+    .country {
+        font-size: 0.8rem;
+    }
+
+    .top-destinations .card-content h4 {
+        font-size: 1rem;
+    }
+
+    .tour-badge{
+        padding: 2px 4px;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 767px){
+    .aihcishdf .ifnishdfds:first-child,
+    .aihcishdf .ifnishdfds:last-child{
+        width: 100%;
+    }
+
+    .fgdfgfdg{
+        width: 50%;
+    }
+
+    .price {
+        font-size: 20px;
+    }
+}
+
+
 
 
 
@@ -888,5 +1075,144 @@ h2.secondary-heading{
 
     .hotel-img{
         height: auto;
+    }
+
+    .flight-filter-options-res-wrapper{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transform: initial;
+    }
+
+    .flight-filter-options-res-wrapper.flight-main-card{
+        border-radius: 0 !important;
+    }
+
+    .flight-filter-options-res-wrapper .flight-content-area.mt-3{
+        margin-top: 2rem !important;
+    }    
+
+    h2.main-title,
+    h2.secondary-heading,
+    h2.deals-title {
+        font-size: 1.8rem;
+    }
+
+    .okhuifgyuhj .client .img img{
+        width: 3rem;
+    }
+
+    .testimonial .quote img {
+        width: 1.5rem;
+    }
+
+    .top-deals.py-5{
+        padding-top: 0 !important;
+    }
+
+    .top-deals .ratings{
+        width: 85px;
+        padding: 1px 9px;
+    }
+
+    .feature-box .icon-box{
+        flex-shrink: 0;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 428px){
+    .travright {
+        width: 90%;
+    }
+
+    .sm-card {
+        width: 40vw;
+    }
+
+    .watermark-icon {
+        width: 18vw;
+    }
+
+    .feature-box{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .travleft .description p{
+        text-align: center;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 404px){
+    .flight-filter-options-res-wrapper .flight-trip-type {
+        justify-content: initial;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .flight-filter-options-res-wrapper .flight-trip-type label{
+        white-space: nowrap;
+    }
+
+    .flight-filter-options-res-wrapper .circle{
+        width: 2rem;
+        height: 2rem;
+        margin-top: 1.8rem !important;
+    }
+
+    .jndijfksdf{
+        position: relative;
+    }
+
+    .res-btwn-crcl{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .col-5.res-deprtr-gng-frm{
+        width: 50%;
+    }
+
+    .flight-filter-options-res-wrapper.flight-main-card{
+        padding: 1rem !important;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 393px){
+    .hotel-content .oifmojoifjdsgg{
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .hotel-content .oifmojoifjdsgg.align-items-center{
+        align-items: start !important;
+    }
+
+    .hotel-content a.btn-tour{
+        width: 100%;
+    }
+
+    .secondary-heading.mb-5{
+        margin-bottom: 1.5rem !important;
+    }
+
+    h2.main-title,
+    h2.secondary-heading,
+    h2.deals-title {
+        font-size: 1.5rem;
     }
 }

@@ -30,9 +30,18 @@ const [availableDates, setAvailableDates] = useState([]);
    // eslint-disable-next-line
 const [selectedDate, setSelectedDate] = useState("");
    // eslint-disable-next-line
-const [departureDate, setDepartureDate] = useState(null);
+const [departureDate, setDepartureDate] = useState(new Date());
+const [resHomeFlightSearchToggle, setResHomeFlightSearchToggle] = useState(false);
+
+
+
    // eslint-disable-next-line
-const [returnDate, setReturnDate] = useState(null);
+const [returnDate, setReturnDate] = useState(() => {
+  const rtrn = new Date(departureDate);  
+  rtrn.setDate(rtrn.getDate() + 1);
+
+  return rtrn;
+});
 
 const [tripType, setTripType] = useState(0);
 const [cabinClass, setCabinClass] = useState(0);
@@ -225,7 +234,6 @@ const [infantAges, setInfantAges] = useState([]);
 
     if (!selectedOrigin || !selectedDestination) {
       setAvailableDates([]);
-      setDepartureDate(null);
       return;
     }
 
@@ -237,7 +245,6 @@ const [infantAges, setInfantAges] = useState([]);
 
     if (!route?.AvailableDates) {
       setAvailableDates([]);
-      setDepartureDate(null);
       return;
     }
 
@@ -249,8 +256,8 @@ const [infantAges, setInfantAges] = useState([]);
     setAvailableDates(dates);
 
     // Set first available date only when route changes
+    // eslint-disable-next-line
     const futureDates = dates.filter(d => d >= today);
-    setDepartureDate(futureDates[0] || today);
 
   }, [selectedOrigin, selectedDestination, airportList]);
 
@@ -341,9 +348,21 @@ const [infantAges, setInfantAges] = useState([]);
 
       <section className="menu-section">
         <div className="container my-5">
-          <ServiceCategories />
+          <ServiceCategories setResHomeFlightSearchToggle={setResHomeFlightSearchToggle} />
 
-          <div className="flight-main-card">
+          {window.innerWidth <= 991 && (
+            <div className={`${(window.innerWidth <= 991 && resHomeFlightSearchToggle) ? "flight-filter-options-wrapper-backdrop" : "flight-filter-options-wrapper-backdrop flight-filter-options-wrapper-backdrop-hide"} position-fixed top-0 start-0 end-0 bottom-0 w-100 h-100`}></div>
+          )}
+
+          <div className={`flight-main-card unsduhfsdiujfsdf flight-filter-options-wrapper ${(window.innerWidth <= 991 && resHomeFlightSearchToggle) ? "flight-filter-options-res-wrapper" : "flight-filter-options-res-wrapper flight-filter-options-res-wrapper-hide"}`}>
+            {window.innerWidth <= 991 && (
+              <div className="flight-filter-options-header d-flex align-items-center justify-content-between">
+                <h4 className="mb-0">Flight Search</h4>
+
+                <i onClick={() => setResHomeFlightSearchToggle(false)} className="fa-solid fa-xmark"></i>
+              </div>
+            )}
+
             <div className="flight-content-area mt-3">
               <div className="flight-trip-type d-flex align-items-center mb-3">
                 <div className="checkbox-wrapper-15">
@@ -412,9 +431,9 @@ const [infantAges, setInfantAges] = useState([]);
 
               <div className="form row g-4">
                 <div className="col-lg-5">
-                  <div className="row align-items-center">
-                    <div className="col-md-5 col-5">
-                      <label>Departure From</label>
+                  <div className="jndijfksdf row align-items-center">
+                    <div className="col-md-5 col-5 res-deprtr-gng-frm">
+                      <label className="form-label">Departure From</label>
 
                       {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                       <select
@@ -437,7 +456,7 @@ const [infantAges, setInfantAges] = useState([]);
                       </select>
                     </div>
 
-                    <div className="col-md-2 col-2 text-center">
+                    <div className="col-md-2 col-2 res-btwn-crcl text-center">
                       <div className="circle" onClick={handleSwap}
                         style={{
                           cursor: "pointer",
@@ -447,9 +466,9 @@ const [infantAges, setInfantAges] = useState([]);
                       </div>
                     </div>
 
-                    <div className="col-md-5 col-5">
-                      <div className="ps-3">
-                        <label>Going To</label>
+                    <div className="col-md-5 col-5 res-deprtr-gng-frm">
+                      <div className="uinenrhr">
+                        <label className="form-label">Going To</label>
                         {/* <input type="text" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                         <select
                             className="form-control"
@@ -475,7 +494,7 @@ const [infantAges, setInfantAges] = useState([]);
                 <div className="col-lg-7">
                   <div className="row dnfggfshgjhfghdff">
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
-                      <label>Departure Date</label>
+                      <label className="form-label">Departure Date</label>
                          
                       {/* <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                       <DatePicker
@@ -496,7 +515,7 @@ const [infantAges, setInfantAges] = useState([]);
                     </div>
 
                     <div className="col-md-4 col-md-4 col-sm-6 col-6">
-                      <label>Return Date</label>
+                      <label className="form-label">Return Date</label>
                       
                       {/* <input type="date" className="form-control" placeholder="New Delhi DEL, Indira Gandhi International" /> */}
                       <DatePicker
@@ -509,9 +528,9 @@ const [infantAges, setInfantAges] = useState([]);
                     </div>
 
                     <div className="col-md-4 col-md-4 col-sm-6 col-6 position-relative">
-                      <label>Travellers & Class</label>
+                      <label className="form-label">Travellers & Class</label>
 
-                      <div className="form-control hotel-input"
+                      <div className="form-control hotel-input vdxbfcsffff"
                           onClick={() => setFlightDrpdwn(prev => !prev)}
                       >
                           {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
@@ -741,15 +760,23 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
             </div>
+
+            {window.innerWidth <= 991 && (
+              <div className="text-center mt-4 ">
+                <button className="flight-search-btn" onClick={handleFlightSearch}>Search</button>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      <div className="ghaadasd">
-        <div className="text-center mt-4 ">
-          <button className="flight-search-btn" onClick={handleFlightSearch}>Search</button>
+      {window.innerWidth > 991 && (
+        <div className="ghaadasd">
+          <div className="text-center mt-4 ">
+            <button className="flight-search-btn" onClick={handleFlightSearch}>Search</button>
+          </div>
         </div>
-      </div>
+      )}
 
       <section className="top-destinations py-5">
         <div className="container">
@@ -766,9 +793,9 @@ const [infantAges, setInfantAges] = useState([]);
             ></div>
           </div>
 
-          <div className="row g-4">
-            <div className="col-lg-8">
-              <div className="col-lg-12 mb-4">
+          <div className="row aihcishdf g-4">
+            <div className="col-lg-8 ifnishdfds">
+              <div className="col-lg-12 isiudhfjfdf mb-4">
                 <div className="destiny-card large-card">
                   <img src="./images/desleftup.jpg" alt="" />
                   <div className="card-content">
@@ -782,7 +809,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
 
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-6 fgdfgfdg">
                   <div className="destiny-card small-card">
                     <img src="./images/desleftdolef.jpg" alt="" />
                     <div className="card-content">
@@ -795,7 +822,7 @@ const [infantAges, setInfantAges] = useState([]);
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-6 fgdfgfdg">
                   <div className="destiny-card small-card">
                     <img src="./images/desleftdorit.jpg" alt="" />
                     <div className="card-content">
@@ -810,7 +837,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4">
+            <div className="col-lg-4 ifnishdfds">
               <div className="destiny-card tall-card">
                 <img src="./images/destiright.jpg" alt="" />
                 <div className="card-content">
@@ -977,7 +1004,7 @@ const [infantAges, setInfantAges] = useState([]);
             </div>
 
             <div className="row g-4">
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/topdesti.png" alt="" />
                   <div className="overlay">
@@ -991,7 +1018,7 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/asia.png" alt="" />
                   <div className="overlay">
@@ -1005,7 +1032,7 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/mid-east.png" alt="" />
                   <div className="overlay">
@@ -1019,7 +1046,7 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/affrica.png" alt="" />
                   <div className="overlay">
@@ -1033,7 +1060,7 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/europe.png" alt="" />
                   <div className="overlay">
@@ -1047,7 +1074,7 @@ const [infantAges, setInfantAges] = useState([]);
                 </div>
               </div>
 
-              <div className="col-lg-2">
+              <div className="col-lg-2 col-md-4 col-6">
                 <div className="destination-card">
                   <img src="./images/northamerica.png" alt="" />
                   <div className="overlay">
@@ -1064,6 +1091,7 @@ const [infantAges, setInfantAges] = useState([]);
           </div>
         </div>
       </section>
+
       <section className="travel-section py-5">
         <div className="container">
           <div className="row align-items-center">
@@ -1152,7 +1180,7 @@ const [infantAges, setInfantAges] = useState([]);
           <h2 className="secondary-heading mb-5 text-center">Recommended Hotels</h2>
 
           <div className="row g-4">
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel1.png"
@@ -1161,14 +1189,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">Planet Hollywood Bea...</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">Mumbai</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1178,7 +1206,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel2.png"
@@ -1187,14 +1215,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">Planet Hollywood Bea...</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">Goa</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1204,7 +1232,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel3.png"
@@ -1213,14 +1241,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">The Suryaa New Delhi</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">New Delhi</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1230,7 +1258,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel4.jpg"
@@ -1239,14 +1267,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">Planet Hollywood Bea...</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">Kolkata</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1256,7 +1284,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel5.jpg"
@@ -1265,14 +1293,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">Planet Hollywood Bea...</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">Kochi</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1282,7 +1310,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="hotel-card">
                 <img
                   src="./images/hotel6.png"
@@ -1291,14 +1319,14 @@ const [infantAges, setInfantAges] = useState([]);
                 />
 
                 <div className="hotel-content">
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="oisdmifkopkdsf d-flex justify-content-between align-items-center">
                     <h5 className="hotel-title">The Suryaa New Delhi</h5>
                     <span className="rating">5.0</span>
                   </div>
 
                   <p className="location">Chennai</p>
 
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div className="oifmojoifjdsgg d-flex justify-content-between align-items-center mt-3">
                     <a href="/" className="btn btn-tour">
                       Book Now ↗
                     </a>
@@ -1326,7 +1354,7 @@ const [infantAges, setInfantAges] = useState([]);
           </div>
 
           <div className="row g-4 mt-4">
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="deal-card">
                 <img src="./images/deal1.png" className="img-fluid" alt="" />
                 <div className="deal-overlay">
@@ -1342,7 +1370,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="deal-card">
                 <img src="./images/deal2.png" className="img-fluid" alt="" />
                 <div className="deal-overlay">
@@ -1358,7 +1386,7 @@ const [infantAges, setInfantAges] = useState([]);
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6">
+            <div className="col-lg-4 col-md-6 col-sm-6">
               <div className="deal-card">
                 <img src="./images/deal3.png" className="img-fluid" alt="" />
                 <div className="deal-overlay">

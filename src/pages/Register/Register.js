@@ -49,7 +49,7 @@ export const Register = ({ loginRegModal, setLoginRegModal, regModal, setRegModa
                             </div>
                             <button className="btn login-btn w-100">Register</button>
                             
-                            <div className="d-flex justify-content-between align-items-center mt-2">
+                            <div className="lomsodjfkdf d-flex justify-content-between align-items-center mt-2">
                                 <div className="mt-2 d-flex align-items-center djewjrokwekrewr text-dark">
                                     <p className="mb-0 small me-1 text-dark">Already have an account?</p>
 

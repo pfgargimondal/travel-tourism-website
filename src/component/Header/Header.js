@@ -14,13 +14,13 @@ import "./HeaderResponsive.css";
 
 
 
-
 export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
     const [headerSticky, setHeaderSticky] = useState(false);
     const [loginRegModal, setLoginRegModal] = useState(false);
     const [regModal, setRegModal] = useState(false);
     const [resNavToggle, setResNavToggle] = useState(false);
     const [crrncyLangModal, setCrrncyLangModal] = useState(false);
+    const [resHomeFlightSearchToggle, setResHomeFlightSearchToggle] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -81,7 +81,7 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
                                 </div> */}
                                 
                                 <div className="doijeoijwer d-none align-items-center">
-                                    <ServiceCategories start={0} end={6} />
+                                    <ServiceCategories start={0} end={6} setResHomeFlightSearchToggle={setResHomeFlightSearchToggle} />
 
                                     <div className="diejijewmrijwereor position-relative">
                                         <div class="asddhedsfeedee flight-menu-item">

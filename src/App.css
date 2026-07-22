@@ -370,6 +370,10 @@ input.form-control:focus{
     main .h-section-2 .uiherrrr_left .ijerrrr img {
         height: auto;
     }
+
+    .btn-tour {
+        padding: 8px 16px;
+    }
 }
 
 
@@ -458,13 +462,7 @@ input.form-control:focus{
 
     .right-cards {
         grid-template-columns: 1fr 1fr;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
+    }    
 }
 
 

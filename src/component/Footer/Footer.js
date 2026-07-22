@@ -6,10 +6,9 @@ export const Footer = () => {
     return (
       <div>
         <footer class="main-footer pt-5">
-
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
                         <h3 class="footer-logo">Ticket Booking</h3>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -35,7 +34,7 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    <div class="col-lg-2 mb-4">
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4">
                         <h5>Quick Link</h5>
                         <ul class="footer-links list-unstyled">
                             <li><Link to="/about-us">About Us</Link></li>
@@ -47,7 +46,7 @@ export const Footer = () => {
                         </ul>
                     </div>
 
-                    <div class="col-lg-2 mb-4">
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4">
                         <h5>Categories</h5>
                         <ul class="footer-links list-unstyled">
                             <li><a href="/">Travel</a></li>
@@ -59,7 +58,7 @@ export const Footer = () => {
                         </ul>
                     </div>
 
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
                         <h5>Newsletter</h5>
                         <p>
                             Join our community of over 200,000 global readers who receives emails filled with news,
@@ -72,9 +71,9 @@ export const Footer = () => {
                             <button class="btn btn-tour">Subscribe</button>
                         </form>
                     </div>
-
                 </div>
             </div>
+
             <div class="footer-bottom mt-4">
                 <div class="container d-flex justify-content-between align-items-center">
                     <p class="mb-0">2026 Travel. All rights reserved.</p>

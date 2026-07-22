@@ -4,12 +4,14 @@ import "./ServiceCategories.css";
 import Loader from "../Loader/Loader";
 import { useLocation } from "react-router-dom";
 
-export const ServiceCategories = ({ start, end }) => {
+export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle }) => {
   const [serviceimageUrl, setserviceImageUrl] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
+
+  
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -38,15 +40,24 @@ export const ServiceCategories = ({ start, end }) => {
     return <Loader />;
   }
 
+  console.log(categories);
+
   const displayCategories =
     start !== undefined || end !== undefined
     ? categories.slice(start ?? 0, end ?? categories.length)
     : categories;
 
+
+  const resHomeFlightSearchHandler = (category) => {
+    if (category === "Flights") {
+      setResHomeFlightSearchToggle(prev => !prev);
+    }
+  };
+
     
 
   return (
-    <div className="flight-menu-wrapper gjhkdfgdf">
+    <div className="flight-menu-wrapper gjhkdfgdf service-categories-wrapper">
       <div className="flight-menu-bar">
         {displayCategories.map((item, index) => (
           <div
@@ -66,11 +77,15 @@ export const ServiceCategories = ({ start, end }) => {
                 window.location.href = "/hotels";
               }
               else if(item.slug === "flights"){
-                window.location.href = "/";
+                if (window.innerWidth > 991){
+                  window.location.href = "/";
+                }
               }
               else{
                  window.location.href = `/${item.slug}`;
               }
+
+              resHomeFlightSearchHandler(item.category)
             }}
           >
             <img
