@@ -25,15 +25,15 @@ export const FlightFilter = () => {
 
 
   
-  useEffect(() => {
-    const html = document.querySelector("html");
+  // useEffect(() => {
+  //   const html = document.querySelector("html");
     
-    if (html.classList.contains("overflow-hidden")) {
-      html.classList.remove("overflow-hidden");
-    } else {
-      html.classList.add("overflow-hidden");
-    }
-  }, [resFilterToggle]);
+  //   if (html.classList.contains("overflow-hidden")) {
+  //     html.classList.remove("overflow-hidden");
+  //   } else {
+  //     html.classList.add("overflow-hidden");
+  //   }
+  // }, [resFilterToggle]);
 
 
 
@@ -428,7 +428,7 @@ export const FlightFilter = () => {
                                 </select>
                               </div>
 
-                              <div className="col-md-2 col-2 text-center">
+                              <div className="col-md-2 col-2 text-center res-btwn-crcl">
                                 <div className="circle" onClick={handleSwap}
                                   style={{
                                     cursor: "pointer",
