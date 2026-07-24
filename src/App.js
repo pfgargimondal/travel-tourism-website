@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const isHeaderNewIncluded = ["/thank-you", "/user-profile", "/account-information", "/user-booking", "/change-password", "/wishlist"].some(path => pathName.includes(path));
     const isHeaderBlackTextIncluded = ["/hotel-booking", "/hotel-payment", "/hotel-details", "/flight-details"].some(path => pathName.includes(path));
-    const isHeaderStickyIncluded = ["/flight-filter"].some(path => pathName.includes(path));
+    const isHeaderStickyIncluded = ["/flight-filter", "/hotel-filter"].some(path => pathName.includes(path));
 
     isHeaderNewIncluded ? setHeaderNew(true) : setHeaderNew(false);
     isHeaderBlackTextIncluded ? setHeaderBlackText(true) : setHeaderBlackText(false);

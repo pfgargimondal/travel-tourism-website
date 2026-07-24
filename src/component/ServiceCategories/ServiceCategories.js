@@ -4,13 +4,12 @@ import "./ServiceCategories.css";
 import Loader from "../Loader/Loader";
 import { useLocation } from "react-router-dom";
 
-export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle }) => {
+export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle, setResHotelSearchToggle }) => {
   const [serviceimageUrl, setserviceImageUrl] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-
   
 
   useEffect(() => {
@@ -40,7 +39,6 @@ export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle }) 
     return <Loader />;
   }
 
-  console.log(categories);
 
   const displayCategories =
     start !== undefined || end !== undefined
@@ -53,6 +51,29 @@ export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle }) 
       setResHomeFlightSearchToggle(prev => !prev);
     }
   };
+
+  const resResHotelSearchHandler = (category) => {
+    if (category === "Hotels") {
+      setResHotelSearchToggle(prev => !prev);
+    }
+  };
+
+
+  const resFilterOptionsCallHandler = (item) =>{
+    if (location.pathname === "/") {
+      resHomeFlightSearchHandler(item.category);
+
+      if (item.category === "Hotels" && window.innerWidth <= 991) {
+        window.location.href = "/hotels";
+      }
+    } else if (location.pathname === "/hotels") {
+      resResHotelSearchHandler(item.category);
+
+      if (item.category === "Flights" && window.innerWidth <= 991) {
+        window.location.href = "/"
+      }
+    }
+  }
 
     
 
@@ -73,19 +94,19 @@ export const ServiceCategories = ({ start, end, setResHomeFlightSearchToggle }) 
             }`}
             // onClick={() => navigate(`/${item.slug}`)}
             onClick={() => {
-              if(item.slug === "hotels"){
-                window.location.href = "/hotels";
-              }
-              else if(item.slug === "flights"){
-                if (window.innerWidth > 991){
+              if (item.slug === "hotels") {
+                if (window.innerWidth > 991) {
+                  window.location.href = "/hotels";
+                }
+              } else if (item.slug === "flights") {
+                if (window.innerWidth > 991) {
                   window.location.href = "/";
                 }
-              }
-              else{
-                 window.location.href = `/${item.slug}`;
+              } else {
+                window.location.href = `/${item.slug}`;
               }
 
-              resHomeFlightSearchHandler(item.category)
+              resFilterOptionsCallHandler(item);
             }}
           >
             <img

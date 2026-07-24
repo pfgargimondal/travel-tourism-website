@@ -169,9 +169,15 @@ input[type="range"] {
     padding-bottom: 2px;
 }
 
-.price {
+.hotel-card-wrapper .price {
     font-size: 22px;
     font-weight: 700;
+    color: #000;
+    margin: 0;
+}
+
+.hotel-card-wrapper h4{
+    font-weight: 600;
 }
 
 
@@ -513,11 +519,6 @@ input[type="range"] {
     color: #777;
 }
 
-.price {
-    margin-top: 8px;
-    font-weight: bold;
-}
-
 /* Header */
 .section-header {
     display: flex;
@@ -833,28 +834,6 @@ input[type="range"] {
 /* search dropdown custom end*/
 
 
-@media (max-width: 992px) {
-    .logo-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .deal-box {
-        flex-direction: column;
-    }
-
-    .deal-image img {
-        height: 220px;
-    }
-}
-
-@media (max-width: 576px) {
-    .logo-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 
 
 /*end all hotel*/
@@ -917,8 +896,26 @@ h6.klkifyter{
     border-radius: 15px;
 }
 
+.hotel-search-options-wrapper .checkbox-wrapper-15{
+    transition: 0.2s ease-in-out;
+}
+
 .hotel-search-options-wrapper .checkbox-wrapper-15:has(input:checked){
-    border: 1px solid var(--main-green-color);
+    transition: 0.2s ease-in-out;
+    background: linear-gradient(to left, var(--main-green-color), var(--blue-primary-color));    
+}
+
+.hotel-search-options-wrapper .checkbox-wrapper-15:has(input:checked) .cbx span:last-child{
+    color: #fff;
+}
+
+.hotel-search-options-wrapper .checkbox-wrapper-15:has(input:checked) .cbx span:first-child{
+    border-color: #fff;
+    background: #fff;
+}
+
+.hotel-search-options-wrapper .checkbox-wrapper-15:has(input:checked) .cbx span:first-child svg{
+    stroke: var(--main-green-color);
 }
 
 .hotel-search-options-wrapper .checkbox-wrapper-15 .cbx span:last-child{
@@ -930,3 +927,217 @@ h6.klkifyter{
     font-weight: 600;
 }
 
+
+
+
+
+
+@media only screen and (max-width: 991px) {
+    .logo-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .bannerhotel{
+        display: none;
+    }
+
+    .hotel-filter-options-res-wrapper{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        width: 80%;
+        z-index: 99999;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .hotel-filter-options-res-wrapper-hide{
+        z-index: -99999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .hotel-filter-options-wrapper-backdrop{
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        z-index: 99999;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .hotel-filter-options-wrapper-backdrop-hide{
+        z-index: -99999;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .hotel-filter-options-header h4{
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .hotel-filter-options-header i{
+        font-size: 1.1rem;
+    }
+
+    .hotel-filter-options-res-wrapper.flight-main-card {
+        padding-bottom: 25px;
+    }
+
+    .uisndfihsdjff.align-items-center{
+        align-items: initial !important;
+    }
+
+    .uisndfihsdjff .ixjamdfoief{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .hotel-filter-options-res-wrapper.hotel-search-options-wrapper input,
+    .hotel-filter-options-res-wrapper.hotel-search-options-wrapper input::placeholder,
+    .hotel-filter-options-res-wrapper.hotel-search-options-wrapper .vdxbfcsffff{
+        font-size: 0.8rem;
+    }
+
+    .section-wrapper{
+        padding-top: 0;
+    }
+
+    .left-heading h5{
+        text-align: center;
+        font-size: 1.8rem !important;
+    }
+
+    .badge-custom{
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 838px){
+    .hotel-filter-options-res-wrapper.hotel-search-options-wrapper label{
+        font-size: 0.7rem;
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+    .deal-box {
+        flex-direction: column;
+    }
+
+    .deal-image img {
+        height: 220px;
+    }
+
+    .hotel-filter-options-res-wrapper .idjweiuhwerkowerewr i,
+    .hotel-filter-options-res-wrapper .ixjamdfoief i {
+        left: 2%;
+    }
+
+    .dghfdvs55 .deal-content {
+        text-align: center;
+    }
+
+    .section-wrapper .icon-box{
+        flex-shrink: 0;
+        margin-right: 0;
+    }    
+}
+
+
+
+
+
+@media only screen and (max-width: 600px){
+    .hotel-filter-options-res-wrapper {
+        height: 100%;
+        left: 0;
+        top: 0;
+        transform: none;
+        width: 100%;
+    }
+
+    .hotel-filter-options-res-wrapper.flight-main-card {
+        border-radius: 0 !important;
+    }
+
+    .iuneiuirjerewr.my-3 {
+        margin-top: 2rem !important;
+    }
+
+    .hhsdfh58558{
+        margin-top: 0;
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-width: 576px) {
+    .logo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 393px){
+    .left-heading h5{
+        font-size: 1.5rem !important;
+    }
+
+    .hotel-filter-options-res-wrapper.flight-main-card {
+        padding: 1rem !important;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 371px){
+    .destination-card-hotel p br{
+        display: none;
+    }
+
+    .destination-card-hotel img{
+        flex-shrink: 0;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 366px){
+    .hotel-filter-options-res-wrapper .checkbox-wrapper-15{
+        padding: 2px 8px;
+    }
+    
+    .hotel-filter-options-res-wrapper .checkbox-wrapper-15 label {
+        white-space: nowrap;
+    }
+
+    .iuneiuirjerewr{
+        flex-wrap: wrap;
+        justify-content: normal !important;
+    }
+}

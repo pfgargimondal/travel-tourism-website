@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { ServiceCategories } from '../ServiceCategories/ServiceCategories';
 import Loader from "../Loader/Loader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
-export const HotelSearch = ({ cities = [] }) => {
+export const HotelSearch = ({ cities = [], setHotelFilterOptionsToggle }) => {
     // eslint-disable-next-line
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
@@ -13,7 +13,7 @@ export const HotelSearch = ({ cities = [] }) => {
     // eslint-disable-next-line
     const [selectedCity, setSelectedCity] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
-    // const location = useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
     const MAX_GUESTS_PER_ROOM = 8;
     const [checkIn, setCheckIn] = useState("");
@@ -27,6 +27,8 @@ export const HotelSearch = ({ cities = [] }) => {
     const [childrenAges, setChildrenAges] = useState([]);
     const [inputFieldsBorder, setInputFieldsBorder] = useState(false);
     const totalGuests = adultCount + childrenCount;
+    // eslint-disable-next-line
+    const [resHotelSearchToggle, setResHotelSearchToggle] = useState(false);
     /*room count*/
 
     const roomIncrease = () => {
@@ -147,10 +149,30 @@ export const HotelSearch = ({ cities = [] }) => {
             <div className="jfdbvjfbv788">
                 <section className="menu-section">
                     <div className="container my-5">
-                        <ServiceCategories />
+                        <ServiceCategories setResHotelSearchToggle={setResHotelSearchToggle} />
 
-                        <div className="flight-main-card hotel-search-options-wrapper">
-                            <div className="d-flex align-items-center gap-3 my-3">
+                        {window.innerWidth <= 991 && (
+                            <div className={`${(window.innerWidth <= 991 && resHotelSearchToggle) ? "hotel-filter-options-wrapper-backdrop" : "hotel-filter-options-wrapper-backdrop hotel-filter-options-wrapper-backdrop-hide"} position-fixed top-0 start-0 end-0 bottom-0 w-100 h-100`}></div>
+                        )}
+
+                        <div className={`flight-main-card hotel-search-options-wrapper ${(window.innerWidth <= 991 && resHotelSearchToggle) ? "hotel-filter-options-res-wrapper" : "hotel-filter-options-res-wrapper hotel-filter-options-res-wrapper-hide"}`}>
+                            {window.innerWidth <= 991 && (
+                                <div className="flight-filter-options-header d-flex align-items-center justify-content-between">
+                                    <h4 className="mb-0">Hotel Search</h4>
+
+                                    <i onClick={() => setResHotelSearchToggle(false)} className="fa-solid fa-xmark"></i>
+                                </div>
+                            )}
+
+                            {(window.innerWidth <= 600 && location.pathname.startsWith("/hotel-filter")) && (
+                                <div className="hotel-filter-options-header d-flex align-items-center justify-content-between">
+                                    <h4 className="mb-0">Modify Hotel Search</h4>
+
+                                    <i onClick={() => setHotelFilterOptionsToggle(false)} className="fa-solid fa-xmark"></i>
+                                </div>
+                            )}
+                            
+                            <div className="iuneiuirjerewr d-flex align-items-center gap-3 my-3">
                                 <div className="checkbox-wrapper-15">
                                     <input
                                         className="inp-cbx"
@@ -190,7 +212,7 @@ export const HotelSearch = ({ cities = [] }) => {
                                 </div>
                             </div>
 
-                            <div className="row align-items-center g-4">
+                            <div className="uisndfihsdjff row align-items-center g-4">
                                 <div className="col-md-3 position-relative">
                                     <label className="form-label">City, Property Name Or Location</label>
                                     
@@ -267,7 +289,7 @@ export const HotelSearch = ({ cities = [] }) => {
                                             <option>2 Rooms 4 Adults</option>
                                         </select> */}
 
-                                        <div className={`form-control ${inputFieldsBorder ? "nkfnjihijmkfcsd" : ""} lmflojlkerr hotel-input position-relative`}
+                                        <div className={`form-control ${inputFieldsBorder ? "nkfnjihijmkfcsd" : ""} lmflojlkerr hotel-input vdxbfcsffff position-relative`}
                                             onClick={() => {
                                                 setHotelGstsRmmsDrpdwn(prev => !prev);
                                                 setInputFieldsBorder(prev => !prev);
@@ -304,8 +326,15 @@ export const HotelSearch = ({ cities = [] }) => {
 
                                                         <button onClick={adultIncrease} className="btn-transparent"><i class="bi bi-plus-lg"></i></button>
                                                     </div>
+                                                    
                                                 </div>
-
+                                                <span>
+                                                    {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
+                                                        <p className="text-danger mt-1 mb-1">
+                                                            Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
+                                                        </p>
+                                                    )}
+                                                </span>
                                                 <div className="d-flex align-items-center justify-content-between mb-3">
                                                     <div className="diweirkwer d-flex flex-column">
                                                         <p className="mb-0 dnfreqer">Children</p>
@@ -367,12 +396,6 @@ export const HotelSearch = ({ cities = [] }) => {
                                                 </div>
                                             </div>
                                         )}
-
-                                        {totalGuests >= roomCount * MAX_GUESTS_PER_ROOM && (
-                                            <p className="text-danger mt-2 mb-0">
-                                                Maximum {MAX_GUESTS_PER_ROOM} guests allowed per room
-                                            </p>
-                                        )}
                                     </div>                                    
                                 </div>
                                 {/* <div className="col-md-2">
@@ -387,14 +410,23 @@ export const HotelSearch = ({ cities = [] }) => {
                                 </select>
                                 </div> */}
                             </div>
+
+                            {window.innerWidth <= 991 && (
+                                <div className="text-center mt-4 ">
+                                    <button className="flight-search-btn" onClick={handleSearch}>SEARCH</button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </section>
-                <div className="ghaadasd">
-                    <div className="text-center mt-4 ">
-                        <button className="flight-search-btn" onClick={handleSearch}>SEARCH</button>
+
+                {window.innerWidth > 991 && (
+                    <div className="ghaadasd">
+                        <div className="text-center mt-4 ">
+                            <button className="flight-search-btn" onClick={handleSearch}>SEARCH</button>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     )

@@ -46,7 +46,7 @@ export const Hotel = () => {
   const fetchCities = async () => {
     try {
       const response = await http.post("city-list");
-      setCities(response?.data?.data || []);
+      setCities(response?.data?.data || []);      
     } catch (error) {
       console.error("City API Error:", error);
     }
@@ -315,7 +315,7 @@ export const Hotel = () => {
                   <SwiperSlide key={index}>
 
                     {/* <Link to={`/hotel-details/${hotel.hotel_code}`}> */}
-                      <div className="hotel-card" >
+                      <div className="hotel-card hotel-card-wrapper" >
                         <div className="img-box">
                           <img src={hotel.image} alt="" />
 

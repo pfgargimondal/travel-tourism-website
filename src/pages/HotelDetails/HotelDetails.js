@@ -3,10 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import http from "../../http";
 import Loader from "../../component/Loader/Loader";
-
 import "./HotelDetails.css";
-
-
 
 export const HotelDetails = () => {
   const { slug } = useParams();
@@ -16,6 +13,10 @@ export const HotelDetails = () => {
   const [showAllFacilities, setShowAllFacilities] = useState(false);
   const [expandedRooms, setExpandedRooms] = useState({});
   const [activeTab, setActiveTab] = useState("rooms");
+
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
     const fetchHotelDetails = async () => {
@@ -28,7 +29,7 @@ export const HotelDetails = () => {
         const children = searchParams.get("children");
 
         const response = await http.get(
-          `/get-hotel-code-details/${slug}?checkin=${checkin}&checkout=${checkout}&rooms=${rooms}&adults=${adults}&children=${children}`
+          `/get-hotel-code-details/${slug}?checkin=${checkin}&checkout=${checkout}&rooms=${rooms}&adults=${adults}&children=${children}`,
         );
 
         setHotelDetails(response.data.data);
@@ -57,7 +58,7 @@ export const HotelDetails = () => {
   let cleanDescription = hotelDetails?.description || "";
 
   const totalFare = Math.round(
-    hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.TotalFare || 0
+    hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.TotalFare || 0,
   );
 
   const promotion =
@@ -66,16 +67,22 @@ export const HotelDetails = () => {
   const discountPercent = Number(promotion.match(/\d+/)?.[0] || 0);
 
   const discountedPrice = (
-    totalFare - (totalFare * discountPercent) / 100
+    totalFare -
+    (totalFare * discountPercent) / 100
   ).toFixed(0);
+
+  const room = hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0];
+  const roomCount = room?.Name?.length || 1;
+  const roomName = room?.Name?.[0] || "";
+  const displayName = `${roomCount} x (${roomName})`;
 
   sectionsToRemove.forEach((section) => {
     cleanDescription = cleanDescription.replace(
       new RegExp(
         `<p><strong>${section.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}<\\/strong>.*?(?=<p><strong>|$)`,
-        "is"
+        "is",
       ),
-      ""
+      "",
     );
   });
 
@@ -161,7 +168,8 @@ export const HotelDetails = () => {
       return "https://cdn-icons-png.flaticon.com/512/3050/3050525.png";
     }
     if (
-      name.includes("scuba") || name.includes("Scuba diving") || 
+      name.includes("scuba") ||
+      name.includes("Scuba diving") ||
       name.includes("diving")
     ) {
       return "https://img.icons8.com/fluency/48/scuba-diving.png";
@@ -176,15 +184,25 @@ export const HotelDetails = () => {
     return "https://img.icons8.com/fluency/48/services.png";
   };
 
-  const handleViewAll = () => {
-    setActiveTab("rooms");
+  // const handleViewAll = () => {
+  //   setActiveTab("rooms");
 
-    document.getElementById("rooms")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+  //   document.getElementById("rooms")?.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "start",
+  //   });
+  // };
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
+  const selectRoom = (room) => {
+    setSelectedRoom(room);
+    handleClose();
   };
-  
+
+  console.log(selectedRoom, 'selectedRoom');
+
   if (loading) {
     return <Loader />;
   }
@@ -195,14 +213,16 @@ export const HotelDetails = () => {
         <div className="container">
           <div className="asfdgsqwe">
             <ul className="ps-0 d-flex align-items-center gap-3">
-                <li className="active">Hotels</li>
+              <li className="active">Hotels</li>
 
-                <li><i className="bi bi-arrow-right"></i></li>
+              <li>
+                <i className="bi bi-arrow-right"></i>
+              </li>
 
-                <li>{hotelDetails?.hotel_name}</li>
+              <li>{hotelDetails?.hotel_name}</li>
             </ul>
-        </div>
-        
+          </div>
+
           <div className="sgbdrsfweqeqe">
             <div className="row">
               <div className="col-lg-9">
@@ -214,15 +234,19 @@ export const HotelDetails = () => {
                           {hotelDetails?.hotel_name}
                         </h4>
 
-                        <h6 className="jkvnxlkjvkxccv mb-2"><i className="fa-solid me-1 fa-location-dot"></i> {hotelDetails?.address}</h6>
-                        
+                        <h6 className="jkvnxlkjvkxccv mb-2">
+                          <i className="fa-solid me-1 fa-location-dot"></i>{" "}
+                          {hotelDetails?.address}
+                        </h6>
+
                         <div className="sbfsdvfsf d-flex align-items-center">
                           <div className="vfddf me-1">
                             {[...Array(5)].map((_, index) => (
                               <i
                                 key={index}
                                 className={`fa-star ${
-                                  index < Number(hotelDetails?.hotel_rating || 0)
+                                  index <
+                                  Number(hotelDetails?.hotel_rating || 0)
                                     ? "fa-solid"
                                     : "fa-regular"
                                 }`}
@@ -236,21 +260,24 @@ export const HotelDetails = () => {
                         </div>
                       </div>
 
-                      <div className="bcbsdbszsd d-flex gap-2">                        
+                      <div className="bcbsdbszsd d-flex gap-2">
                         <div className="sdhgxifoijjd text-end">
-                          <h6 className="mb-0">Excellent 
+                          <h6 className="mb-0">
+                            Excellent
                             {/* <span className="small text-muted">(412 Ratings)</span> */}
                           </h6>
-                        
+
                           {/* <Link to="/" className="review-link">
                             <b>All Reviews</b>
                           </Link> */}
                         </div>
 
-                        <span className="rating-box mb-0">{hotelDetails?.hotel_rating || 0}</span>
+                        <span className="rating-box mb-0">
+                          {hotelDetails?.hotel_rating || 0}
+                        </span>
                       </div>
                     </div>
-                  
+
                     <div className="fbhjsfsdf88">
                       <div className="row">
                         <div className="col-lg-8">
@@ -260,14 +287,13 @@ export const HotelDetails = () => {
                         </div>
                         <div className="col-lg-4">
                           <div className="dfsdf542">
-                            {hotelDetails?.hotel_images?.slice(0, 1).map((hotelImage, index, arr) => (
-                              <div className="hgcghghvfhg" key={index}>
-                                <img
-                                  src={hotelImage.image_url}
-                                  alt=""                                  
-                                />
-                              </div>
-                            ))}
+                            {hotelDetails?.hotel_images
+                              ?.slice(0, 1)
+                              .map((hotelImage, index, arr) => (
+                                <div className="hgcghghvfhg" key={index}>
+                                  <img src={hotelImage.image_url} alt="" />
+                                </div>
+                              ))}
                             {hotelDetails?.hotel_images?.length > 1 && (
                               <div className="col position-relative hgcghghvfhg">
                                 <img
@@ -277,7 +303,8 @@ export const HotelDetails = () => {
                                 />
 
                                 <div className="overlay-text">
-                                  +{hotelDetails.hotel_images.length - 1} All Photos
+                                  +{hotelDetails.hotel_images.length - 1} All
+                                  Photos
                                 </div>
                               </div>
                             )}
@@ -288,7 +315,7 @@ export const HotelDetails = () => {
 
                     <div className="dsvbjhdvsdc mt-4">
                       <h5 className="mb-3">About Property</h5>
-                      
+
                       <div
                         dangerouslySetInnerHTML={{
                           __html: cleanDescription,
@@ -296,7 +323,7 @@ export const HotelDetails = () => {
                       />
                     </div>
                   </div>
-                </div>                
+                </div>
               </div>
 
               <div className="col-lg-3">
@@ -312,51 +339,67 @@ export const HotelDetails = () => {
                           <i class="fa-solid fa-bed"></i>
                         </div>
 
-                        <h5 className="room-title mb-0">{hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.Name?.[0]}</h5>
+                        <h5 className="room-title mb-0">
+                          {/* {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.Name?.[0]} */}
+                          {displayName}
+                        </h5>
                       </div>
 
                       <div className="dlozaclznokxcnzxc py-3">
-                        <p className="small text-muted mb-2"><i className="fa-solid me-1 fa-user"></i> Fits 1 Adult</p>
-                      
                         <p className="small text-muted mb-2">
                           <i className="fa-solid me-1 fa-shield-halved"></i>
-                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.IsRefundable === false
-                              ? 'Non-Refundable'
-                              : 'Refundable'}
+                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]
+                            ?.IsRefundable === false
+                            ? "Non-Refundable"
+                            : "Refundable"}
                         </p>
 
-                        <p className="small text-muted mb-0"><i class="fa-solid me-1 fa-moon"></i> Per Night</p>
+                        <p className="small text-muted mb-0">
+                          <i class="fa-solid me-1 fa-moon"></i> Per Night
+                        </p>
                       </div>
 
                       <div className="cdincjczxc vfsdfzbgxv py-3">
                         <div className="doisjdfsdf">
-                          <p className="mb-0">Price per night</p>
-
                           <div className="dokcknzsicnisd d-flex align-items-center flex-wrap gap-2">
                             <span>₹{discountedPrice}</span>
 
-                            <span>
-                              ₹{totalFare}
-                            </span>  
-                          </div>                          
+                            <span>₹{totalFare}</span>
+                          </div>
                         </div>
 
                         <div className="vdfv785">
-                          <p className="mb-0">+&nbsp;₹&nbsp;{Math.round(hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.TotalTax)}&nbsp;taxes &amp; fees per Night</p>
+                          <p className="mb-0">
+                            +&nbsp;₹&nbsp;
+                            {Math.round(
+                              hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]
+                                ?.TotalTax,
+                            )}
+                            &nbsp;taxes &amp; fees Per Night for {roomCount}{" "}
+                            Room{roomCount > 1 ? "s" : ""}
+                          </p>
                         </div>
                       </div>
 
-
                       <button className="btn-tour w-100">Book This Now</button>
 
-                      <div className="xvbzxbcfndddd mt-2">                        
-                        <button className="btn-tour view-btn w-100 mb-3" onClick={handleViewAll}>View All (8)</button>
+                      <div className="xvbzxbcfndddd mt-2">
+                        <button
+                          className="btn-tour view-btn w-100 mb-3"
+                          onClick={handleShow}
+                        >
+                          View All (
+                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms
+                            ?.length || 0}
+                          )
+                        </button>
 
                         <p className="mb-0 d-block text-center">
-                          <i className="bi me-1 bi-shield-shaded"></i> 
-                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]?.IsRefundable === false
-                              ? 'Non-Refundable'
-                              : 'Refundable'}
+                          <i className="bi me-1 bi-shield-shaded"></i>
+                          {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.[0]
+                            ?.IsRefundable === false
+                            ? "Non-Refundable"
+                            : "Refundable"}
                         </p>
                       </div>
                     </div>
@@ -368,11 +411,12 @@ export const HotelDetails = () => {
                         <div className="d-flex align-items-center mb-2">
                           <img
                             src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
-                            className="map-icon" alt=""
+                            className="map-icon"
+                            alt=""
                           />
                           <div className="xcnxbsdczd ms-2">
                             <p className="mb-0">Apporo</p>
-                   
+
                             <span className="small text-muted">
                               3.7 km drive to Anjuna Beach
                             </span>
@@ -388,7 +432,10 @@ export const HotelDetails = () => {
                           ></iframe>
                         </div>
 
-                        <div className="deal-box mt-2" style={{ padding: "20px" }}>
+                        <div
+                          className="deal-box mt-2"
+                          style={{ padding: "20px" }}
+                        >
                           <div className="deal-badge position-relative d-flex flex-column gap-2 align-items-center">
                             <span className="d-block bg-white rounded-circle position-relative">
                               <i className="bi position-absolute bi-tag-fill"></i>
@@ -398,7 +445,9 @@ export const HotelDetails = () => {
                           </div>
 
                           <p className="small mb-0">
-                             Congratulations! You're getting <span>{promotion.replace("Save:", "")}</span> discount.
+                            Congratulations! You're getting{" "}
+                            <span>{promotion.replace("Save:", "")}</span>{" "}
+                            discount.
                           </p>
                         </div>
                       </div>
@@ -422,7 +471,10 @@ export const HotelDetails = () => {
                     </li>
 
                     <li className="nav-item" role="presentation">
-                      <a href="#amenities" onClick={() => setActiveTab("amenities")}>
+                      <a
+                        href="#amenities"
+                        onClick={() => setActiveTab("amenities")}
+                      >
                         <button
                           className={`nav-link ${activeTab === "amenities" ? "active" : ""}`}
                           type="button"
@@ -433,23 +485,31 @@ export const HotelDetails = () => {
                     </li>
 
                     <li className="nav-item" role="presentation">
-                      <a href="#attrctns" onClick={() => setActiveTab("attrctns")}>
+                      <a
+                        href="#attrctns"
+                        onClick={() => setActiveTab("attrctns")}
+                      >
                         <button
                           className={`nav-link ${activeTab === "attrctns" ? "active" : ""}`}
                           type="button"
                         >
-                          <img src="./images/prop1 (2).png" alt="" /> Attractions
+                          <img src="./images/prop1 (2).png" alt="" />{" "}
+                          Attractions
                         </button>
                       </a>
                     </li>
-                    
+
                     <li className="nav-item" role="presentation">
-                      <a href="#property-rules" onClick={() => setActiveTab("property-rules")}>
+                      <a
+                        href="#property-rules"
+                        onClick={() => setActiveTab("property-rules")}
+                      >
                         <button
                           className={`nav-link ${activeTab === "property-rules" ? "active" : ""}`}
                           type="button"
                         >
-                          <img src="./images/prop1 (2).png" alt="" /> Property Rules
+                          <img src="./images/prop1 (2).png" alt="" /> Property
+                          Rules
                         </button>
                       </a>
                     </li>
@@ -460,120 +520,151 @@ export const HotelDetails = () => {
                           className={`nav-link ${activeTab === "bp" ? "active" : ""}`}
                           type="button"
                         >
-                          <img src="./images/prop1 (2).png" alt="" /> Booking Policy
+                          <img src="./images/prop1 (2).png" alt="" /> Booking
+                          Policy
                         </button>
                       </a>
                     </li>
 
                     <li className="nav-item" role="presentation">
-                      <a href="#reviews" onClick={() => setActiveTab("reviews")}>
+                      <a
+                        href="#reviews"
+                        onClick={() => setActiveTab("reviews")}
+                      >
                         <button
                           className={`nav-link ${activeTab === "reviews" ? "active" : ""}`}
                           type="button"
                         >
-                          <img src="./images/prop1 (2).png" alt="" /> Ratings & Reviews
+                          <img src="./images/prop1 (2).png" alt="" /> Ratings &
+                          Reviews
                         </button>
                       </a>
                     </li>
                   </ul>
 
                   <div className="czxvbbcsdfdcfc-tab-content">
-                    <div
-                      className="jkcnjsdnmdf dijiejrwewer"
-                      id="rooms"
-                    >
+                    <div className="jkcnjsdnmdf dijiejrwewer" id="rooms">
                       <div className="hotel-card">
                         <div className="dbvhjdxcxbvdxsvsdfs">
-                          {hotelDetails?.hotel_rooms?.map((hotelRoom, index) => {
-                            const amenities = hotelRoom.RoomDescription
-                              ?.replace(/&/g, "")
-                              .split(",")
-                              .flatMap(item =>
-                                item.split(/\s-\s/).map(part =>
-                                  part
-                                    .trim()
-                                    .replace(/^(and|a|an)\s+/i, "")
-                                )
-                              )
-                              .filter(item => item.length > 0);
-                            const isExpanded = expandedRooms[index] || false;
-                            return (
-                              <div className="idjkbnasjknfsd">
-                                <div className="row">
-                                  <div className="col-lg-3">
-                                    <div className="sikncjknsldcf bzdvzxczxc position-relative">
-                                      <div className="fbvhjd mb-3">
-                                        <img
-                                          src={hotelRoom.imageURL ? JSON.parse(hotelRoom.imageURL)?.[0] : ""}
-                                          alt="Hotel Room"
-                                        />
-
-                                        <div className="wishlist-icon">
+                          {hotelDetails?.hotel_rooms?.map(
+                            (hotelRoom, index) => {
+                              const amenities =
+                                hotelRoom.RoomDescription?.replace(/&/g, "")
+                                  .split(",")
+                                  .flatMap((item) =>
+                                    item
+                                      .split(/\s-\s/)
+                                      .map((part) =>
+                                        part
+                                          .trim()
+                                          .replace(/^(and|a|an)\s+/i, ""),
+                                      ),
+                                  )
+                                  .filter((item) => item.length > 0);
+                              const isExpanded = expandedRooms[index] || false;
+                              return (
+                                <div className="idjkbnasjknfsd">
+                                  <div className="row">
+                                    <div className="col-lg-3">
+                                      <div className="sikncjknsldcf bzdvzxczxc position-relative">
+                                        <div className="fbvhjd mb-3">
                                           <img
-                                            src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
-                                            alt="heart"
+                                            src={
+                                              hotelRoom.imageURL
+                                                ? JSON.parse(
+                                                    hotelRoom.imageURL,
+                                                  )?.[0]
+                                                : ""
+                                            }
+                                            alt="Hotel Room"
                                           />
-                                        </div>
-                                      </div>
 
-                                      <div className="diszjcfjsocjzc d-flex gap-2 flex-wrap">
-                                        <div className="feature-row tour-badge">
-                                          <i className="bi bi-pin-map"></i>
-
-                                          <span>{hotelRoom.RoomSize}</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="col-lg-9">
-                                    <div className="doisjdosdf py-1">
-                                      <div className="row">
-                                        <div className="col-lg-8">
-                                          <div className="ifjscoifksdc pe-2">
-                                            <div className="sdbhjdsd">
-                                              <h4 className="mb-2">
-                                                {hotelRoom.RoomName}
-                                              </h4>
-                                            </div>
-
-                                            <div className="dsbhjsdsf">
-                                              <p className="mb-3">Room with Breakfast + Lunch/Dinner</p>
-                                            </div>
-
-                                            <div className="amenities_wrap_box mb-3">
-                                              <ul className="amenities_list ps-0 mb-3">
-                                                {(isExpanded ? amenities : amenities.slice(0, 6)).map((item, i) => (
-                                                  <li className="d-flex" key={i}><i className="bi me-2 bi-check-circle-fill"></i> {item}</li>
-                                                ))}
-                                              </ul>
-
-                                              {amenities.length > 6 && (
-                                                <span
-                                                  className="dijskjfsdf-btn px-2 py-1"
-                                                  onClick={() =>
-                                                    setExpandedRooms(prev => ({
-                                                      ...prev,
-                                                      [index]: !prev[index]
-                                                    }))
-                                                  }
-                                                >
-                                                  {isExpanded ? "Show Less" : "More Details"} <i className={`bi ${isExpanded ? "bi-arrow-up-circle" : "bi-arrow-down-circle"}`}></i>
-                                                </span>
-                                              )}
-                                            </div>
-
-                                            <div className="sdhbfdsfsfd">
-                                              <h6>Experiences Included</h6>
-                                              <p>
-                                                Enjoy Happy Hours with 1+1 offer on
-                                                Alcoholic Drinks, Soft Beverages
-                                              </p>
-                                            </div>
+                                          <div className="wishlist-icon">
+                                            <img
+                                              src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+                                              alt="heart"
+                                            />
                                           </div>
                                         </div>
 
-                                        <div className="col-lg-4">
+                                        <div className="diszjcfjsocjzc d-flex gap-2 flex-wrap">
+                                          <div className="feature-row tour-badge">
+                                            <i className="bi bi-pin-map"></i>
+
+                                            <span>{hotelRoom.RoomSize}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-lg-9">
+                                      <div className="doisjdosdf py-1">
+                                        <div className="row">
+                                          <div className="col-lg-8">
+                                            <div className="ifjscoifksdc pe-2">
+                                              <div className="sdbhjdsd">
+                                                <h4 className="mb-2">
+                                                  {hotelRoom.RoomName}
+                                                </h4>
+                                              </div>
+
+                                              <div className="dsbhjsdsf">
+                                                <p className="mb-3">
+                                                  Room with Breakfast +
+                                                  Lunch/Dinner
+                                                </p>
+                                              </div>
+
+                                              <div className="amenities_wrap_box mb-3">
+                                                <ul className="amenities_list ps-0 mb-3">
+                                                  {(isExpanded
+                                                    ? amenities
+                                                    : amenities.slice(0, 6)
+                                                  ).map((item, i) => (
+                                                    <li
+                                                      className="d-flex"
+                                                      key={i}
+                                                    >
+                                                      <i className="bi me-2 bi-check-circle-fill"></i>{" "}
+                                                      {item}
+                                                    </li>
+                                                  ))}
+                                                </ul>
+
+                                                {amenities.length > 6 && (
+                                                  <span
+                                                    className="dijskjfsdf-btn px-2 py-1"
+                                                    onClick={() =>
+                                                      setExpandedRooms(
+                                                        (prev) => ({
+                                                          ...prev,
+                                                          [index]: !prev[index],
+                                                        }),
+                                                      )
+                                                    }
+                                                  >
+                                                    {isExpanded
+                                                      ? "Show Less"
+                                                      : "More Details"}{" "}
+                                                    <i
+                                                      className={`bi ${isExpanded ? "bi-arrow-up-circle" : "bi-arrow-down-circle"}`}
+                                                    ></i>
+                                                  </span>
+                                                )}
+                                              </div>
+
+                                              <div className="sdhbfdsfsfd">
+                                                <h6>Experiences Included</h6>
+                                                <p>
+                                                  Enjoy Happy Hours with 1+1
+                                                  offer on Alcoholic Drinks,
+                                                  Soft Beverages
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          {/* <div className="col-lg-4">
                                           <div className="lkscmdjimsdcs h-100">
                                             <div className="njhbfsf d-flex flex-column justify-content-between h-100">
                                               <div className="vbhsf">
@@ -590,36 +681,6 @@ export const HotelDetails = () => {
                                                 </div>
                                               </div>  
 
-                                              {/* <div className="dijanmfsdf">
-                                                <h6 className="mb-3">Available Offers</h6>  
-
-                                                <div className="fdgfdgdfg7885">
-                                                  <div className="dnhjd54564">
-                                                    <div className="room-features">
-                                                      <div className="feature-row">
-                                                        <img
-                                                          src="./images/iconstw (5).png"
-                                                          alt="Square footage"
-                                                        />
-                                                        <p className="mb-0">
-                                                          10% off on 1 session of 90 mins Spa
-                                                        </p>
-                                                      </div>
-
-                                                      <div className="feature-row">
-                                                        <img
-                                                          src="./images/iconstw (6).png"
-                                                          alt="View type"
-                                                        />
-                                                        <p className="mb-0">
-                                                          15% off on Food & Beverage services
-                                                        </p>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>                                            */}
-                                              
                                               <div className="dsikdcksd">   
                                                 <div className="cdincjczxc vfsdfzbgxv mb-4">
                                                   <div className="doisjdfsdf">
@@ -639,22 +700,20 @@ export const HotelDetails = () => {
                                               </div>
                                             </div>
                                           </div>
+                                        </div> */}
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            )
-                          })}
+                              );
+                            },
+                          )}
                         </div>
                       </div>
                     </div>
-                    
-                    <div
-                      className="jcknnsdndsff dijiejrwewer"
-                      id="amenities"
-                    >
+
+                    <div className="jcknnsdndsff dijiejrwewer" id="amenities">
                       <div className="hotel-card">
                         <div className="diuejfmjsdf">
                           <h5 className="mb-3">Amenities</h5>
@@ -662,11 +721,18 @@ export const HotelDetails = () => {
                           <div className="idnidejegsdsc">
                             <div className="amenities-list d-flex flex-wrap gap-3">
                               {hotelDetails?.hotel_facilities
-                                ?.slice(0, showAllFacilities ? hotelDetails.hotel_facilities.length : 5)
+                                ?.slice(
+                                  0,
+                                  showAllFacilities
+                                    ? hotelDetails.hotel_facilities.length
+                                    : 5,
+                                )
                                 .map((hotelFacility, index) => (
                                   <div className="amenity-item" key={index}>
                                     <img
-                                      src={getFacilityImage(hotelFacility.facility)}
+                                      src={getFacilityImage(
+                                        hotelFacility.facility,
+                                      )}
                                       alt={hotelFacility.facility}
                                       width="32"
                                       height="32"
@@ -674,40 +740,44 @@ export const HotelDetails = () => {
                                     <span>{hotelFacility.facility}</span>
                                   </div>
                                 ))}
-                                                         
                             </div>
 
                             <div className="text-end">
                               {hotelDetails?.hotel_facilities?.length > 4 && (
                                 <span
                                   className="dijskjfsdf-btn px-2 py-1"
-                                  onClick={() => setShowAllFacilities(!showAllFacilities)}
+                                  onClick={() =>
+                                    setShowAllFacilities(!showAllFacilities)
+                                  }
                                 >
-                                  {showAllFacilities ? "Show Less" : "View All"} <i className={`bi ${showAllFacilities ? "bi-arrow-up-circle" : "bi-arrow-down-circle"}`}></i>
+                                  {showAllFacilities ? "Show Less" : "View All"}{" "}
+                                  <i
+                                    className={`bi ${showAllFacilities ? "bi-arrow-up-circle" : "bi-arrow-down-circle"}`}
+                                  ></i>
                                 </span>
                               )}
                             </div>
                           </div>
-                        </div>  
-                      </div>                        
+                        </div>
+                      </div>
                     </div>
 
-                    <div
-                      className="xcvbnyuhdusjdd dijiejrwewer"
-                      id="attrctns"
-                    >
+                    <div className="xcvbnyuhdusjdd dijiejrwewer" id="attrctns">
                       <div className="hotel-card">
                         <h5 className="mb-3">Attractions</h5>
                         <ul className="attraction-list">
-                            {hotelDetails?.hotel_attractions?.map((hotelAttraction, index) => (
-                                <li className="amenity-item" key={index}>
-                                    {hotelAttraction.title} {hotelAttraction.attraction}
-                                </li>
-                            ))}
+                          {hotelDetails?.hotel_attractions?.map(
+                            (hotelAttraction, index) => (
+                              <li className="amenity-item" key={index}>
+                                {hotelAttraction.title}{" "}
+                                {hotelAttraction.attraction}
+                              </li>
+                            ),
+                          )}
                         </ul>
-                      </div>                        
+                      </div>
                     </div>
-                    
+
                     <div
                       className="xcvbnyuhdusjdd dijiejrwewer"
                       id="property-rules"
@@ -727,16 +797,23 @@ export const HotelDetails = () => {
 
                             <div className="row mt-3">
                               <div className="col-lg-6">
-                                <div className="rules-tag mb-3">❤️ Couple/Bachelor Rules</div>
+                                <div className="rules-tag mb-3">
+                                  ❤️ Couple/Bachelor Rules
+                                </div>
 
                                 <div className="rules-highlight mb-3">
-                                  Unmarried couples allowed. Local ids are allowed
+                                  Unmarried couples allowed. Local ids are
+                                  allowed
                                 </div>
 
                                 <ul className="rules-list">
-                                  <li>Primary Guest should be atleast 18 years of age.</li>
                                   <li>
-                                    Groups with only male guests are allowed at the property
+                                    Primary Guest should be atleast 18 years of
+                                    age.
+                                  </li>
+                                  <li>
+                                    Groups with only male guests are allowed at
+                                    the property
                                   </li>
                                 </ul>
                               </div>
@@ -744,14 +821,15 @@ export const HotelDetails = () => {
                               <div className="col-lg-6">
                                 <ul className="rules-list">
                                   <li>
-                                    Passport, Aadhaar and Driving License are accepted as ID
-                                    proof(s)
+                                    Passport, Aadhaar and Driving License are
+                                    accepted as ID proof(s)
                                   </li>
                                   <li>Pets are not allowed</li>
                                   <li>
-                                    Mandatory: This rate and cancellation policy is only
-                                    applicable for booking upto 7 rooms. Bookings with more
-                                    than 7 rooms are considered group bookings & the right to
+                                    Mandatory: This rate and cancellation policy
+                                    is only applicable for booking upto 7 rooms.
+                                    Bookings with more than 7 rooms are
+                                    considered group bookings & the right to
                                     admission is reserved by hotel.
                                   </li>
                                 </ul>
@@ -759,25 +837,32 @@ export const HotelDetails = () => {
                             </div>
 
                             <div className="mt-3 d-flex gap-2 flex-wrap">
-                              <button className="rule-btn">Must Read Rules</button>
-                              <button className="rule-btn">Guest Profile</button>
-                              <button className="rule-btn">Guest Profile (Hourly)</button>
+                              <button className="rule-btn">
+                                Must Read Rules
+                              </button>
+                              <button className="rule-btn">
+                                Guest Profile
+                              </button>
+                              <button className="rule-btn">
+                                Guest Profile (Hourly)
+                              </button>
                               <a href="/" className="read-all">
                                 Read All Property Rules
                               </a>
                             </div>
                           </section>
                         </div>
-                      </div>                        
+                      </div>
                     </div>
 
-                    <div
-                      className="xcvbnyuhdusjdd dijiejrwewer"
-                      id="bp"
-                    >
+                    <div className="xcvbnyuhdusjdd dijiejrwewer" id="bp">
                       <div className="hotel-card">
-                        <p className="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi in ex molestiae commodi vero quaerat ullam porro. Quo, ratione deserunt.</p>
-                      </div> 
+                        <p className="mb-0">
+                          Lorem ipsum dolor, sit amet consectetur adipisicing
+                          elit. Animi in ex molestiae commodi vero quaerat ullam
+                          porro. Quo, ratione deserunt.
+                        </p>
+                      </div>
 
                       <div className="dbydfff854">
                         <section className="guest-gallery-section mt-4">
@@ -785,32 +870,34 @@ export const HotelDetails = () => {
                             <h5 className="mb-3">Hotel Photos</h5>
 
                             <div className="row g-3">
-                              {hotelDetails?.hotel_images?.slice(3, 8).map((hotelImage, index) => (
+                              {hotelDetails?.hotel_images
+                                ?.slice(3, 8)
+                                .map((hotelImage, index) => (
                                   <div className="col" key={index}>
-                                      <img
-                                          src={hotelImage.image_url}
-                                          className="gallery-img"
-                                          alt=""
-                                      />
+                                    <img
+                                      src={hotelImage.image_url}
+                                      className="gallery-img"
+                                      alt=""
+                                    />
                                   </div>
-                              ))}
+                                ))}
 
                               {hotelDetails?.hotel_images?.length > 3 && (
-                                  <div className="col position-relative">
-                                      <img
-                                          src={
-                                              hotelDetails.hotel_images[
-                                                  hotelDetails.hotel_images.length - 1
-                                              ].image_url
-                                          }
-                                          className="gallery-img overlay-img"
-                                          alt=""
-                                      />
+                                <div className="col position-relative">
+                                  <img
+                                    src={
+                                      hotelDetails.hotel_images[
+                                        hotelDetails.hotel_images.length - 1
+                                      ].image_url
+                                    }
+                                    className="gallery-img overlay-img"
+                                    alt=""
+                                  />
 
-                                      <div className="overlay-text">
-                                          +{remainingImages} Guest Photos
-                                      </div>
+                                  <div className="overlay-text">
+                                    +{remainingImages} Guest Photos
                                   </div>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -826,34 +913,36 @@ export const HotelDetails = () => {
 
                           <div className="gallery-thumbs">
                             <img
-                              src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt=""
+                              src="https://images.unsplash.com/photo-1566073771259-6a8506099945"
+                              alt=""
                               onclick="changeImage(this)"
                             />
                             <img
-                              src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt=""
+                              src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
+                              alt=""
                               onclick="changeImage(this)"
                             />
                             <img
-                              src="https://images.unsplash.com/photo-1590490360182-c33d57733427" alt=""
+                              src="https://images.unsplash.com/photo-1590490360182-c33d57733427"
+                              alt=""
                               onclick="changeImage(this)"
                             />
                             <img
-                              src="https://images.unsplash.com/photo-1611892440504-42a792e24d32" alt=""
+                              src="https://images.unsplash.com/photo-1611892440504-42a792e24d32"
+                              alt=""
                               onclick="changeImage(this)"
                             />
                             <img
-                              src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461" alt=""
+                              src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461"
+                              alt=""
                               onclick="changeImage(this)"
                             />
                           </div>
                         </div>
-                      </div>                       
+                      </div>
                     </div>
 
-                    <div
-                      className="jnduiejjrr dijiejrwewer"
-                      id="reviews"
-                    >
+                    <div className="jnduiejjrr dijiejrwewer" id="reviews">
                       <div className="hotel-card">
                         <div className="hjdbjhfd885">
                           <div className="diuejfmjsdf d-flex justify-content-between align-items-center mb-3">
@@ -927,7 +1016,8 @@ export const HotelDetails = () => {
 
                                 <div className="last_ratings">
                                   <h5>
-                                    Last 10 Customer Ratings <span>(Latest First)</span>
+                                    Last 10 Customer Ratings{" "}
+                                    <span>(Latest First)</span>
                                   </h5>
 
                                   <div className="rating_boxes">
@@ -981,20 +1071,29 @@ export const HotelDetails = () => {
                               <div className="review-summary-box">
                                 <div className="d-flex align-items-center gap-2 mb-2">
                                   <img
-                                    src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt=""
+                                    src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
+                                    alt=""
                                     width="18"
                                   />
                                   <div>
-                                    <h6 className="mb-0 fw-bold">Review Summary</h6>
-                                    <small className="text-muted">Powered by Myra.AI</small>
+                                    <h6 className="mb-0 fw-bold">
+                                      Review Summary
+                                    </h6>
+                                    <small className="text-muted">
+                                      Powered by Myra.AI
+                                    </small>
                                   </div>
                                 </div>
 
                                 <ul className="summary-list">
                                   <li>Friendly and Helpful Staff</li>
                                   <li>Clean and Spacious Rooms</li>
-                                  <li>Excellent Location Near Candolim Beach</li>
-                                  <li>Delicious and Diverse Breakfast Options</li>
+                                  <li>
+                                    Excellent Location Near Candolim Beach
+                                  </li>
+                                  <li>
+                                    Delicious and Diverse Breakfast Options
+                                  </li>
                                 </ul>
 
                                 <a href="/" className="read-more">
@@ -1009,16 +1108,24 @@ export const HotelDetails = () => {
                                   <h6 className="mb-2 fw-bold">Filter By:</h6>
 
                                   <div className="filter-chips">
-                                    <span className="chip active">All Reviews</span>
+                                    <span className="chip active">
+                                      All Reviews
+                                    </span>
                                     <span className="chip">Friendly staff</span>
                                     <span className="chip">Staff Courtesy</span>
                                     <span className="chip">Food</span>
                                     <span className="chip">Delicious food</span>
                                     <span className="chip">Good location</span>
-                                    <span className="chip">Comfortable stay</span>
-                                    <span className="chip">Room Cleanliness</span>
+                                    <span className="chip">
+                                      Comfortable stay
+                                    </span>
+                                    <span className="chip">
+                                      Room Cleanliness
+                                    </span>
                                     <span className="chip">Breakfast</span>
-                                    <span className="chip">Service Quality</span>
+                                    <span className="chip">
+                                      Service Quality
+                                    </span>
                                     <span className="chip">Location</span>
                                   </div>
                                 </div>
@@ -1035,7 +1142,9 @@ export const HotelDetails = () => {
                               <div className="review-card-new">
                                 <div className="d-flex align-items-center gap-2 mb-1">
                                   <span className="rating-badge">5.0</span>
-                                  <h6 className="mb-0 fw-bold">Excellent Stay</h6>
+                                  <h6 className="mb-0 fw-bold">
+                                    Excellent Stay
+                                  </h6>
                                 </div>
 
                                 <small className="text-muted">
@@ -1043,9 +1152,9 @@ export const HotelDetails = () => {
                                 </small>
 
                                 <p className="review-text mt-2">
-                                  It’s very good hotel for family stay and beaches are in
-                                  walkable distance. We stayed 2nd time in this hotel and
-                                  it’s worthy
+                                  It’s very good hotel for family stay and
+                                  beaches are in walkable distance. We stayed
+                                  2nd time in this hotel and it’s worthy
                                 </p>
 
                                 <p className="mb-1">
@@ -1056,9 +1165,18 @@ export const HotelDetails = () => {
                                 </p>
 
                                 <div className="review-imgs">
-                                  <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt="" />
-                                  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="" />
-                                  <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427" alt="" />
+                                  <img
+                                    src="https://images.unsplash.com/photo-1566073771259-6a8506099945"
+                                    alt=""
+                                  />
+                                  <img
+                                    src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
+                                    alt=""
+                                  />
+                                  <img
+                                    src="https://images.unsplash.com/photo-1590490360182-c33d57733427"
+                                    alt=""
+                                  />
                                 </div>
 
                                 <div className="helpful">Helpful 👍</div>
@@ -1075,23 +1193,35 @@ export const HotelDetails = () => {
                                   </div>
 
                                   <p className="review_desc">
-                                    I accidentally booked twin bedroom and Puja helped me to
-                                    change room. The hotel was clean and well taken care of!
-                                    It just needs change in breakfast. Same breakfast every
+                                    I accidentally booked twin bedroom and Puja
+                                    helped me to change room. The hotel was
+                                    clean and well taken care of! It just needs
+                                    change in breakfast. Same breakfast every
                                     day doesn’t add to palate.
                                   </p>
 
                                   <p>
-                                    <strong>Travel Month:</strong> Mar 2026 (5-Night Stay)
+                                    <strong>Travel Month:</strong> Mar 2026
+                                    (5-Night Stay)
                                   </p>
                                   <p>
-                                    <strong>Room:</strong> Luxe Twin Room-Tropical View
+                                    <strong>Room:</strong> Luxe Twin
+                                    Room-Tropical View
                                   </p>
 
                                   <div className="review_images">
-                                    <img src="https://picsum.photos/80?1" alt="" />
-                                    <img src="https://picsum.photos/80?2" alt="" />
-                                    <img src="https://picsum.photos/80?3" alt="" />
+                                    <img
+                                      src="https://picsum.photos/80?1"
+                                      alt=""
+                                    />
+                                    <img
+                                      src="https://picsum.photos/80?2"
+                                      alt=""
+                                    />
+                                    <img
+                                      src="https://picsum.photos/80?3"
+                                      alt=""
+                                    />
                                   </div>
 
                                   <p className="helpful_btn">Helpful 👍</p>
@@ -1107,22 +1237,33 @@ export const HotelDetails = () => {
                                   </div>
 
                                   <p className="review_desc">
-                                    Suresh, Jocelyn, David and Chaitanya are really polite
-                                    and supportive. Thanks, I really enjoyed the stay. Thank
-                                    you for the wonderful stay.
+                                    Suresh, Jocelyn, David and Chaitanya are
+                                    really polite and supportive. Thanks, I
+                                    really enjoyed the stay. Thank you for the
+                                    wonderful stay.
                                   </p>
 
                                   <p>
                                     <strong>Travel Month:</strong> Mar 2026
                                   </p>
                                   <p>
-                                    <strong>Room:</strong> Luxe Queen Room-Pool View
+                                    <strong>Room:</strong> Luxe Queen Room-Pool
+                                    View
                                   </p>
 
                                   <div className="review_images">
-                                    <img src="https://picsum.photos/80?4" alt="" />
-                                    <img src="https://picsum.photos/80?5" alt="" />
-                                    <img src="https://picsum.photos/80?6" alt="" />
+                                    <img
+                                      src="https://picsum.photos/80?4"
+                                      alt=""
+                                    />
+                                    <img
+                                      src="https://picsum.photos/80?5"
+                                      alt=""
+                                    />
+                                    <img
+                                      src="https://picsum.photos/80?6"
+                                      alt=""
+                                    />
                                   </div>
 
                                   <p className="helpful_btn">Helpful 👍</p>
@@ -1131,15 +1272,18 @@ export const HotelDetails = () => {
                                     <p className="reply_title">
                                       Ginger Goa, Candolim{" "}
                                       <span>
-                                        has replied on Tue Mar 24 09:46:09 IST 2026
+                                        has replied on Tue Mar 24 09:46:09 IST
+                                        2026
                                       </span>
                                     </p>
                                     <p>
-                                      Dear Guest, Thank you so much for your kind words! I’m
-                                      delighted to hear that you had a wonderful stay with
-                                      us. Suresh, Jocelyn, David, and Chaitanya will be
-                                      thrilled to know that their polite and supportive
-                                      service made your visit enjoyable.
+                                      Dear Guest, Thank you so much for your
+                                      kind words! I’m delighted to hear that you
+                                      had a wonderful stay with us. Suresh,
+                                      Jocelyn, David, and Chaitanya will be
+                                      thrilled to know that their polite and
+                                      supportive service made your visit
+                                      enjoyable.
                                     </p>
                                   </div>
                                 </div>
@@ -1147,7 +1291,7 @@ export const HotelDetails = () => {
                             </div>
                           </div>
                         </div>
-                      </div> 
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1156,6 +1300,149 @@ export const HotelDetails = () => {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <>
+          <div className="modal fade show d-block" tabIndex="-1">
+            <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Available Room Options</h5>
+
+                  <button className="btn-close" onClick={handleClose}></button>
+                </div>
+
+                <div className="modal-body">
+                  {hotelDetails?.hotelPriceDetails?.[0]?.Rooms?.map(
+                    (room, index) => {
+                      const roomCount = room?.Name?.length || 1;
+                      const roomName = room?.Name?.[0]?.split(",")[0];
+                      const bedType = room?.Name?.[0]?.split(",")[1];
+
+                      const totalBasePrice =
+                        room?.DayRates?.reduce((sum, rate) => {
+                          return sum + (rate?.[0]?.BasePrice || 0);
+                        }, 0) || 0;
+                      return (
+                        <div
+                          className="card mb-4 border-0 shadow-sm"
+                          key={index}
+                        >
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-md-8">
+                                <h4 className="fw-bold">{roomName}</h4>
+                                <p className="text-muted mb-2">
+                                  {roomCount} x ({bedType})
+                                </p>
+                                <div className="mb-2">
+                                  <span className="badge bg-success me-2">
+                                    {room.MealType}
+                                  </span>
+                                  {room.IsRefundable ? (
+                                    <span className="badge bg-success">
+                                      Refundable
+                                    </span>
+                                  ) : (
+                                    <span className="badge bg-danger">
+                                      Non Refundable
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="mb-2">
+                                  <strong>Inclusions</strong>
+                                  <br />
+                                  {room.Inclusion}
+                                </p>
+                                {room.RoomPromotion?.length > 0 && (
+                                  <>
+                                    <strong>Offers</strong>
+                                    <ul className="mb-3">
+                                      {room.RoomPromotion.map((offer, i) => (
+                                        <li key={i}>{offer}</li>
+                                      ))}
+                                    </ul>
+                                  </>
+                                )}
+                                <strong>Cancellation Policy</strong>
+                                <table className="table table-bordered mt-2">
+                                  <thead>
+                                    <tr>
+                                      <th>From Date</th>
+                                      <th>Charge Type</th>
+                                      <th>Charge</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {room.CancelPolicies?.map((policy, i) => (
+                                      <tr key={i}>
+                                        <td>{policy.FromDate}</td>
+                                        <td>{policy.ChargeType}</td>
+                                        <td>
+                                          {policy.ChargeType === "Percentage"
+                                            ? `${policy.CancellationCharge}%`
+                                            : `₹${policy.CancellationCharge}`}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="col-md-4 text-end">
+                                <h3 className="text-success">
+                                  ₹
+                                  {Math.round(room.TotalFare).toLocaleString(
+                                    "en-IN",
+                                  )}
+                                </h3>
+                                <p className="mb-1">
+                                  <small>
+                                    Base Price : ₹
+                                    {Math.round(totalBasePrice).toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </small>
+                                </p>
+                                <p>
+                                  <small>
+                                    Taxes : ₹
+                                    {Math.round(room.TotalTax).toLocaleString(
+                                      "en-IN",
+                                    )}
+                                  </small>
+                                </p>
+                                <p>
+                                  <strong>
+                                    {roomCount} Room
+                                    {roomCount > 1 ? "s" : ""}
+                                  </strong>
+                                </p>
+                                <p>
+                                  {room.WithTransfers
+                                    ? "Transfer Included"
+                                    : "No Transfer"}
+                                </p>
+                                <button
+                                  className="btn btn-primary mt-3"
+                                  onClick={() => selectRoom(room)}
+                                >
+                                  Book Now
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    },
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-backdrop fade show" onClick={handleClose}></div>
+        </>
+      )}
 
       {/* <div className="dbvhjdxcxbvdxsvsdfs">
         <div className="container">

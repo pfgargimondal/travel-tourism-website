@@ -115,6 +115,18 @@ input.form-control:focus{
     border: 1px solid var(--blue-primary-color);
 }
 
+section-heading h2 {
+    font-size: 22px;
+}
+
+.footer-logo {
+    font-size: 24px;
+}
+
+.newsletter-form {
+    flex-direction: column;
+    gap: 10px;
+}
 
 
 
@@ -132,7 +144,6 @@ input.form-control:focus{
 /* Responsive all page start */
 
 @media only screen and (max-width: 991px) {
-
     html,
     body {
         overflow-x: clip;
@@ -268,14 +279,6 @@ input.form-control:focus{
 
     .iuherrrww {
         display: none;
-    }
-
-    .section-wrapper {
-        margin-top: 117%;
-    }
-
-    .feature-card h6 {
-        margin-top: 10px;
     }
 
     .custom-menu {
@@ -463,6 +466,10 @@ input.form-control:focus{
     .right-cards {
         grid-template-columns: 1fr 1fr;
     }    
+
+    h2{
+        font-size: 1.8rem !important;
+    }
 }
 
 
@@ -526,7 +533,7 @@ input.form-control:focus{
 
 }
 
-@media (max-width:440px) {
+@media only screen and (max-width:440px) {
 
     .hero-description {
         font-size: 13px;
@@ -543,8 +550,7 @@ input.form-control:focus{
 
 }
 
-@media (max-width:414px) {
-
+@media only screen and (max-width:414px) {
     .hero-title {
         font-size: 26px;
     }
@@ -558,27 +564,23 @@ input.form-control:focus{
     .payment-logos img {
         width: 40px;
     }
-
 }
 
-section-heading h2 {
-    font-size: 22px;
+
+
+
+@media only screen and (max-width:393px){
+    h2{
+        font-size: 1.5rem !important;
+    }
 }
 
-.footer-logo {
-    font-size: 24px;
-}
-
-.newsletter-form {
-    flex-direction: column;
-    gap: 10px;
-}
 
 
 
 /* ================= 375px ================= */
 
-@media (max-width:375px) {
+@media only screen and (max-width:375px) {
 
     .hero-title {
         font-size: 24px;
@@ -591,7 +593,6 @@ section-heading h2 {
     .insta-img {
         width: 70px;
     }
-
 }
 
 /* ================= 360px ================= */

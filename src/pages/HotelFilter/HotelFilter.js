@@ -5,6 +5,9 @@ import http from "../../http";
 import Loader from "../../component/Loader/Loader";
 import { HotelSearch } from "../../component/HotelSearch/HotelSearch";
 import "./HotelFilter.css";
+
+
+
 export const HotelFilter = () => {
 
   const navigate = useNavigate();
@@ -13,6 +16,8 @@ export const HotelFilter = () => {
   const [loading, setLoading] = useState(false);
   // Hotel Data
   const [hotels, setHotels] = useState([]);
+  const [hotelFilterOptionsToggle, setHotelFilterOptionsToggle] = useState(false);
+  const [resHotelFilterToggle, setResHotelFilterToggle] = useState(false);
   // eslint-disable-next-line
   const [searchParams, setSearchParams] = useState({
     city: "",
@@ -23,23 +28,44 @@ export const HotelFilter = () => {
     children: "",
     price: "",
   });
+  
 
   // Fetch Hotels
   useEffect(() => {
-      const params = new URLSearchParams(location.search);
-      const city = params.get("city");
-      const checkin = params.get("checkin"); 
-      const checkout = params.get("checkout");
-      const rooms = params.get("rooms");
-      const adults = params.get("adults");
-      const children = params.get("children");
-      const price = params.get("price");
-      if (city || checkin || checkout || rooms) {
-        fetchHotels(city, checkin, checkout, rooms, adults, children, price);
-      }
+    const params = new URLSearchParams(location.search);
+    const city = params.get("city");
+    const checkin = params.get("checkin");
+    const checkout = params.get("checkout");
+    const rooms = params.get("rooms");
+    const adults = params.get("adults");
+    const children = params.get("children");
+    const price = params.get("price");
+    if (city || checkin || checkout || rooms) {
+      fetchHotels(city, checkin, checkout, rooms, adults, children, price);
+    }
+
+    setSearchParams({
+      city: city || "",
+      checkin: checkin || "",
+      checkout: checkout || "",
+      rooms: rooms || "",
+      adults: adults || "",
+      children: children || "",
+      price: price || "",
+    });
   }, [location.search]);
 
- 
+
+  const dateFormatOptions = {
+    day: "numeric",
+    month: "long"
+  };
+
+
+  const formattedCheckinDate = new Date(searchParams?.checkin).toLocaleDateString("en-GB", dateFormatOptions);
+
+  const formattedCheckoutDate = new Date(searchParams?.checkout).toLocaleDateString("en-GB", dateFormatOptions);
+
 
   const fetchHotels = async (
     city,
@@ -74,31 +100,71 @@ export const HotelFilter = () => {
   // console.log(hotels, 'hotels');
 
   const availableHotels = hotels?.filter(
-      (hotel) => hotel?.hotelFilter?.HotelResult?.length > 0
-  );
+    (hotel) => hotel?.hotelFilter?.HotelResult?.length > 0
+  ); 
 
 
 
   return (
     <div>
       {loading && <Loader />}
-      <div className="bannerhotel" style={{ background: "url('/images/hotelbanner.png')"}}></div>
+      <div className="bannerhotel" style={{ background: "url('/images/hotelbanner.png')" }}></div>
 
-      <HotelSearch />
+      <div className={hotelFilterOptionsToggle ? "hotel-filter-options-container" : "hotel-filter-options-container hotel-filter-options-container-element-hide"}>
+        {window.innerWidth <= 600 && (
+          <div className="disnikjfisdf my-3">
+            <div className="container">
+              <div className="duinushducsdc bg-white p-3">
+                <div className="ianuishuww d-flex justify-content-between align-items-center">
+                  <div className="fvgdfvd">
+                    <div className="docmosdfsdf">
+                      <h4 className="mb-1">{searchParams?.city}</h4>
+
+                      <p className="mb-0">
+                        <span style={{ color: "var(--light-black-text-color)" }}>{(searchParams?.checkin && searchParams?.checkout) && `${formattedCheckinDate} - ${formattedCheckoutDate} |`}</span>&nbsp;
+
+                        <span style={{ color: "var(--light-black-text-color)" }}>{searchParams?.adults && `${searchParams?.adults} Adult${searchParams?.adults > 1 ? "s" : ""}`} * {searchParams.children && `${searchParams?.children} Child${searchParams?.children > 1 ? "ren" : ""} |`}</span>&nbsp;
+
+                        <span style={{ color: "var(--light-black-text-color)" }}>{searchParams.rooms && `${searchParams?.rooms} Room${searchParams?.rooms > 1 ? "s" : ""}`}</span>  
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bgujhgb">
+                    <div className="docmosdfsdf">
+                      <span
+                        className="d-flex flex-column align-items-center gap-1"
+                        onClick={() => setHotelFilterOptionsToggle(prev => !prev)}
+                      ><i className="fa-solid fa-pencil"></i> Edit</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <HotelSearch setHotelFilterOptionsToggle={setHotelFilterOptionsToggle} />
+      </div>
 
       <div className="mainsection hhsdfh58558">
         <div className="container">
           <div className="dfdfgfg">
             <div className="row">
               <div className="col-lg-3">
-                <button className="mobile-filter-btn" onclick="openFilter()">
-                  <i className="fa-solid fa-sliders"></i> Filters
-                </button>
-                <div className="sdbfhsd55">
+                {window.innerWidth <= 991 && (
+                  <div className="hotel-res-filter-btn mobile-filter-btn filter-header">
+                    <h5 className="mb-0" onClick={() => setResHotelFilterToggle(prev => !prev)}>{window.innerWidth <= 991 && <i className="fa-solid me-1 fa-sliders"></i>} Filters</h5>
+                    
+                    <span className="reset-btn disabled d-flex align-items-center"><i className="fa-solid fa-arrow-rotate-left"></i> <b>Reset</b></span>
+                  </div>
+                )}
+
+                <div className={resHotelFilterToggle ? "sdbfhsd55 active" : "sdbfhsd55"}>
                   <div className="filter-box">
                     <div className="filter-header">
-                      <h5 className="mb-0">Filters</h5>
-                      <span className="reset-btn d-flex align-items-center"><i className="bi me-1 bi-arrow-clockwise"></i> Reset</span>
+                      <h5 className="mb-0">Filter</h5>
+                      <span className="reset-btn disabled d-flex align-items-center"><i className="bi me-1 bi-arrow-clockwise"></i> Reset</span>
                     </div>
 
                     <div className="filter-search">
@@ -163,7 +229,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">5 Star</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(217)</span>
                         </div>
 
@@ -192,7 +258,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">4 Star</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(397)</span>
                         </div>
 
@@ -221,7 +287,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">Breakfast Included</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(1190)</span>
                         </div>
 
@@ -250,7 +316,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">3 Star</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(781)</span>
                         </div>
                       </div>
@@ -285,7 +351,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹999 - ₹1999</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(218)</span>
                         </div>
 
@@ -314,7 +380,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹1100 - ₹1999</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(342)</span>
                         </div>
 
@@ -343,7 +409,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹1500 - ₹2999</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(187)</span>
                         </div>
 
@@ -372,7 +438,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹2000 - ₹2999</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(264)</span>
                         </div>
 
@@ -401,7 +467,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹2000 - ₹3500</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(95)</span>
                         </div>
 
@@ -430,7 +496,7 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">₹3999 - ₹5999</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(72)</span>
                         </div>
 
@@ -459,10 +525,10 @@ export const HotelFilter = () => {
                               <p className="checkbox__textwrapper">10000+</p>
                             </label>
                           </div>
-                          
+
                           <span className="item-count">(21)</span>
                         </div>
-                      </div>                      
+                      </div>
                     </div>
 
                     <div className="budget-filter">
@@ -477,7 +543,7 @@ export const HotelFilter = () => {
                           />
 
                           <span className="budget-sep">to</span>
-                          
+
                           <input
                             type="number"
                             className="budget-input"
@@ -523,7 +589,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">3 Star</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(781)</span>
                       </div>
 
@@ -552,7 +618,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">4 Star</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(397)</span>
                       </div>
 
@@ -581,7 +647,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">5 Star</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(217)</span>
                       </div>
                     </div>
@@ -614,7 +680,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Apartment</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(781)</span>
                       </div>
 
@@ -643,7 +709,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Villa</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(397)</span>
                       </div>
 
@@ -672,7 +738,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Hotel</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(217)</span>
                       </div>
 
@@ -701,7 +767,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Resort</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(125)</span>
                       </div>
 
@@ -730,7 +796,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Homestay</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(75)</span>
                       </div>
                     </div>
@@ -1006,7 +1072,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Candolim</p>
                           </label>
                         </div>
-                      </div>                      
+                      </div>
                     </div>
 
                     <div className="filter-section suggested-section">
@@ -1037,7 +1103,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Wi‑Fi</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(322)</span>
                       </div>
 
@@ -1066,7 +1132,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Spa</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(6)</span>
                       </div>
 
@@ -1095,7 +1161,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Swimming Pool</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(272)</span>
                       </div>
 
@@ -1134,7 +1200,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Entire Villas & Apartments</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(207)</span>
                       </div>
 
@@ -1163,7 +1229,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Caretaker</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(22)</span>
                       </div>
 
@@ -1192,7 +1258,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Instant Book</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(742)</span>
                       </div>
 
@@ -1221,7 +1287,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Homestays</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(829)</span>
                       </div>
                     </div>
@@ -1254,7 +1320,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Self Check-In Available</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(152)</span>
                       </div>
 
@@ -1283,7 +1349,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">Smoking Allowed</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(529)</span>
                       </div>
 
@@ -1312,7 +1378,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper">All Male Groups Allowed</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(326)</span>
                       </div>
 
@@ -1341,7 +1407,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper"> Unmarried Couples Allowed</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(657)</span>
                       </div>
 
@@ -1370,7 +1436,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper"> Alcohol Allowed</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(353)</span>
                       </div>
 
@@ -1399,7 +1465,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper"> Pets Allowed</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(117)</span>
                       </div>
                     </div>
@@ -1432,7 +1498,7 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper"> Travel ka Muhurat Sale</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(152)</span>
                       </div>
 
@@ -1461,48 +1527,68 @@ export const HotelFilter = () => {
                             <p className="checkbox__textwrapper"> Lightning Drops</p>
                           </label>
                         </div>
-                        
+
                         <span className="item-count">(529)</span>
-                      </div>                      
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="filter-overlay" onclick="closeFilter()"></div>
+
+                <div className={resHotelFilterToggle ? "filter-overlay active" : "filter-overlay"} onClick={() => setResHotelFilterToggle(false)}></div>
               </div>
-              
+
               <div className="col-lg-9">
+                <div className="ajhfbmuihehee mb-4">
+                  <h5 className="fw-semibold mb-0">{availableHotels?.length} Hotels Found on Your Search</h5>
+
+                  {/* <div className="sort-area">
+                    <p className="mb-0">Sort By :</p>
+                    <select>
+                      <option>Recommended</option>
+                      <option>Lowest Price</option>
+                      <option>Fastest</option>
+                    </select>
+                  </div> */}
+                </div>
+                
                 <div className="sebfghsfsdf">
 
                   {availableHotels?.length > 0 ? (
                     availableHotels.map((hotel, index) => {
-                      
+
                       // Clean Description
                       const cleanDescription = hotel.description
                         ?.replace(/<[^>]*>/g, " ")
                         ?.replace(/\n/g, " ")
                         ?.replace(/\s+/g, " ")
                         ?.trim();
-
                       // Extract Headline
                       const headlineMatch = cleanDescription?.match(
                         /HeadLine\s*:\s*(.*?)(Location\s*:|$)/i
                       );
-
                       // Extract Location
                       const locationMatch = cleanDescription?.match(
                         /Location\s*:\s*(.*?)(Rooms\s*:|Dining\s*:|$)/i
                       );
-
                       const headline = headlineMatch?.[1]?.trim();
-
                       const hotelLocation = locationMatch?.[1]?.trim();
-
                       // Final Description
                       const shortDescription = hotelLocation || cleanDescription;
-
                       const params = new URLSearchParams(location.search);
 
-                      return(
+                      const room = hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0];
+
+                      const totalBasePrice =
+                        room?.DayRates?.reduce((sum, dayRate) => {
+                          return sum + (dayRate?.[0]?.BasePrice || 0);
+                        }, 0) || 0;
+
+                      const roomCount = room?.Name?.length || 1;
+                      const roomName = room?.Name?.[0] || "";
+
+                      const displayName = `${roomCount} x (${roomName})`;
+
+                      return (
                         <div className="gfetyy89" key={index}>
                           <div className="sdhdss8899">
                             <div className="row">
@@ -1537,21 +1623,21 @@ export const HotelFilter = () => {
                                           </h6>
 
                                           {/* Headline */}
-                                            {headline && (
-                                              <p className="sgfsvdfgf my-1">
-                                                HeadLine : {headline}
-                                              </p>
-                                            )}
+                                          {headline && (
+                                            <p className="sgfsvdfgf my-1">
+                                              HeadLine : {headline}
+                                            </p>
+                                          )}
 
-                                            {/* Location */}
-                                            <p className="sgfsvdfgf mt-1 mb-0">
-                                              {headline
-                                                ? shortDescription?.split(" ")?.slice(0, 18)?.join(" ")
-                                                : shortDescription?.split(" ")?.slice(0, 25)?.join(" ")
-                                              }
+                                          {/* Location */}
+                                          <p className="sgfsvdfgf mt-1 mb-0">
+                                            {headline
+                                              ? shortDescription?.split(" ")?.slice(0, 18)?.join(" ")
+                                              : shortDescription?.split(" ")?.slice(0, 25)?.join(" ")
+                                            }
 
-                                              {shortDescription?.split(" ")?.length >
-                                                (headline ? 18 : 25) && (
+                                            {shortDescription?.split(" ")?.length >
+                                              (headline ? 18 : 25) && (
                                                 <>
                                                   ...{" "}
                                                   <span
@@ -1568,7 +1654,11 @@ export const HotelFilter = () => {
                                                   </span>
                                                 </>
                                               )}
-                                            </p>
+                                          </p>
+                                        </div>
+
+                                        <div>
+                                            <p>| {displayName}</p>
                                         </div>
 
                                         <div className="diehfsdf d-flex align-items-center gap-1 mt-2 mb-1">
@@ -1621,12 +1711,13 @@ export const HotelFilter = () => {
                                   <div className="dinweirowerwer">
                                     <div className="fdjvfd78 mb-2">
                                       <p className="mb-0 d-flex flex-column gap-1">
-                                        From <span>₹{Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.DayRates?.[0]?.[0]?.BasePrice|| 0).toLocaleString("en-IN")} </span>
+                                        From <span>₹{Math.round(totalBasePrice).toLocaleString("en-IN")}</span>
                                       </p>
                                     </div>
 
                                     <div className="vdfv785 mb-2">
-                                      <p className="mb-0">+ ₹ {Math.round(hotel?.hotelFilter?.HotelResult?.[0]?.Rooms?.[0]?.TotalTax|| 0).toLocaleString("en-IN")} taxes & fees per night</p>
+                                      <p className="mb-0">+ ₹ {Math.round(room?.TotalTax || 0).toLocaleString("en-IN")} taxes & fees</p>
+                                      <small>Per Night for {roomCount} Room{roomCount > 1 ? "s" : ""}</small>
                                     </div>
                                   </div>
 
@@ -1653,18 +1744,18 @@ export const HotelFilter = () => {
                                   </div>
                                 </div>
                               </div>
-                            </div>  
+                            </div>
 
                             <div className="tfty885r mt-4 d-flex align-items-center px-3 py-2 justify-content-between">
                               <div className="dsoijfcosdc">
                                 <h6 className="mb-0">
-                                  <img src="./images/vzdvs.png" className="me-3" alt="" /> 
-                                  
+                                  <img src="./images/vzdvs.png" className="me-3" alt="" />
+
                                   SBI Debit Card Offer &nbsp; &nbsp; | &nbsp; &nbsp; Get INR 5000 Off!</h6>
                               </div>
 
                               <button className="btn btn-light overflow-hidden position-relative py-1 d-flex align-items-center"><span>Know More</span> <i className="fa-solid fa-arrow-right"></i></button>
-                            </div>                          
+                            </div>
                           </div>
                         </div>
                       );
@@ -1673,7 +1764,7 @@ export const HotelFilter = () => {
                     <h5>No Hotels Found</h5>
                   )}
 
-                  
+
 
                   {/* <div className="gfetyy89">
                     <div className="sdhdss8899">
