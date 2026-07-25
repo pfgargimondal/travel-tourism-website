@@ -1,21 +1,43 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import "./FlightDetails.css";
+import http from "../../../http";
 
 export const FlightDetails = () => {
 
     const [imprtntInfoModal, setImprtntInfoModal] = useState(false);
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [allCouponModal, setAllCouponModal] = useState(false);
+    // eslint-disable-next-line
+    const [flightRePrice, setflightRePrice] = useState(null);
       // eslint-disable-next-line
     const { flightId } = useParams();
     const location = useLocation();
+    const search_key = location.state?.search_key;
     const flight = location.state?.flight;
+    const fareId = location.state?.fareId;
     const firstSegment = flight.Segments[0];
     const lastSegment = flight.Segments[flight.Segments.length - 1];
     const cheapestFare = flight.Fares[0]?.FareDetails[0];
 
     const travelDate = new Date(flight.TravelDate);
+
+    useEffect(() => {
+        const fetchFareData = async () => {
+          try {
+            const response = await http.post("/flight-reprice-details", {
+                fare_id: fareId,
+                search_key: search_key,
+                Flight_Key: flight.Flight_Key,
+            });
+            setflightRePrice(response.data.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchFareData();
+    }, [flight.Flight_Key, search_key, fareId]);
+
 
     const formattedDate = travelDate.toLocaleDateString("en-US", {
         weekday: "long",

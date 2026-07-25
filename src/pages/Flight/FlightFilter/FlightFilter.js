@@ -212,10 +212,12 @@ export const FlightFilter = () => {
   }, [selectedFlight, flightList.Search_Key]);
 
   // eslint-disable-next-line
-  const handleFlightDetails = (flight) => {
+  const handleFlightDetails = (flight, search_key, fareId) => {
     navigate(`/flight-details/${flight.Flight_Id}`, {
       state: {
         flight,
+        search_key,
+        fareId
       },
     });
   };
@@ -246,9 +248,6 @@ export const FlightFilter = () => {
     }
   };
 
-
-
-
   const handleSearchFlight = () => {
     const formatDate = (date) => {
       if (!date) return "";
@@ -274,8 +273,6 @@ export const FlightFilter = () => {
     navigate(`/flight-filter?${params.toString()}`);
   };
 
-  
-
   const handleSwap = () => {
     if (!selectedOrigin || !selectedDestination) return;
 
@@ -289,8 +286,6 @@ export const FlightFilter = () => {
 
 
   if (loading) return <Loader />;
-
-  console.log(fareApiData, "fareApiData");
 
   return (
     <div>
@@ -1932,7 +1927,7 @@ export const FlightFilter = () => {
                                         </div>                                        
 
                                         <div className="okcmksxdcmkvsoij text-end p-3">
-                                          <button className="btn-tour py-2">Book Now</button>
+                                          <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
                                         </div>                                 
                                       </div>
                                     )}                                    

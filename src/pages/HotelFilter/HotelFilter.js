@@ -12,7 +12,7 @@ export const HotelFilter = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(false);
   // Hotel Data
   const [hotels, setHotels] = useState([]);
@@ -29,6 +29,19 @@ export const HotelFilter = () => {
     price: "",
   });
   
+
+  const fetchCities = async () => {
+    try {
+      const response = await http.post("city-list");
+      setCities(response?.data?.data || []);      
+    } catch (error) {
+      console.error("City API Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCities();
+  }, []);
 
   // Fetch Hotels
   useEffect(() => {
@@ -61,11 +74,10 @@ export const HotelFilter = () => {
     month: "long"
   };
 
-
   const formattedCheckinDate = new Date(searchParams?.checkin).toLocaleDateString("en-GB", dateFormatOptions);
-
   const formattedCheckoutDate = new Date(searchParams?.checkout).toLocaleDateString("en-GB", dateFormatOptions);
 
+  
 
   const fetchHotels = async (
     city,
@@ -144,7 +156,7 @@ export const HotelFilter = () => {
           </div>
         )}
 
-        <HotelSearch setHotelFilterOptionsToggle={setHotelFilterOptionsToggle} />
+        <HotelSearch setHotelFilterOptionsToggle={setHotelFilterOptionsToggle} cities={cities}/>
       </div>
 
       <div className="mainsection hhsdfh58558">
