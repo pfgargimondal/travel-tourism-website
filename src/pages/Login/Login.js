@@ -48,7 +48,7 @@ export const Login = ({ loginRegModal, setLoginRegModal, regModal, setRegModal }
                                 <button className="btn login-btn w-100">LOGIN</button>
                             </form>
                                 
-                            <div className="d-flex justify-content-between align-items-center mt-2">
+                            <div className="lomsodjfkdf d-flex justify-content-between align-items-center mt-2">
                                 <div className="mt-2 d-flex align-items-center djewjrokwekrewr text-dark">
                                     <p className="mb-0 small me-1 text-dark">Don't have an account?</p>
 

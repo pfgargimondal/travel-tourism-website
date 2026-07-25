@@ -491,6 +491,7 @@
   color: var(--light-black-text-color) !important;
   padding: 3px 8px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .filter-tab-content .nav-tabs .nav-link.active {
@@ -552,6 +553,21 @@
 
   .filter-right{
     justify-content: center;
+  }
+
+  .filter-tab-content .nav{
+    justify-content: center;
+  }
+}
+
+
+
+
+
+@media only screen and (max-width: 617px){
+  .filter-tab-content .nav{
+    padding-bottom: 0.7rem;
+    justify-content: start;
   }
 }
 

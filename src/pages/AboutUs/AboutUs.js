@@ -46,17 +46,19 @@ export const AboutUs = () => {
 
         <section className="section bg-white mt-5">
             <div className="container">
-                <div className="row align-items-center g-5">
-                    <div className="col-lg-6 position-relative">
-                        <div className="about-img">
-                            <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.image_one}`} className="img-fluid"/>
-                        </div>
-                        <div className="badge-discount">
-                            <img src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.image_two}`}  alt=""/>
-                        </div>
-                        <div className="stat-box">
-                            <span className="zero_plus" style={{ color: "var(--main-green-color)" }}>{aboutUsDetails.data?.second_stat_number}+</span>
-                            <small>{aboutUsDetails.data?.second_section_stat_text}</small>
+                <div className="row dhbxdfgsdfsdf align-items-center g-5">
+                    <div className="col-lg-6 sbdbdzfsdf">
+                        <div className="diamijfsdfsd position-relative">
+                            <div className="about-img">
+                                <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.image_one}`} className="img-fluid"/>
+                            </div>
+                            <div className="badge-discount">
+                                <img src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.image_two}`}  alt=""/>
+                            </div>
+                            <div className="stat-box">
+                                <span className="zero_plus" style={{ color: "var(--main-green-color)" }}>{aboutUsDetails.data?.second_stat_number}+</span>
+                                <small>{aboutUsDetails.data?.second_section_stat_text}</small>
+                            </div>
                         </div>
                     </div>
                     <div className="col-lg-6">
@@ -113,9 +115,9 @@ export const AboutUs = () => {
         <section className="popular mt-5">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-7">
+                    <div className="col-lg-7 col-sm-7 col-12">
                         <div className="row">
-                            <div className="col-lg-6" style={{ height: "460px" }}>
+                            <div className="col-lg-6 col-6 jcnsuihnuhsdd" style={{ height: "460px" }}>
                                 <div className="grid-item cruises">
                                     <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.fourth_section_image_1}`}/>
                                     <div className="overlay"></div>
@@ -129,7 +131,7 @@ export const AboutUs = () => {
 
                             </div>
 
-                            <div className="col-lg-6" style={{ height: "460px"}}>
+                            <div className="col-lg-6 col-6 jcnsuihnuhsdd iucfjsdijfsdf" style={{ height: "460px"}}>
                                 <div className="grid-item beach">
                                     <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.fourth_section_image_3}`}/>
                                     <div className="overlay"></div>
@@ -140,7 +142,7 @@ export const AboutUs = () => {
 
                     </div>
 
-                    <div className="col-lg-5 right-grid" style={{ height: "460px"}}>
+                    <div className="col-lg-5 col-sm-5 col-12 right-grid jcnsuihnuhsdd" style={{ height: "438px"}}>
                         <div className="grid-item city">
                             <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.fourth_section_image_4}`}/>
                             <div className="overlay"></div>
@@ -148,7 +150,7 @@ export const AboutUs = () => {
                         </div>
 
                         <div className="row">
-                            <div className="col-lg-6">
+                            <div className="col-lg-6 col-6">
                                 <div className="grid-item food">
                                     <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.fourth_section_image_5}`}/>
                                     <div className="overlay"></div>
@@ -156,7 +158,7 @@ export const AboutUs = () => {
                                 </div>
                             </div>
 
-                            <div className="col-lg-6">
+                            <div className="col-lg-6 col-6">
                                 <div className="grid-item hiking">
                                     <img alt="" src={`${aboutUsDetails.image_url}/${aboutUsDetails.data?.fourth_section_image_6}`}/>
                                     <div className="overlay"></div>
@@ -263,7 +265,7 @@ export const AboutUs = () => {
                 <p className="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do
                     eiusmod tempor incididunt ut labore.</p>
                 <div className="row g-4">
-                    <div className="col-lg-4">
+                    <div className="col-lg-4 col-sm-6 col-12">
                         <div className="card deal-card">
                             <img alt="" src="./images/LMD_norway.png"/>
                             <div className="card-body text-start cardtext">
@@ -279,7 +281,7 @@ export const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-4">
+                    <div className="col-lg-4 col-sm-6 col-12">
                         <div className="card deal-card"><img alt="" src="./images/LMD_usa.png"/>
                             <div className="card-body text-start cardtext">
                                 <h5> <span style={{ color: "#dda927", fontFamily: "'Playfair Display', sans-serif" }}>USA </span>
@@ -294,7 +296,7 @@ export const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-4">
+                    <div className="col-lg-4 col-sm-6 col-12">
                         <div className="card deal-card">
                             <img alt="" src="./images/LMD_maldives.png"/>
                             <div className="card-body text-start cardtext">

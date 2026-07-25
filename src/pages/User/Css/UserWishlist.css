@@ -110,6 +110,11 @@
   gap: 10px;
 }
 
+.user-wishlist-cards .hotel-img{
+  width: 100%;
+  height: auto;
+}
+
 .details-btn {
   border: 1px solid #ddd;
   background: transparent;
@@ -132,11 +137,21 @@
 }
 
 .fiweojopwekrwer .btn-tour {
-    padding: 5px 14px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
 }
 
 .fiweojopwekrwer .hotel-card h4{
     padding-inline: 0;
+    font-size: 1.2rem;
+}
+
+.fiweojopwekrwer h5.hotel-title{
+  font-size: 1rem;
+}
+
+.user-wishlist-cards p.location i{
+  color: var(--main-green-color);
 }
 
 .vd-btn{
@@ -153,4 +168,52 @@
 .asfghjyrrewr h4.mrp-price{
     text-decoration: line-through;
     color: var(--text-muted);
+}
+
+
+
+
+
+
+@media only screen and (max-width: 535px){
+  .doeiwjrwe{
+    flex-direction: column;
+  }
+
+  .doeiwjrwe a{
+    width: 100%;
+  }
+
+  .fiweojopwekrwer .hotel-card h4 {
+    font-size: 1rem;
+  }
+}
+
+
+
+@media only screen and (max-width: 432px){
+  .user-wishlist-cards .location {
+    font-size: 12px;
+  }
+
+  .wishlist-meta span {
+    font-size: 12px;
+  }
+
+  .wishlist-meta {
+    gap: 10px;
+  }
+}
+
+
+
+
+@media only screen and (max-width: 394px){
+  .user-wishlist-cards .col-6{
+    width: 100%;
+  }
+
+  .doeiwjrwe{
+    flex-direction: row;
+  }
 }

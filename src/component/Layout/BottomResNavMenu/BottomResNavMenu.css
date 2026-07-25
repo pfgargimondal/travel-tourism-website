@@ -1,9 +1,15 @@
 .bottom-res-nav-menu{
     z-index: 9999;
     box-shadow: rgba(0, 0, 0, 0.45) 0px -20px 20px -20px;
+    padding-inline: 0 1rem;
 }
 
 .res-nav-menus{
+    flex: 1;
+    text-align: center;
+}
+
+.res-nav-menus a{
     text-align: center;
     display: flex;
     justify-content: center;
@@ -17,8 +23,8 @@
     font-size: 1.4rem;
 }
 
-.res-nav-menus.active{
-    color: var(--main-green-color);
+.res-nav-menus.active a{
+    color: var(--main-green-color) !important;
 }
 
 .res-nav-menus:nth-child(3n) .dweiojrwerwer{
@@ -43,7 +49,7 @@
 .res-nav-menus:nth-child(3n) img{
     width: 4rem;
     margin: auto;
-    transform: translateY(-1px);
+    transform: translateY(-4px);
 }
 
 @keyframes sway  {
@@ -59,4 +65,48 @@
     line-height: 1.5;
     font-size: 11px;
     right: 25%;
+}
+
+
+
+
+
+@media only screen and (max-width: 991px){
+    .diweurwer span {
+        right: 45%;
+        transform: translateX(50%);
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 600px){
+    .diweurwer span {
+        right: 40%;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 383px) {
+    .res-nav-menus i {
+        font-size: 1.2rem !important;
+    }
+
+    .res-nav-menus a span{
+        font-size: 0.8rem;
+    }
+
+    .res-nav-menus:nth-child(3n) img {
+        width: 3rem;
+        transform: translateY(-7px);
+    }
+
+    .diweurwer{
+        margin-bottom: 0.25rem !important;
+    }    
 }

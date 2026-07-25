@@ -85,6 +85,65 @@ button.fsdgsadehtrfdewe{
     font-size: 12px;
 }
 
+button.loggedin-user-profile.btn-tour{
+    border-color: transparent !important;
+    background: transparent !important;
+}
+
+button.loggedin-user-profile .loggedin-dropdown{
+    min-width: max-content;
+    z-index: 9999;
+    top: 100%;
+    opacity: 1;
+    visibility: visible;
+    transition: 0.2s ease-in-out;
+    border: 1px solid var(--border);
+}
+
+button.loggedin-user-profile .loggedin-dropdown-hide{
+    transform: translateY(5px);
+    opacity: 0;
+    visibility: hidden;
+    z-index: -9999;
+    transition: 0.2s ease-in-out;
+}
+
+button.loggedin-user-profile .loggedin-dropdown li{
+    color: var(--light-black-text-color);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    list-style: none;
+}
+
+button.loggedin-user-profile span.dinniihfrtet i.bi-person-fill{
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--main-golden) 10%, #fff 80%), #fff);
+    color: var(--blue-primary-color);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+header span.dinniihfrtet{
+    color: #fff;
+    font-weight: 500;
+}
+
+button.loggedin-user-profile .loggedin-dropdown li:last-child{
+    border-bottom: 0;
+}
+
+button.loggedin-user-profile .loggedin-dropdown i{
+    font-size: 1rem;
+    color: var(--blue-secondary-color);
+}
+
+button.loggedin-user-profile .loggedin-dropdown li:last-child i{
+    position: relative;
+    top: 2px;
+}
+
 .sifjdnosjkjhjmre div.asdoijodjokpkoie{
     padding-inline: 0.6rem;
     border-right: 1px dashed rgba(255, 255, 255, 0.4);
@@ -99,9 +158,20 @@ button.fsdgsadehtrfdewe{
     line-height: 1;
 }
 
+header span.dinniihfrtet span{
+    width: 4rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .header-sticky-show{
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
     background: #fff !important;
+}
+
+header.header-sticky .sfsdghdcsdfrrerttr{
+    border: 1px solid var(--border);
 }
 
 .header-sticky .flight-menu-bar,
@@ -255,6 +325,11 @@ button.fsdgsadehtrfdewe{
 
 .header-sticky-show .doijeoijwer.d-none{
     display: flex !important;
+}
+
+header.header-sticky span.dinniihfrtet,
+header.new-header span.dinniihfrtet{
+    color: #000;
 }
 
 .currncy-lang-drpdwn{

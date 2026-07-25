@@ -20,8 +20,12 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
     const [regModal, setRegModal] = useState(false);
     const [resNavToggle, setResNavToggle] = useState(false);
     const [crrncyLangModal, setCrrncyLangModal] = useState(false);
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     const [resHomeFlightSearchToggle, setResHomeFlightSearchToggle] = useState(false);
+    // eslint-disable-next-line
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [userDropdownToggle, setUserDropdownToggle] = useState(false);
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -33,6 +37,20 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
 
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+    useEffect(() => {
+        const handleClick = () => {
+            setUserDropdownToggle(false);
+        };
+
+        document.addEventListener("click", handleClick);
+
+        return () => {
+            document.removeEventListener("click", handleClick);
+        };
+    }, []);
+
 
 
     return (
@@ -125,8 +143,39 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
 
                                 {/* Right Section */}
                                 <div className="asdoijodjokpkoie d-flex align-items-center gap-2">
-                                    <button onClick={() => setLoginRegModal(prev => !prev)} className="fsdgsadehtrfdewe btn btn-tour px-3">
-                                        Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
+                                    <button onClick={() => !isLoggedIn && setLoginRegModal(prev => !prev)} className={`${isLoggedIn ? "loggedin-user-profile position-relative" : ""} fsdgsadehtrfdewe btn btn-tour px-3`}>
+                                        {isLoggedIn ? (
+                                            <span>
+                                                <span className="dinniihfrtet d-flex align-items-center gap-1" onClick={(e) => {e.stopPropagation(); setUserDropdownToggle(prev => !prev)}}>
+                                                    <i className="bi bi-person-fill"></i>
+                                                    
+                                                    <span className="d-inline-block">Virat Kohli</span>
+                                                    
+                                                    <i className="bi ms-1 bi-chevron-down"></i>
+                                                </span>
+
+                                                <div className={`${userDropdownToggle ? "loggedin-dropdown" : "loggedin-dropdown loggedin-dropdown-hide"} position-absolute bg-white p-2 text-start rounded-2`}>
+                                                    <ul className="mb-0 ps-0">
+                                                        <li>
+                                                            <Link to="/user-profile"><i className="bi me-1 bi-person-lines-fill"></i> My Profile</Link>
+                                                        </li>
+
+                                                        <li>
+                                                            <Link to=""><i className="bi me-1 bi-person-fill-gear"></i> Profile Settings</Link>
+                                                        </li>
+
+                                                        <li>
+                                                            <Link to=""><i className="bi me-1 bi-person-fill-lock"></i> Password Change</Link>
+                                                        </li>
+
+                                                        <li><i className="bi me-1 bi-door-closed-fill"></i> Log Out</li>
+                                                    </ul>
+                                                </div>
+                                            </span>
+                                        )
+                                         : (
+                                            <span>Login or Create Account <i className="bi ms-1 bi-chevron-down"></i></span>
+                                        )}
                                     </button>
 
                                     <div onClick={() => setCrrncyLangModal(prev => !prev)} className="sfsdghdcsdfrrerttr d-flex align-items-center gap-2 rounded-1 p-2 position-relative">
@@ -140,14 +189,26 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
                             </div>
 
                             <div className="cjaoksdwrrr d-none">
-                                <div className="asdoijodjokpkoie d-flex align-items-center gap-2">
+                                <div className="asdoijodjokpkoie d-flex align-items-center">
                                     <div className="diwejojiwerer rounded-circle position-relative">
                                         <img src="./images/heart.png" className="position-absolute top-50 start-50 translate-middle" width={18} alt="" />
                                     </div>
 
-                                    <button onClick={() => setLoginRegModal(prev => !prev)} className="fsdgsadehtrfdewe px-1 btn text-white">
-                                        <i class="bi bi-person"></i>
-                                    </button>
+                                    {isLoggedIn ? (
+                                        <div className="loggedin-dropdown-wrapper position-relative">
+                                            <button onClick={() => setResNavToggle(prev => !prev)} className="fsdgsadehtrfdewe px-1 btn text-white">
+                                                <i className="bi bi-person-fill"></i>
+
+                                                <span>Virat Kohli</span>
+
+                                                <i className="bi ms-1 bi-chevron-down"></i>
+                                            </button>                                            
+                                        </div>
+                                    ) : (
+                                        <button onClick={() => setLoginRegModal(prev => !prev)} className="fsdgsadehtrfdewe res-loggedout-dropdown-icon px-1 btn gap-0 text-white">
+                                            <i className="bi bi-person"></i> <i className="bi bi-chevron-down"></i>
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -164,9 +225,18 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
                         <i onClick={() => setResNavToggle(false)} className="bi bi-x-lg"></i>
                     </div> */}
 
-                    <button onClick={() => setLoginRegModal(prev => !prev)} className="w-100 fsdgsadehtrfdewe btn btn-tour px-3 mb-3">
-                        Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
-                    </button>
+                    {isLoggedIn ? (
+                        <div className="res-nav-user d-flex align-items-center justify-content-between mb-3 pb-2">
+                            <p className="mb-0"><b>Hi, Virat Kohli</b></p>
+
+                            <p className="mb-0" className="mb-0">Logout</p>
+                        </div>
+                    ) : (
+                        <button onClick={() => setLoginRegModal(prev => !prev)} className="w-100 fsdgsadehtrfdewe btn btn-tour px-3 mb-3">
+                            Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
+                        </button>
+                    )}
+                    
 
                     <div className="asdoijodjokpkoie d-flex align-items-center justify-content-between gap-2 mb-3 px-3 py-2">
                         <div className="d-flex align-items-center">
@@ -255,7 +325,7 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
 
 
             {(window.innerWidth <= 991) && (
-                <BottomResNavMenu />
+                <BottomResNavMenu isLoggedIn={isLoggedIn} setLoginRegModal={setLoginRegModal} />
             )}
         </div>
     )

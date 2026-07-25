@@ -20,11 +20,11 @@ export const UserWishlist = () => {
                 {/* ══════════ MAIN ══════════ */}
                 <div className="main-wrap">
                     <div className="card border-0 bg-transparent">
-                        <div className="card-header bg-transparent py-4 ps-0">
+                        <div className="card-header bg-transparent pb-4 ps-0">
                             <h5 className="mb-0"><b>My Wishlist (4)</b></h5>
                         </div>
 
-                        <div className="container-fluid fiweojopwekrwer gx-0">
+                        <div className="container-fluid fiweojopwekrwer user-wishlist-cards gx-0">
                             <div className="row py-4">
                                 <div className="col-lg-4 col-md-6 col-sm-6 col-6 mb-4">
                                     <div className="hotel-card">
@@ -63,7 +63,7 @@ export const UserWishlist = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="asfghjyrrewr my-3 d-flex align-items-center">
+                                            <div className="asfghjyrrewr my-2 d-flex align-items-center">
                                                 <h4 className="price me-2">
                                                     ₹42,120
                                                 </h4>
@@ -123,7 +123,7 @@ export const UserWishlist = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="asfghjyrrewr my-3 d-flex align-items-center">
+                                            <div className="asfghjyrrewr my-2 d-flex align-items-center">
                                                 <h4 className="price me-2">
                                                     ₹42,120
                                                 </h4>
@@ -183,7 +183,7 @@ export const UserWishlist = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="asfghjyrrewr my-3 d-flex align-items-center">
+                                            <div className="asfghjyrrewr my-2 d-flex align-items-center">
                                                 <h4 className="price me-2">
                                                     ₹42,120
                                                 </h4>
@@ -243,7 +243,7 @@ export const UserWishlist = () => {
                                                 </span>
                                             </div>
 
-                                            <div className="asfghjyrrewr my-3 d-flex align-items-center">
+                                            <div className="asfghjyrrewr my-2 d-flex align-items-center">
                                                 <h4 className="price me-2">
                                                     ₹42,120
                                                 </h4>

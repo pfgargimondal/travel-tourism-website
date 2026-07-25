@@ -90,7 +90,7 @@ export const UserSideNavbar = ({ isResUserNavOpen, setIsResUserNavOpen }) => {
                 </nav>
             </aside>
 
-            <div className="res-user-account d-flex d-lg-none d-md-none align-items-center justify-content-between">
+            <div className="res-user-account d-flex d-lg-none align-items-center justify-content-between">
                 <div className="sidebar-brand ps-0">
                     {!pathName.includes("/account-information") && (
                         <div className="avatar-upload">

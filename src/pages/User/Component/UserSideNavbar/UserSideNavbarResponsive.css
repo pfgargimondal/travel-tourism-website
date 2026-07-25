@@ -67,3 +67,34 @@
         opacity: 0;
     }
 }
+
+
+
+
+@media only screen and (max-width: 600px){
+    .sidebar-brand .topbar{
+        padding-top: 0;
+    }
+
+    .topbar-left p {
+        font-size: 12px !important;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 393px){
+    .topbar-left h3 {
+        font-size: 1.2rem !important;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 318px){
+    .topbar-left p {
+        font-size: 10px !important;
+    }
+}

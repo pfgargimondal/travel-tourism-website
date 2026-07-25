@@ -206,10 +206,6 @@
     margin-bottom: 12px;
 }
 
-.right-grid{
-    margin-top: 1rem;
-}
-
 .beach {
     height: 462px;
 }
@@ -319,6 +315,7 @@
 .feature-card h6{
     font-weight:600;
     margin-bottom:5px;
+    color: #000;
 }
 
 .feature-card p{
@@ -492,6 +489,55 @@
 
     .section-wrapper{
         margin-top: 0;
+    }    
+
+    .badge-discount img {
+        width: auto;
+        height: 10vw;
+    }
+
+    .diamijfsdfsd{
+        width: 40%;
+        margin-inline: auto;
+    }
+
+    .stat-box {
+        padding: 14px;
+    }
+
+    .dhbxdfgsdfsdf{
+        flex-direction: column-reverse;
+    }
+
+    .promo .grab_up_img{
+        display: none;
+    }
+
+    .promo .left{
+        text-align: center;
+        padding: 30px;
+    }
+
+    .jcnsuihnuhsdd{
+        height: auto !important;
+    }
+
+    .popular{
+        margin-bottom: 2rem;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 767px){
+    .popular .col-sm-7,
+    .popular .col-sm-5{
+        width: 100%;
+    }
+
+    .iucfjsdijfsdf{
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -513,3 +559,9 @@
 
 
 
+
+@media only screen and (max-width: 375px){
+    .beach {
+        height: 100%;
+    }
+}

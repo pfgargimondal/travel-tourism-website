@@ -33,7 +33,7 @@
 	 font-family: 'FontAwesome';
 	 color: #ffffff;
 	 position: absolute;
-	 top: 10px;
+	 top: 5px;
 	 left: 0;
 	 right: 0;
 	 text-align: center;
@@ -67,5 +67,13 @@
 @media only screen and (max-width: 991px){
 	.fsefeoikewprwer.justify-content-end{
 		justify-content: center !important;
+	}
+}
+
+
+
+@media only screen and (max-width: 600px){
+	.fsefeoikewprwer > *{
+		width: 50%;
 	}
 }

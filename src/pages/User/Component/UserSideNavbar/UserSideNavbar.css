@@ -189,7 +189,7 @@
 }
 
 .sidebar-nav .nav-item.logout a {
-    color: #ef4444;
+    color: var(--main-red-color);
 }
 
 .sidebar-nav .nav-item.logout a:hover {

@@ -119,6 +119,38 @@
     
     button.fsdgsadehtrfdewe{
         font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        border: 1px solid var(--border);
+        border-radius: 25px;
+    }
+
+    button.fsdgsadehtrfdewe.px-1{
+        padding-inline: 5px !important;
+    }
+
+    button.fsdgsadehtrfdewe span{
+        white-space: nowrap;
+        max-width: 3rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .res-loggedout-dropdown-icon{
+        border: 0 !important;
+    }    
+
+    button.fsdgsadehtrfdewe i.bi-person-fill{
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background: var(--main-yellow-color);
+        font-size: 1rem;
     }
 
     .flight-content-area{
@@ -217,6 +249,32 @@
     
     header.bg-transparent{
         background-color: #fff !important;
+    }    
+
+    .fsdgsadehtrfdewe i.bi-chevron-down{
+        font-size: 10px;
+    }
+
+    .res-nav-user{
+        border-bottom: 1px solid var(--border);
+    }
+
+    .res-nav-user p:last-child{
+        color: var(--main-red-color) !important;
+    }
+
+    .diwejojiwerer{
+        margin-right: 0.3rem;
+        flex-shrink: 0;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    button.fsdgsadehtrfdewe span{
+        display: none;
     }
 }
 
@@ -227,4 +285,54 @@
     .oifkepomtkret img {
         height: 1.8rem !important;
     }    
+}
+
+
+
+
+@media only screen and (max-width: 375px) {
+    .oifkepomtkret img {
+        height: 1.4rem !important;
+    }
+
+    .fsdgsadehtrfdewe i.bi-chevron-down.ms-1{
+        margin-left: 0 !important;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 363px) {
+    .fhgdgserbtytrr li a {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 335px) {
+    button.fsdgsadehtrfdewe i.bi-person-fill {
+        width: 1.2rem;
+        height: 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .diwejojiwerer{
+        margin-right: 0;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 303px){
+    .res-nav-menu.p-3{
+        padding-inline: 10px !important;
+    }
+
+    .oifkepomtkret img {
+        height: 1rem !important;
+    }
 }
