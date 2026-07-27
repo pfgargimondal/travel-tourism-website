@@ -1924,14 +1924,14 @@ export const FlightFilter = () => {
                                               )}
                                             </div>
                                           )}                                     
-                                        </div>                                        
-
-                                        <div className="okcmksxdcmkvsoij text-end p-3">
-                                          <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
-                                        </div>                                 
+                                        </div>                            
                                       </div>
-                                    )}                                    
+                                    )} 
+                                    <div className="okcmksxdcmkvsoij text-end p-3">
+                                      <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
+                                    </div>                                     
                                   </div>
+                                  
                                 </label>
                               </div>                                
                             );
