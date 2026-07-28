@@ -229,12 +229,12 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
                         <div className="res-nav-user d-flex align-items-center justify-content-between mb-3 pb-2">
                             <p className="mb-0"><b>Hi, Virat Kohli</b></p>
 
-                            <p className="mb-0" className="mb-0">Logout</p>
+                            <p className="mb-0">Logout</p>
                         </div>
                     ) : (
                         <button onClick={() => setLoginRegModal(prev => !prev)} className="w-100 fsdgsadehtrfdewe btn btn-tour px-3 mb-3">
                             Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
-                        </button>
+                        </button> 
                     )}
                     
 
