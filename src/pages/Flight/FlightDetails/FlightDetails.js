@@ -10,10 +10,10 @@ export const FlightDetails = () => {
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [allCouponModal, setAllCouponModal] = useState(false);
   const [flightRePrice, setflightRePrice] = useState(null);
-  // eslint-disable-next-line
   const [ssrData, setSsrData] = useState(null);
   // eslint-disable-next-line
   const [selectedBaggage, setSelectedBaggage] = useState(null);
+
   // eslint-disable-next-line
   const [selectedMeal, setSelectedMeal] = useState(null);
   // eslint-disable-next-line
@@ -32,14 +32,14 @@ export const FlightDetails = () => {
 
 
   useEffect(() => {
-    console.log("useEffect triggered", {
-      fareId,
-      search_key,
-      flightKey: flight?.Flight_Key,
-    });
+    // console.log("useEffect triggered", {
+    //   fareId,
+    //   search_key,
+    //   flightKey: flight?.Flight_Key,
+    // });
 
     const fetchFlightDetails = async () => {
-      console.log("fetchFlightDetails called");
+      // console.log("fetchFlightDetails called");
 
       try {
         setLoading(true);
@@ -56,11 +56,11 @@ export const FlightDetails = () => {
           }),
         ]);
 
-        console.log(repriceRes.data);
-        console.log(ssrRes.data);
+        // console.log(repriceRes.data);
+        // console.log(ssrRes.data);
 
         setflightRePrice(repriceRes.data.rePriceDetails);
-        setSsrData(ssrRes.data.ssrDetails);
+        setSsrData(ssrRes.data.ssrDetails.SSRFlightDetails);
       } catch (err) {
         console.error(err);
       } finally {
@@ -74,6 +74,7 @@ export const FlightDetails = () => {
       console.log("Missing values");
     }
   }, [fareId, search_key, flight?.Flight_Key]);
+
 
   const parseDate = (dateStr) => {
     if (!dateStr) return null;
@@ -145,16 +146,18 @@ export const FlightDetails = () => {
   //   const lastSegment = segments[segments.length - 1];
 
   const stops = Math.max(0, segments.length - 1);
-
   const departureDate = parseDate(segment?.Departure_DateTime);
   const arrivalDate = parseDate(segment?.Arrival_DateTime);
-
   const totalMinutes = Math.floor((arrivalDate - departureDate) / (1000 * 60));
-
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
 
   const totalDuration = `${hours}h ${minutes}m`;
+
+  const handleSelectBaggage = (bag) => {
+    setSelectedBaggage(bag);
+    console.log("Selected Baggage:", bag);
+  };
 
 
   if (loading) return <Loader />;
@@ -1429,7 +1432,7 @@ export const FlightDetails = () => {
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header py-2">
-                <h5 className="modal-title">Fare Rules</h5>
+                <h5 className="modal-title">Add Extra Baggage</h5>
 
                 <button
                   className="btn-close"
@@ -1439,154 +1442,58 @@ export const FlightDetails = () => {
               </div>
 
               <div className="modal-body">
+                  {ssrData[0]?.SSRDetails.length > 0 ? (
+                    <div className="list-group">
+                      {ssrData[0]?.SSRDetails.map((bag, index) => (
+                        <div
+                          key={index}
+                          className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
+                        >
+                          <div className="d-flex align-items-center">
+                            <i
+                              className="fa fa-suitcase me-3"
+                              style={{ fontSize: "28px", color: "#666" }}
+                            ></i>
 
-                {/* Tabs */}
+                            <div>
+                              <h6 className="mb-1">
+                                {bag.SSR_TypeDesc
+                                  ?.replace("Prepaid Excess Baggage", "Additional Baggage")
+                                  .replace(/(\d+)\s*kg/i, "$1 KG")}
+                              </h6>
 
-                <ul className="nav nav-tabs mb-4">
+                              <small className="text-muted">
+                                {bag.Currency_Code}
+                              </small>
+                            </div>
+                          </div>
 
-                  <li className="nav-item">
+                          <div className="d-flex align-items-center">
 
-                    <button
-                      className={`nav-link ${activeTab === "cancel" ? "active" : ""
-                        }`}
-                      onClick={() => setActiveTab("cancel")}
-                    >
-                      Cancellation Charges
-                    </button>
+                            <h5 className="me-4 mb-0">
+                              ₹{Number(bag.Total_Amount).toLocaleString()}
+                            </h5>
 
-                  </li>
+                            <button
+                              className="btn btn-outline-primary"
+                              onClick={() => handleSelectBaggage(bag)}
+                            >
+                              Add
+                            </button>
 
-                  <li className="nav-item">
-
-                    <button
-                      className={`nav-link ${activeTab === "reschedule" ? "active" : ""
-                        }`}
-                      onClick={() => setActiveTab("reschedule")}
-                    >
-                      Date Change Charges
-                    </button>
-
-                  </li>
-
-                </ul>
-
-                {/* Cancellation */}
-
-                {activeTab === "cancel" && (
-                  <table className="table table-bordered mb-0">
-                    <thead className="table-light">
-                      <tr>
-                        <th width="30%">Charge</th>
-
-                        <th>Applicable Time</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {fareDetail?.CancellationCharges?.map((charge, index) => (
-                        <tr key={index}>
-                          <td style={{ fontWeight: 500 }}>
-                            {charge.ValueType === 1
-                              ? `${charge.Value}% of Fare`
-                              : isNaN(Number(charge.Value))
-                                ? charge.Value
-                                : `₹${Number(charge.Value).toLocaleString()}`}
-                          </td>
-
-                          <td>
-                            If cancelled between
-
-                            <strong> {charge.DurationFrom} </strong>
-
-                            {charge.DurationTypeFrom === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}to{" "}
-
-                            <strong>{charge.DurationTo}</strong>
-
-                            {" "}
-
-                            {charge.DurationTypeTo === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}before departure
-
-                          </td>
-
-                        </tr>
-
+                          </div>
+                        </div>
                       ))}
 
-                    </tbody>
-
-                  </table>
-
-                )}
-
-                {/* Reschedule */}
-
-                {activeTab === "reschedule" && (
-                  <table className="table table-bordered mb-0">
-                    <thead className="table-light">
-                      <tr>
-                        <th width="30%">Charge</th>
-                        <th>Applicable Time</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {fareDetail?.RescheduleCharges?.map((charge, index) => (
-                        <tr key={index}>
-                          <td style={{ fontWeight: 500 }}>
-                            {charge.ValueType === 1
-                              ? `${charge.Value}% of Fare`
-                              : isNaN(Number(charge.Value))
-                                ? charge.Value
-                                : `₹${Number(charge.Value).toLocaleString()}`}
-                          </td>
-
-                          <td>
-                            If rescheduled between
-
-                            <strong> {charge.DurationFrom} </strong>
-
-                            {charge.DurationTypeFrom === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}to{" "}
-
-                            <strong>{charge.DurationTo}</strong>
-
-                            {" "}
-
-                            {charge.DurationTypeTo === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}before departure
-
-                          </td>
-
-                        </tr>
-
-                      ))}
-
-                    </tbody>
-
-                  </table>
-
-                )}
-
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      No baggage available.
+                    </div>
+                  )}
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
 
