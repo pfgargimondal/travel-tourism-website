@@ -234,7 +234,7 @@ export const Header = ({ headerNew, headerBlackText, headerStickyShow }) => {
                     ) : (
                         <button onClick={() => setLoginRegModal(prev => !prev)} className="w-100 fsdgsadehtrfdewe btn btn-tour px-3 mb-3">
                             Login or Create Account <i class="bi ms-1 bi-chevron-down"></i>
-                        </button> 
+                        </button>
                     )}
                     
 

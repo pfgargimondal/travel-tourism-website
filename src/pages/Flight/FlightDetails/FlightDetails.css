@@ -1,337 +1,313 @@
 /* CARD */
-.card-box{
-background:#ffffff;
-border-radius:10px;
-padding:15px;
-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+.card-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 /* FLIGHT HEADER */
-.flight-wrppr .flight-header{
-    align-items: initial;
+.flight-wrppr .flight-header {
+  align-items: initial;
 }
 
-.flight-wrppr .badge-green{
-    display: inline-block;
-    height: max-content;
-    font-size: 0.6rem;
-    font-weight: 500;
-    color: #fff !important;
-    background: linear-gradient(to right, color-mix(in srgb, var(--main-green-color) 60%, #fff 60%), var(--blue-secondary-color));
+.flight-wrppr .badge-green {
+  display: inline-block;
+  height: max-content;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #fff !important;
+  background: linear-gradient(to right, color-mix(in srgb, var(--main-green-color) 60%, #fff 60%), var(--blue-secondary-color));
 }
 
-.flight-wrppr .airline-logo{
-    border-radius: 5px;
+.flight-wrppr .airline-logo {
+  border-radius: 5px;
 }
 
-.flight-wrppr .ciuajmcokzxc p{
-    font-size: 0.8rem;
+.flight-wrppr .ciuajmcokzxc p {
+  font-size: 0.8rem;
 }
 
-.flight-wrppr .ciuajmcokzxc p span{
-    font-weight: 600;
+.flight-wrppr .ciuajmcokzxc p span {
+  font-weight: 600;
 }
 
 /* TIMELINE */
-.timeline{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:15px;
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
 }
 
-.time{
-font-weight:600;
-font-size:18px;
-}
-
-.airport{
-font-size:13px;
-color:#666;
-}
-
-.duration{
-font-size:13px;
-color:#333;
-}
-
-/* BAGGAGE */
-.baggage{
-font-size:13px;
-margin-top:10px;
-color:#444;
-}
-
-/* NOTICE */
-.notice{
-background:#e6f0ff;
-padding:8px;
-border-radius:6px;
-font-size:13px;
-margin-top:10px;
-display:flex;
-justify-content:space-between;
-}
-
-/* POLICY */
-.policy-box{
-margin-top:15px;
-padding:15px;
-background:#f8fafc;
-border-radius:8px;
-}
-
-.progress-line{
-height:6px;
-background:linear-gradient(to right, green, orange, red);
-border-radius:5px;
-margin:10px 0;
-}
-
-/* RIGHT */
-.summary{
-background:#fff;
-padding:15px;
-border-radius:10px;
-box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-
-.summary-row{
-display:flex;
-justify-content:space-between;
-font-size:14px;
-margin-bottom:8px;
-}
-
-.total{
-font-weight:700;
-border-top:1px solid #ddd;
-padding-top:10px;
-}
-
-.coupon{
-background:#fff7e6;
-padding:10px;
-border-radius:8px;
-margin-top:10px;
-}
-
-.cfnbjhdf55
-{
-    padding: 40px 0;
-}
-.cfnbjhdf55
-{
-    background-color: #eff9f9;
-}
-
-.sdbfsdhfsd
-{
-    width: 100%;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 8px;
-    margin-top: 20px;
-
-
-}
-
-.dfbsdfgsdf
-{
-    padding: 15px;
-    border: 1px solid rgb(126, 124, 124) ;
-    border-radius: 8px;
-}
-
-.fsdf
-{
-    padding: 4px;
-    background-color: #e2bb30;
-     border-radius: 6px;
-     font-size: 13px;
-     font-weight: 700;
-     /* margin-top: -5px; */
-     margin-left: 5px;
-
-}
-
-.fgsdfsdf
-{
-    display: flex;
-}
-
-.dfsdf h6
-{
-  color: black;
-  font-weight: bold;
-  
-}
-
-.dfsdfsdf 
-{
-    font-size: 13px;
-}
-
-.fsdfdsf
-{
-    color: purple;
-}
-.fsdfdsf55 
-{
-    color: #0e5fa5;
-}
-.sdfsdf img
-{
-  width: 30px;
-  height: 30px;
-  /* margin-left: 10px; */
-}
-
-.dfgbdfgdf h4
-{
+.time {
   font-weight: 600;
   font-size: 18px;
 }
 
-.sdfsdf img
-{
-   width: 30px;
-   height: 30px;
+.airport {
+  font-size: 13px;
+  color: #666;
 }
 
-.fgdfgdfg{
-    padding: 15px;
-    background-color: #fff;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 8px;
+.duration {
+  font-size: 13px;
+  color: #333;
 }
 
-.fgdfgdfg 
-{
-    margin-top: 20px;
+/* BAGGAGE */
+.baggage {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #444;
 }
 
-.sdfgsdf h6
-{
- font-weight: 600;
- margin-bottom: 15px;
+/* NOTICE */
+.flight-details-wrapper .notice {
+  background: var(--light-blue-highlighted-background-color);
+  border-radius: 10px;
+  border: 1px solid var(--border);
 }
 
-.asdbasd55
-{
-    margin-left: -30px;
+/* POLICY */
+.policy-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
 }
 
-.fsdfsd55f img
-{
-   width: 100%;
-   height: 55px;
-   border-radius: 8px;
+.progress-line {
+  height: 6px;
+  background: linear-gradient(to right, green, orange, red);
+  border-radius: 5px;
+  margin: 10px 0;
 }
 
-.dfdf p
-{
+/* RIGHT */
+.summary {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.total {
+  font-weight: 700;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.coupon {
+  background: #fff7e6;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.cfnbjhdf55 {
+  padding: 40px 0;
+}
+
+.cfnbjhdf55 {
+  background-color: #eff9f9;
+}
+
+.flight-details-wrapper .dfbsdfgsdf {
+  border: 1px solid var(--border);
+}
+
+.flight-details-wrapper .fsdf {
+  background: var(--main-golden);
+  font-weight: 600;
+}
+
+.flight-details-wrapper .dfsdf h6{
+  font-weight: 500;
+}
+
+.dfsdfsdf {
+  font-size: 13px;
+}
+
+.fsdfdsf {
+  color: var(--main-red-color);
+}
+
+.flight-details-wrapper .dfgbdfgdf h4 {
+  font-size: 1.5rem;
+}
+
+.flight-details-wrapper .fghdzgsd img {
+  width: auto;
+  height: 3rem;
+}
+
+.fgdfgdfg {
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 8px;
+}
+
+.fgdfgdfg {
+  margin-top: 20px;
+}
+
+.flight-details-wrapper .sdfgsdf h5 {
+  font-weight: 600;
+}
+
+.flight-details-wrapper .sdfgsdf h5 span{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--light-green-highlighted-background-color);
+}
+
+.flight-details-wrapper .sdfgsdf h5 span i{
+  color: var(--main-green-color);
+  line-height: 2.5;
+}
+
+.flight-details-wrapper .fsdfsd55f img {
+  width: 100%;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.flight-details-wrapper .dfdf p {
   font-size: 11px;
-  margin-bottom: 0;
-}
-.fndf78 i 
-{
-    font-size: 10px;
+  font-weight: 600;
 }
 
-.fndf78 
-{
-    margin-top: -10px;
+.flight-details-wrapper .dfdf p i{
+  color: var(--blue-primary-color);
 }
 
-.sfsdf4 
-{
-    display: flex;
-    /* justify-content: space-between; */
-    justify-content: baseline;
-
+.dfxgbdczdcd p{
+  font-size: 1rem;
 }
 
-.sfsdf4  h6 
-{
-    font-size: 12px;
-    margin-bottom: 0;
-    font-weight: 600;
-    color: black;
+.fndf78 i {
+  font-size: 10px;  
+  color: var(--main-golden);
+  margin-right: 2px;
 }
 
-.sfsdf4  p
-{
-    font-size: 12px;
-    margin-bottom: 0;
-    text-decoration: line-through;
-    color: #444;
-    margin-top: -5px;
-    padding-left: 10px;
+.fndf78 i:last-child{
+  margin-right: 0;
+}
 
+.flight-details-wrapper .fndf78 {
+  margin-top: 0;
+  line-height: 0;
+}
+
+.flight-details-wrapper .sfsdf4 {
+  display: flex;
+  align-items: center;
 
 }
 
-.dfgudfg588r
-{
-    margin-top: 20px;
-    background-color: #f5efd1;
-    border-radius: 8px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    padding: 15px;
-
-
+.flight-details-wrapper .sfsdf4 h6 {
+  font-size: 1rem;
 }
 
-.dfsfdf6985
-{
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid rgb(255, 174, 0);
-    border-radius: 6px;
-    background-color: #fff;
+.flight-details-wrapper .sfsdf4 h6:last-child{
+  font-size: 0.8rem;
+  text-decoration: line-through;
+  color: var(--light-black-text-color);
 }
 
-.fdfg h6
-{
- padding-bottom: 10px;
- font-weight: bold;
- color: black;
+.flight-details-wrapper .dfgudfg588r {
+  background: color-mix(in srgb, var(--main-yellow-color) 10%, #fff 95%);
 }
 
-.fdfg span 
-{
-    color: rgb(9, 150, 206);
+.flight-details-wrapper img.iejnuiwr{
+  width: 100%;
+  max-width: 120px;
+  right: 15%;
 }
 
-.gfdgdf h6
-{
+.flight-details-wrapper .dfsfdf6985 {
+  border: 1px solid color-mix(in srgb, var(--main-yellow-color) 70%, #fff 30%) !important;
+  margin-top: 0;
+}
+
+.flight-details-wrapper .kfjsoijfosd{
+  background: color-mix(in srgb, var(--main-golden) 25%, #fff 95%) !important;
+}
+
+.flight-details-wrapper .kfjsoijfosd i{
+  color: var(--main-golden) !important;
+}
+
+.flight-details-wrapper .fdfg h6 {
+  padding-bottom: 10px;
+  font-weight: 600;
+  color: #000;
+}
+
+.flight-details-wrapper .fdfg span {
+  color: var(--blue-primary-color);
+}
+
+.gfdgdf h6 {
   color: black;
-   font-weight: bold;
-
-
+  font-weight: bold;
 }
 
-.dfsdfsdf5
-{
-    margin-top: 10px;
-    padding: 15px;
-    border: 1px solid rgb(255, 174, 0);
-    border-radius: 6px;
-    background-color: #fff;
-
+.flight-details-wrapper span.isdnfsdfsd{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--light-blue-highlighted-background-color);
+  display: inline-block;
 }
 
-.dfsdfsdf5 h6
-{
-     color: black;
-     font-weight: bold;
+.flight-details-wrapper span.isdnfsdfsd i{
+  line-height: 2.6;
+  color: #fff;
+  font-size: 0.8rem;
 }
 
-.dfsdfsdf5 span 
-{
-    color: #0e5fa5 !important;
+.flight-details-wrapper span.isdnfsdfsd:before{
+  position: absolute;
+  content: "";
+  width: 1.3rem;
+  height: 1.3rem;
+  background: var(--blue-primary-color);
+  border-radius: 5px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.flight-details-wrapper .dfsdfsdf5 {
+  margin-top: 0;
+  padding: 15px;
+  border: 1px solid color-mix(in srgb, var(--blue-primary-color) 70%, #fff 100%);
+  border-radius: 6px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--blue-primary-color) 15%, #fff 85%), color-mix(in srgb, var(--blue-primary-color) 5%, #fff 100%));
+}
+
+.dfsdfsdf5 h6 {
+  color: black;
+  font-weight: bold;
+}
+
+.dfsdfsdf5 span {
+  color: #0e5fa5 !important;
 }
 
 
@@ -387,88 +363,76 @@ margin-top:10px;
   color: gray;
 }
 
-.fgdfg584d 
-{
-    margin-top: 20px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 8px;
+.fgdfg584d {
+  margin-top: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 8px;
 
 }
 
-.dgdfgdfgdf
-{
-    display: flex;
-    justify-content: space-between;
+.dgdfgdfgdf {
+  display: flex;
+  justify-content: space-between;
 }
 
-.dfsdfds555f
-{
-    display: flex;
+.dfsdfds555f {
+  display: flex;
 
 }
 
-.dfgbdfhgdfg  img
-{
+.dfgbdfhgdfg img {
   width: 100px;
   height: 60px;
 }
 
-.dfsdfds555f  i 
-{
-    font-size: 30px;
+.dfsdfds555f i {
+  font-size: 30px;
 }
 
-.trip-header 
-{
-    margin-left: 10px;
-    margin-top: -8px;
-    font-size:25px ;
-    font-weight: bold;
+.trip-header {
+  margin-left: 10px;
+  margin-top: -8px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
-.ssd8984e img
-{
-    width: 35px;
+.ssd8984e img {
+  width: 35px;
 }
 
-.fds88ee h6
-{
+.fds88ee h6 {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 0;
   color: #0a7e7e;
 }
 
-.fds88ee span
-{
+.fds88ee span {
   font-size: 10px !important;
   color: #7c7b78;
 }
 
-.fds88ee p
-{
+.fds88ee p {
   font-size: 12px;
   line-height: 15px;
   padding-top: 5px;
   margin-bottom: 0;
-  color:black;
+  color: black;
 }
 
-.dfsdf5855
-{
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 6px;
-    padding: 10px;
+.dfsdf5855 {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 6px;
+  padding: 10px;
 
 }
 
-.sdnsdjsd 
-{
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    border-radius: 6px;
-    padding:13px 10px;
-    font-weight: 600;
-    color: #0d6efd;
+.sdnsdjsd {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 6px;
+  padding: 13px 10px;
+  font-weight: 600;
+  color: #0d6efd;
 
 
 }
@@ -499,44 +463,41 @@ margin-top:10px;
   color: gray;
 }
 
-.fndyff987er
-{
-   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-   border-radius: 8px;
-   margin-top: 20px;
+.fndyff987er {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  border-radius: 8px;
+  margin-top: 20px;
 
 }
 
-.sdfsdfdsf img 
-{
-   width: 50px;
-   height: 50px;
-   border-radius: 8px;
+.sdfsdfdsf img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
 }
 
-    .card-box {
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid #e0e0e0;
-    }
+.card-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+}
 
-    .section-title {
-      font-weight: 600;
-      font-size: 16px;
-    }
+.section-title {
+  font-weight: 600;
+  font-size: 16px;
+}
 
-    .important-box {
-      background: #fdebd0;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
+.important-box {
+  background: #fdebd0;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
 
-    .huikgh56 
-    {
-        margin-top: 20px;
-    }
+.huikgh56 {
+  margin-top: 20px;
+}
 
 .state-box {
   background: #f3f4f6;
@@ -561,8 +522,7 @@ margin-top:10px;
   max-width: 250px;
 }
 
-.dhdsfsd788
-{
+.dhdsfsd788 {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 
 }
@@ -658,10 +618,9 @@ margin-top:10px;
   margin-bottom: 15px;
 }
 
-.frgrfg5559
-{
-    font-size: 15px;
-    font-weight: bold;
+.frgrfg5559 {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .coupon-icon {
@@ -670,17 +629,149 @@ margin-top:10px;
   object-fit: contain;
 }
 
-.diwehidmsad a{
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--blue-primary-color);
+.diwehidmsad a {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--blue-primary-color);
 }
 
-.duiewjkijdasx > strong{
-    font-size: 1.2rem;
+.duiewjkijdasx>strong {
+  font-size: 1.2rem;
 }
 
-.duiewjkijdasx > span{
-    border-radius: 3px;
-    border: 1px dashed var(--border);
+.duiewjkijdasx>span {
+  border-radius: 3px;
+  border: 1px dashed var(--border);
+}
+
+.flight-details-wrapper .diwehidmsad button {
+  text-align: right;
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--blue-primary-color);
+}
+
+.flight-details-wrapper .diwehidmsad button i{
+  font-size: 0.75rem;
+}
+
+.flight-details-wrapper .flight-card{
+  background: var(--light-blue-highlighted-background-color);
+  border: 1px solid var(--border);
+}
+
+.flight-details-wrapper .time-wrapper h5{
+  font-size: 1.1rem;
+}
+
+.flight-details-wrapper span.udnehnewr > p{
+  font-size: 0.9rem;
+  color: var(--blue-primary-color) !important;
+}
+
+.flight-details-wrapper .gfjh55 span h6{
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.flight-details-wrapper .duration-wrapper > small.dyusbnbsdhfc{
+  border-radius: 25px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 5px 10px;
+  display: inline-block;
+}
+
+.flight-details-wrapper .modal-header h5{
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.flight-details-wrapper .modal-body button.nav-link{
+  font-weight: 500;
+  font-size: 1rem !important;
+  color: var(--light-black-text-color);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.flight-details-wrapper .modal-body button.nav-link.active{
+  color: var(--blue-secondary-color);
+  border: 1px solid var(--main-green-color);
+  box-shadow: var(--light-box-shadow);
+}
+
+.flight-details-wrapper .modal-body .nav.nav-tabs{
+  border-bottom: 0;
+  gap: 10px;
+}
+
+.flight-details-wrapper .table-bordered > thead > * > *{
+  font-weight: 500;
+}
+
+.flight-details-wrapper .table-bordered > thead.table-light tr th{
+  background: #F2F2F2 !important;
+}
+
+.flight-details-wrapper .jianjdlkmjosdjif span:first-child{
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--light-green-highlighted-background-color);
+}
+
+.flight-details-wrapper .jianjdlkmjosdjif span:first-child i{
+  font-size: 1.4rem;
+  color: var(--main-green-color);
+  line-height: 1.9;
+}
+
+.flight-details-wrapper button.add-baggage-flight{
+  background: transparent !important;
+  color: var(--blue-primary-color) !important;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.flight-details-wrapper button.add-baggage-flight:hover{
+  color: #fff !important;
+  background: var(--blue-primary-color) !important;
+}
+
+.flight-details-wrapper .dfgf555{
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: var(--light-blue-highlighted-background-color);
+}
+
+.flight-details-wrapper .dfgf555:last-child{
+  margin-bottom: 0;
+}
+
+.sdfsdf{
+  width: 3rem;
+  height: 3rem;
+  background: var(--light-green-highlighted-background-color);
+}
+
+.sdfsdf i{
+  color: var(--main-green-color);
+  line-height: 1.8;
+  font-size: 1.7rem;
+}
+
+.sdfsdf{
+  flex-shrink: 0;
+}
+
+.dfxgbdczdcd:before{
+  position: absolute;
+  content: "";
+  border: 1px dashed var(--border);
+  height: 100%;
+  left: 0;
 }

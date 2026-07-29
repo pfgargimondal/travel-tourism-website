@@ -15,6 +15,8 @@
     --main-golden: #EFBF04;
     --blue-primary-color: #418ede;
     --blue-secondary-color: #07427f;
+    --light-green-highlighted-background-color: color-mix(in srgb, var(--main-green-color) 20%, #fff 90%);
+    --light-blue-highlighted-background-color: color-mix(in srgb, var(--blue-primary-color) 10%, #fff 90%);
     --button-gradient-color: linear-gradient(45deg, #418ede, #07427f);
     --button-hover-gradient-color: linear-gradient(45deg, #07427f, #418ede);
     --light-black-text-color: #3C3B3B;
@@ -39,7 +41,8 @@
 h2,
 h3,
 h4,
-h5 {
+h5,
+h6 {
     font-family: var(--font-family-spinnaker);
 }
 

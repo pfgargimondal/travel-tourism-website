@@ -144,6 +144,10 @@ button.loggedin-user-profile .loggedin-dropdown li:last-child i{
     top: 2px;
 }
 
+.black-text-header button.loggedin-user-profile span.dinniihfrtet{
+    color: #000 !important;
+}
+
 .sifjdnosjkjhjmre div.asdoijodjokpkoie{
     padding-inline: 0.6rem;
     border-right: 1px dashed rgba(255, 255, 255, 0.4);

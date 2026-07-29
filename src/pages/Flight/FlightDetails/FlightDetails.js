@@ -28,6 +28,9 @@ export const FlightDetails = () => {
   const [fareRuleModal, setFareRuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState("cancel");
 
+  const [addBaggageModal, setAddBaggageModal] = useState(false);
+
+
   useEffect(() => {
     console.log("useEffect triggered", {
       fareId,
@@ -92,7 +95,7 @@ export const FlightDetails = () => {
       html.classList.remove("overflow-hidden");
     };
   }, [imprtntInfoModal]);
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const handleImprtntInfoModalToggle = () => {
     setImprtntInfoModal((prev) => !prev);
   };
@@ -138,8 +141,8 @@ export const FlightDetails = () => {
 
   const segments = repriceFlight?.Segments || [];
 
-//   const firstSegment = segments[0];
-//   const lastSegment = segments[segments.length - 1];
+  //   const firstSegment = segments[0];
+  //   const lastSegment = segments[segments.length - 1];
 
   const stops = Math.max(0, segments.length - 1);
 
@@ -157,7 +160,7 @@ export const FlightDetails = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="sdfsdf655">
+    <div className="sdfsdf655 flight-details-wrapper">
       <div className="container">
         <div className="asfdgsqwe">
           <ul className="ps-0 d-flex align-items-center gap-3">
@@ -179,7 +182,7 @@ export const FlightDetails = () => {
                 <div className="hotel-card">
                   <div className="card-box">
                     {/* HEADER */}
-                    <div className="flight-header">
+                    <div className="flight-header mb-3">
                       <div className="ciuajmcokzxc d-flex gap-2 align-items-center">
                         <img
                           src={`https://images.kiwi.com/airlines/64/${segment?.Airline_Code}.png`}
@@ -191,28 +194,32 @@ export const FlightDetails = () => {
                         />
 
                         <div>
-                          <h4 className="fw-bold mb-1">
-                            {segment?.Origin_City.replace(/\s*\(.*?\)/g, "")} →{" "}
+                          <h5 className="fw-bold mb-1 d-flex align-items-center gap-2">
+                            {segment?.Origin_City.replace(/\s*\(.*?\)/g, "")}
+
+                            <img src="/images/planesmallicon.png" width={25} alt=""/>
+
                             {segment?.Destination_City.replace(
                               /\s*\(.*?\)/g,
                               "",
                             )}
-                          </h4>
+                          </h5>
 
                           <p className="mb-0">
-                            {formattedDate} |{" "}
+                            <span>{formattedDate} ·</span>
+
                             <span>
-                              {stops === 0 ? "Non Stop" : `${stops} Stop`} ·{" "}
+                              <span style={{ color: "var(--blue-primary-color)" }}> {stops === 0 ? "Non Stop" : `${stops} Stop`} · </span>
                               {totalDuration}
                             </span>
                           </p>
                         </div>
                       </div>
 
-                      <div className="diwehidmsad d-flex flex-column text-end">
+                      <div className="diwehidmsad d-flex flex-column text-end gap-1">
                         {fareDetail?.CancellationCharges?.length > 0 && (
                           <span className="badge bg-warning text-dark">
-                            Cancellation Charges Apply
+                            <i className="bi bi-lightning-charge-fill"></i> Cancellation Charges Apply
                           </span>
                         )}
 
@@ -221,7 +228,7 @@ export const FlightDetails = () => {
                           className="btn btn-link p-0"
                           onClick={() => setFareRuleModal(true)}
                         >
-                          View Fare Rules
+                          View Fare Rules <i className="fa-solid ms-1 fa-angle-right"></i>
                         </button>
                       </div>
                     </div>
@@ -257,43 +264,93 @@ export const FlightDetails = () => {
 
                         return (
                           <div key={index}>
-                            <div className="flight-card mb-3">
-                              <div className="row align-items-center">
-                                <div className="col-md-3">
-                                  <img
-                                    src={`https://images.kiwi.com/airlines/64/${segment.Airline_Code}.png`}
-                                    width={40}
-                                    alt=""
-                                  />
-                                  <h6 className="mb-0">
-                                    {segment.Airline_Name}
-                                  </h6>
-                                  <small>
-                                    {segment.Airline_Code}{" "}
-                                    {segment.Flight_Number}
-                                  </small>
+                            <div className="flight-card mb-3 py-3 px-2">
+                              <div className="icsnduhh row">
+                                <div className="col-1">
+                                  <div className="gfjh55 text-start">
+                                    <span>
+                                      <img
+                                        src={`https://images.kiwi.com/airlines/64/${segment.Airline_Code}.png`}
+                                        width={45}
+                                        alt=""
+                                        className="mb-2"
+                                      />
+
+                                      <h6 className="mb-0">
+                                        {segment.Airline_Name}
+                                      </h6>
+
+                                      <small style={{ color: "var(--light-highlighted-text-color)" }}>
+                                        {segment.Airline_Code}{" "}
+                                        {segment.Flight_Number}
+                                      </small>
+                                    </span>
+                                  </div>
                                 </div>
 
-                                <div className="col-md-3 text-center">
-                                  <h5>{departureTime}</h5>
-                                  <div>{segment.Origin_City}</div>
-                                  <small>
-                                    Terminal {segment.Origin_Terminal || "-"}
-                                  </small>
-                                </div>
+                                <div className="col-11">
+                                  <div className="time-wrapper d-flex justify-content-between gap-4 px-4">
+                                    <div className="pt-1">
+                                      <h5 className="mb-1">{departureTime}</h5>
 
-                                <div className="col-md-3 text-center">
-                                  <div>{totalDuration}</div>
-                                  <hr />
-                                  <small>{segment.Aircraft_Type}</small>
-                                </div>
-                                <div className="col-md-3 text-center">
-                                  <h5>{arrivalTime}</h5>
-                                  <div>{segment.Destination_City}</div>
-                                  <small>
-                                    Terminal{" "}
-                                    {segment.Destination_Terminal || "-"}
-                                  </small>
+                                      <span className="udnehnewr">
+                                        <p className="fw-semibold mb-0 d-flex flex-column gap-1">
+                                          <span>{segment.Origin_City}</span>
+                                        </p>
+
+                                        <small
+                                          style={{
+                                            fontWeight: 500,
+                                            color: "var(--light-highlighted-text-color)"
+                                          }}
+                                        >
+                                          Terminal {segment.Origin_Terminal || "-"}
+                                        </small>
+                                      </span>
+                                    </div>
+
+                                    <div className="duration-wrapper flex-fill text-center">
+                                      <small className="dyusbnbsdhfc ufsidnfijsdfsdf"><i className="bi bi-clock"></i> {totalDuration}</small>
+
+                                      <div className="dinsjihfnsidhfsdf d-flex align-items-center justify-content-center position-relative my-3">
+                                        <span className="flgt-drtn-circle d-block"></span>
+
+                                        <span className="flgt-drtn-line d-block"></span>
+
+                                        <span className="flgt-drtn-circle d-block"></span>
+
+                                        <div className="dijsenifjsdf hide-ini position-absolute text-center">
+                                          <i className="bi bi-airplane-engines d-block text-white"></i>
+                                        </div>
+
+                                        <div className="dijsenifjsdf show-ini position-absolute text-center">
+                                          <i className="bi bi-airplane-engines d-block text-white"></i>
+                                        </div>
+                                      </div>
+
+                                      <small className="dyusbnbsdhfc px-3 stop-info">{segment.Aircraft_Type}</small>
+                                    </div>
+
+                                    <div className="text-end pt-1">
+                                      <h5 className="mb-1">{arrivalTime}</h5>
+
+                                      <span className="udnehnewr">
+                                        <p className="fw-semibold mb-0 d-flex flex-column gap-1">
+                                          <span>{segment.Destination_City}</span>
+                                        </p>
+
+                                        <small
+                                          style={{
+                                            fontWeight: 500,
+                                            color: "var(--light-highlighted-text-color)"
+                                          }}
+                                        >
+                                          Terminal{" "}
+                                          {segment.Destination_Terminal || "-"}
+                                        </small>
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -337,12 +394,19 @@ export const FlightDetails = () => {
                       })}
                     </div>
                     {/* NOTICE */}
-                    <div className="notice">
-                      <span>
-                        Got excess baggage? Don't stress, buy extra check-in
-                        baggage allowance
-                      </span>
-                      <a href="/">ADD BAGGAGE</a>
+                    <div className="notice p-3">
+                      <div className="jianjdlkmjosdjif d-flex gap-3 align-items-center">
+                        <span className="rounded-pill text-center">
+                          <i className="bi bi-backpack3-fill"></i>
+                        </span>
+
+                        <span>
+                          <b>Got excess baggage?</b> <br /> Don't stress, buy extra check-in
+                          baggage allowance
+                        </span>
+                      </div>
+
+                      <button className="add-baggage-flight btn-tour px-3" onClick={() => setAddBaggageModal(prev => !prev)}>ADD BAGGAGE <i className="fa-solid ms-1 fa-angle-right"></i></button>
                     </div>
 
                     {/* POLICY */}
@@ -388,41 +452,44 @@ export const FlightDetails = () => {
                 {/* Free Date Change Section */}
                 <div className="sdbfsdhfsd">
                   <div className="dsbfsd">
-                    <h6>
+                    <h6 className="mb-3">
                       <b>Unsure of your travel plans?</b> Get full flexibility
                       with our special add-ons
                     </h6>
                   </div>
+
                   <div className="dfbsdfgsdf">
                     <div className="row">
-                      <div className="col-lg-11">
-                        <div className="fgsdfsdf">
+                      <div className="col-lg-10">
+                        <div className="fgsdfsdf align-items-center mb-2">
                           <div className="dfsdf">
-                            <h6>Free Date Change</h6>
+                            <h6 className="mb-0">Free Date Change</h6>
                           </div>
-                          <div className="fsdf">Free Date Change Included</div>
+
+                          <div className="fsdf rounded-pill px-2 py-1">Free Date Change Included</div>
                         </div>
+
                         <div className="dfsdfsdf">
-                          <p>
+                          <p className="mb-0">
                             <span className="fsdfdsf">
                               Great! Save up to ₹ 3349{" "}
                             </span>{" "}
                             on date change charges up to 3 hours before
                             departure. You just pay the fare difference!{" "}
-                            <span className="fsdfdsf55">View T&C</span>
+                            <span style={{ color: "var(--blue-primary-color)" }}>View T&C</span>
                           </p>
                         </div>
                       </div>
-                      <div className="col-lg-1">
-                        <div className="fsdfsdfsd">
-                          <div className="sdfsdf">
-                            <img
-                              src="./images/travel-plan-fdc-card.png"
-                              alt=""
-                            />
-                          </div>
+
+                      <div className="col-lg-2">
+                        <div className="fsdfsdfsd fghdzgsd text-center">
+                          <img
+                            src="/images/hfggdf.png"
+                            alt=""
+                          />
+
                           <div className="dfgbdfgdf">
-                            <h4>₹ 391</h4>
+                            <h4 className="mb-0">₹ 391</h4>
                           </div>
                         </div>
                       </div>
@@ -433,30 +500,31 @@ export const FlightDetails = () => {
                 {/* Important Information */}
                 <div className="fgdfgdfg">
                   <div className="sdfgsdf">
-                    <h6>Important Information</h6>
+                    <h5 className="mb-3">
+                      <span className="me-3 text-center"><i class="fa-solid fa-info"></i></span>
+
+                      Important Information
+                    </h5>
                   </div>
 
                   <div className="bdfsdf855e">
                     {[1, 2, 3].map((_, idx) => (
-                      <div className="dfgf555" key={idx}>
-                        <div className="row">
-                          <div className="col-lg-1">
-                            <div className="sdfsdf">
-                              <img src="./images/alert.png" alt="" />
-                            </div>
+                      <div className="dfgf555 p-3" key={idx}>
+                        <div className="d-flex gap-4">
+                          <div className="sdfsdf text-center rounded-circle">
+                            <i className="bi bi-suitcase"></i>
                           </div>
-                          <div className="col-lg-11">
-                            <div className="asdbasd55">
-                              <h6>
-                                Check travel guidelines and baggage information
-                                below:
-                              </h6>
-                              <p>
-                                Carry no more than 1 check-in baggage and 1 hand
-                                baggage per passenger. If violated, airline may
-                                levy extra charges.
-                              </p>
-                            </div>
+
+                          <div className="dfxgbdczdcd position-relative px-3">
+                            <h6 className="mb-2">
+                              Check travel guidelines and baggage information
+                              below:
+                            </h6>
+                            <p className="mb-0">
+                              Carry no more than 1 check-in baggage and 1 hand
+                              baggage per passenger. If violated, airline may
+                              levy extra charges.
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -465,58 +533,64 @@ export const FlightDetails = () => {
                 </div>
 
                 {/* Hotel Offers */}
-                <div className="dfgudfg588r">
-                  <div className="gdfgdfgd">
-                    <div className="gfdgdf">
-                      <h6>Book a Flight & unlock these offers</h6>
-                    </div>
+                <div className="dfgudfg588r position-relative">
+                  <img src="/images/plane.png" className="iejnuiwr position-absolute" alt="" />
+
+                  <div className="sdfgsdf">
+                    <h5 className="mb-3">
+                      <span className="kfjsoijfosd me-3 text-center"><i className="bi bi-gift"></i></span>
+
+                      Book a Flight & unlock these offers
+                    </h5>
                   </div>
+
                   <div className="sdbff5sdf">
                     <div className="row">
-                      <div className="col-lg-10">
-                        <div className="dfsfdf6985">
+                      <div className="col-lg-9">
+                        <div className="dfsfdf6985 p-3">
                           <div className="fdfg">
-                            <h6>
+                            <h6 className="mb-2">
                               <span>
-                                <i className="fa-solid fa-check"></i> Exclusive
-                                rates
+                                <span className="isdnfsdfsd text-center position-relative"><i className="bi position-relative bi-percent"></i></span> Exclusive rates
                               </span>{" "}
+
                               on Select Properties in Navi Mumbai
                             </h6>
                           </div>
+
                           <div className="sdbfhsdf8sd">
                             <div className="row">
                               {[1, 2, 3].map((_, idx) => (
                                 <div className="col-lg-4" key={idx}>
                                   <div className="dfbgsdf28">
-                                    <div className="row">
-                                      <div className="col-lg-5 col-5">
-                                        <div className="fsdfsd55f">
-                                          <img
-                                            src="./images/Screenshot (11).png"
-                                            alt=""
-                                          />
-                                        </div>
+                                    <div className="fsdfsd55f">
+                                      <img
+                                        src="/images/smallimg2.png"
+                                        alt=""
+                                      />
+                                    </div>
+
+                                    <div className="dfgsdf89 py-1">
+                                      <div className="dfdf">
+                                        <p className="mb-0"><i className="bi bi-geo-alt"></i> Aurika, Mumbai</p>
                                       </div>
-                                      <div className="col-lg-7 col-7">
-                                        <div className="dfgsdf89">
-                                          <div className="dfdf">
-                                            <p>Aurika, Mumbai Inter</p>
-                                          </div>
-                                          <div className="fndf78">
-                                            {[...Array(5)].map((_, i) => (
-                                              <i
-                                                className="fa-solid fa-star"
-                                                key={i}
-                                              ></i>
-                                            ))}
-                                          </div>
-                                          <div className="sfsdf4">
-                                            <h6>₹ 6,973</h6>
-                                            <p>₹ 10,384</p>
-                                          </div>
-                                        </div>
+
+                                      <div className="fndf78 mb-2">
+                                        {[...Array(5)].map((_, i) => (
+                                          <i
+                                            className="fa-solid fa-star"
+                                            key={i}
+                                          ></i>
+                                        ))}
                                       </div>
+
+                                      <div className="sfsdf4 mb-1">
+                                        <h6 className="me-3">₹ 6,973</h6>
+                                        
+                                        <h6>₹ 10,384</h6>
+                                      </div>
+
+                                      <div style={{ fontSize: "0.8rem", lineHeight: 1.9 }} className="stop-info d-inline-block px-2 rounded-pill py-0">You save ₹ 3411</div>
                                     </div>
                                   </div>
                                 </div>
@@ -525,8 +599,11 @@ export const FlightDetails = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-lg-2">
-                        <div className="dfsdfsdf5">
+
+                      <div className="col-lg-3">
+                        <div className="dfsdfsdf5 h-100 position-relative text-center">
+                          <img src="/images/affgse.png" className="img-fluid position-absolute bottom-0 end-0 start-0" alt="" />
+
                           <h6>
                             <span>
                               <i className="fa-solid fa-check"></i> Extra 12%
@@ -1166,211 +1243,354 @@ export const FlightDetails = () => {
         </div>
       </div>
 
-    {fareRuleModal && (
+      {fareRuleModal && (
         <div
-            className="modal fade show d-block"
-            style={{
-                background: "rgba(0,0,0,.6)",
-                zIndex: 9999
-            }}
+          className="modal fade show d-block"
+          style={{
+            background: "rgba(0,0,0,.6)",
+            zIndex: 99999
+          }}
         >
-            <div className="modal-dialog modal-lg modal-dialog-centered">
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header py-2">
+                <h5 className="modal-title">Fare Rules</h5>
 
-                <div className="modal-content">
+                <button
+                  className="btn-close"
+                  onClick={() => setFareRuleModal(false)}
+                />
 
-                    <div className="modal-header">
+              </div>
 
-                        <h5 className="modal-title">
-                            Fare Rules
-                        </h5>
+              <div className="modal-body">
 
-                        <button
-                            className="btn-close"
-                            onClick={() => setFareRuleModal(false)}
-                        />
+                {/* Tabs */}
 
-                    </div>
+                <ul className="nav nav-tabs mb-4">
 
-                    <div className="modal-body">
+                  <li className="nav-item">
 
-                        {/* Tabs */}
+                    <button
+                      className={`nav-link ${activeTab === "cancel" ? "active" : ""
+                        }`}
+                      onClick={() => setActiveTab("cancel")}
+                    >
+                      Cancellation Charges
+                    </button>
 
-                        <ul className="nav nav-tabs mb-4">
+                  </li>
 
-                            <li className="nav-item">
+                  <li className="nav-item">
 
-                                <button
-                                    className={`nav-link ${
-                                        activeTab === "cancel" ? "active" : ""
-                                    }`}
-                                    onClick={() => setActiveTab("cancel")}
-                                >
-                                    Cancellation Charges
-                                </button>
+                    <button
+                      className={`nav-link ${activeTab === "reschedule" ? "active" : ""
+                        }`}
+                      onClick={() => setActiveTab("reschedule")}
+                    >
+                      Date Change Charges
+                    </button>
 
-                            </li>
+                  </li>
 
-                            <li className="nav-item">
+                </ul>
 
-                                <button
-                                    className={`nav-link ${
-                                        activeTab === "reschedule" ? "active" : ""
-                                    }`}
-                                    onClick={() => setActiveTab("reschedule")}
-                                >
-                                    Date Change Charges
-                                </button>
+                {/* Cancellation */}
 
-                            </li>
+                {activeTab === "cancel" && (
+                  <table className="table table-bordered mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th width="30%">Charge</th>
 
-                        </ul>
+                        <th>Applicable Time</th>
+                      </tr>
+                    </thead>
 
-                        {/* Cancellation */}
+                    <tbody>
+                      {fareDetail?.CancellationCharges?.map((charge, index) => (
+                        <tr key={index}>
+                          <td style={{ fontWeight: 500 }}>
+                            {charge.ValueType === 1
+                              ? `${charge.Value}% of Fare`
+                              : isNaN(Number(charge.Value))
+                                ? charge.Value
+                                : `₹${Number(charge.Value).toLocaleString()}`}
+                          </td>
 
-                        {activeTab === "cancel" && (
+                          <td>
+                            If cancelled between
 
-                            <table className="table table-bordered">
+                            <strong> {charge.DurationFrom} </strong>
 
-                                <thead className="table-light">
+                            {charge.DurationTypeFrom === 0
+                              ? "hours"
+                              : "days"}
 
-                                    <tr>
-                                        <th width="30%">Charge</th>
-                                        <th>Applicable Time</th>
-                                    </tr>
+                            {" "}to{" "}
 
-                                </thead>
+                            <strong>{charge.DurationTo}</strong>
 
-                                <tbody>
+                            {" "}
 
-                                    {fareDetail?.CancellationCharges?.map((charge,index)=>(
+                            {charge.DurationTypeTo === 0
+                              ? "hours"
+                              : "days"}
 
-                                        <tr key={index}>
+                            {" "}before departure
 
-                                            <td>
+                          </td>
 
-                                                <strong>
+                        </tr>
 
-                                                    {charge.ValueType===1
-                                                        ? `${charge.Value}% of Fare`
-                                                        : isNaN(Number(charge.Value))
-                                                        ? charge.Value
-                                                        : `₹${Number(charge.Value).toLocaleString()}`}
+                      ))}
 
-                                                </strong>
+                    </tbody>
 
-                                            </td>
+                  </table>
 
-                                            <td>
+                )}
 
-                                                If cancelled between
+                {/* Reschedule */}
 
-                                                <strong> {charge.DurationFrom} </strong>
+                {activeTab === "reschedule" && (
+                  <table className="table table-bordered mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th width="30%">Charge</th>
+                        <th>Applicable Time</th>
+                      </tr>
+                    </thead>
 
-                                                {charge.DurationTypeFrom===0
-                                                    ?"hours"
-                                                    :"days"}
+                    <tbody>
+                      {fareDetail?.RescheduleCharges?.map((charge, index) => (
+                        <tr key={index}>
+                          <td style={{ fontWeight: 500 }}>
+                            {charge.ValueType === 1
+                              ? `${charge.Value}% of Fare`
+                              : isNaN(Number(charge.Value))
+                                ? charge.Value
+                                : `₹${Number(charge.Value).toLocaleString()}`}
+                          </td>
 
-                                                {" "}to{" "}
+                          <td>
+                            If rescheduled between
 
-                                                <strong>{charge.DurationTo}</strong>
+                            <strong> {charge.DurationFrom} </strong>
 
-                                                {" "}
+                            {charge.DurationTypeFrom === 0
+                              ? "hours"
+                              : "days"}
 
-                                                {charge.DurationTypeTo===0
-                                                    ?"hours"
-                                                    :"days"}
+                            {" "}to{" "}
 
-                                                {" "}before departure
+                            <strong>{charge.DurationTo}</strong>
 
-                                            </td>
+                            {" "}
 
-                                        </tr>
+                            {charge.DurationTypeTo === 0
+                              ? "hours"
+                              : "days"}
 
-                                    ))}
+                            {" "}before departure
 
-                                </tbody>
+                          </td>
 
-                            </table>
+                        </tr>
 
-                        )}
+                      ))}
 
-                        {/* Reschedule */}
+                    </tbody>
 
-                        {activeTab === "reschedule" && (
+                  </table>
 
-                            <table className="table table-bordered">
+                )}
 
-                                <thead className="table-light">
-
-                                    <tr>
-                                        <th width="30%">Charge</th>
-                                        <th>Applicable Time</th>
-                                    </tr>
-
-                                </thead>
-
-                                <tbody>
-
-                                    {fareDetail?.RescheduleCharges?.map((charge,index)=>(
-
-                                        <tr key={index}>
-
-                                            <td>
-
-                                                <strong>
-
-                                                    {charge.ValueType===1
-                                                        ? `${charge.Value}% of Fare`
-                                                        : isNaN(Number(charge.Value))
-                                                        ? charge.Value
-                                                        : `₹${Number(charge.Value).toLocaleString()}`}
-
-                                                </strong>
-
-                                            </td>
-
-                                            <td>
-
-                                                If rescheduled between
-
-                                                <strong> {charge.DurationFrom} </strong>
-
-                                                {charge.DurationTypeFrom===0
-                                                    ?"hours"
-                                                    :"days"}
-
-                                                {" "}to{" "}
-
-                                                <strong>{charge.DurationTo}</strong>
-
-                                                {" "}
-
-                                                {charge.DurationTypeTo===0
-                                                    ?"hours"
-                                                    :"days"}
-
-                                                {" "}before departure
-
-                                            </td>
-
-                                        </tr>
-
-                                    ))}
-
-                                </tbody>
-
-                            </table>
-
-                        )}
-
-                    </div>
-
-                </div>
+              </div>
 
             </div>
 
+          </div>
+
         </div>
-    )}
+      )}
+
+
+      {/* add baggage modal start */}
+
+      {addBaggageModal && (
+        <div
+          className="modal fade show d-block"
+          style={{
+            background: "rgba(0,0,0,.6)",
+            zIndex: 99999
+          }}
+        >
+          <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header py-2">
+                <h5 className="modal-title">Fare Rules</h5>
+
+                <button
+                  className="btn-close"
+                  onClick={() => setAddBaggageModal(false)}
+                />
+
+              </div>
+
+              <div className="modal-body">
+
+                {/* Tabs */}
+
+                <ul className="nav nav-tabs mb-4">
+
+                  <li className="nav-item">
+
+                    <button
+                      className={`nav-link ${activeTab === "cancel" ? "active" : ""
+                        }`}
+                      onClick={() => setActiveTab("cancel")}
+                    >
+                      Cancellation Charges
+                    </button>
+
+                  </li>
+
+                  <li className="nav-item">
+
+                    <button
+                      className={`nav-link ${activeTab === "reschedule" ? "active" : ""
+                        }`}
+                      onClick={() => setActiveTab("reschedule")}
+                    >
+                      Date Change Charges
+                    </button>
+
+                  </li>
+
+                </ul>
+
+                {/* Cancellation */}
+
+                {activeTab === "cancel" && (
+                  <table className="table table-bordered mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th width="30%">Charge</th>
+
+                        <th>Applicable Time</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {fareDetail?.CancellationCharges?.map((charge, index) => (
+                        <tr key={index}>
+                          <td style={{ fontWeight: 500 }}>
+                            {charge.ValueType === 1
+                              ? `${charge.Value}% of Fare`
+                              : isNaN(Number(charge.Value))
+                                ? charge.Value
+                                : `₹${Number(charge.Value).toLocaleString()}`}
+                          </td>
+
+                          <td>
+                            If cancelled between
+
+                            <strong> {charge.DurationFrom} </strong>
+
+                            {charge.DurationTypeFrom === 0
+                              ? "hours"
+                              : "days"}
+
+                            {" "}to{" "}
+
+                            <strong>{charge.DurationTo}</strong>
+
+                            {" "}
+
+                            {charge.DurationTypeTo === 0
+                              ? "hours"
+                              : "days"}
+
+                            {" "}before departure
+
+                          </td>
+
+                        </tr>
+
+                      ))}
+
+                    </tbody>
+
+                  </table>
+
+                )}
+
+                {/* Reschedule */}
+
+                {activeTab === "reschedule" && (
+                  <table className="table table-bordered mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th width="30%">Charge</th>
+                        <th>Applicable Time</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {fareDetail?.RescheduleCharges?.map((charge, index) => (
+                        <tr key={index}>
+                          <td style={{ fontWeight: 500 }}>
+                            {charge.ValueType === 1
+                              ? `${charge.Value}% of Fare`
+                              : isNaN(Number(charge.Value))
+                                ? charge.Value
+                                : `₹${Number(charge.Value).toLocaleString()}`}
+                          </td>
+
+                          <td>
+                            If rescheduled between
+
+                            <strong> {charge.DurationFrom} </strong>
+
+                            {charge.DurationTypeFrom === 0
+                              ? "hours"
+                              : "days"}
+
+                            {" "}to{" "}
+
+                            <strong>{charge.DurationTo}</strong>
+
+                            {" "}
+
+                            {charge.DurationTypeTo === 0
+                              ? "hours"
+                              : "days"}
+
+                            {" "}before departure
+
+                          </td>
+
+                        </tr>
+
+                      ))}
+
+                    </tbody>
+
+                  </table>
+
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
+      {/* add baggage modal end */}
 
       {/* all coupon modal start */}
 
