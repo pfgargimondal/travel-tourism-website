@@ -13,7 +13,7 @@ export const FlightDetails = () => {
   const [ssrData, setSsrData] = useState(null);
   // eslint-disable-next-line
   const [selectedBaggage, setSelectedBaggage] = useState(null);
-
+  const [quantity, setQuantity] = useState(1);
   // eslint-disable-next-line
   const [selectedMeal, setSelectedMeal] = useState(null);
   // eslint-disable-next-line
@@ -155,9 +155,16 @@ export const FlightDetails = () => {
   const totalDuration = `${hours}h ${minutes}m`;
 
   const handleSelectBaggage = (bag) => {
-    setSelectedBaggage(bag);
     console.log("Selected Baggage:", bag);
+    setSelectedBaggage(bag);
+    setQuantity(1);
   };
+  const handleRemoveBaggage = () => {
+    setSelectedBaggage(null);
+    setQuantity(1);
+  };
+
+
 
 
   if (loading) return <Loader />;
@@ -1469,18 +1476,42 @@ export const FlightDetails = () => {
                           </div>
 
                           <div className="d-flex align-items-center">
-
-                            <h5 className="me-4 mb-0">
+                            <h5 className="me-3 mb-0">
                               ₹{Number(bag.Total_Amount).toLocaleString()}
                             </h5>
 
-                            <button
-                              className="btn btn-outline-primary"
-                              onClick={() => handleSelectBaggage(bag)}
-                            >
-                              Add
-                            </button>
+                            {selectedBaggage?.SSR_Key === bag.SSR_Key ? (
+                              <div
+                                className="d-flex align-items-center border rounded"
+                                style={{ width: "130px", height: "40px" }}
+                              >
+                                <button
+                                  className="btn btn-sm flex-fill"
+                                  onClick={handleRemoveBaggage}
+                                >
+                                  -
+                                </button>
 
+                                <span className="flex-fill text-center">
+                                  {quantity}
+                                </span>
+
+                                <button
+                                  className="btn btn-sm flex-fill"
+                                  disabled
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                className="btn btn-outline-secondary"
+                                onClick={() => handleSelectBaggage(bag)}
+                                style={{ minWidth: "130px" }}
+                              >
+                                Add +
+                              </button>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -1492,6 +1523,37 @@ export const FlightDetails = () => {
                     </div>
                   )}
               </div>
+
+              {selectedBaggage && (
+                <div
+                  className="border-top bg-light p-3 d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <div>
+                      1 of 1 Baggage(s) Selected
+                    </div>
+                  </div>
+
+                  <div className="text-end">
+                    <small className="text-muted">
+                      Added to fare
+                    </small>
+
+                    <h3 className="mb-0">
+                      ₹{Number(selectedBaggage.Total_Amount).toLocaleString()}
+                    </h3>
+                  </div>
+
+                  <button
+                    className="btn btn-primary px-4"
+                    onClick={() => {
+                      console.log("Selected Baggage", selectedBaggage);
+                    }}
+                  >
+                    DONE
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
