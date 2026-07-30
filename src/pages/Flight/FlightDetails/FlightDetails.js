@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import "./FlightDetails.css";
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
+import { FlightSeats } from "./Components/FlightSeats";
 
 export const FlightDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -12,8 +13,9 @@ export const FlightDetails = () => {
   const [flightRePrice, setflightRePrice] = useState(null);
   const [ssrData, setSsrData] = useState(null);
   // eslint-disable-next-line
-  const [selectedBaggage, setSelectedBaggage] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  // const [selectedBaggage, setSelectedBaggage] = useState(null);
+  // const [quantity, setQuantity] = useState(1);
+  const [selectedSSR, setSelectedSSR] = useState({});
   // eslint-disable-next-line
   const [selectedMeal, setSelectedMeal] = useState(null);
   // eslint-disable-next-line
@@ -29,7 +31,6 @@ export const FlightDetails = () => {
   const [activeTab, setActiveTab] = useState("cancel");
 
   const [addBaggageModal, setAddBaggageModal] = useState(false);
-
 
   useEffect(() => {
     // console.log("useEffect triggered", {
@@ -74,7 +75,6 @@ export const FlightDetails = () => {
       console.log("Missing values");
     }
   }, [fareId, search_key, flight?.Flight_Key]);
-
 
   const parseDate = (dateStr) => {
     if (!dateStr) return null;
@@ -154,18 +154,27 @@ export const FlightDetails = () => {
 
   const totalDuration = `${hours}h ${minutes}m`;
 
-  const handleSelectBaggage = (bag) => {
-    console.log("Selected Baggage:", bag);
-    setSelectedBaggage(bag);
-    setQuantity(1);
+  const excludedTypes = ["SEAT", "COMPLIMENTORY_MEALS", "MEALS"];
+
+  const baggageList =
+    ssrData?.[0]?.SSRDetails?.filter(
+      (item) => !excludedTypes.includes(item.SSR_TypeName),
+    ) || [];
+
+  const handleSelectSSR = (item) => {
+    setSelectedSSR((prev) => ({
+      ...prev,
+      [item.SSR_TypeName]: item,
+    }));
   };
-  const handleRemoveBaggage = () => {
-    setSelectedBaggage(null);
-    setQuantity(1);
+
+  const handleRemoveSSR = (type) => {
+    setSelectedSSR((prev) => {
+      const updated = { ...prev };
+      delete updated[type];
+      return updated;
+    });
   };
-
-
-
 
   if (loading) return <Loader />;
 
@@ -207,7 +216,11 @@ export const FlightDetails = () => {
                           <h5 className="fw-bold mb-1 d-flex align-items-center gap-2">
                             {segment?.Origin_City.replace(/\s*\(.*?\)/g, "")}
 
-                            <img src="/images/planesmallicon.png" width={25} alt=""/>
+                            <img
+                              src="/images/planesmallicon.png"
+                              width={25}
+                              alt=""
+                            />
 
                             {segment?.Destination_City.replace(
                               /\s*\(.*?\)/g,
@@ -219,7 +232,15 @@ export const FlightDetails = () => {
                             <span>{formattedDate} ·</span>
 
                             <span>
-                              <span style={{ color: "var(--blue-primary-color)" }}> {stops === 0 ? "Non Stop" : `${stops} Stop`} · </span>
+                              <span
+                                style={{ color: "var(--blue-primary-color)" }}
+                              >
+                                {" "}
+                                {stops === 0
+                                  ? "Non Stop"
+                                  : `${stops} Stop`}{" "}
+                                ·{" "}
+                              </span>
                               {totalDuration}
                             </span>
                           </p>
@@ -229,7 +250,8 @@ export const FlightDetails = () => {
                       <div className="diwehidmsad d-flex flex-column text-end gap-1">
                         {fareDetail?.CancellationCharges?.length > 0 && (
                           <span className="badge bg-warning text-dark">
-                            <i className="bi bi-lightning-charge-fill"></i> Cancellation Charges Apply
+                            <i className="bi bi-lightning-charge-fill"></i>{" "}
+                            Cancellation Charges Apply
                           </span>
                         )}
 
@@ -238,7 +260,8 @@ export const FlightDetails = () => {
                           className="btn btn-link p-0"
                           onClick={() => setFareRuleModal(true)}
                         >
-                          View Fare Rules <i className="fa-solid ms-1 fa-angle-right"></i>
+                          View Fare Rules{" "}
+                          <i className="fa-solid ms-1 fa-angle-right"></i>
                         </button>
                       </div>
                     </div>
@@ -290,7 +313,12 @@ export const FlightDetails = () => {
                                         {segment.Airline_Name}
                                       </h6>
 
-                                      <small style={{ color: "var(--light-highlighted-text-color)" }}>
+                                      <small
+                                        style={{
+                                          color:
+                                            "var(--light-highlighted-text-color)",
+                                        }}
+                                      >
                                         {segment.Airline_Code}{" "}
                                         {segment.Flight_Number}
                                       </small>
@@ -311,16 +339,21 @@ export const FlightDetails = () => {
                                         <small
                                           style={{
                                             fontWeight: 500,
-                                            color: "var(--light-highlighted-text-color)"
+                                            color:
+                                              "var(--light-highlighted-text-color)",
                                           }}
                                         >
-                                          Terminal {segment.Origin_Terminal || "-"}
+                                          Terminal{" "}
+                                          {segment.Origin_Terminal || "-"}
                                         </small>
                                       </span>
                                     </div>
 
                                     <div className="duration-wrapper flex-fill text-center">
-                                      <small className="dyusbnbsdhfc ufsidnfijsdfsdf"><i className="bi bi-clock"></i> {totalDuration}</small>
+                                      <small className="dyusbnbsdhfc ufsidnfijsdfsdf">
+                                        <i className="bi bi-clock"></i>{" "}
+                                        {totalDuration}
+                                      </small>
 
                                       <div className="dinsjihfnsidhfsdf d-flex align-items-center justify-content-center position-relative my-3">
                                         <span className="flgt-drtn-circle d-block"></span>
@@ -338,7 +371,9 @@ export const FlightDetails = () => {
                                         </div>
                                       </div>
 
-                                      <small className="dyusbnbsdhfc px-3 stop-info">{segment.Aircraft_Type}</small>
+                                      <small className="dyusbnbsdhfc px-3 stop-info">
+                                        {segment.Aircraft_Type}
+                                      </small>
                                     </div>
 
                                     <div className="text-end pt-1">
@@ -346,13 +381,16 @@ export const FlightDetails = () => {
 
                                       <span className="udnehnewr">
                                         <p className="fw-semibold mb-0 d-flex flex-column gap-1">
-                                          <span>{segment.Destination_City}</span>
+                                          <span>
+                                            {segment.Destination_City}
+                                          </span>
                                         </p>
 
                                         <small
                                           style={{
                                             fontWeight: 500,
-                                            color: "var(--light-highlighted-text-color)"
+                                            color:
+                                              "var(--light-highlighted-text-color)",
                                           }}
                                         >
                                           Terminal{" "}
@@ -404,20 +442,43 @@ export const FlightDetails = () => {
                       })}
                     </div>
                     {/* NOTICE */}
-                    <div className="notice p-3">
-                      <div className="jianjdlkmjosdjif d-flex gap-3 align-items-center">
-                        <span className="rounded-pill text-center">
-                          <i className="bi bi-backpack3-fill"></i>
-                        </span>
+                    {baggageList.length > 0 ? (
+                      <div className="notice p-3">
+                        <div className="jianjdlkmjosdjif d-flex gap-3 align-items-center">
+                          <span className="rounded-pill text-center">
+                            <i className="bi bi-backpack3-fill"></i>
+                          </span>
 
-                        <span>
-                          <b>Got excess baggage?</b> <br /> Don't stress, buy extra check-in
-                          baggage allowance
-                        </span>
+                          <span>
+                            <b>Got excess baggage?</b> <br /> Don't stress, buy
+                            extra check-in baggage allowance
+                          </span>
+                        </div>
+
+                        <button
+                          className="add-baggage-flight btn-tour px-3"
+                          onClick={() => setAddBaggageModal((prev) => !prev)}
+                        >
+                          ADD BAGGAGE{" "}
+                          <i className="fa-solid ms-1 fa-angle-right"></i>
+                        </button>
                       </div>
+                    ) : (
+                      <div className="notice p-3">
+                        <div className="jianjdlkmjosdjif d-flex gap-3 align-items-center">
+                          <span className="rounded-pill text-center">
+                            <i className="bi bi-backpack3-fill"></i>
+                          </span>
 
-                      <button className="add-baggage-flight btn-tour px-3" onClick={() => setAddBaggageModal(prev => !prev)}>ADD BAGGAGE <i className="fa-solid ms-1 fa-angle-right"></i></button>
-                    </div>
+                          <span>
+                            Sorry, extra check-in baggage allowance details are
+                            currently not available from the airline for{" "}
+                            {repriceFlight?.Origin} -{" "}
+                            {repriceFlight?.Destination}.
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* POLICY */}
                     {/* <div className="policy-box">
@@ -476,7 +537,9 @@ export const FlightDetails = () => {
                             <h6 className="mb-0">Free Date Change</h6>
                           </div>
 
-                          <div className="fsdf rounded-pill px-2 py-1">Free Date Change Included</div>
+                          <div className="fsdf rounded-pill px-2 py-1">
+                            Free Date Change Included
+                          </div>
                         </div>
 
                         <div className="dfsdfsdf">
@@ -486,17 +549,18 @@ export const FlightDetails = () => {
                             </span>{" "}
                             on date change charges up to 3 hours before
                             departure. You just pay the fare difference!{" "}
-                            <span style={{ color: "var(--blue-primary-color)" }}>View T&C</span>
+                            <span
+                              style={{ color: "var(--blue-primary-color)" }}
+                            >
+                              View T&C
+                            </span>
                           </p>
                         </div>
                       </div>
 
                       <div className="col-lg-2">
                         <div className="fsdfsdfsd fghdzgsd text-center">
-                          <img
-                            src="/images/hfggdf.png"
-                            alt=""
-                          />
+                          <img src="/images/hfggdf.png" alt="" />
 
                           <div className="dfgbdfgdf">
                             <h4 className="mb-0">₹ 391</h4>
@@ -511,8 +575,9 @@ export const FlightDetails = () => {
                 <div className="fgdfgdfg">
                   <div className="sdfgsdf">
                     <h5 className="mb-3">
-                      <span className="me-3 text-center"><i class="fa-solid fa-info"></i></span>
-
+                      <span className="me-3 text-center">
+                        <i class="fa-solid fa-info"></i>
+                      </span>
                       Important Information
                     </h5>
                   </div>
@@ -544,12 +609,17 @@ export const FlightDetails = () => {
 
                 {/* Hotel Offers */}
                 <div className="dfgudfg588r position-relative">
-                  <img src="/images/plane.png" className="iejnuiwr position-absolute" alt="" />
+                  <img
+                    src="/images/plane.png"
+                    className="iejnuiwr position-absolute"
+                    alt=""
+                  />
 
                   <div className="sdfgsdf">
                     <h5 className="mb-3">
-                      <span className="kfjsoijfosd me-3 text-center"><i className="bi bi-gift"></i></span>
-
+                      <span className="kfjsoijfosd me-3 text-center">
+                        <i className="bi bi-gift"></i>
+                      </span>
                       Book a Flight & unlock these offers
                     </h5>
                   </div>
@@ -561,9 +631,11 @@ export const FlightDetails = () => {
                           <div className="fdfg">
                             <h6 className="mb-2">
                               <span>
-                                <span className="isdnfsdfsd text-center position-relative"><i className="bi position-relative bi-percent"></i></span> Exclusive rates
+                                <span className="isdnfsdfsd text-center position-relative">
+                                  <i className="bi position-relative bi-percent"></i>
+                                </span>{" "}
+                                Exclusive rates
                               </span>{" "}
-
                               on Select Properties in Navi Mumbai
                             </h6>
                           </div>
@@ -574,15 +646,15 @@ export const FlightDetails = () => {
                                 <div className="col-lg-4" key={idx}>
                                   <div className="dfbgsdf28">
                                     <div className="fsdfsd55f">
-                                      <img
-                                        src="/images/smallimg2.png"
-                                        alt=""
-                                      />
+                                      <img src="/images/smallimg2.png" alt="" />
                                     </div>
 
                                     <div className="dfgsdf89 py-1">
                                       <div className="dfdf">
-                                        <p className="mb-0"><i className="bi bi-geo-alt"></i> Aurika, Mumbai</p>
+                                        <p className="mb-0">
+                                          <i className="bi bi-geo-alt"></i>{" "}
+                                          Aurika, Mumbai
+                                        </p>
                                       </div>
 
                                       <div className="fndf78 mb-2">
@@ -596,11 +668,19 @@ export const FlightDetails = () => {
 
                                       <div className="sfsdf4 mb-1">
                                         <h6 className="me-3">₹ 6,973</h6>
-                                        
+
                                         <h6>₹ 10,384</h6>
                                       </div>
 
-                                      <div style={{ fontSize: "0.8rem", lineHeight: 1.9 }} className="stop-info d-inline-block px-2 rounded-pill py-0">You save ₹ 3411</div>
+                                      <div
+                                        style={{
+                                          fontSize: "0.8rem",
+                                          lineHeight: 1.9,
+                                        }}
+                                        className="stop-info d-inline-block px-2 rounded-pill py-0"
+                                      >
+                                        You save ₹ 3411
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -612,14 +692,24 @@ export const FlightDetails = () => {
 
                       <div className="col-lg-3">
                         <div className="dfsdfsdf5 h-100 position-relative text-center">
-                          <img src="/images/affgse.png" className="img-fluid position-absolute bottom-0 end-0 start-0" alt="" />
+                          <img
+                            src="/images/affgse.png"
+                            className="img-fluid position-absolute bottom-0 end-0 start-0"
+                            alt=""
+                          />
 
-                          <h6>
-                            <span>
-                              <i className="fa-solid fa-check"></i> Extra 12%
-                              off
-                            </span>{" "}
-                            using code BOOKSTAYS
+                          <h6 className="mb-0">
+                            <span className="position-relative mb-2">
+                              <i className="bi position-absolute top-50 start-50 translate-middle bi-tags-fill"></i>
+                            </span>
+
+                            <span className="duihskfsdf">Extra</span>
+
+                            <span>12% off</span>
+
+                            <span className="duihskfsdf">using code</span>
+
+                            <span>BOOKSTAYS</span>
                           </h6>
                         </div>
                       </div>
@@ -632,21 +722,27 @@ export const FlightDetails = () => {
                   <div className="trip-card">
                     {/* Header */}
                     <div className="dgdfgdfgdf">
-                      <div className="dfsdfds555f">
-                        <i className="fa-solid fa-shield-halved text-primary"></i>
-                        <div className="trip-header">Trip Secure</div>
-                      </div>
-                      <div className="dfgbdfhgdfg">
-                        <img src="images/insocom.jpg" alt="" />
-                      </div>
-                    </div>
+                      <div className="dfsdfds555f mb-3">
+                        <span className="d-block position-relative me-3">
+                          <i className="fa-solid position-absolute top-50 start-50 translate-middle fa-shield-halved"></i>
+                        </span>
 
-                    {/* Price */}
-                    <div className="mb-3">
-                      <span className="price">₹ 299</span>
-                      <span className="small-text">
-                        /Traveller (18% GST included)
-                      </span>
+                        <div className="doijhsdksdf">
+                          <h5 className="mb-1">Trip Secure</h5>
+
+                          {/* Price */}
+                          <div className="isfjsofoksdf">
+                            <span className="price">₹ 299</span>{" "}
+                            <span className="small-text">
+                              / Traveller (18% GST included)
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="dfgbdfhgdfg">
+                        <img src="/images/asdc.png" alt="" />
+                      </div>
                     </div>
 
                     {/* Features */}
@@ -656,89 +752,125 @@ export const FlightDetails = () => {
                           <div className="dfgd5465">
                             <div className="row">
                               <div className="col-lg-4">
-                                <div className="dfsdf5855">
-                                  <div className="row">
-                                    <div className="col-lg-3">
-                                      <div className="ssd8984e">
-                                        <img
-                                          src="./images/24-hours.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-9">
-                                      <div className="fds88ee">
-                                        <h6>
-                                          <span>24x7 </span> Support
-                                        </h6>
-                                        <p>Delayed/lost baggage Assistance</p>
-                                      </div>
-                                    </div>
+                                <label
+                                  htmlFor="247s"
+                                  className="dfsdf5855 position-relative text-center p-3 mb-0"
+                                >
+                                  <span className="idneisdf stop-info d-block position-absolute">
+                                    Most Popular
+                                  </span>
+
+                                  <input
+                                    id="247s"
+                                    className="d-none position-absolute"
+                                    type="checkbox"
+                                  />
+
+                                  <h6 className="mb-0">
+                                    <span>24x7</span> Support
+                                  </h6>
+
+                                  <div className="ssd8984e p-2">
+                                    <img src="/images/24-hours.png" alt="" />
                                   </div>
-                                </div>
+
+                                  <p className="mb-0">
+                                    Delayed/lost baggage Assistance
+                                  </p>
+                                </label>
                               </div>
 
                               <div className="col-lg-4">
-                                <div className="dfsdf5855">
-                                  <div className="row">
-                                    <div className="col-lg-3">
-                                      <div className="ssd8984e">
-                                        <img src="./images/worker.png" alt="" />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-9">
-                                      <div className="fds88ee">
-                                        <h6>
-                                          Flat <span> ₹ 50,000</span>
-                                        </h6>
-                                        <p>Delayed/lost baggage Assistance</p>
-                                      </div>
-                                    </div>
+                                <label
+                                  htmlFor="flt1"
+                                  className="dfsdf5855 text-center p-3 mb-0"
+                                >
+                                  <input
+                                    id="flt1"
+                                    className="d-none position-absolute"
+                                    type="checkbox"
+                                  />
+
+                                  <h6 className="mb-0">
+                                    Flat <span> ₹ 50,000</span>
+                                  </h6>
+
+                                  <div className="ssd8984e p-2">
+                                    <img src="/images/worker.png" alt="" />
                                   </div>
-                                </div>
+
+                                  <p className="mb-0">
+                                    Delayed/lost baggage Assistance
+                                  </p>
+                                </label>
                               </div>
 
                               <div className="col-lg-4">
-                                <div className="dfsdf5855">
-                                  <div className="row">
-                                    <div className="col-lg-3">
-                                      <div className="ssd8984e">
-                                        <img
-                                          src="./images/luggage.png"
-                                          alt=""
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-9">
-                                      <div className="fds88ee">
-                                        <h6>
-                                          Flat <span> ₹ 2,000</span>
-                                        </h6>
-                                        <p>Delayed/lost baggage Assistance</p>
-                                      </div>
-                                    </div>
+                                <label
+                                  htmlFor="flt2"
+                                  className="dfsdf5855 text-center p-3 mb-0"
+                                >
+                                  <input
+                                    id="flt2"
+                                    className="d-none position-absolute"
+                                    type="checkbox"
+                                  />
+
+                                  <h6 className="mb-0">
+                                    Flat <span> ₹ 2,000</span>
+                                  </h6>
+
+                                  <div className="ssd8984e p-2">
+                                    <img src="/images/luggage.png" alt="" />
                                   </div>
-                                </div>
+
+                                  <p className="mb-0">
+                                    Delayed/lost baggage Assistance
+                                  </p>
+                                </label>
                               </div>
                             </div>
                           </div>
                         </div>
+
                         <div className="col-lg-2">
-                          <div className="sdnsdjsd">
-                            View All Benefits{" "}
-                            <i className="fa-solid fa-right-long"></i>
+                          <div className="sdnsdjsd h-100 text-center">
+                            <span className="kfjsoijfosd position-relative d-block text-center mb-3">
+                              <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+                            </span>
+
+                            <p className="mb-0">
+                              View All Benefits{" "}
+                              <i className="fa-solid fa-right-long"></i>
+                            </p>
                           </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Recommendation */}
-                    <div className="recommend mt-3">
-                      Recommended for your travel within India
+                    <div className="recommend d-flex align-items-center justify-content-between mt-3 p-0">
+                      <div className="duiewhruiwerwer d-flex align-items-center gap-3 p-3">
+                        <span className="d-inline-block position-relative">
+                          <i className="bi position-absolute top-50 start-50 translate-middle bi-shield-check"></i>
+                        </span>
+
+                        <div className="dikwenfiswf">
+                          <h6 className="mb-1">
+                            Recommended for your travel within India
+                          </h6>
+
+                          <p className="mb-0">
+                            Travel worthy-free with Trip Secure.
+                          </p>
+                        </div>
+                      </div>
+
+                      <img src="/images/dasa.png" className="h-100" alt="" />
                     </div>
 
                     {/* Radio Buttons */}
-                    <div className="mt-3">
+                    <div className="uidnweuyd mt-4 mb-3">
                       <div className="form-check">
                         <input
                           className="form-check-input"
@@ -765,13 +897,13 @@ export const FlightDetails = () => {
                     </div>
 
                     {/* Reviews */}
-                    <div className="mt-4">
-                      <small className="text-muted">
-                        Preferred by millions of travellers
-                      </small>
+                    {/* <div className="duicssd mt-4">
+                      <p className="mb-0">
+                        <i className="fa-solid me-1 fa-heart"></i> Preferred by millions of travellers
+                      </p>
 
-                      <div className="row mt-2 g-3">
-                        <div className="col-md-6">
+                      <div className="row mt-3 g-3">
+                        <div className="col-md-6 mt-0">
                           <div className="review-box">
                             "Your willingness to go above and beyond made a big
                             difference."
@@ -780,7 +912,7 @@ export const FlightDetails = () => {
                           </div>
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-md-6 mt-0">
                           <div className="review-box">
                             "Claim settlement was incredibly fast. Smooth
                             experience."
@@ -789,13 +921,14 @@ export const FlightDetails = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Footer */}
-                    <div className="mt-3 small-text">
-                      Trip Secure is non-refundable. By selecting it, you
-                      confirm all travelers are Indian nationals.
-                    </div>
+                    <p className="mb-0 small-text d-flex align-items-center">
+                      <i className="bi me-2 bi-shield-exclamation"></i> Trip
+                      Secure is non-refundable. By selecting it, you confirm all
+                      travelers are Indian nationals.
+                    </p>
                   </div>
                 </div>
 
@@ -1003,6 +1136,10 @@ export const FlightDetails = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="dhdsfsd788 mt-4">
+                  <FlightSeats />
+                </div>
               </div>
             </div>
 
@@ -1016,11 +1153,11 @@ export const FlightDetails = () => {
                       <i className="bi me-1 bi-wallet"></i> Fare Summary
                     </h6>
 
-                    <div className="diewnjrjwer px-3">
+                    <div className="diewnjrjwer">
                       <table className="table mb-0">
                         <tr>
-                          <td>
-                            <b>1 Room X 1 Night</b>
+                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
+                            1 Room X 1 Night
                           </td>
 
                           <td>₹ 7,299</td>
@@ -1028,36 +1165,33 @@ export const FlightDetails = () => {
 
                         <tr className="diewrwerwer">
                           <td>
-                            <b>Total Discount</b>{" "}
-                            <i className="fa-solid fa-info"></i>
+                            Total Discount <i className="fa-solid fa-info"></i>
                           </td>
 
-                          <td>-₹ 4,041</td>
+                          <td style={{ fontSize: "0.8rem" }}>-₹ 4,041</td>
                         </tr>
 
                         <tr>
-                          <td>
-                            <b>Price After Discount</b>
+                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
+                            Price After Discount
                           </td>
 
-                          <td>₹ 3,258</td>
+                          <td style={{ fontSize: "0.8rem" }}>₹ 3,258</td>
                         </tr>
 
                         <tr>
-                          <td>
-                            <b>Taxes & Fees</b>
+                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
+                            Taxes & Fees
                           </td>
 
-                          <td>₹ 204</td>
+                          <td style={{ fontSize: "0.8rem" }}>₹ 204</td>
                         </tr>
 
                         <tr className="ojdeopekwrer">
-                          <td>
-                            <b>Grand Total</b>
-                          </td>
+                          <td>Grand Total</td>
 
-                          <td>
-                            <b>₹ 3,462</b>
+                          <td style={{ color: "var(--main-red-color)" }}>
+                            ₹ 3,462
                           </td>
                         </tr>
                       </table>
@@ -1258,7 +1392,7 @@ export const FlightDetails = () => {
           className="modal fade show d-block"
           style={{
             background: "rgba(0,0,0,.6)",
-            zIndex: 99999
+            zIndex: 99999,
           }}
         >
           <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -1270,39 +1404,33 @@ export const FlightDetails = () => {
                   className="btn-close"
                   onClick={() => setFareRuleModal(false)}
                 />
-
               </div>
 
               <div className="modal-body">
-
                 {/* Tabs */}
 
                 <ul className="nav nav-tabs mb-4">
-
                   <li className="nav-item">
-
                     <button
-                      className={`nav-link ${activeTab === "cancel" ? "active" : ""
-                        }`}
+                      className={`nav-link ${
+                        activeTab === "cancel" ? "active" : ""
+                      }`}
                       onClick={() => setActiveTab("cancel")}
                     >
                       Cancellation Charges
                     </button>
-
                   </li>
 
                   <li className="nav-item">
-
                     <button
-                      className={`nav-link ${activeTab === "reschedule" ? "active" : ""
-                        }`}
+                      className={`nav-link ${
+                        activeTab === "reschedule" ? "active" : ""
+                      }`}
                       onClick={() => setActiveTab("reschedule")}
                     >
                       Date Change Charges
                     </button>
-
                   </li>
-
                 </ul>
 
                 {/* Cancellation */}
@@ -1330,35 +1458,18 @@ export const FlightDetails = () => {
 
                           <td>
                             If cancelled between
-
                             <strong> {charge.DurationFrom} </strong>
-
                             {charge.DurationTypeFrom === 0
                               ? "hours"
-                              : "days"}
-
-                            {" "}to{" "}
-
-                            <strong>{charge.DurationTo}</strong>
-
-                            {" "}
-
-                            {charge.DurationTypeTo === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}before departure
-
+                              : "days"}{" "}
+                            to <strong>{charge.DurationTo}</strong>{" "}
+                            {charge.DurationTypeTo === 0 ? "hours" : "days"}{" "}
+                            before departure
                           </td>
-
                         </tr>
-
                       ))}
-
                     </tbody>
-
                   </table>
-
                 )}
 
                 {/* Reschedule */}
@@ -1385,46 +1496,24 @@ export const FlightDetails = () => {
 
                           <td>
                             If rescheduled between
-
                             <strong> {charge.DurationFrom} </strong>
-
                             {charge.DurationTypeFrom === 0
                               ? "hours"
-                              : "days"}
-
-                            {" "}to{" "}
-
-                            <strong>{charge.DurationTo}</strong>
-
-                            {" "}
-
-                            {charge.DurationTypeTo === 0
-                              ? "hours"
-                              : "days"}
-
-                            {" "}before departure
-
+                              : "days"}{" "}
+                            to <strong>{charge.DurationTo}</strong>{" "}
+                            {charge.DurationTypeTo === 0 ? "hours" : "days"}{" "}
+                            before departure
                           </td>
-
                         </tr>
-
                       ))}
-
                     </tbody>
-
                   </table>
-
                 )}
-
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
-
 
       {/* add baggage modal start */}
 
@@ -1433,7 +1522,7 @@ export const FlightDetails = () => {
           className="modal fade show d-block"
           style={{
             background: "rgba(0,0,0,.6)",
-            zIndex: 99999
+            zIndex: 99999,
           }}
         >
           <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -1445,109 +1534,99 @@ export const FlightDetails = () => {
                   className="btn-close"
                   onClick={() => setAddBaggageModal(false)}
                 />
-
               </div>
 
               <div className="modal-body">
-                  {ssrData[0]?.SSRDetails.length > 0 ? (
-                    <div className="list-group">
-                      {ssrData[0]?.SSRDetails.map((bag, index) => (
-                        <div
-                          key={index}
-                          className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
-                        >
-                          <div className="d-flex align-items-center">
-                            <i
-                              className="fa fa-suitcase me-3"
-                              style={{ fontSize: "28px", color: "#666" }}
-                            ></i>
+                {baggageList.length > 0 ? (
+                  <div className="list-group">
+                    {baggageList.map((bag, index) => (
+                      <div
+                        key={index}
+                        className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
+                      >
+                        <div className="d-flex align-items-center">
+                          <i
+                            className="fa fa-suitcase me-3"
+                            style={{ fontSize: "28px", color: "#666" }}
+                          ></i>
 
-                            <div>
-                              <h6 className="mb-1">
-                                {bag.SSR_TypeDesc
-                                  ?.replace("Prepaid Excess Baggage", "Additional Baggage")
-                                  .replace(/(\d+)\s*kg/i, "$1 KG")}
-                              </h6>
+                          <div>
+                            <h6 className="mb-1">
+                              {bag.SSR_TypeDesc?.replace(
+                                "Prepaid Excess Baggage",
+                                "Additional Baggage",
+                              ).replace(/(\d+)\s*kg/i, "$1 KG")}
+                            </h6>
 
-                              <small className="text-muted">
-                                {bag.Currency_Code}
-                              </small>
-                            </div>
-                          </div>
-
-                          <div className="d-flex align-items-center">
-                            <h5 className="me-3 mb-0">
-                              ₹{Number(bag.Total_Amount).toLocaleString()}
-                            </h5>
-
-                            {selectedBaggage?.SSR_Key === bag.SSR_Key ? (
-                              <div
-                                className="d-flex align-items-center border rounded"
-                                style={{ width: "130px", height: "40px" }}
-                              >
-                                <button
-                                  className="btn btn-sm flex-fill"
-                                  onClick={handleRemoveBaggage}
-                                >
-                                  -
-                                </button>
-
-                                <span className="flex-fill text-center">
-                                  {quantity}
-                                </span>
-
-                                <button
-                                  className="btn btn-sm flex-fill"
-                                  disabled
-                                >
-                                  +
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                className="btn btn-outline-secondary"
-                                onClick={() => handleSelectBaggage(bag)}
-                                style={{ minWidth: "130px" }}
-                              >
-                                Add +
-                              </button>
-                            )}
+                            <small className="text-muted">
+                              {bag.Currency_Code}
+                            </small>
                           </div>
                         </div>
-                      ))}
 
-                    </div>
-                  ) : (
-                    <div className="text-center py-4">
-                      No baggage available.
-                    </div>
-                  )}
+                        <div className="d-flex align-items-center">
+                          <h5 className="me-3 mb-0">
+                            ₹{Number(bag.Total_Amount).toLocaleString()}
+                          </h5>
+                          {selectedSSR[bag.SSR_TypeName]?.SSR_Key ===
+                          bag.SSR_Key ? (
+                            <div
+                              className="d-flex align-items-center border rounded"
+                              style={{ width: "130px", height: "40px" }}
+                            >
+                              <button
+                                className="btn btn-sm flex-fill"
+                                onClick={() =>
+                                  handleRemoveSSR(bag.SSR_TypeName)
+                                }
+                              >
+                                -
+                              </button>
+                              <span className="flex-fill text-center">1</span>
+                              <button className="btn btn-sm flex-fill" disabled>
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              className="btn btn-outline-secondary"
+                              style={{ minWidth: "130px" }}
+                              onClick={() => handleSelectSSR(bag)}
+                            >
+                              Add +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-4">No baggage available.</div>
+                )}
               </div>
 
-              {selectedBaggage && (
-                <div
-                  className="border-top bg-light p-3 d-flex justify-content-between align-items-center"
-                >
-                  <div>
-                    <div>
-                      1 of 1 Baggage(s) Selected
-                    </div>
-                  </div>
+              {Object.keys(selectedSSR).length > 0 && (
+                <div className="border-top bg-light p-3 d-flex justify-content-between align-items-center">
+                  <div>{Object.keys(selectedSSR).length} SSR(s) Selected</div>
 
                   <div className="text-end">
-                    <small className="text-muted">
-                      Added to fare
-                    </small>
+                    <small className="text-muted">Added to fare</small>
 
                     <h3 className="mb-0">
-                      ₹{Number(selectedBaggage.Total_Amount).toLocaleString()}
+                      ₹
+                      {Object.values(selectedSSR)
+                        .reduce(
+                          (sum, item) => sum + Number(item.Total_Amount),
+                          0,
+                        )
+                        .toLocaleString()}
                     </h3>
                   </div>
 
                   <button
                     className="btn btn-primary px-4"
                     onClick={() => {
-                      console.log("Selected Baggage", selectedBaggage);
+                      console.log(selectedSSR);
                     }}
                   >
                     DONE
