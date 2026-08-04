@@ -50,9 +50,38 @@
   color: #666;
 }
 
+.ucbhsduodkf{
+  box-shadow: var(--light-box-shadow);
+  padding: 15px;
+  border-radius: 8px;
+}
+
 .duration {
   font-size: 13px;
   color: #333;
+}
+
+.ucbhsduodkf .nav{
+  border-bottom: 0;
+}
+
+.ucbhsduodkf .nav .nav-item button.nav-link{
+  font-weight: 600;
+  color: var(--light-black-text-color) !important;
+  border: 0;
+}
+
+.ucbhsduodkf .nav .nav-item button.nav-link.active{
+  border-bottom: 2px solid var(--blue-primary-color);
+}
+
+.ucbhsduodkf .nav .nav-item img{
+  width: 1.2rem;
+}
+
+.duisanfjsdfsf{
+  height: 80vh;
+  overflow-y: auto;
 }
 
 /* BAGGAGE */
@@ -916,4 +945,76 @@
   border: 1px dashed var(--border);
   height: 100%;
   left: 0;
+}
+
+
+
+
+
+
+
+
+
+
+/* chatgpt code */
+
+.policy-box{
+    background:#f5f6fb;
+    padding:20px;
+    border-radius:8px;
+}
+
+.timeline{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.timeline-item{
+    flex:1;
+    text-align:center;
+}
+
+.timeline-item.first{
+    text-align:left;
+    flex:0.6;
+}
+
+.timeline-item:last-child{
+    text-align:right;
+}
+
+.penalty-row strong{
+    font-size:18px;
+    color:#000;
+}
+
+.progress-wrapper{
+    position:relative;
+    margin:12px 0;
+}
+
+.progress-line{
+    height:6px;
+    border-radius:50px;
+    background:linear-gradient(
+        to right,
+        #19b34c 0%,
+        #19b34c 45%,
+        #c5b300 70%,
+        #ef5350 100%
+    );
+}
+
+.dot{
+    display:none;
+}
+
+.timeline strong{
+    font-size:16px;
+}
+
+.timeline small{
+    font-size:12px;
+    color:#555;
 }

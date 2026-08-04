@@ -217,7 +217,10 @@ export const FlightFilter = () => {
       state: {
         flight,
         search_key,
-        fareId
+        fareId,
+        adults,
+        children,
+        infants,
       },
     });
   };

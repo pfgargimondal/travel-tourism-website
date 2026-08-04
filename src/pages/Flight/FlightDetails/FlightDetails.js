@@ -26,6 +26,13 @@ export const FlightDetails = () => {
   const search_key = location.state?.search_key;
   const flight = location.state?.flight;
   const fareId = location.state?.fareId;
+    // eslint-disable-next-line
+  const adults = location.state?.adults;
+    // eslint-disable-next-line
+  const children = location.state?.children;
+    // eslint-disable-next-line
+  const infants = location.state?.infants;
+
 
   const [fareRuleModal, setFareRuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState("cancel");
@@ -128,6 +135,7 @@ export const FlightDetails = () => {
   const fareDetail = fare?.FareDetails?.[0];
 
   const segment = repriceFlight?.Segments?.[0];
+  const cancellationCharges = fareDetail?.CancellationCharges || [];
 
   const travelDate = repriceFlight?.TravelDate
     ? new Date(repriceFlight.TravelDate)
@@ -141,6 +149,47 @@ export const FlightDetails = () => {
     }) || "";
 
   const segments = repriceFlight?.Segments || [];
+
+  const formatPenalty = (item) => {
+
+      if (item.ValueType === 1) {
+          return `${item.Value}%`;
+      }
+
+      return `₹ ${Number(item.Value).toLocaleString("en-IN")}`;
+  };
+
+  const formatDate = (date) =>
+      date.toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+      });
+
+  const formatTime = (date) =>
+      date.toLocaleTimeString("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+      });
+
+  const getBoundaryDate = (item) => {
+
+      const [datePart, timePart] = segment.Departure_DateTime.split(" ");
+
+      const [month, day, year] = datePart.split("/");
+
+      const departure = new Date(`${year}-${month}-${day}T${timePart}`);
+
+      const d = new Date(departure);
+
+      if (item.DurationTypeTo === 0) {
+          d.setHours(d.getHours() - item.DurationTo);
+      } else {
+          d.setDate(d.getDate() - item.DurationTo);
+      }
+
+      return d;
+  };
 
   //   const firstSegment = segments[0];
   //   const lastSegment = segments[segments.length - 1];
@@ -481,42 +530,76 @@ export const FlightDetails = () => {
                     )}
 
                     {/* POLICY */}
-                    {/* <div className="policy-box">
-                                            <div className="d-flex justify-content-between">
-                                                <strong>Cancellation & Date Change Policy</strong>
-                                                <a href="#">View Policy</a>
-                                            </div>
+                    <div className="policy-box">
 
-                                            <div className="mt-2 mb-2">BOM-CCU</div>
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                            <strong>Cancellation & Date Change Policy</strong>
 
-                                            <div className="d-flex justify-content-between fw-semibold small text-center">
-                                                <span className="flex-fill">₹ 4,349</span>
-                                                <span className="flex-fill">₹ 5,349</span>
-                                                <span className="flex-fill">₹ 13,994</span>
-                                                <span className="flex-fill">₹ 1,994</span>
-                                            </div>
+                            <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none"
+                                onClick={() => setFareRuleModal(true)}
+                            >
+                                View Policy
+                            </button>
+                        </div>
 
-                                            <div className="progress-line"></div>
+                        <div className="mb-3 fw-semibold">
+                            {flight?.Origin}-{flight?.Destination}
+                        </div>
 
-                                            <div className="d-flex justify-content-between small text-muted text-center">
-                                                <span className="flex-fill">Now</span>
-                                                <span className="flex-fill">
-                                                    18 Mar
-                                                    <br />
-                                                    <small>20:15</small>
-                                                </span>
-                                                <span className="flex-fill">
-                                                    19 Mar
-                                                    <br />
-                                                    <small>17:15</small>
-                                                </span>
-                                                <span className="flex-fill">
-                                                    19 Mar
-                                                    <br />
-                                                    <small>20:15</small>
-                                                </span>
-                                            </div>
-                                        </div> */}
+                        {/* Penalty */}
+
+                        <div className="timeline penalty-row">
+
+                            <div className="timeline-item first"></div>
+                            {cancellationCharges.map((item, index) => (
+                                <div className="timeline-item" key={index} style={{textAlign: "left"}}>
+                                    <strong>{formatPenalty(item)}</strong>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Progress */}
+
+                        <div className="progress-wrapper">
+
+                            <div className="progress-line"></div>
+
+                            {cancellationCharges.map((_, index) => (
+                                <div className="dot" key={index}></div>
+                            ))}
+
+                        </div>
+
+                        {/* Dates */}
+
+                        <div className="timeline mt-2">
+
+                            <div className="timeline-item first">
+                                <strong>Now</strong>
+                            </div>
+
+                            {cancellationCharges.map((item, index) => {
+
+                                const dt = getBoundaryDate(item);
+
+                                return (
+                                    <div className="timeline-item" key={index}>
+
+                                        <strong>{formatDate(dt)}</strong>
+
+                                        <br />
+
+                                        <small>{formatTime(dt)}</small>
+
+                                    </div>
+                                );
+
+                            })}
+
+                        </div>
+                    </div>
                   </div>
                 </div>
 
@@ -608,7 +691,7 @@ export const FlightDetails = () => {
                 </div>
 
                 {/* Hotel Offers */}
-                <div className="dfgudfg588r position-relative">
+                {/* <div className="dfgudfg588r position-relative">
                   <img
                     src="/images/plane.png"
                     className="iejnuiwr position-absolute"
@@ -715,7 +798,7 @@ export const FlightDetails = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Trip Secure */}
                 <div className="fgdfg584d">
@@ -1137,8 +1220,62 @@ export const FlightDetails = () => {
                   </div>
                 </div>
 
-                <div className="dhdsfsd788 mt-4">
-                  <FlightSeats />
+                <div className="ucbhsduodkf mt-4">
+                  <div className="header-block">
+                    <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
+                      <li className="nav-item" role="presentation">
+                        <button
+                          className="nav-link active"
+                          id="seats-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#seats"
+                          type="button"
+                          role="tab"
+                          aria-controls="seats"
+                          aria-selected="true"
+                        >
+                          <img src="/images/seatda.png" className="me-1" alt="" /> Seats
+                        </button>
+                      </li>
+
+                      <li className="nav-item" role="presentation">
+                        <button
+                          className="nav-link"
+                          id="meals-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#meals"
+                          type="button"
+                          role="tab"
+                          aria-controls="meals"
+                          aria-selected="false"
+                        >
+                          <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="tab-content" id="myTabContent">
+                    <div
+                      className="tab-pane fade show active"
+                      id="seats"
+                      role="tabpanel"
+                      aria-labelledby="seats-tab"
+                    >
+                      <div className="duisanfjsdfsf position-relative">
+                        <FlightSeats />
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade"
+                      id="meals"
+                      role="tabpanel"
+                      aria-labelledby="meals-tab"
+                    >
+                      Profile Content
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -303,6 +303,12 @@ const [infantAges, setInfantAges] = useState([]);
       navigate(`/flight-filter?${params.toString()}`);
   };
 
+  useEffect(() => {
+    if (tripType === 0) {
+      setReturnDate(null);
+    }
+  }, [tripType]);
+
   if (loading) return <Loader />;
   if (!slide) return null;
 
@@ -373,7 +379,7 @@ const [infantAges, setInfantAges] = useState([]);
                     type="radio"
                     style={{ display: "none" }}
                     checked={tripType === 0}
-                    onChange={() => setTripType(0)}
+                    onChange={() => {setTripType(0); setReturnDate(null); }}
                   />
 
                   <label className="cbx" htmlFor="cbx-15">
@@ -394,7 +400,16 @@ const [infantAges, setInfantAges] = useState([]);
                     type="radio"
                     style={{ display: "none" }}
                     checked={tripType === 1}
-                    onChange={() => setTripType(1)}
+                    // onChange={() => setTripType(1)}
+                    onChange={() => {
+                      setTripType(1);
+
+                      if (departureDate) {
+                        const nextDay = new Date(departureDate);
+                        nextDay.setDate(nextDay.getDate() + 1);
+                        setReturnDate(nextDay);
+                      }
+                    }}
                   />
 
                   <label className="cbx" htmlFor="cbx-16">
@@ -504,9 +519,17 @@ const [infantAges, setInfantAges] = useState([]);
                         //     ? availableDates
                         //     : undefined
                         // }
+                        // onChange={(date) => {
+                        //   setDepartureDate(date);
+                        // }}
                         onChange={(date) => {
-                          // console.log(date); // Check if new date is coming
                           setDepartureDate(date);
+
+                          if (tripType === 1 && date) {
+                            const nextDay = new Date(date);
+                            nextDay.setDate(nextDay.getDate() + 1);
+                            setReturnDate(nextDay);
+                          }
                         }}
                         minDate={new Date()}
                         dateFormat="dd MMM yyyy"
@@ -521,9 +544,10 @@ const [infantAges, setInfantAges] = useState([]);
                       <DatePicker
                         selected={returnDate}
                         onChange={(date) => setReturnDate(date)}
-                        minDate={new Date()}
+                        minDate={departureDate || new Date()}
                         dateFormat="dd MMM yyyy"
                         className="form-control"
+                        disabled={tripType === 0}
                       />
                     </div>
 
