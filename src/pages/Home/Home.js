@@ -558,7 +558,7 @@ const [infantAges, setInfantAges] = useState([]);
                           onClick={() => setFlightDrpdwn(prev => !prev)}
                       >
                           {adultCount} Adult{adultCount > 1 ? "s" : ""} •{" "}
-                          {childrenCount} Child{childrenCount > 0 ? "ren" : ""}
+                          {childrenCount} Child{childrenCount > 0 ? "ren" : ""} •{" "}
                           {infantCount} Infant{infantCount > 0 ? "s" : ""}
                       </div>
                       

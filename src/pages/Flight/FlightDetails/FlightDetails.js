@@ -4,6 +4,9 @@ import "./FlightDetails.css";
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
 import { FlightSeats } from "./Components/FlightSeats";
+import { AdultFields } from "./Components/AdultFields";
+import { ChildFields } from "./Components/ChildFields";
+import { InfantsFields } from "./Components/InfantsFields";
 
 export const FlightDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -26,12 +29,14 @@ export const FlightDetails = () => {
   const search_key = location.state?.search_key;
   const flight = location.state?.flight;
   const fareId = location.state?.fareId;
-    // eslint-disable-next-line
+
   const adults = location.state?.adults;
-    // eslint-disable-next-line
   const children = location.state?.children;
-    // eslint-disable-next-line
   const infants = location.state?.infants;
+
+  const adultCount = adults || 1;
+  const childCount = children || 0;
+  const infantCount = infants || 0;
 
 
   const [fareRuleModal, setFareRuleModal] = useState(false);
@@ -136,6 +141,119 @@ export const FlightDetails = () => {
 
   const segment = repriceFlight?.Segments?.[0];
   const cancellationCharges = fareDetail?.CancellationCharges || [];
+
+  const paxRules = flightRePrice?.AirRepriceResponses?.[0]?.Required_PAX_Details || [];
+
+   // eslint-disable-next-line
+  const adultRule = paxRules.find(x => x.Pax_type === 0);
+  const childRule = paxRules.find(x => x.Pax_type === 1);
+  const infantRule = paxRules.find(x => x.Pax_type === 2);
+
+  const emptyPassenger = {
+    title: "Mr",
+    firstName: "",
+    lastName: "",
+    gender: "Male",
+    countryCode: "+91",
+    mobile: "",
+    email: "",
+    airline: "",
+    ffNumber: "",
+    showFF: false,
+  };
+
+  const [adultForms, setAdultForms] = useState([]);
+  const [childForms, setChildForms] = useState([]);
+  const [infantForms, setInfantForms] = useState([]);
+
+  const handleAddAdult = () => {
+    if (adultForms.length >= adultCount) {
+        return;
+    }
+    setAdultForms(prev => [
+        ...prev,
+        {
+            ...emptyPassenger
+        }
+    ]);
+  };
+
+  const handleRemoveAdult = (index) => {
+    setAdultForms(prev =>
+        prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleAdultChange = (index, field, value) => {
+    const data = [...adultForms];
+    data[index][field] = value;
+    setAdultForms(data);
+  };
+
+  const handleAddChild = () => {
+    if (childForms.length >= childCount) {
+        return;
+    }
+    setChildForms(prev => [
+        ...prev,
+        {
+            ...emptyPassenger
+        }
+    ]);
+  };
+  const handleRemoveChild = (index) => {
+    setChildForms(prev =>
+        prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleChildChange = (index, field, value) => {
+    const data = [...childForms];
+    data[index][field] = value;
+    setChildForms(data);
+  };
+
+  const handleAddInfant = () => {
+    if (infantForms.length >= infantCount) {
+        return;
+    }
+    setInfantForms(prev => [
+        ...prev,
+        {
+            ...emptyPassenger
+        }
+    ]);
+  };
+
+  const handleRemoveInfant = (index) => {
+    setInfantForms(prev =>
+        prev.filter((_, i) => i !== index)
+    );
+  };
+
+  const handleInfantChange = (index, field, value) => {
+    const data = [...infantForms];
+    data[index][field] = value;
+    setInfantForms(data);
+  };
+
+  const toggleFF = (type, index) => {
+    if (type === "adult") {
+        const data = [...adultForms];
+        data[index].showFF = !data[index].showFF;
+        setAdultForms(data);
+    }
+    if (type === "child") {
+        const data = [...childForms];
+        data[index].showFF = !data[index].showFF;
+        setChildForms(data);
+    }
+    if (type === "infant") {
+        const data = [...infantForms];
+        data[index].showFF = !data[index].showFF;
+        setInfantForms(data);
+    }
+  };
 
   const travelDate = repriceFlight?.TravelDate
     ? new Date(repriceFlight.TravelDate)
@@ -1098,20 +1216,22 @@ export const FlightDetails = () => {
                       <a href="/">LOGIN NOW</a>
                     </div>
 
+                    
+
                     {/* Adult Section */}
-                    <div className="d-flex justify-content-between align-items-center mb-2">
+                    {/* <div className="d-flex justify-content-between align-items-center mb-2">
                       <div className="section-title">👤 ADULT (12 yrs+)</div>
                       <small>0/1 added</small>
-                    </div>
+                    </div> */}
 
                     {/* Important */}
-                    <div className="important-box mb-3">
+                    {/* <div className="important-box mb-3">
                       <strong>Important:</strong> Enter name as mentioned on
                       your passport or Government approved IDs.
-                    </div>
+                    </div> */}
 
                     {/* Add Adult */}
-                    <div className="add-box mb-4">
+                    {/* <div className="add-box mb-4">
                       <p className="mb-2">
                         You have not added any adults to the list
                       </p>
@@ -1122,7 +1242,372 @@ export const FlightDetails = () => {
                       >
                         + ADD NEW ADULT
                       </a>
+                    </div> */}
+
+                    {/* =========================
+                          ADULT SECTION
+                    ========================= */}
+
+                    <div className="card-box">
+
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+
+                        <div className="section-title">
+                          👤 ADULT (12 yrs+)
+                        </div>
+
+                        <small>
+                          {adultForms.length}/{adultCount} added
+                        </small>
+
+                      </div>
+
+                      <div className="important-box mb-3">
+
+                        <strong>Important:</strong>
+
+                        Enter name as mentioned on your passport or Government approved IDs.
+
+                        <br />
+
+                        Please ensure that the Frequent Flyer No entered here is against the
+                        same passenger name otherwise the points will not be updated by the
+                        airline.
+
+                      </div>
+
+                      {/* Adult Forms */}
+
+                      {adultForms.map((adult, index, adultRule) => (
+
+                        <div className="border rounded mb-3" key={index}>
+
+                          <div className="d-flex justify-content-between align-items-center p-3 bg-light">
+
+                            <div>
+
+                              <input
+                                type="checkbox"
+                                checked
+                                readOnly
+                                className="form-check-input me-2"
+                              />
+
+                              <strong>
+                                ADULT {index + 1}
+                              </strong>
+
+                            </div>
+
+                            <button
+                              className="btn btn-sm btn-link text-danger text-decoration-none"
+                              onClick={() => handleRemoveAdult(index)}
+                            >
+                              ×
+                            </button>
+
+                          </div>
+
+                          <div className="p-3">
+
+                            {/* <div className="row g-3"> */}
+                                <AdultFields
+                                  adult={adult}
+                                  index={index}
+                                  adultRule={adultRule}
+                                  handleAdultChange={handleAdultChange}
+                                />
+                            {/* </div> */}
+
+                            {/* Frequent Flyer */}
+
+                            <div className="mt-3">
+
+                              <button
+                                type="button"
+                                className="btn btn-link p-0 text-decoration-none"
+                                onClick={() => toggleFF("adult", index)}
+                              >
+                                <strong>
+                                  Frequent Flyer Number
+                                </strong>
+
+                                <small className="ms-1">
+                                  (Avail extra benefits & earn points)
+                                </small>
+                              </button>
+
+                            </div>
+
+                            {adult.showFF && (
+
+                              <div className="row mt-2">
+
+                                <div className="col-md-4">
+
+                                  <label>Frequent Flyer Airline</label>
+
+                                  <select
+                                    className="form-select"
+                                    value={adult.airline}
+                                    onChange={(e) =>
+                                      handleAdultChange(index, "airline", e.target.value)
+                                    }
+                                  >
+
+                                    <option value="">
+                                      Select Airline
+                                    </option>
+
+                                    <option value="AI">
+                                      Air India
+                                    </option>
+
+                                    <option value="6E">
+                                      IndiGo
+                                    </option>
+
+                                    <option value="UK">
+                                      Vistara
+                                    </option>
+
+                                  </select>
+
+                                </div>
+
+                                <div className="col-md-4">
+
+                                  <label>Frequent Flyer No</label>
+
+                                  <input
+                                    className="form-control"
+                                    value={adult.ffNumber}
+                                    onChange={(e) =>
+                                      handleAdultChange(index, "ffNumber", e.target.value)
+                                    }
+                                  />
+
+                                </div>
+
+                              </div>
+
+                            )}
+
+                          </div>
+
+                        </div>
+
+                      ))}
+
+                      {/* Empty Message */}
+
+                      {adultForms.length === 0 && (
+
+                        <div className="add-box mb-3">
+
+                          <p>
+                            You have not added any adults to the list
+                          </p>
+
+                        </div>
+
+                      )}
+
+                      {/* Add Adult */}
+
+                      {adultForms.length < adultCount ? (
+
+                        <button
+                          className="btn btn-link p-0"
+                          onClick={handleAddAdult}
+                        >
+                          + ADD NEW ADULT
+                        </button>
+
+                      ) : (
+
+                        <div className="alert alert-warning mt-3 mb-0">
+
+                          You have already selected <strong>{adultCount}</strong> ADULT(s).
+
+                          Remove one before adding a new one.
+
+                        </div>
+
+                      )}
+
                     </div>
+
+                    {/* =========================
+                            CHILD SECTION
+                      ========================= */}
+
+                      {childCount > 0 && (
+                        <div className="card-box mt-4">
+
+                          <div className="d-flex justify-content-between align-items-center mb-2">
+
+                            <div className="section-title">
+                              👦 CHILD (2 - 12 yrs)
+                            </div>
+
+                            <small>
+                              {childForms.length}/{childCount} added
+                            </small>
+
+                          </div>
+
+                          <div className="important-box mb-3">
+                            <strong>Important:</strong> Enter name exactly as per Government ID /
+                            Passport.
+                          </div>
+
+                          {childForms.map((child, index) => (
+
+                            <div className="border rounded mb-3" key={index}>
+
+                              <div className="d-flex justify-content-between align-items-center p-3 bg-light">
+
+                                <strong>
+                                  CHILD {index + 1}
+                                </strong>
+
+                                <button
+                                  type="button"
+                                  className="btn btn-link text-danger text-decoration-none"
+                                  onClick={() => handleRemoveChild(index)}
+                                >
+                                  ×
+                                </button>
+
+                              </div>
+
+                              <div className="p-3">
+                                <ChildFields
+                                  child={child}
+                                  index={index}
+                                  childRule={childRule}
+                                  handleChildChange={handleChildChange}
+                                />
+                              </div>
+
+                            </div>
+
+                          ))}
+
+                          {childForms.length === 0 && (
+                            <div className="add-box mb-3">
+                              <p>You have not added any child to the list</p>
+                            </div>
+                          )}
+
+                          {childForms.length < childCount ? (
+
+                            <button
+                              className="btn btn-link p-0"
+                              onClick={handleAddChild}
+                            >
+                              + ADD NEW CHILD
+                            </button>
+
+                          ) : (
+
+                            <div className="alert alert-warning mt-3 mb-0">
+                              You have already selected <strong>{childCount}</strong> CHILD.
+                              Remove one before adding a new one.
+                            </div>
+
+                          )}
+
+                        </div>
+                      )}
+
+                      {/* =========================
+                            INFANT SECTION
+                      ========================= */}
+
+                      {infantCount > 0 && (
+                        <div className="card-box mt-4">
+
+                          <div className="d-flex justify-content-between align-items-center mb-2">
+
+                            <div className="section-title">
+                              👶 INFANT (0 - 2 yrs)
+                            </div>
+
+                            <small>
+                              {infantForms.length}/{infantCount} added
+                            </small>
+
+                          </div>
+
+                          <div className="important-box mb-3">
+                            Infant Date of Birth is mandatory.
+                          </div>
+
+                          {infantForms.map((infant, index) => (
+
+                            <div className="border rounded mb-3" key={index}>
+
+                              <div className="d-flex justify-content-between align-items-center p-3 bg-light">
+
+                                <strong>
+                                  INFANT {index + 1}
+                                </strong>
+
+                                <button
+                                  type="button"
+                                  className="btn btn-link text-danger text-decoration-none"
+                                  onClick={() => handleRemoveInfant(index)}
+                                >
+                                  ×
+                                </button>
+
+                              </div>
+
+                              <div className="p-3">
+
+                                 <InfantsFields
+                                  infant={infant}
+                                  index={index}
+                                  infantRule={infantRule}
+                                  handleInfantChange={handleInfantChange}
+                                />
+
+                              </div>
+
+                            </div>
+
+                          ))}
+
+                          {infantForms.length === 0 && (
+                            <div className="add-box mb-3">
+                              <p>You have not added any infant to the list</p>
+                            </div>
+                          )}
+
+                          {infantForms.length < infantCount ? (
+
+                            <button
+                              className="btn btn-link p-0"
+                              onClick={handleAddInfant}
+                            >
+                              + ADD NEW INFANT
+                            </button>
+
+                          ) : (
+
+                            <div className="alert alert-warning mt-3 mb-0">
+                              You have already selected <strong>{infantCount}</strong> INFANT.
+                              Remove one before adding a new one.
+                            </div>
+
+                          )}
+
+                        </div>
+                      )}
+
+
 
                     {/* Contact Form */}
                     <p className="mb-2 fw-semibold">
