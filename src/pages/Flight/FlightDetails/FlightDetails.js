@@ -309,6 +309,33 @@ export const FlightDetails = () => {
     }
   };
 
+  const [saveBilling, setSaveBilling] = useState(false);
+
+  const handlePassengerDetails = () => {
+    if (!saveBilling) {
+      return;
+    }
+
+    const passengerDetails = {
+      adults: adultForms,
+      children: childForms,
+      infants: infantForms,
+
+      gst: {
+        enabled: showGST,
+        gstNumber: showGST ? gstNumber : "",
+        companyName: showGST ? companyName : "",
+      },
+    };
+
+    localStorage.setItem(
+      "savedPassengerDetails",
+      JSON.stringify(passengerDetails)
+    );
+
+    console.log("Passenger details saved:", passengerDetails);
+  };
+
   const travelDate = repriceFlight?.TravelDate
     ? new Date(repriceFlight.TravelDate)
     : null;
@@ -396,6 +423,7 @@ export const FlightDetails = () => {
       return updated;
     });
   };
+
 
   if (loading) return <Loader />;
 
@@ -1783,12 +1811,20 @@ export const FlightDetails = () => {
                         className="form-check-input"
                         type="checkbox"
                         id="saveBilling"
+                        checked={saveBilling}
+                        onChange={(e) => setSaveBilling(e.target.checked)}
                       />
                       <label className="form-check-label" htmlFor="saveBilling">
                         Confirm and save billing details to your profile
                       </label>
                     </div>
                   </div>
+                </div>
+
+
+                <div className="sdejvfhsikdjl mt-3">
+                  <button type="button" className="btn btn-outline-primary rounded-pill px-4"
+                    onClick={handlePassengerDetails}>Continue</button>
                 </div>
 
                 <div className="ucbhsduodkf mt-4">
