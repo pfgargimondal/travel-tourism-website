@@ -1891,6 +1891,7 @@ export const FlightFilter = () => {
                                     ))}
 
                                     {apiFareDetails?.status && (
+                                      <>
                                       <div className="djnskmlfdsf">
                                         <div className="imdiajojidsf">
                                           <div className="d-flex align-items-center justify-content-between px-3 pb-3">
@@ -1929,10 +1930,13 @@ export const FlightFilter = () => {
                                           )}                                     
                                         </div>                            
                                       </div>
+
+                                      <div className="okcmksxdcmkvsoij text-end p-3">
+                                        <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
+                                      </div>  
+                                      </>
                                     )} 
-                                    <div className="okcmksxdcmkvsoij text-end p-3">
-                                      <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
-                                    </div>                                     
+                                                                       
                                   </div>
                                   
                                 </label>

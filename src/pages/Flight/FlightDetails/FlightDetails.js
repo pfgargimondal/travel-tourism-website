@@ -43,6 +43,30 @@ export const FlightDetails = () => {
   const [activeTab, setActiveTab] = useState("cancel");
 
   const [addBaggageModal, setAddBaggageModal] = useState(false);
+  const [countryCode, setCountryCode] = useState([]);
+
+  const [showGST, setShowGST] = useState(false);
+  const [gstNumber, setGstNumber] = useState("");
+  const [companyName, setcompanyName] = useState("");
+
+  useEffect(() => {
+    const fetchCountryCode = async () => {
+      try {
+        setLoading(true);
+
+        const response = await http.get("/fetch-countries-code");
+
+        setCountryCode(response.data.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCountryCode();
+  }, []);
+
 
   useEffect(() => {
     // console.log("useEffect triggered", {
@@ -144,10 +168,18 @@ export const FlightDetails = () => {
 
   const paxRules = flightRePrice?.AirRepriceResponses?.[0]?.Required_PAX_Details || [];
 
-   // eslint-disable-next-line
-  const adultRule = paxRules.find(x => x.Pax_type === 0);
-  const childRule = paxRules.find(x => x.Pax_type === 1);
-  const infantRule = paxRules.find(x => x.Pax_type === 2);
+  const adultRule = paxRules.find(
+    x => Number(x?.Pax_type) === 0
+  );
+
+  const childRule = paxRules.find(
+    x => Number(x?.Pax_type) === 1
+  );
+
+  const infantRule = paxRules.find(
+    x => Number(x?.Pax_type) === 2
+  );
+
 
   const emptyPassenger = {
     title: "Mr",
@@ -168,13 +200,14 @@ export const FlightDetails = () => {
 
   const handleAddAdult = () => {
     if (adultForms.length >= adultCount) {
-        return;
+      return;
     }
+
     setAdultForms(prev => [
-        ...prev,
-        {
-            ...emptyPassenger
-        }
+      ...prev,
+      {
+        ...emptyPassenger
+      }
     ]);
   };
 
@@ -185,9 +218,16 @@ export const FlightDetails = () => {
   };
 
   const handleAdultChange = (index, field, value) => {
-    const data = [...adultForms];
-    data[index][field] = value;
-    setAdultForms(data);
+    setAdultForms(prev =>
+      prev.map((passenger, i) =>
+        i === index
+          ? {
+              ...passenger,
+              [field]: value,
+            }
+          : passenger
+      )
+    );
   };
 
   const handleAddChild = () => {
@@ -208,9 +248,16 @@ export const FlightDetails = () => {
   };
 
   const handleChildChange = (index, field, value) => {
-    const data = [...childForms];
-    data[index][field] = value;
-    setChildForms(data);
+    setChildForms(prev =>
+      prev.map((passenger, i) =>
+        i === index
+          ? {
+              ...passenger,
+              [field]: value,
+            }
+          : passenger
+      )
+    );
   };
 
   const handleAddInfant = () => {
@@ -232,9 +279,16 @@ export const FlightDetails = () => {
   };
 
   const handleInfantChange = (index, field, value) => {
-    const data = [...infantForms];
-    data[index][field] = value;
-    setInfantForms(data);
+    setInfantForms(prev =>
+      prev.map((passenger, i) =>
+        i === index
+          ? {
+              ...passenger,
+              [field]: value,
+            }
+          : passenger
+      )
+    );
   };
 
   const toggleFF = (type, index) => {
@@ -1278,7 +1332,7 @@ export const FlightDetails = () => {
 
                       {/* Adult Forms */}
 
-                      {adultForms.map((adult, index, adultRule) => (
+                      {adultForms.map((adult, index) => (
 
                         <div className="border rounded mb-3" key={index}>
 
@@ -1314,6 +1368,7 @@ export const FlightDetails = () => {
                                 <AdultFields
                                   adult={adult}
                                   index={index}
+                                  countryCode={countryCode}
                                   adultRule={adultRule}
                                   handleAdultChange={handleAdultChange}
                                 />
@@ -1610,17 +1665,24 @@ export const FlightDetails = () => {
 
 
                     {/* Contact Form */}
-                    <p className="mb-2 fw-semibold">
+                    <p className="mb-2 mt-2 fw-semibold">
                       Booking details will be sent to
                     </p>
 
                     <div className="row g-3">
                       <div className="col-md-4">
                         <label className="form-label">Country Code</label>
-                        <select className="form-select">
-                          <option>India(91)</option>
-                          <option>USA(1)</option>
-                          <option>UK(44)</option>
+                          <select className="form-select">
+                            <option value="">Select Country Code</option>
+
+                            {countryCode.map((country) => (
+                                <option
+                                key={country.id}
+                                value={country.phone_code}
+                                >
+                                {country.name} ({country.phone_code})
+                                </option>
+                            ))}
                         </select>
                       </div>
 
@@ -1648,7 +1710,9 @@ export const FlightDetails = () => {
                       <input
                         className="form-check-input"
                         type="checkbox"
-                        id="gstCheck"
+                        id="gstCheckbox"
+                        checked={showGST}
+                        onChange={(e) => setShowGST(e.target.checked)}
                       />
                       <label
                         className="form-check-label checkbox-label"
@@ -1660,13 +1724,35 @@ export const FlightDetails = () => {
                     </div>
 
                     {/* GST Field */}
-                    <div id="gstField" className="mt-3 d-none">
+                    {/* <div id="gstField" className="mt-3 d-none">
                       <input
                         type="text"
                         className="form-control"
                         placeholder="Enter GST Number"
                       />
-                    </div>
+                    </div> */}
+                    {showGST && (
+                      <div className="row">
+                        <div id="companyname" className="mt-3 col-md-6">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Company Name"
+                            value={companyName}
+                            onChange={(e) => setcompanyName(e.target.value)}
+                          />
+                        </div>
+                        <div id="gstField" className="mt-3 col-md-6">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter GST Number"
+                            value={gstNumber}
+                            onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

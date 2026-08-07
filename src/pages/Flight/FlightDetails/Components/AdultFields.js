@@ -3,11 +3,10 @@ import React from "react";
 export const AdultFields = ({
     adult,
     index,
+    countryCode,
     adultRule,
     handleAdultChange,
 }) => {
-
-  console.log(adultRule, 'adultRule');
 
     return (
 
@@ -413,19 +412,26 @@ export const AdultFields = ({
             <div className="col-md-4">
 
                 <label className="form-label">
-                    Country Code
+                    Country Code(Optional)
                 </label>
 
                 <select
                     className="form-select"
-                    value={adult.countryCode || "+91"}
+                    value={adult.countryCode || ""}
                     onChange={(e) =>
                         handleAdultChange(index, "countryCode", e.target.value)
                     }
-                >
-                    <option value="+91">India (+91)</option>
-                    <option value="+1">USA (+1)</option>
-                    <option value="+44">UK (+44)</option>
+                    >
+                    <option value="">Select Country Code</option>
+
+                    {countryCode.map((country) => (
+                        <option
+                        key={country.id}
+                        value={country.phone_code}
+                        >
+                        {country.name} ({country.phone_code})
+                        </option>
+                    ))}
                 </select>
 
             </div>
@@ -433,7 +439,7 @@ export const AdultFields = ({
             <div className="col-md-4">
 
                 <label className="form-label">
-                    Mobile Number
+                    Mobile Number(Optional)
                 </label>
 
                 <input
@@ -451,7 +457,7 @@ export const AdultFields = ({
             <div className="col-md-4">
 
                 <label className="form-label">
-                    Email Address
+                    Email Address(Optional)
                 </label>
 
                 <input
