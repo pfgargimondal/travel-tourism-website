@@ -3,11 +3,17 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
 
 import "./FlightFilter.css";
+// Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 
 
@@ -213,16 +219,24 @@ export const FlightFilter = () => {
 
   // eslint-disable-next-line
   const handleFlightDetails = (flight, search_key, fareId) => {
-    navigate(`/flight-details/${flight.Flight_Id}`, {
-      state: {
-        flight,
-        search_key,
-        fareId,
-        adults,
-        children,
-        infants,
-      },
-    });
+    const state = {
+      flight,
+      search_key,
+      fareId,
+      adults,
+      children,
+      infants,
+    };
+
+    sessionStorage.setItem(
+      `flightDetails_${flight.Flight_Id}`,
+      JSON.stringify(state)
+    );
+
+    window.open(
+      `/flight-details/${flight.Flight_Id}`,
+      "_blank"
+    );
   };
 
 
@@ -1733,12 +1747,8 @@ export const FlightFilter = () => {
                               e.target.src = "./images/indigo.png";
                             }}
                           />
-                          {selectedFlight.Segments[0].Airline_Name} · Departure at
-                          {
-                            selectedFlight.Segments[0].Departure_DateTime.split(
-                              " ",
-                            )[1]
-                          }{" "}
+                          {selectedFlight.Segments[0].Airline_Name} · Departure at{" "}
+                          {selectedFlight.Segments[0].Departure_DateTime.split(" ",)[1]}{" "}
                           - Arrival at{" "}
                           {
                             selectedFlight.Segments[
@@ -1748,11 +1758,34 @@ export const FlightFilter = () => {
                         </p>
                         
                         <div className="icsklmdjfisdfsdf row">
+                          <Swiper
+                            modules={[Navigation, Pagination]}
+                            spaceBetween={20}
+                            slidesPerView={3}
+                            navigation
+                            pagination={false}
+                            loop={false}
+                            breakpoints={{
+                              320: {
+                                slidesPerView: 1,
+                              },
+                              768: {
+                                slidesPerView: 2,
+                              },
+                              992: {
+                                slidesPerView: 3,
+                              },
+                            }}
+                          >
                           {selectedFlight.Fares.map((fare, fareIndex) => {
+
+                            const adultFare = fare.FareDetails?.find(
+                              (detail) => detail.PAX_Type === 0
+                            );
                             const apiFareDetails = fareApiData[fare.Fare_Id];
 
                             return (
-                              <div className="col-lg-4 mb-4">
+                              <SwiperSlide>
                                 <label htmlFor={fareIndex}
                                   key={fareIndex}
                                   className="iujnefjwrwer position-relative rounded mb-3 h-100"
@@ -1760,11 +1793,12 @@ export const FlightFilter = () => {
                                   <input type="radio" id={fareIndex} value="" name="cfsdvfvsf" className="position-absolute d-none" />
 
                                   <div className="djiasndkcsi d-flex justify-content-between flex-column h-100">
-                                    {fare.FareDetails.map((detail, detailIndex) => (
-                                      <div key={detailIndex} className="ifuejwifhuer">
+                                    {/* {fare.FareDetails[0].map((detail, detailIndex) => ( */}
+                                    {adultFare && (
+                                      <div className="ifuejwifhuer">
                                         <div className="sgdhsfasdff position-relative">
                                           <h5 className="fw-bold mb-0 p-3">
-                                              ₹ {detail.Total_Amount.toLocaleString()}
+                                              ₹ {adultFare.Total_Amount.toLocaleString()}
                                               <span
                                                   className="cdhnzdfsfzxdd text-muted ms-1"
                                                   style={{ fontSize: "14px" }}
@@ -1782,7 +1816,7 @@ export const FlightFilter = () => {
                                                 ? "FLEXI"
                                                 : fare.ProductClass === "P"
                                                 ? "PREMIUM"
-                                                : detail.FareClasses?.[0]?.CabinClass}
+                                                : adultFare.FareClasses?.[0]?.CabinClass}
                                           </div>
                                         </div> 
 
@@ -1795,7 +1829,7 @@ export const FlightFilter = () => {
                                               <p className="mb-0 d-flex align-items-center">
                                                 <i className="bi me-2 bi-check-circle-fill"></i>
 
-                                                {detail.Free_Baggage?.Hand_Baggage} Cabin Baggage
+                                                {adultFare.Free_Baggage?.Hand_Baggage} Cabin Baggage
                                               </p>
                                             </div>
 
@@ -1803,7 +1837,7 @@ export const FlightFilter = () => {
                                               <p className="mb-0 d-flex align-items-center">
                                                 <i className="bi me-2 bi-check-circle-fill"></i>
 
-                                                {detail.Free_Baggage?.Check_In_Baggage} Check-in Baggage
+                                                {adultFare.Free_Baggage?.Check_In_Baggage} Check-in Baggage
                                               </p>
                                             </div>
                                           </div>
@@ -1815,7 +1849,7 @@ export const FlightFilter = () => {
                                             <div className="duihsfijsd py-2">
                                               <h6 className="mb-2">Cancellation Charges</h6>
 
-                                              {detail.CancellationCharges?.map((charge, idx) => (
+                                              {adultFare.CancellationCharges?.map((charge, idx) => (
                                                 <div key={idx} className="ccnxdfdzsd d-flex mt-1">
                                                   <i className="bi me-2 bi-dash-circle-fill"></i>
 
@@ -1841,7 +1875,7 @@ export const FlightFilter = () => {
                                             <div className="duihsfijsd py-2">
                                               <h6 className="mb-2">Date Change Charges</h6>
 
-                                              {detail.RescheduleCharges?.map(
+                                              {adultFare.RescheduleCharges?.map(
                                                 (charge, idx) => (
                                                   <div key={idx} className="ccnxdfdzsd d-flex mt-1">
                                                     <i className="bi me-2 bi-dash-circle-fill"></i>
@@ -1888,7 +1922,8 @@ export const FlightFilter = () => {
                                           </div>
                                         </div>
                                       </div>
-                                    ))}
+                                    )}
+                                    {/* ))} */}
 
                                     {apiFareDetails?.status && (
                                       <>
@@ -1930,19 +1965,20 @@ export const FlightFilter = () => {
                                           )}                                     
                                         </div>                            
                                       </div>
-
-                                      <div className="okcmksxdcmkvsoij text-end p-3">
-                                        <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
-                                      </div>  
                                       </>
                                     )} 
+
+                                    <div className="okcmksxdcmkvsoij text-end p-3">
+                                      <button className="btn-tour py-2" onClick={() => handleFlightDetails(selectedFlight, flightList?.Search_Key, fare.Fare_Id)}>Book Now</button>
+                                    </div> 
                                                                        
                                   </div>
                                   
                                 </label>
-                              </div>                                
+                              </SwiperSlide>                              
                             );
                           })}
+                          </Swiper>
                         </div>
                       </div>
 

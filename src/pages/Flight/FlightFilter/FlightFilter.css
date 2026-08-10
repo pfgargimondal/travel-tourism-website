@@ -938,6 +938,41 @@ small.sjkdnfslfs{
     color: #000 !important;
 }
 
+.doieasjdlmsoijf{
+    max-height: 23rem;
+    overflow-y: auto;
+}
+
+.icsklmdjfisdfsdf .swiper-button-prev{
+    right: initial;
+    left: 0;
+}
+
+.icsklmdjfisdfsdf .swiper-button-next{
+    left: initial;
+    right: 0;    
+}
+
+.icsklmdjfisdfsdf .swiper-button-prev,
+.icsklmdjfisdfsdf .swiper-button-next{
+    width: 2.5rem;
+    height: 2.5rem;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: var(--light-box-shadow);
+    border: 1px solid var(--border);    
+}
+
+.icsklmdjfisdfsdf .swiper-button-prev svg,
+.icsklmdjfisdfsdf .swiper-button-next svg{
+    height: 1.2rem;
+    color: var(--blue-secondary-color) !important;
+}
+
+.icsklmdjfisdfsdf .swiper{
+    padding-inline: 0.5rem;
+}
+
 
 /* End  Flight   css by   Nisha  */
 /* End  Flight   css by   Nisha  */

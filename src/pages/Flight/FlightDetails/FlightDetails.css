@@ -1,9 +1,7 @@
 /* CARD */
-.card-box {
-  background: #ffffff;
+.flight-details-wrapper .card-box {
   border-radius: 10px;
-  padding: 15px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  box-shadow: var(--light-box-shadow);
 }
 
 /* FLIGHT HEADER */
@@ -374,11 +372,10 @@
 }
 
 
-.trip-card {
-  /* background: #fff; */
+.flight-details-wrapper .trip-card {
   border-radius: 10px;
-  padding: 20px;
-  /* box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
+  padding: 15px;
+  box-shadow: none;
 }
 
 .trip-header {
@@ -947,74 +944,47 @@
   left: 0;
 }
 
-
-
-
-
-
-
-
-
-
-/* chatgpt code */
-
-.policy-box{
-    background:#f5f6fb;
-    padding:20px;
-    border-radius:8px;
+.dioewiuhrew label{
+  cursor: pointer;
 }
 
-.timeline{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
+.dioewiuhrew label img{
+  width: 1rem;
 }
 
-.timeline-item{
-    flex:1;
-    text-align:center;
+.dioewiuhrew label:has(input:checked){
+  border-color: var(--blue-primary-color) !important;
+  transition: 0.2s ease-in-out;
 }
 
-.timeline-item.first{
-    text-align:left;
-    flex:0.6;
+.diewirhwerwer h6{
+  font-size: 0.8rem;
 }
 
-.timeline-item:last-child{
-    text-align:right;
+.diewirhwerwer h6 span{
+  color: var(--blue-primary-color);
 }
 
-.penalty-row strong{
-    font-size:18px;
-    color:#000;
+.oidiewrwer p{
+  font-size: 0.9rem;
+  color: var(--main-red-color) !important;
 }
 
-.progress-wrapper{
-    position:relative;
-    margin:12px 0;
+.idcnuihiwer .uidnwehruiewr{
+  background: var(--light-blue-highlighted-background-color);
+  width: 2.7rem;
+  height: 2.7rem;
 }
 
-.progress-line{
-    height:6px;
-    border-radius:50px;
-    background:linear-gradient(
-        to right,
-        #19b34c 0%,
-        #19b34c 45%,
-        #c5b300 70%,
-        #ef5350 100%
-    );
+.idcnuihiwer .uidnwehruiewr i{
+  color: var(--blue-primary-color);
 }
 
-.dot{
-    display:none;
+.idcnuihiwer .duihsnerew h5{
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.timeline strong{
-    font-size:16px;
-}
-
-.timeline small{
-    font-size:12px;
-    color:#555;
+.idcnuihiwer .duihsnerew p{
+  font-size: 0.8rem;
 }

@@ -7,6 +7,7 @@ import { FlightSeats } from "./Components/FlightSeats";
 import { AdultFields } from "./Components/AdultFields";
 import { ChildFields } from "./Components/ChildFields";
 import { InfantsFields } from "./Components/InfantsFields";
+import { Meal } from "./Components/Meal";
 
 export const FlightDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -26,13 +27,22 @@ export const FlightDetails = () => {
   // eslint-disable-next-line
   const { flightId } = useParams();
   const location = useLocation();
-  const search_key = location.state?.search_key;
-  const flight = location.state?.flight;
-  const fareId = location.state?.fareId;
 
-  const adults = location.state?.adults;
-  const children = location.state?.children;
-  const infants = location.state?.infants;
+  const storedData = sessionStorage.getItem(
+    `flightDetails_${flightId}`
+  );
+
+  const state = location.state || (
+    storedData ? JSON.parse(storedData) : null
+  );
+
+  const search_key = state?.search_key;
+  const flight = state?.flight;
+  const fareId = state?.fareId;
+
+  const adults = state?.adults;
+  const children = state?.children;
+  const infants = state?.infants;
 
   const adultCount = adults || 1;
   const childCount = children || 0;
@@ -48,6 +58,9 @@ export const FlightDetails = () => {
   const [showGST, setShowGST] = useState(false);
   const [gstNumber, setGstNumber] = useState("");
   const [companyName, setcompanyName] = useState("");
+
+  const [showCabinBaggage, setShowCabinBaggage] = useState(false);
+  const [showCheckinBaggage, setShowCheckinBaggage] = useState(false);
 
   useEffect(() => {
     const fetchCountryCode = async () => {
@@ -160,6 +173,8 @@ export const FlightDetails = () => {
   const repriceFlight = flightRePrice?.AirRepriceResponses?.[0]?.Flight;
 
   const fare = repriceFlight?.Fares?.[0];
+
+  const allfareDetails = fare?.FareDetails || [];
 
   const fareDetail = fare?.FareDetails?.[0];
 
@@ -423,6 +438,36 @@ export const FlightDetails = () => {
       return updated;
     });
   };
+
+  const adultFare = allfareDetails.find(
+    (item) => item.PAX_Type === 0
+  );
+
+  const childFare = allfareDetails.find(
+    (item) => item.PAX_Type === 1
+  );
+
+  const infantFare = allfareDetails.find(
+    (item) => item.PAX_Type === 2
+  );
+
+  // Base fare
+  const baseFare = allfareDetails.reduce(
+    (total, item) => total + Number(item.Basic_Amount || 0),
+    0
+  );
+
+  // Taxes
+  const taxesAndSurcharges = allfareDetails.reduce(
+    (total, item) => total + Number(item.AirportTax_Amount || 0),
+    0
+  );
+
+  // Total
+  const totalAmount = allfareDetails.reduce(
+    (total, item) => total + Number(item.Total_Amount || 0),
+    0
+  );
 
 
   if (loading) return <Loader />;
@@ -691,6 +736,261 @@ export const FlightDetails = () => {
                       })}
                     </div>
                     {/* NOTICE */}
+
+                      {/* ==============================
+                          BAGGAGE SUMMARY
+                      ================================ */}
+
+                      <div
+                        className="baggage-summary px-3 py-2"
+                        style={{
+                          background: "#f5f5f5",
+                          borderBottom: "1px solid #ddd",
+                          position: "relative",
+                        }}
+                      >
+                        <div className="d-flex align-items-center gap-4 flex-wrap">
+
+                          {/* ================= CABIN BAGGAGE ================= */}
+
+                          <div
+                            className="d-flex align-items-center position-relative"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span className="me-2" style={{ fontSize: "18px" }}>
+                              🧳
+                            </span>
+
+                            <span>
+                              <strong>Cabin Baggage:</strong>{" "}
+                              {adultFare?.Free_Baggage?.Hand_Baggage || "7 Kgs"}{" "}
+                              / Adult
+                            </span>
+
+                            <i
+                              className="fa-regular fa-circle-question ms-1 text-primary"
+                              onClick={() =>
+                                setShowCabinBaggage((prev) => !prev)
+                              }
+                            ></i>
+
+
+                            {/* CABIN BAGGAGE POPUP */}
+
+                            {showCabinBaggage && (
+                              <div
+                                className="baggage-info-popup"
+                                style={{
+                                  position: "absolute",
+                                  top: "32px",
+                                  left: "0",
+                                  width: "260px",
+                                  background: "#fff",
+                                  border: "1px solid #ddd",
+                                  borderRadius: "4px",
+                                  boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
+                                  zIndex: 9999,
+                                }}
+                              >
+
+                                <div
+                                  className="px-3 py-3"
+                                  style={{
+                                    fontWeight: 600,
+                                    fontSize: "16px",
+                                    borderBottom: "1px solid #ddd",
+                                  }}
+                                >
+                                  Cabin Baggage
+                                </div>
+
+
+                                {/* Adult */}
+
+                                <div
+                                  className="px-3 py-3 d-flex justify-content-between"
+                                  style={{
+                                    borderBottom: "1px solid #ddd",
+                                  }}
+                                >
+                                  <strong>Adult</strong>
+
+                                  <span>
+                                    {adultFare?.Free_Baggage?.Hand_Baggage
+                                      ? ` ${adultFare.Free_Baggage.Hand_Baggage} (1 piece only)`
+                                      : "0 Kg"}{" "}
+                                    / Adult
+                                  </span>
+                                </div>
+
+
+                                {/* Child */}
+
+                                {childFare && (
+                                  <div
+                                    className="px-3 py-3 d-flex justify-content-between"
+                                    style={{
+                                      borderBottom: "1px solid #ddd",
+                                    }}
+                                  >
+                                    <strong>Child</strong>
+
+                                    <span>
+                                       {childFare?.Free_Baggage?.Hand_Baggage
+                                          ? ` ${childFare.Free_Baggage.Hand_Baggage} (1 piece only)`
+                                          : "0 Kg"}{" "}
+                                        / Child
+                                    </span>
+                                  </div>
+                                )}
+
+
+                                {/* Infant */}
+
+                                {infantFare && (
+                                  <div
+                                    className="px-3 py-3 d-flex justify-content-between"
+                                  >
+                                    <strong>Infant </strong>
+
+                                    <span>
+                                      {infantFare?.Free_Baggage?.Hand_Baggage
+                                          ? ` ${infantFare.Free_Baggage.Hand_Baggage} (1 piece only)`
+                                          : "0 Kg"}{" "}
+                                        / Infant
+                                    </span>
+                                  </div>
+                                )}
+
+                              </div>
+                            )}
+
+                          </div>
+
+
+                          {/* ================= CHECK-IN BAGGAGE ================= */}
+
+                          <div
+                            className="d-flex align-items-center position-relative"
+                            style={{ cursor: "pointer" }}
+                          >
+
+                            <span className="me-2" style={{ fontSize: "18px" }}>
+                              🧳
+                            </span>
+
+                            <span>
+                              <strong>Check-In Baggage:</strong>{" "}
+                              {adultFare?.Free_Baggage?.Check_In_Baggage
+                                ? ` ${adultFare.Free_Baggage.Check_In_Baggage}`
+                                : "0 Kg"}{" "}
+                              / Adult
+                            </span>
+
+                            <i
+                              className="fa-regular fa-circle-question ms-1 text-primary"
+                              onClick={() =>
+                                setShowCheckinBaggage((prev) => !prev)
+                              }
+                            ></i>
+
+
+                            {/* CHECK-IN BAGGAGE POPUP */}
+
+                            {showCheckinBaggage && (
+                              <div
+                                className="baggage-info-popup"
+                                style={{
+                                  position: "absolute",
+                                  top: "32px",
+                                  left: "0",
+                                  width: "280px",
+                                  background: "#fff",
+                                  border: "1px solid #ddd",
+                                  borderRadius: "4px",
+                                  boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
+                                  zIndex: 9999,
+                                }}
+                              >
+
+                                <div
+                                  className="px-3 py-3"
+                                  style={{
+                                    fontWeight: 600,
+                                    fontSize: "16px",
+                                    borderBottom: "1px solid #ddd",
+                                  }}
+                                >
+                                  Check-In Baggage
+                                </div>
+
+
+                                {/* Adult */}
+
+                                <div
+                                  className="px-3 py-3 d-flex justify-content-between"
+                                  style={{
+                                    borderBottom: "1px solid #ddd",
+                                  }}
+                                >
+                                  <strong>Adult</strong>
+
+                                  <span>
+                                    {adultFare?.Free_Baggage?.Check_In_Baggage
+                                      ? ` ${adultFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
+                                      : "0 Kg"}{" "}
+                                    / Adult
+                                  </span>
+                                </div>
+
+
+                                {/* Child */}
+
+                                {childFare && (
+                                  <div
+                                    className="px-3 py-3 d-flex justify-content-between"
+                                    style={{
+                                      borderBottom: "1px solid #ddd",
+                                    }}
+                                  >
+                                    <strong>Child</strong>
+
+                                    <span>
+                                      {childFare?.Free_Baggage?.Check_In_Baggage
+                                          ? ` ${childFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
+                                          : "0 Kg"}{" "}
+                                        / Child
+                                    </span>
+                                  </div>
+                                )}
+
+
+                                {/* Infant */}
+
+                                {infantFare && (
+                                  <div
+                                    className="px-3 py-3 d-flex justify-content-between"
+                                  >
+                                    <strong>Infant</strong>
+
+                                    <span>
+                                      {infantFare?.Free_Baggage?.Check_In_Baggage
+                                          ? ` ${infantFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
+                                          : "0 Kg"}{" "}
+                                        / Infant
+                                    </span>
+                                  </div>
+                                )}
+
+                              </div>
+                            )}
+
+                          </div>
+
+                        </div>
+                      </div> 
+
+
                     {baggageList.length > 0 ? (
                       <div className="notice p-3">
                         <div className="jianjdlkmjosdjif d-flex gap-3 align-items-center">
@@ -1880,7 +2180,55 @@ export const FlightDetails = () => {
                       role="tabpanel"
                       aria-labelledby="meals-tab"
                     >
-                      Profile Content
+                      <div className="doismkfjhisd py-3">
+                        <div className="duisnuiherer border-bottom pb-3 mb-3">
+                          <div className="oidiewrwer d-flex justify-content-between mb-3">
+                            <div className="diewirhwerwer">
+                              <h5 className="mb-2">
+                                <b>Delhi</b> - <b>Mumbai</b>
+                              </h5>
+
+                              <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                            </div>
+
+                            <p className="mb-0">Select your meal</p>
+                          </div>
+
+                          <div className="dioewiuhrew d-flex gap-2">
+                            <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                              <input type="checkbox" id="veg" className="d-none position-absolute" />
+
+                              <img src="/images/veg.png" alt="" /> <b>Veg</b>
+                            </label>
+
+                            <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                              <input type="checkbox" id="nonveg" className="d-none position-absolute" />
+
+                              <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="dmiwejrwer row">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <div className="col-lg-6 mb-4">
+                              <Meal />
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+                          <div className="uidnwehruiewr position-relative rounded-circle">
+                            <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+                          </div>
+
+                          <div className="duihsnerew">
+                            <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
+
+                            <p className="mb-0">Availability may vary based on flight duration.</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1899,45 +2247,96 @@ export const FlightDetails = () => {
 
                     <div className="diewnjrjwer">
                       <table className="table mb-0">
+                        {/* Base Fare */}
                         <tr>
-                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
-                            1 Room X 1 Night
-                          </td>
-
-                          <td>₹ 7,299</td>
-                        </tr>
-
-                        <tr className="diewrwerwer">
                           <td>
-                            Total Discount <i className="fa-solid fa-info"></i>
+                            <div className="d-flex align-items-center gap-2">
+                              <i className="fa-solid fa-circle-minus"></i>
+                              <span>Base Fare</span>
+                            </div>
                           </td>
 
-                          <td style={{ fontSize: "0.8rem" }}>-₹ 4,041</td>
+                          <td>
+                            ₹ {baseFare.toLocaleString("en-IN")}
+                          </td>
                         </tr>
 
+
+                        {/* Adult */}
+                        {adultFare && (
+                          <tr>
+                            <td className="ps-4">
+                              Adult(s) (1 X ₹{" "}
+                              {Number(adultFare.Basic_Amount).toLocaleString("en-IN")})
+                            </td>
+
+                            <td>
+                              ₹ {Number(adultFare.Basic_Amount).toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        )}
+
+
+                        {/* Child */}
+                        {childFare && (
+                          <tr>
+                            <td className="ps-4">
+                              Children (1 X ₹{" "}
+                              {Number(childFare.Basic_Amount).toLocaleString("en-IN")})
+                            </td>
+
+                            <td>
+                              ₹ {Number(childFare.Basic_Amount).toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        )}
+
+
+                        {/* Infant */}
+                        {infantFare && (
+                          <tr>
+                            <td className="ps-4">
+                              Infant (1 X ₹{" "}
+                              {Number(infantFare.Basic_Amount).toLocaleString("en-IN")})
+                            </td>
+
+                            <td>
+                              ₹ {Number(infantFare.Basic_Amount).toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        )}
+
+                        {/* Divider */}
                         <tr>
-                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
-                            Price After Discount
+                          <td colSpan="2">
+                            <hr className="my-2" />
                           </td>
-
-                          <td style={{ fontSize: "0.8rem" }}>₹ 3,258</td>
                         </tr>
 
+                        {/* Airport Taxes */}
                         <tr>
-                          <td style={{ fontWeight: 600, fontSize: "0.8rem" }}>
-                            Taxes & Fees
+                          <td className="ps-4">
+                            Airline Taxes and Surcharges
                           </td>
-
-                          <td style={{ fontSize: "0.8rem" }}>₹ 204</td>
+                          <td>
+                            ₹ {taxesAndSurcharges.toLocaleString("en-IN")}
+                          </td>
                         </tr>
 
+
+                        {/* Total */}
                         <tr className="ojdeopekwrer">
-                          <td>Grand Total</td>
+                          <td>
+                            <strong>Total Amount</strong>
+                          </td>
 
-                          <td style={{ color: "var(--main-red-color)" }}>
-                            ₹ 3,462
+                          <td>
+                            <strong>
+                              ₹ {totalAmount.toLocaleString("en-IN")}
+                            </strong>
                           </td>
                         </tr>
+
                       </table>
                     </div>
                   </div>
