@@ -179,9 +179,53 @@ export const FlightDetails = () => {
   const fareDetail = fare?.FareDetails?.[0];
 
   const segment = repriceFlight?.Segments?.[0];
-  const cancellationCharges = fareDetail?.CancellationCharges || [];
+  // const cancellationCharges = fareDetail?.CancellationCharges || [];
 
   const paxRules = flightRePrice?.AirRepriceResponses?.[0]?.Required_PAX_Details || [];
+
+  const cancellationCharges = (() => {
+  const grouped = {};
+
+  allfareDetails.forEach((passenger) => {
+    const passengerFare = Number(passenger.Total_Amount || 0);
+
+    (passenger.CancellationCharges || []).forEach((charge) => {
+      const key = [
+        charge.DurationFrom,
+        charge.DurationTo,
+        charge.DurationTypeFrom,
+        charge.DurationTypeTo,
+      ].join("-");
+
+      if (!grouped[key]) {
+        grouped[key] = {
+          ...charge,
+          totalValue: 0,
+        };
+      }
+
+      let penalty = 0;
+
+      if (charge.ValueType === 1) {
+        // Percentage based cancellation charge
+        penalty =
+          (passengerFare * Number(charge.Value || 0)) / 100;
+      } else {
+        // Fixed amount
+        penalty = Number(charge.Value || 0);
+      }
+
+      grouped[key].totalValue += penalty;
+    });
+  });
+
+  return Object.values(grouped);
+})();
+
+// eslint-disable-next-line
+  const formatTotalPenalty = (item) => {
+    return `₹${Number(item.totalValue || 0).toLocaleString("en-IN")}`;
+  };
 
   const adultRule = paxRules.find(
     x => Number(x?.Pax_type) === 0
@@ -194,8 +238,6 @@ export const FlightDetails = () => {
   const infantRule = paxRules.find(
     x => Number(x?.Pax_type) === 2
   );
-
-
   const emptyPassenger = {
     title: "Mr",
     firstName: "",
@@ -2582,35 +2624,106 @@ export const FlightDetails = () => {
                   <table className="table table-bordered mb-0">
                     <thead className="table-light">
                       <tr>
-                        <th width="30%">Charge</th>
-
-                        <th>Applicable Time</th>
+                        <th width="50%">
+                          Applicable Time<br/>
+                          (From Scheduled Flight departure)
+                        </th>
+                        <th width="50%">
+                          Charges<br/>
+                          (Per passenger)
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {fareDetail?.CancellationCharges?.map((charge, index) => (
-                        <tr key={index}>
-                          <td style={{ fontWeight: 500 }}>
-                            {charge.ValueType === 1
-                              ? `${charge.Value}% of Fare`
-                              : isNaN(Number(charge.Value))
-                                ? charge.Value
-                                : `₹${Number(charge.Value).toLocaleString()}`}
-                          </td>
+                      {(() => {
+                        // Collect all cancellation charges from Adult/Child/Infant
+                        const allCharges = allfareDetails.flatMap((fareDetail) =>
+                          (fareDetail?.CancellationCharges || []).map((charge) => ({
+                            ...charge,
+                            paxType: fareDetail.PAX_Type,
+                          }))
+                        );
 
-                          <td>
-                            If cancelled between
-                            <strong> {charge.DurationFrom} </strong>
-                            {charge.DurationTypeFrom === 0
-                              ? "hours"
-                              : "days"}{" "}
-                            to <strong>{charge.DurationTo}</strong>{" "}
-                            {charge.DurationTypeTo === 0 ? "hours" : "days"}{" "}
-                            before departure
-                          </td>
-                        </tr>
-                      ))}
+                        // Group charges by duration
+                        const groupedCharges = allCharges.reduce((groups, charge) => {
+                          const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
+
+                          if (!groups[key]) {
+                            groups[key] = [];
+                          }
+
+                          groups[key].push(charge);
+
+                          return groups;
+                        }, {});
+
+                        return Object.values(groupedCharges).map((charges, index) => {
+                          const firstCharge = charges[0];
+
+                          const getPassengerName = (paxType) => {
+                            if (paxType === 0) return "ADULT";
+                            if (paxType === 1) return "CHILD";
+                            if (paxType === 2) return "INFANT";
+
+                            return "PASSENGER";
+                          };
+
+                          const formatCharge = (charge) => {
+                            if (!charge) return "₹0";
+
+                            if (
+                              charge.Value === undefined ||
+                              charge.Value === null ||
+                              charge.Value === ""
+                            ) {
+                              return "₹0";
+                            }
+
+                            if (charge.ValueType === 1) {
+                              return `${charge.Value}% of Fare`;
+                            }
+
+                            if (isNaN(Number(charge.Value))) {
+                              return charge.Value;
+                            }
+
+                            return `₹${Number(charge.Value).toLocaleString("en-IN")}`;
+                          };
+
+                          return (
+                            <tr key={index}>
+                              {/* Applicable Time */}
+                              <td>
+                                If cancelled between{" "}
+                                <strong>{firstCharge.DurationFrom}{" "}</strong>
+                                {firstCharge.DurationTypeFrom === 0
+                                  ? "hours"
+                                  : "days"}{" "}
+                                to{" "}
+                                <strong>{firstCharge.DurationTo}{" "}</strong>
+                                {firstCharge.DurationTypeTo === 0
+                                  ? "hours"
+                                  : "days"}{" "}
+                                before departure
+                              </td>
+
+                              {/* Charge */}
+                              <td style={{ fontWeight: 500 }}>
+                                {charges.map((charge) => (
+                                  <div key={charge.paxType} className="mb-1">
+                                    <strong>
+                                      {getPassengerName(charge.paxType)}:
+                                    </strong>{" "}
+                                    {formatCharge(charge)}
+                                  </div>
+                                ))}
+                              </td>
+
+                            </tr>
+                          );
+                        });
+                      })()}
                     </tbody>
                   </table>
                 )}
@@ -2621,34 +2734,105 @@ export const FlightDetails = () => {
                   <table className="table table-bordered mb-0">
                     <thead className="table-light">
                       <tr>
-                        <th width="30%">Charge</th>
-                        <th>Applicable Time</th>
+                        <th width="50%">
+                          Applicable Time<br/>
+                          (From Scheduled Flight departure)
+                        </th>
+                        <th width="50%">
+                          Charges<br/>
+                          (Per passenger)
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {fareDetail?.RescheduleCharges?.map((charge, index) => (
-                        <tr key={index}>
-                          <td style={{ fontWeight: 500 }}>
-                            {charge.ValueType === 1
-                              ? `${charge.Value}% of Fare`
-                              : isNaN(Number(charge.Value))
-                                ? charge.Value
-                                : `₹${Number(charge.Value).toLocaleString()}`}
-                          </td>
+                      {(() => {
+                        const allCharges = allfareDetails.flatMap((fareDetail) =>
+                          (fareDetail?.RescheduleCharges || []).map((charge) => ({
+                            ...charge,
+                            paxType: fareDetail.PAX_Type,
+                          }))
+                        );
 
-                          <td>
-                            If rescheduled between
-                            <strong> {charge.DurationFrom} </strong>
-                            {charge.DurationTypeFrom === 0
-                              ? "hours"
-                              : "days"}{" "}
-                            to <strong>{charge.DurationTo}</strong>{" "}
-                            {charge.DurationTypeTo === 0 ? "hours" : "days"}{" "}
-                            before departure
-                          </td>
-                        </tr>
-                      ))}
+                        const groupedCharges = allCharges.reduce((groups, charge) => {
+                          const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
+
+                          if (!groups[key]) {
+                            groups[key] = [];
+                          }
+
+                          groups[key].push(charge);
+
+                          return groups;
+                        }, {});
+
+                        const getPassengerName = (paxType) => {
+                          if (paxType === 0) return "ADULT";
+                          if (paxType === 1) return "CHILD";
+                          if (paxType === 2) return "INFANT";
+
+                          return "PASSENGER";
+                        };
+
+                        const formatCharge = (charge) => {
+                          if (!charge) return "₹0";
+
+                          if (
+                            charge.Value === undefined ||
+                            charge.Value === null ||
+                            charge.Value === ""
+                          ) {
+                            return "₹0";
+                          }
+
+                          if (charge.ValueType === 1) {
+                            return `${charge.Value}% of Fare`;
+                          }
+
+                          if (isNaN(Number(charge.Value))) {
+                            return charge.Value;
+                          }
+
+                          return `₹${Number(charge.Value).toLocaleString("en-IN")}`;
+                        };
+
+                        return Object.values(groupedCharges).map(
+                          (charges, index) => {
+                            const firstCharge = charges[0];
+
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  If rescheduled between <strong>{firstCharge.DurationFrom}{" "}</strong>
+                                  {firstCharge.DurationTypeFrom === 0
+                                    ? "hours"
+                                    : "days"}{" "}
+                                  to{" "}
+                                  <strong>{firstCharge.DurationTo}{" "}</strong>
+                                  {firstCharge.DurationTypeTo === 0
+                                    ? "hours"
+                                    : "days"}{" "}
+                                  before departure
+                                </td>
+
+                                <td>
+                                  {charges.map((charge) => (
+                                    <div
+                                      key={charge.paxType}
+                                      className="mb-1"
+                                    >
+                                      <strong>
+                                        {getPassengerName(charge.paxType)}:
+                                      </strong>{" "}
+                                      {formatCharge(charge)}
+                                    </div>
+                                  ))}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        );
+                      })()}
                     </tbody>
                   </table>
                 )}
