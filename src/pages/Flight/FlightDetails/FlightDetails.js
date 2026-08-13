@@ -62,6 +62,9 @@ export const FlightDetails = () => {
   const [showCabinBaggage, setShowCabinBaggage] = useState(false);
   const [showCheckinBaggage, setShowCheckinBaggage] = useState(false);
 
+  const [seatMap, setSeatMap] = useState([]);
+  const [showSeatMealSection, setShowSeatMealSection] = useState(false);
+
   useEffect(() => {
     const fetchCountryCode = async () => {
       try {
@@ -238,14 +241,49 @@ export const FlightDetails = () => {
   const infantRule = paxRules.find(
     x => Number(x?.Pax_type) === 2
   );
+
   const emptyPassenger = {
+    // Basic details
     title: "Mr",
     firstName: "",
     lastName: "",
-    gender: "Male",
+    gender: "",
+
+    // Contact
     countryCode: "+91",
     mobile: "",
     email: "",
+
+    // Date / age
+    dob: "",
+    age: "",
+
+    // Nationality
+    nationality: "",
+
+    // Passport
+    passportNumber: "",
+    passportCountry: "",
+    passportExpiry: "",
+
+    // PAN
+    panCardNo: "",
+
+    // ID proof
+    idProofNumber: "",
+
+    // Student
+    studentId: "",
+
+    // Defence
+    defenceServiceId: "",
+    defenceIssueDate: "",
+    defenceExpiryDate: "",
+
+    // SSR
+    mandatorySSR: "",
+
+    // Frequent flyer
     airline: "",
     ffNumber: "",
     showFF: false,
@@ -263,14 +301,14 @@ export const FlightDetails = () => {
     setAdultForms(prev => [
       ...prev,
       {
-        ...emptyPassenger
-      }
+        ...emptyPassenger,
+      },
     ]);
   };
 
   const handleRemoveAdult = (index) => {
     setAdultForms(prev =>
-        prev.filter((_, i) => i !== index)
+      prev.filter((_, i) => i !== index)
     );
   };
 
@@ -289,18 +327,20 @@ export const FlightDetails = () => {
 
   const handleAddChild = () => {
     if (childForms.length >= childCount) {
-        return;
+      return;
     }
+
     setChildForms(prev => [
-        ...prev,
-        {
-            ...emptyPassenger
-        }
+      ...prev,
+      {
+        ...emptyPassenger,
+      },
     ]);
   };
+
   const handleRemoveChild = (index) => {
     setChildForms(prev =>
-        prev.filter((_, i) => i !== index)
+      prev.filter((_, i) => i !== index)
     );
   };
 
@@ -319,19 +359,20 @@ export const FlightDetails = () => {
 
   const handleAddInfant = () => {
     if (infantForms.length >= infantCount) {
-        return;
+      return;
     }
+
     setInfantForms(prev => [
-        ...prev,
-        {
-            ...emptyPassenger
-        }
+      ...prev,
+      {
+        ...emptyPassenger,
+      },
     ]);
   };
 
   const handleRemoveInfant = (index) => {
     setInfantForms(prev =>
-        prev.filter((_, i) => i !== index)
+      prev.filter((_, i) => i !== index)
     );
   };
 
@@ -368,29 +409,66 @@ export const FlightDetails = () => {
 
   const [saveBilling, setSaveBilling] = useState(false);
 
-  const handlePassengerDetails = () => {
+  const handlePassengerDetails = async () => {
     if (!saveBilling) {
       return;
     }
 
-    const passengerDetails = {
-      adults: adultForms,
-      children: childForms,
-      infants: infantForms,
+    setLoading(true);
+    try {
+      const passengerDetails = {
+        adults: adultForms,
+        children: childForms,
+        infants: infantForms,
+        gst: {
+          enabled: showGST,
+          gstNumber: showGST ? gstNumber : "",
+          companyName: showGST ? companyName : "",
+        },
+      };
+      const requestData = {
+        adults: adultForms,
+        children: childForms,
+        infants: infantForms,
+        gst_number: showGST ? gstNumber : "",
+        company_name: showGST ? companyName : "",
+        flight_key: repriceFlight?.Flight_Key || "",
+        search_key: search_key || "",
+      };
 
-      gst: {
-        enabled: showGST,
-        gstNumber: showGST ? gstNumber : "",
-        companyName: showGST ? companyName : "",
-      },
-    };
+      const response = await http.post(
+        "/get-seatMap-details",
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    localStorage.setItem(
-      "savedPassengerDetails",
-      JSON.stringify(passengerDetails)
-    );
+      const responseData = response.data.data;
 
-    console.log("Passenger details saved:", passengerDetails);
+      setSeatMap(responseData.AirSeatMaps);
+
+      if (
+        response.status >= 200 &&
+        response.status < 300
+      ) {
+         setShowSeatMealSection(true);
+        localStorage.setItem(
+          "savedPassengerDetails",
+          JSON.stringify(passengerDetails)
+        );
+      }
+
+    } catch (error) {
+      console.error(
+        "Passenger API error:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const travelDate = repriceFlight?.TravelDate
@@ -510,6 +588,8 @@ export const FlightDetails = () => {
     (total, item) => total + Number(item.Total_Amount || 0),
     0
   );
+
+  console.log(seatMap, 'seatMap');
 
 
   if (loading) return <Loader />;
@@ -1231,116 +1311,6 @@ export const FlightDetails = () => {
                     ))}
                   </div>
                 </div>
-
-                {/* Hotel Offers */}
-                {/* <div className="dfgudfg588r position-relative">
-                  <img
-                    src="/images/plane.png"
-                    className="iejnuiwr position-absolute"
-                    alt=""
-                  />
-
-                  <div className="sdfgsdf">
-                    <h5 className="mb-3">
-                      <span className="kfjsoijfosd me-3 text-center">
-                        <i className="bi bi-gift"></i>
-                      </span>
-                      Book a Flight & unlock these offers
-                    </h5>
-                  </div>
-
-                  <div className="sdbff5sdf">
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="dfsfdf6985 p-3">
-                          <div className="fdfg">
-                            <h6 className="mb-2">
-                              <span>
-                                <span className="isdnfsdfsd text-center position-relative">
-                                  <i className="bi position-relative bi-percent"></i>
-                                </span>{" "}
-                                Exclusive rates
-                              </span>{" "}
-                              on Select Properties in Navi Mumbai
-                            </h6>
-                          </div>
-
-                          <div className="sdbfhsdf8sd">
-                            <div className="row">
-                              {[1, 2, 3].map((_, idx) => (
-                                <div className="col-lg-4" key={idx}>
-                                  <div className="dfbgsdf28">
-                                    <div className="fsdfsd55f">
-                                      <img src="/images/smallimg2.png" alt="" />
-                                    </div>
-
-                                    <div className="dfgsdf89 py-1">
-                                      <div className="dfdf">
-                                        <p className="mb-0">
-                                          <i className="bi bi-geo-alt"></i>{" "}
-                                          Aurika, Mumbai
-                                        </p>
-                                      </div>
-
-                                      <div className="fndf78 mb-2">
-                                        {[...Array(5)].map((_, i) => (
-                                          <i
-                                            className="fa-solid fa-star"
-                                            key={i}
-                                          ></i>
-                                        ))}
-                                      </div>
-
-                                      <div className="sfsdf4 mb-1">
-                                        <h6 className="me-3">₹ 6,973</h6>
-
-                                        <h6>₹ 10,384</h6>
-                                      </div>
-
-                                      <div
-                                        style={{
-                                          fontSize: "0.8rem",
-                                          lineHeight: 1.9,
-                                        }}
-                                        className="stop-info d-inline-block px-2 rounded-pill py-0"
-                                      >
-                                        You save ₹ 3411
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-lg-3">
-                        <div className="dfsdfsdf5 h-100 position-relative text-center">
-                          <img
-                            src="/images/affgse.png"
-                            className="img-fluid position-absolute bottom-0 end-0 start-0"
-                            alt=""
-                          />
-
-                          <h6 className="mb-0">
-                            <span className="position-relative mb-2">
-                              <i className="bi position-absolute top-50 start-50 translate-middle bi-tags-fill"></i>
-                            </span>
-
-                            <span className="duihskfsdf">Extra</span>
-
-                            <span>12% off</span>
-
-                            <span className="duihskfsdf">using code</span>
-
-                            <span>BOOKSTAYS</span>
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
 
                 {/* Trip Secure */}
                 <div className="fgdfg584d">
@@ -2169,111 +2139,113 @@ export const FlightDetails = () => {
                     onClick={handlePassengerDetails}>Continue</button>
                 </div>
 
-                <div className="ucbhsduodkf mt-4">
-                  <div className="header-block">
-                    <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
-                      <li className="nav-item" role="presentation">
-                        <button
-                          className="nav-link active"
-                          id="seats-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#seats"
-                          type="button"
-                          role="tab"
-                          aria-controls="seats"
-                          aria-selected="true"
-                        >
-                          <img src="/images/seatda.png" className="me-1" alt="" /> Seats
-                        </button>
-                      </li>
+                {showSeatMealSection && (
+                  <div className="ucbhsduodkf mt-4">
+                    <div className="header-block">
+                      <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
+                        <li className="nav-item" role="presentation">
+                          <button
+                            className="nav-link active"
+                            id="seats-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#seats"
+                            type="button"
+                            role="tab"
+                            aria-controls="seats"
+                            aria-selected="true"
+                          >
+                            <img src="/images/seatda.png" className="me-1" alt="" /> Seats
+                          </button>
+                        </li>
 
-                      <li className="nav-item" role="presentation">
-                        <button
-                          className="nav-link"
-                          id="meals-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#meals"
-                          type="button"
-                          role="tab"
-                          aria-controls="meals"
-                          aria-selected="false"
-                        >
-                          <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="tab-content" id="myTabContent">
-                    <div
-                      className="tab-pane fade show active"
-                      id="seats"
-                      role="tabpanel"
-                      aria-labelledby="seats-tab"
-                    >
-                      <div className="duisanfjsdfsf position-relative">
-                        <FlightSeats />
-                      </div>
+                        <li className="nav-item" role="presentation">
+                          <button
+                            className="nav-link"
+                            id="meals-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#meals"
+                            type="button"
+                            role="tab"
+                            aria-controls="meals"
+                            aria-selected="false"
+                          >
+                            <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
+                          </button>
+                        </li>
+                      </ul>
                     </div>
 
-                    <div
-                      className="tab-pane fade"
-                      id="meals"
-                      role="tabpanel"
-                      aria-labelledby="meals-tab"
-                    >
-                      <div className="doismkfjhisd py-3">
-                        <div className="duisnuiherer border-bottom pb-3 mb-3">
-                          <div className="oidiewrwer d-flex justify-content-between mb-3">
-                            <div className="diewirhwerwer">
-                              <h5 className="mb-2">
-                                <b>Delhi</b> - <b>Mumbai</b>
-                              </h5>
+                    <div className="tab-content" id="myTabContent">
+                      <div
+                        className="tab-pane fade show active"
+                        id="seats"
+                        role="tabpanel"
+                        aria-labelledby="seats-tab"
+                      >
+                        <div className="duisanfjsdfsf position-relative">
+                          <FlightSeats seatMap={seatMap}/>
+                        </div>
+                      </div>
 
-                              <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                      <div
+                        className="tab-pane fade"
+                        id="meals"
+                        role="tabpanel"
+                        aria-labelledby="meals-tab"
+                      >
+                        <div className="doismkfjhisd py-3">
+                          <div className="duisnuiherer border-bottom pb-3 mb-3">
+                            <div className="oidiewrwer d-flex justify-content-between mb-3">
+                              <div className="diewirhwerwer">
+                                <h5 className="mb-2">
+                                  <b>Delhi</b> - <b>Mumbai</b>
+                                </h5>
+
+                                <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                              </div>
+
+                              <p className="mb-0">Select your meal</p>
                             </div>
 
-                            <p className="mb-0">Select your meal</p>
-                          </div>
+                            <div className="dioewiuhrew d-flex gap-2">
+                              <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                                <input type="checkbox" id="veg" className="d-none position-absolute" />
 
-                          <div className="dioewiuhrew d-flex gap-2">
-                            <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                              <input type="checkbox" id="veg" className="d-none position-absolute" />
+                                <img src="/images/veg.png" alt="" /> <b>Veg</b>
+                              </label>
 
-                              <img src="/images/veg.png" alt="" /> <b>Veg</b>
-                            </label>
+                              <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                                <input type="checkbox" id="nonveg" className="d-none position-absolute" />
 
-                            <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                              <input type="checkbox" id="nonveg" className="d-none position-absolute" />
-
-                              <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="dmiwejrwer row">
-                          {Array.from({ length: 5 }).map((_, index) => (
-                            <div className="col-lg-6 mb-4">
-                              <Meal />
+                                <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
+                              </label>
                             </div>
-                          ))}
-                        </div>
-
-                        <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
-                          <div className="uidnwehruiewr position-relative rounded-circle">
-                            <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
                           </div>
 
-                          <div className="duihsnerew">
-                            <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
+                          <div className="dmiwejrwer row">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                              <div className="col-lg-6 mb-4">
+                                <Meal />
+                              </div>
+                            ))}
+                          </div>
 
-                            <p className="mb-0">Availability may vary based on flight duration.</p>
+                          <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+                            <div className="uidnwehruiewr position-relative rounded-circle">
+                              <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+                            </div>
+
+                            <div className="duihsnerew">
+                              <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
+
+                              <p className="mb-0">Availability may vary based on flight duration.</p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 

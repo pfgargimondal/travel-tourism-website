@@ -38,7 +38,7 @@ const BOOKED = new Set([
 
 
 
-export const FlightSeats = () => {
+export const FlightSeats = (seatMap) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
 
     const seatClass = (rowNum, letter) => {

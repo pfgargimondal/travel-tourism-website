@@ -664,7 +664,7 @@
 
 /* MODAL */
 .gallery-modal {
-  display: none;
+  /* display: none; */
   position: fixed;
   z-index: 9999;
   padding-top: 50px;
