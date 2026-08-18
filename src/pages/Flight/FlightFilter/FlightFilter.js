@@ -1,6 +1,6 @@
 import { FollowUsInstagram } from "../../../component/FollowUsInstagram/FollowUsInstagram";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -288,6 +288,40 @@ export const FlightFilter = () => {
 
     setSelectedOrigin(destination);
     setSelectedDestination(origin);
+  };
+
+  const airlineCounts = useMemo(() => {
+    const flights = flightList?.TripDetails?.flatMap(
+      trip => trip?.Flights || []
+    ) || [];
+    const airlineMap = {};
+    flights.forEach((flight) => {
+      const segment = flight?.Segments?.[0];
+
+      const airlineCode = segment?.Airline_Code || flight?.Airline_Code;
+      const airlineName = segment?.Airline_Name || airlineCode;
+
+      if (!airlineCode) return;
+
+      if (!airlineMap[airlineCode]) {
+        airlineMap[airlineCode] = {
+          airlineCode,
+          airlineName,
+          count: 0,
+        };
+      }
+
+      airlineMap[airlineCode].count += 1;
+    });
+
+    return Object.values(airlineMap);
+  }, [flightList]);
+
+  const cabinClassMap = {
+    "0": "Economy",
+    "3": "Premium Economy",
+    "1": "Business",
+    "2": "First Class",
   };
 
   if (loading) return <Loader />;
@@ -904,45 +938,27 @@ export const FlightFilter = () => {
         <section className="cdsnxfggfsD pt-5 pb-3">
           <div className="container">
             <div className="airlines-row">
-              <div className="airline-item">
-                <img src="./images/americaair.jpg" alt="" />
-                <div>
-                  <h6>American Airline</h6>
-                  <p>216 Flights</p>
-                </div>
-              </div>
-
-              <div className="airline-item">
-                <img src="./images/deltaair.png" alt="" />
-                <div>
-                  <h6>Delta Airlines</h6>
-                  <p>569 Flights</p>
-                </div>
-              </div>
-
-              <div className="airline-item">
-                <img src="./images/emiratesair.jpg" alt="" />
-                <div>
-                  <h6>Emirates</h6>
-                  <p>129 Flights</p>
-                </div>
-              </div>
-
-              <div className="airline-item">
-                <img src="./images/franceair.png" alt="" />
-                <div>
-                  <h6>Air France</h6>
-                  <p>600 Flights</p>
-                </div>
-              </div>
-
-              <div className="airline-item">
-                <img src="./images/quaterair.jpg" alt="" />
-                <div>
-                  <h6>Qatar Airways</h6>
-                  <p>200 Flights</p>
-                </div>
-              </div>
+                {airlineCounts.map((airline) => (
+                  <div
+                    className="airline-item"
+                    key={airline.airlineCode}
+                  >
+                    <img
+                        src={`https://images.kiwi.com/airlines/64/${airline.airlineCode}.png`}
+                        className="airline-logo"
+                        alt={airline.airlineName}
+                        onError={(e) => {
+                          e.target.src = "./images/indigo.png";
+                        }}
+                      />
+                    <div>
+                      <h6>{airline.airlineName}</h6>
+                      <p>
+                        {airline.count} {airline.count === 1 ? "Flight" : "Flights"}
+                      </p>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </section>
@@ -1876,7 +1892,7 @@ export const FlightFilter = () => {
 
                       return (
                         <div className="flight-card" key={index}>
-                          <div className="flight-top d-flex justify-content-between align-items-center mb-4">
+                          <div className="flight-top d-flex justify-content-between align-items-center mb-2">
                             <div className="uhncoikcdf d-flex align-items-center">
                               <div className="heart bg-white">
                                 <img src="./images/likeicon.png" alt="" />
@@ -1962,7 +1978,7 @@ export const FlightFilter = () => {
                                                       Add to compare +
                                                   </a> */}
 
-                                  <div className="icsnduhh row align-items-center my-4">
+                                  <div className="icsnduhh row align-items-center my-2">
                                     {/* Airline Details */}
                                     <div className="col-2">
                                       <div className="gfjh55 text-start ps-3">
@@ -2288,11 +2304,31 @@ export const FlightFilter = () => {
                               },
                             }}
                           >
-                            {selectedFlight.Fares.map((fare, fareIndex) => {
+                         {selectedFlight.Fares
+                            ?.filter((fare) => {
                               const adultFare = fare.FareDetails?.find(
-                                (detail) => detail.PAX_Type === 0,
+                                (detail) => detail.PAX_Type === 0
                               );
-                              const apiFareDetails = fareApiData[fare.Fare_Id];
+
+                              const fareCabinClass =
+                                adultFare?.FareClasses?.[0]?.CabinClass;
+
+                              const selectedCabinName =
+                                cabinClassMap[selectedCabinClass];
+
+                              return (
+                                !selectedCabinClass ||
+                                fareCabinClass?.toLowerCase() ===
+                                  selectedCabinName?.toLowerCase()
+                              );
+                            })
+                            .map((fare, fareIndex) => {
+                                  const adultFare = fare.FareDetails?.find(
+                                    (detail) => detail.PAX_Type === 0
+                                  );
+
+                                  const apiFareDetails = fareApiData[fare.Fare_Id];
+
 
                               return (
                                 <SwiperSlide>
@@ -2496,18 +2532,19 @@ export const FlightFilter = () => {
                                         <>
                                           <div className="djnskmlfdsf">
                                             <div className="imdiajojidsf">
-                                              <div className="d-flex align-items-center justify-content-between px-3 pb-3">
+                                              <div
+                                                onClick={() =>
+                                                  handleFareRules(fareIndex)
+                                                }
+                                                className="d-flex align-items-center justify-content-between px-3 pb-3"
+                                              >
                                                 <h6 className="d-flex align-items-center mb-0">
                                                   <i className="bi me-1 text-center text-white bi-info-lg"></i>{" "}
                                                   Fare Rules
                                                 </h6>
 
                                                 {window.innerWidth > 991 && (
-                                                  <i
-                                                    onClick={() =>
-                                                      handleFareRules(fareIndex)
-                                                    }
-                                                    className={`${fareRules === fareIndex ? "bi-chevron-left" : "bi-chevron-right"} bi`}
+                                                  <i className={`${fareRules === fareIndex ? "bi-chevron-up" : "bi-chevron-right"} bi`}
                                                   ></i>
                                                 )}
 

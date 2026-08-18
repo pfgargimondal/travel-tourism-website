@@ -166,6 +166,7 @@ small.bgdbxzvxcv{
     background: #fff !important;
     border-radius: 12px;
     overflow: hidden;
+    padding: 10px;
     margin-bottom: 1.4rem;
     box-shadow: var(--light-box-shadow);
 }
@@ -313,7 +314,7 @@ small.bgdbxzvxcv{
 
 .heart {
     background: white;
-    padding: 5px 5px;
+    padding: 2px 2px;
     border-radius: 50%;
     border: 1px solid var(--border);
     z-index: 999;
@@ -451,7 +452,7 @@ p.nfkjiuiewnjer{
 
 /* Airline */
 .airline-logo {
-    width: 3.5rem;
+    width: 2.5rem;
 }
 
 .compare-link {
@@ -536,7 +537,7 @@ p.nfkjiuiewnjer{
 }
 
 .price-section h4 {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 /* Right Section */
@@ -548,7 +549,7 @@ p.nfkjiuiewnjer{
 /* Stop Info */
 .stop-info {
     color: rgb(3, 104, 3);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     padding: 2px 1rem 2px 1rem;
     border-radius: 5px;
@@ -798,11 +799,11 @@ span.cdhnzdfsfzxdd{
 .xnfgsfsdcfe:before{
     position: absolute;
     content: "";
-    border-top: 8px solid transparent;
-	border-right: 16px solid var(--blue-primary-color);
-	border-bottom: 8px solid transparent;
-    left: -5%;
-    bottom: 6.5rem;
+    border-top: 16px solid var(--blue-primary-color);
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    right: 4%;
+    bottom: -6%;
 }
 
 .dubyasyufsdf{
@@ -847,21 +848,10 @@ span.cdhnzdfsfzxdd{
 .sdjkcnsidjcije{
     border: 1px solid var(--border);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-    right: -100%;
+    right: 0;
     height: calc(100% - 50%);
-    bottom: 0;
+    bottom: 25%;
     z-index: 99999;
-}
-
-.icsklmdjfisdfsdf .swiper-slide:last-child .sdjkcnsidjcije{
-    right: initial;
-    left: -100%;
-}
-
-.icsklmdjfisdfsdf .swiper-slide:last-child .xnfgsfsdcfe:before{
-    left: initial;
-    right: -5.5%;
-    transform: scale(-1);
 }
 
 .jifjisiudj{
@@ -913,11 +903,11 @@ span.cdhnzdfsfzxdd{
 }
 
 small.sjkdnfslfs{
-    font-size: 0.8rem !important;
+    font-size: 12px !important;
 }
 
 .uhncoikcdf p{
-    font-size: 0.8rem;
+    font-size: 12px;
     font-weight: 600;
     margin-left: -1.5rem;
     padding: 2px 1rem 2px 2rem;
@@ -926,8 +916,13 @@ small.sjkdnfslfs{
     background: color-mix(in srgb, var(--success) 10%, #fff 85%);
 }
 
+.gfjh55 h5 span:first-child,
+.time-wrapper h5{
+    font-size: 16px;
+}
+
 .gfjh55 h5 span:last-child{
-    font-size: 0.8rem !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     color: var(--light-highlighted-text-color);
 }
@@ -964,15 +959,16 @@ small.sjkdnfslfs{
 .time-wrapper .stop-info{
     color: var(--main-green-color);
     background: #fff !important;
+    font-size: 12px;
 }
 
 .doasjjishnidchsd .dosncjknzkczxc{
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2rem;
+    height: 2rem;
 }
 
 .doasjjishnidchsd .dosncjknzkczxc img{
-    width: 1.2rem;
+    width: 1rem;
 }
 
 .doasjjishnidchsd:first-child .dosncjknzkczxc{
@@ -984,7 +980,7 @@ small.sjkdnfslfs{
 }
 
 .doasjjishnidchsd:nth-child(4n - 2) .dosncjknzkczxc img{
-    width: 0.9rem;
+    width: 0.7rem;
 }
 
 .doasjjishnidchsd:nth-child(4n - 1) .dosncjknzkczxc{
@@ -1000,7 +996,12 @@ small.sjkdnfslfs{
 }
 
 .doasjjishnidchsd:last-child .dosncjknzkczxc img{
-    width: 1.5rem;
+    width: 1rem;
+}
+
+.dikijasdlfdsf .btn-tour {
+    padding: 5px 16px;
+    font-size: 14px;
 }
 
 .dinsdlcjiodsfc small{
@@ -1009,7 +1010,7 @@ small.sjkdnfslfs{
 }
 
 .dinsdlcjiodsfc p{
-    font-size: 0.9rem !important;
+    font-size: 12px !important;
     font-weight: 600;
     color: #000 !important;
 }
@@ -1256,12 +1257,6 @@ small.sjkdnfslfs{
         height: 85vh;
     }
 
-    .sdjkcnsidjcije.position-absolute{
-        position: relative !important;
-        right: initial;
-        bottom: initial;
-    }
-
     .jifjisiudj{
         max-height: 25rem;
         height: auto;
@@ -1269,14 +1264,6 @@ small.sjkdnfslfs{
 
     .unjcisdosidd.d-flex{
         display: none !important;
-    }
-
-    .xnfgsfsdcfe:before {
-        left: initial;
-        bottom: initial;
-        right: 1.5%;
-        top: -4%;
-        transform: rotate(90deg);
     }
 
     .flight-modal-header{
@@ -1287,19 +1274,8 @@ small.sjkdnfslfs{
         left: initial;
     }
 
-    .icsklmdjfisdfsdf .col-lg-4:nth-child(3n) .xnfgsfsdcfe:before{
-        transform: rotate(90deg);
-        right: 4%;
-    }
-}
-
-
-
-
-
-@media only screen and (max-width: 797px){
-    .xnfgsfsdcfe:before {
-        right: 2%;
+    .sdjkcnsidjcije{
+        overflow-y: auto;
     }
 }
 
@@ -1342,10 +1318,6 @@ small.sjkdnfslfs{
 
     .docmosdfsdf p{
         font-size: 0.9rem;
-    }
-
-    .xnfgsfsdcfe:before {
-        right: 3%;
     }
 
     .srch-filtr-wrpper .flight-trip-type .checkbox-wrapper-15{
@@ -1506,10 +1478,6 @@ small.sjkdnfslfs{
     i.uinjocjso-icon{
         font-size: 1.1rem;
     }
-    
-    .sdjkcnsidjcije.pe-0{
-        padding-right: 1rem !important;
-    }
 
     .col-lg-3.jiksnzjisd{
         margin-top: 0;
@@ -1527,15 +1495,6 @@ small.sjkdnfslfs{
     }
 }
 
-
-
-
-
-@media only screen and (max-width: 460px) {
-    .xnfgsfsdcfe:before {
-        right: 4%;
-    }
-}
 
 
 

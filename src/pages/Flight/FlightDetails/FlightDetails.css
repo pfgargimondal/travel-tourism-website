@@ -116,7 +116,6 @@
   background: #fff;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 .summary-row {
@@ -833,7 +832,7 @@
   font-size: 1.1rem;
 }
 
-.flight-details-wrapper span.udnehnewr > p{
+.flight-details-wrapper .udnehnewr > p{
   font-size: 0.9rem;
   color: var(--blue-primary-color) !important;
 }
@@ -987,4 +986,304 @@
 
 .idcnuihiwer .duihsnerew p{
   font-size: 0.8rem;
+}
+
+.cdnjhfxhdgdfff span:first-child{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.cdnjhfxhdgdfff span:first-child i{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--blue-primary-color);
+}
+
+span.inmokkojjeorr strong{
+  color: var(--light-black-text-color);
+}
+
+span.inmokkojjeorr{
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--blue-primary-color);
+}
+
+.cdnjhfxhdgdfff > i{
+  color: var(--blue-secondary-color);
+}
+
+.baggage-info-popup{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 300px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: var(--light-box-shadow);
+  z-index: 9999;
+}
+
+.fdgdvxcv{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
+.fdgdvxcv:first-child{
+  border-top: 0 !important;
+}
+
+.fdgdvxcv span{
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+}
+
+.vdncbxvxv i{
+  font-size: 1.8rem;
+  color: var(--blue-primary-color);
+}
+
+.cdnjhfxhdgdfff .baggage-info-popup span:first-child{
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.lnmclkmzksd i{
+  font-size: 2rem;
+  position: initial !important;
+}
+
+.dnsjkhfisdf .fdgdvxcv{
+  font-weight: 600;
+  font-size: 16px
+}
+
+.jianjdlkmjosdjif span:last-child{
+  font-weight: 500;
+}
+
+.bjfnsjojfmsdkf i{
+  color: var(--blue-primary-color);
+}
+
+.add-extra-baggage .list-group{
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.dnnmakwrr > i{
+  color: var(--blue-primary-color) !important;
+}
+
+.ajidbajoijmdd h5{
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-remove-bag,
+.btn-add-bag{
+  background: #fff !important;
+  border: 1px solid var(--blue-primary-color) !important;
+  color: #000 !important;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-remove-bag i,
+.btn-add-bag i{
+  color: #000 !important;
+}
+
+.btn-remove-bag:hover,
+.btn-add-bag:hover{
+  background: var(--blue-primary-color) !important;
+}
+
+.btn-remove-bag:hover i,
+.btn-add-bag:hover i{
+  color: #fff !important;
+}
+
+.btn-remove-bag{
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.btn-add-bag{
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.idajsjiw{
+  width: 60px;
+}
+
+p.hgadsdzxeww{
+  font-size: 0.8rem;
+}
+
+.inkmlkjsoidr .modal-content{
+  border-radius: var(--bs-modal-inner-border-radius);
+  overflow: hidden;
+}    
+
+.sxvdgzzdss{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+i.sfgdgsfsfsf-icon{
+  color: var(--blue-secondary-color);
+}
+
+.xfhxcxdcvddd i{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: block;
+  text-align: center;
+  line-height: 1.8;
+}
+
+h6.dozlkcmokoke{
+  font-size: 1rem;
+}
+
+.uineiokee i{
+  color: var(--blue-primary-color);
+}
+
+p.odmlksjfmdf{
+  font-size: 0.8rem;
+}
+
+.dioweierewrwer span.uinjiojospaed i{
+  font-size: 1.4rem;
+  color: var(--blue-primary-color);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  text-align: center;
+  line-height: 1.4;
+  background: #fff;
+  display: block;
+  position: relative;
+  z-index: 9999;
+}
+
+.dioweierewrwer span.uinjiojospaed:after{
+  position: absolute;
+  content: "";
+  border: 1px dashed color-mix(in srgb, var(--blue-secondary-color) 60%, #fff 95%);
+  height: 206%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.layover-box span{
+  font-size: 0.9rem;
+}
+
+.bfxgsdfzdfff{
+  border-radius: 25px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 5px 10px;
+  display: inline-block;
+  font-weight: 500;
+  color: var(--blue-primary-color);
+  font-size: 0.8rem;
+}
+
+.udnjeweopelr{
+  max-height: 52vh;
+  overflow-y: auto;
+}
+
+.udnjeweopelr::-webkit-scrollbar {
+    width: 5px;
+}
+
+.udnjeweopelr::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background: var(--blue-primary-color);
+}
+
+.udnjeweopelr::-webkit-scrollbar-track {
+    border-radius: 50px;
+    background: var(--border);
+}
+
+.hjhjk{
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.fgderhsraerr{
+  border: 1px solid var(--card-border-color);
+  border-top: 0;
+}
+
+.flight-booking-modal-backdrop{
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+}
+
+.flight-booking-modal-backdrop-hide{
+  z-index: -99999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.flight-booking-modal{
+  width: 40%;
+  max-width: 95%;
+  z-index: 999999;
+  opacity: 1;
+  visibility: visible;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+}
+
+.flight-booking-modal-hide{
+  z-index: -999999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.flight-booking-modal-header{
+  border-bottom: 1px solid var(--border);
+}
+
+.flight-booking-modal-header i{
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.idhijweoijorwekrwer{
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.booking-total{
+  border-top: 1px solid var(--border);
 }

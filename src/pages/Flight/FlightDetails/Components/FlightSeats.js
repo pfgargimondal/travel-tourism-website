@@ -1,114 +1,548 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./FlightSeats.css";
 
-
-const TOTAL_ROWS = 20;
-const LEFT_COLS = ["A", "B", "C"];
-const RIGHT_COLS = ["D", "E", "F"];
-
-const EXIT_ROWS = [12, 13];
-const PREFERRED_ROWS = [1, 2, 3];
-
-const BOOKED = new Set([
-    "2C",
-    "2D",
-    "3F",
-    "4A",
-    "5F",
-    "6B",
-    "6C",
-    "7D",
-    "8B",
-    "9A",
-    "9F",
-    "10C",
-    "11D",
-    "13A",
-    "14E",
-    "15A",
-    "16B",
-    "16C",
-    "17F",
-    "18A",
-    "19D",
-    "19E",
-    "20B",
-    "20C",
-]);
+export const FlightSeats = ({
+    seatMap,
+    adultCount,
+    childCount,
+    infantCount,
+    onSeatChange,
+    onSeatSelectionComplete
+}) => {
 
 
+    const requiredSeats =
+    Number(adultCount || 0) +
+    Number(childCount || 0) +
+    Number(infantCount || 0);
 
-export const FlightSeats = (seatMap) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
 
-    const seatClass = (rowNum, letter) => {
-        const id = `${rowNum}${letter}`;
+    /*
+    |--------------------------------------------------------------------------
+    | GET SEAT DETAILS FROM API
+    |--------------------------------------------------------------------------
+    |
+    | API:
+    | Seat_Segments
+    |     -> Seat_Row
+    |         -> Seat_Details
+    |
+    */
 
-        if (BOOKED.has(id)) return "booked";
-        if (EXIT_ROWS.includes(rowNum)) return "extra";
-        if (PREFERRED_ROWS.includes(rowNum)) return "preferred";
+    const findSeatSegments = (obj) => {
 
-        return "";
+        if (!obj || typeof obj !== "object") {
+            return null;
+        }
+
+        if (Array.isArray(obj)) {
+
+            for (const item of obj) {
+
+                const result = findSeatSegments(item);
+
+                if (result) {
+                    return result;
+                }
+
+            }
+
+            return null;
+        }
+
+        if (obj.Seat_Segments) {
+            return obj.Seat_Segments;
+        }
+
+        for (const key of Object.keys(obj)) {
+
+            const result = findSeatSegments(obj[key]);
+
+            if (result) {
+                return result;
+            }
+
+        }
+
+        return null;
     };
 
-    const toggleSeat = (id) => {
-        if (BOOKED.has(id)) return;
+    const seatDetails = useMemo(() => {
 
-        setSelectedSeats((prev) =>
-            prev.includes(id)
-                ? prev.filter((seat) => seat !== id)
-                : [...prev, id]
+        const seatSegments = findSeatSegments(seatMap);
+
+        console.log("FOUND Seat_Segments:", seatSegments);
+
+        if (!seatSegments) {
+            console.log("Seat_Segments not found");
+            return [];
+        }
+
+        const rows = seatSegments.flatMap(
+            segment => segment?.Seat_Row || []
+        );
+
+        console.log("FOUND Seat Rows:", rows);
+        console.log("Seat Row Count:", rows.length);
+
+        const details = rows.flatMap(
+            row => row?.Seat_Details || []
+        );
+
+        return details;
+          // eslint-disable-next-line
+    }, [seatMap]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE UNIQUE SEAT LIST
+    |--------------------------------------------------------------------------
+    */
+
+    const seats = useMemo(() => {
+
+        const seatMapObject = {};
+        console.log(seatDetails, 'seatDetails');
+
+        seatDetails.forEach(seat => {
+
+            let seatName = seat.SSR_TypeName || "";
+
+            /*
+             * Convert:
+             * 1A
+             * 1B-NS
+             * 1C
+             * 1D
+             *
+             * Only take actual seat number + alphabet.
+             */
+
+            const match = seatName.match(/^(\d+)([A-F])/);
+
+            if (!match) {
+                return;
+            }
+
+            const row = Number(match[1]);
+            const column = match[2];
+
+            const id = `${row}${column}`;
+
+            /*
+             * Sometimes API contains duplicate records
+             * for the same seat.
+             */
+            if (!seatMapObject[id]) {
+
+                seatMapObject[id] = {
+                    id,
+                    row,
+                    column,
+                    status: seat.SSR_Status,
+                    amount: Number(seat.Total_Amount || 0),
+                    currency: seat.Currency_Code,
+                    ssrKey: seat.SSR_Key,
+                    type: seat.SSR_TypeName,
+                    description: seat.SSR_TypeDesc,
+                    flightId: seat.Flight_ID,
+                    segmentId: seat.Segment_Id
+                };
+
+            } else {
+
+                /*
+                 * If duplicate seat exists, prefer actual
+                 * seat record instead of generic "SEAT".
+                 */
+                if (
+                    seat.SSR_TypeName === id &&
+                    seatMapObject[id].type !== id
+                ) {
+                    seatMapObject[id] = {
+                        ...seatMapObject[id],
+                        status: seat.SSR_Status,
+                        amount: Number(seat.Total_Amount || 0),
+                        ssrKey: seat.SSR_Key,
+                        type: seat.SSR_TypeName,
+                        description: seat.SSR_TypeDesc
+                    };
+                }
+
+            }
+
+        });
+
+        return Object.values(seatMapObject);
+
+    }, [seatDetails]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ROWS
+    |--------------------------------------------------------------------------
+    */
+
+    const rows = useMemo(() => {
+
+        const grouped = {};
+
+        seats.forEach(seat => {
+
+            if (!grouped[seat.row]) {
+                grouped[seat.row] = [];
+            }
+
+            grouped[seat.row].push(seat);
+
+        });
+
+        return Object.keys(grouped)
+            .map(Number)
+            .sort((a, b) => a - b);
+
+    }, [seats]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | GET SEAT
+    |--------------------------------------------------------------------------
+    */
+
+    const getSeat = (row, column) => {
+
+        return seats.find(
+            seat =>
+                seat.row === row &&
+                seat.column === column
+        );
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SEAT PRICE CLASS
+    |--------------------------------------------------------------------------
+    */
+
+    const getPriceClass = (amount) => {
+
+        amount = Number(amount || 0);
+
+        if (amount === 0) {
+            return "free";
+        }
+
+        if (amount <= 200) {
+            return "price-200";
+        }
+
+        if (amount <= 400) {
+            return "price-400";
+        }
+
+        if (amount <= 1000) {
+            return "price-1000";
+        }
+
+        if (amount <= 1399) {
+            return "price-1399";
+        }
+
+        if (amount <= 1499) {
+            return "price-1499";
+        }
+
+        return "price-above-1500";
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | AVAILABLE / BOOKED
+    |--------------------------------------------------------------------------
+    */
+
+    const isAvailable = (seat) => {
+
+        if (!seat) {
+            return false;
+        }
+
+        /*
+         * Based on the API data you provided:
+         * SSR_Status = 2 -> actual available seat
+         */
+        return Number(seat.status) === 2;
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SELECT SEAT
+    |--------------------------------------------------------------------------
+    */
+
+    const toggleSeat = (seat) => {
+
+        if (!seat || !isAvailable(seat)) {
+            return;
+        }
+
+        setSelectedSeats(prev => {
+
+            // If already selected → remove it
+            const exists = prev.some(
+                item => item.id === seat.id
+            );
+
+            if (exists) {
+
+                const updated = prev.filter(
+                    item => item.id !== seat.id
+                );
+
+                if (onSeatChange) {
+                    onSeatChange(updated);
+                }
+
+                return updated;
+            }
+
+            // If selection is not full → add seat
+            if (prev.length < requiredSeats) {
+
+                const updated = [
+                    ...prev,
+                    seat
+                ];
+
+                if (onSeatChange) {
+                    onSeatChange(updated);
+                }
+
+                return updated;
+            }
+
+            // Selection is already full
+            // Replace the LAST selected seat
+            const updated = [
+                ...prev.slice(0, requiredSeats - 1),
+                seat
+            ];
+
+            if (onSeatChange) {
+                onSeatChange(updated);
+            }
+
+            return updated;
+        });
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TOTAL SELECTED PRICE
+    |--------------------------------------------------------------------------
+    */
+
+    const selectedTotal = selectedSeats.reduce(
+        (total, seat) =>
+            total + Number(seat.amount || 0),
+        0
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RENDER SEAT
+    |--------------------------------------------------------------------------
+    */
+
+    const renderSeat = (row, column) => {
+
+        const seat = getSeat(row, column);
+
+        // No seat at this position
+        if (!seat) {
+            return (
+                <div
+                    key={`${row}${column}`}
+                    className="seat empty-seat"
+                />
+            );
+        }
+
+        const available = isAvailable(seat);
+
+        const selected = selectedSeats.some(
+            item => item.id === seat.id
+        );
+
+        return (
+            <button
+                key={seat.id}
+                type="button"
+                disabled={!available}
+                onClick={() => available && toggleSeat(seat)}
+                title={
+                    available
+                        ? `${seat.id} - ₹${seat.amount}`
+                        : `${seat.id} - Not Available`
+                }
+                className={`
+                    seat
+                    ${available
+                        ? getPriceClass(seat.amount)
+                        : "booked"
+                    }
+                    ${selected ? "selected" : ""}
+                `}
+            >
+                <span>
+                    {seat.column}
+                </span>
+            </button>
         );
     };
+
+    const isSeatSelectionComplete =
+    selectedSeats.length === requiredSeats;
+
+    useEffect(() => {
+        onSeatSelectionComplete?.(isSeatSelectionComplete);
+    }, [isSeatSelectionComplete, onSeatSelectionComplete]);
 
 
     return (
         <div className="page-shell">
-            {/* STATUS */}
+
+            {/* =====================================================
+                SELECTION STATUS
+            ===================================================== */}
 
             <div className="selection-status">
+
                 {selectedSeats.length === 0 ? (
+
                     "No seat selected yet"
+
                 ) : (
+
                     <>
                         <span className="d-inline-block">
+
                             <span className="count">
-                                {selectedSeats.length}
+                                Selected: {selectedSeats.length} / {requiredSeats}
                             </span>
+
                             {" seat"}
-                            {selectedSeats.length > 1 ? "s" : ""}
+
+                            {selectedSeats.length > 1
+                                ? "s"
+                                : ""
+                            }
+
                             {" selected - "}
+
                         </span>
-                        <p className="xfbdfshbdbb mb-0">{[...selectedSeats].sort().join(", ")}</p>
+
+                        
+
+                        {selectedSeats.length > 0 && (
+                            <p className="xfbdfshbdbb mb-0">
+                                {selectedSeats
+                                    .map(seat => seat.id)
+                                    .sort()
+                                    .join(", ")
+                                }
+                            </p>
+                        )}
+
+                        <div className="mt-1">
+                            Total Seat Fare:
+                            <strong className="ms-1">
+                                ₹{selectedTotal}
+                            </strong>
+                        </div>
+
                     </>
+
                 )}
+
             </div>
 
-            {/* AIRCRAFT */}
+
+            {/* =====================================================
+                AIRCRAFT
+            ===================================================== */}
 
             <div className="aircraft-wrapper">
-                {/* SVG PLACEHOLDER */}
 
+                {/* YOUR EXISTING SVG */}
                 <svg
                     className="fuselage-bg"
                     viewBox="-150 0 700 1620"
                     preserveAspectRatio="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
+
                     <defs>
-                        <linearGradient id="fuselageGrad" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0" stopColor="#e9edf1" />
-                            <stop offset="0.5" stopColor="#f8fafc" />
-                            <stop offset="1" stopColor="#e2e6eb" />
+
+                        <linearGradient
+                            id="fuselageGrad"
+                            x1="0"
+                            y1="0"
+                            x2="1"
+                            y2="0"
+                        >
+                            <stop
+                                offset="0"
+                                stopColor="#e9edf1"
+                            />
+
+                            <stop
+                                offset="0.5"
+                                stopColor="#f8fafc"
+                            />
+
+                            <stop
+                                offset="1"
+                                stopColor="#e2e6eb"
+                            />
+
                         </linearGradient>
 
-                        <linearGradient id="wingGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0" stopColor="#e3e7eb" />
-                            <stop offset="1" stopColor="#ccd2d8" />
+                        <linearGradient
+                            id="wingGrad"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+                            <stop
+                                offset="0"
+                                stopColor="#e3e7eb"
+                            />
+
+                            <stop
+                                offset="1"
+                                stopColor="#ccd2d8"
+                            />
+
                         </linearGradient>
+
                     </defs>
 
-                    {/* Left Wing */}
+
+                    {/* LEFT WING */}
+
                     <polygon
                         points="30,870 -110,970 -80,1110 30,1060"
                         fill="url(#wingGrad)"
@@ -116,7 +550,9 @@ export const FlightSeats = (seatMap) => {
                         strokeWidth="2.5"
                     />
 
-                    {/* Right Wing */}
+
+                    {/* RIGHT WING */}
+
                     <polygon
                         points="370,870 510,970 480,1110 370,1060"
                         fill="url(#wingGrad)"
@@ -124,7 +560,9 @@ export const FlightSeats = (seatMap) => {
                         strokeWidth="2.5"
                     />
 
-                    {/* Left Engine */}
+
+                    {/* LEFT ENGINE */}
+
                     <rect
                         x="-58"
                         y="970"
@@ -136,7 +574,9 @@ export const FlightSeats = (seatMap) => {
                         strokeWidth="2"
                     />
 
-                    {/* Right Engine */}
+
+                    {/* RIGHT ENGINE */}
+
                     <rect
                         x="424"
                         y="970"
@@ -148,7 +588,9 @@ export const FlightSeats = (seatMap) => {
                         strokeWidth="2"
                     />
 
-                    {/* Tail Stabilizers */}
+
+                    {/* TAIL */}
+
                     <polygon
                         points="60,1430 -30,1500 10,1540 90,1470"
                         fill="url(#wingGrad)"
@@ -163,147 +605,131 @@ export const FlightSeats = (seatMap) => {
                         strokeWidth="2"
                     />
 
-                    {/* Vertical Tail */}
+
+                    {/* VERTICAL TAIL */}
+
                     <path
-                        d="M200,1420 C 210,1460 235,1500 260,1560 L 200,1600 L 150,1560 C 170,1500 190,1460 200,1420 Z"
+                        d="M200,1420 C210,1460 235,1500 260,1560 L200,1600 L150,1560 C170,1500 190,1460 200,1420 Z"
                         fill="url(#fuselageGrad)"
                         stroke="#c3cad1"
                         strokeWidth="2.5"
                     />
 
-                    {/* Fuselage */}
+
+                    {/* FUSELAGE */}
+
                     <path
                         d="
-                        M200,0
-                        C300,0 372,58 372,142
-                        L372,1290
-                        C372,1385 342,1440 292,1470
-                        Q200,1500 108,1470
-                        C58,1440 28,1385 28,1290
-                        L28,142
-                        C28,58 100,0 200,0
-                        Z
+                            M200,0
+                            C300,0 372,58 372,142
+                            L372,1290
+                            C372,1385 342,1440 292,1470
+                            Q200,1500 108,1470
+                            C58,1440 28,1385 28,1290
+                            L28,142
+                            C28,58 100,0 200,0
+                            Z
                         "
                         fill="url(#fuselageGrad)"
                         stroke="#c3cad1"
                         strokeWidth="3"
                     />
 
-                    {/* Cockpit */}
-                    <path
-                        d="M160,46 Q200,20 240,46"
-                        fill="none"
-                        stroke="#c3cad1"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                    />
-
-                    <path
-                        d="M172,62 Q200,42 228,62"
-                        fill="none"
-                        stroke="#c3cad1"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                    />
                 </svg>
 
+
                 <div className="cabin-content">
+
+                    {/* COCKPIT */}
+
                     <div className="cockpit-zone">
-                        <div className="cockpit-label">Cockpit</div>
+
+                        <div className="cockpit-label">
+                            Cockpit
+                        </div>
 
                         <div className="door-pill"></div>
+
                     </div>
+
 
                     <div className="cabin-divider">
-                        <span className="line"></span>
-
-                        <span className="tag">Front Galley</span>
 
                         <span className="line"></span>
+
+                        <span className="tag">
+                            Front Galley
+                        </span>
+
+                        <span className="line"></span>
+
                     </div>
 
-                    {/* SEAT MAP */}
+
+                    {/* =================================================
+                        DYNAMIC SEAT MAP
+                    ================================================= */}
 
                     <div className="seat-map">
-                        {Array.from({ length: TOTAL_ROWS }, (_, index) => {
-                            const rowNum = index + 1;
-                            const isExitRow = EXIT_ROWS.includes(rowNum);
+
+                        {rows.map(rowNum => {
 
                             return (
                                 <div
                                     key={rowNum}
-                                    className={`seat-row ${isExitRow ? "exit-row" : ""
-                                        }`}
+                                    className="seat-row"
                                 >
-                                    <span className="exit-tag">
-                                        {isExitRow ? "EXIT" : ""}
-                                    </span>
 
-                                    <div className="row-num">{rowNum}</div>
+                                    {/* LEFT ROW NUMBER */}
 
-                                    {/* LEFT SIDE */}
+                                    <div className="row-num">
+                                        {rowNum}
+                                    </div>
 
-                                    {LEFT_COLS.map((letter) => {
-                                        const id = `${rowNum}${letter}`;
 
-                                        return (
-                                            <button
-                                                key={id}
-                                                type="button"
-                                                disabled={BOOKED.has(id)}
-                                                onClick={() => toggleSeat(id)}
-                                                className={`seat ${seatClass(
-                                                    rowNum,
-                                                    letter
-                                                )} ${selectedSeats.includes(id)
-                                                    ? "selected"
-                                                    : ""
-                                                    }`}
-                                            >
-                                                <span>{letter}</span>
-                                            </button>
-                                        );
-                                    })}
+                                    {/* LEFT A B C */}
+
+                                    {["A", "B", "C"].map(
+                                        column =>
+                                            renderSeat(
+                                                rowNum,
+                                                column
+                                            )
+                                    )}
+
+
+                                    {/* AISLE */}
 
                                     <div className="aisle-gap"></div>
 
-                                    {/* RIGHT SIDE */}
 
-                                    {RIGHT_COLS.map((letter) => {
-                                        const id = `${rowNum}${letter}`;
+                                    {/* RIGHT D E F */}
 
-                                        return (
-                                            <button
-                                                key={id}
-                                                type="button"
-                                                disabled={BOOKED.has(id)}
-                                                onClick={() => toggleSeat(id)}
-                                                className={`seat ${seatClass(
-                                                    rowNum,
-                                                    letter
-                                                )} ${selectedSeats.includes(id)
-                                                    ? "selected"
-                                                    : ""
-                                                    }`}
-                                            >
-                                                <span>{letter}</span>
-                                            </button>
-                                        );
-                                    })}
+                                    {["D", "E", "F"].map(
+                                        column =>
+                                            renderSeat(
+                                                rowNum,
+                                                column
+                                            )
+                                    )}
+
+
+                                    {/* RIGHT ROW NUMBER */}
 
                                     <div className="row-num spacer">
                                         {rowNum}
                                     </div>
 
-                                    <span className="exit-tag">
-                                        {isExitRow ? "EXIT" : ""}
-                                    </span>
                                 </div>
                             );
+
                         })}
+
                     </div>
 
+
                     <div className="cabin-divider">
+
                         <span className="line"></span>
 
                         <span className="tag">
@@ -311,42 +737,76 @@ export const FlightSeats = (seatMap) => {
                         </span>
 
                         <span className="line"></span>
+
                     </div>
+
 
                     <div className="tail-zone">
-                        <div className="cockpit-label">Tail</div>
-                    </div>
-                </div>
-            </div>            
 
-            {/* LEGEND */}
+                        <div className="cockpit-label">
+                            Tail
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* =====================================================
+                LEGEND
+            ===================================================== */}
 
             <div className="legend">
+
                 <div className="legend-item">
-                    <span className="legend-swatch available"></span>
-                    Available
+                    <span className="legend-swatch free"></span>
+                    <span>Free</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-200"></span>
+                    <span>₹1-200</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-400"></span>
+                    <span>₹201-400</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-1000"></span>
+                    <span>₹401-1000</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-1399"></span>
+                    <span>₹1001-1399</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-1499"></span>
+                    <span>₹1400-1499</span>
+                </div>
+
+                <div className="legend-item">
+                    <span className="legend-swatch price-above-1500"></span>
+                    <span>Above ₹1500</span>
                 </div>
 
                 <div className="legend-item">
                     <span className="legend-swatch selected"></span>
-                    Selected
-                </div>
-
-                <div className="legend-item">
-                    <span className="legend-swatch preferred"></span>
-                    Preferred
-                </div>
-
-                <div className="legend-item">
-                    <span className="legend-swatch extra"></span>
-                    Extra Legroom
+                    <span>Selected</span>
                 </div>
 
                 <div className="legend-item">
                     <span className="legend-swatch booked"></span>
-                    Booked
+                    <span>Not Available</span>
                 </div>
+
             </div>
+
         </div>
-    )
-}
+    );
+};

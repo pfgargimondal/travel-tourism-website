@@ -20,6 +20,7 @@ export const FlightDetails = () => {
   // const [selectedBaggage, setSelectedBaggage] = useState(null);
   // const [quantity, setQuantity] = useState(1);
   const [selectedSSR, setSelectedSSR] = useState({});
+  const [flightBookingModal, setFlightBookingModal] = useState(false);
   // eslint-disable-next-line
   const [selectedMeal, setSelectedMeal] = useState(null);
   // eslint-disable-next-line
@@ -64,6 +65,7 @@ export const FlightDetails = () => {
 
   const [seatMap, setSeatMap] = useState([]);
   const [showSeatMealSection, setShowSeatMealSection] = useState(false);
+  const [isSeatSelectionComplete, setIsSeatSelectionComplete] = useState(false);
 
   useEffect(() => {
     const fetchCountryCode = async () => {
@@ -589,7 +591,7 @@ export const FlightDetails = () => {
     0
   );
 
-  console.log(seatMap, 'seatMap');
+  // console.log(seatMap, 'seatMap');
 
 
   if (loading) return <Loader />;
@@ -619,14 +621,14 @@ export const FlightDetails = () => {
                     {/* HEADER */}
                     <div className="flight-header mb-3">
                       <div className="ciuajmcokzxc d-flex gap-2 align-items-center">
-                        <img
+                        {/* <img
                           src={`https://images.kiwi.com/airlines/64/${segment?.Airline_Code}.png`}
                           className="airline-logo m-0"
                           alt=""
                           onError={(e) => {
                             e.target.src = "./images/indigo.png";
                           }}
-                        />
+                        /> */}
 
                         <div>
                           <h5 className="fw-bold mb-1 d-flex align-items-center gap-2">
@@ -644,7 +646,9 @@ export const FlightDetails = () => {
                             )}
                           </h5>
 
-                          <p className="mb-0">
+                          <p className="uineiokee mb-0">
+                            <i className="bi me-2 bi-calendar3"></i>
+
                             <span>{formattedDate} ·</span>
 
                             <span>
@@ -714,40 +718,31 @@ export const FlightDetails = () => {
                         return (
                           <div key={index}>
                             <div className="flight-card mb-3 py-3 px-2">
-                              <div className="icsnduhh row">
-                                <div className="col-1">
-                                  <div className="gfjh55 text-start">
-                                    <span>
-                                      <img
-                                        src={`https://images.kiwi.com/airlines/64/${segment.Airline_Code}.png`}
-                                        width={45}
-                                        alt=""
-                                        className="mb-2"
-                                      />
+                              <div className="gfjh55 d-flex align-items-center gap-2 text-start mb-2">
+                                <img
+                                  src={`https://images.kiwi.com/airlines/64/${segment.Airline_Code}.png`}
+                                  width={45}
+                                  alt=""
+                                />
 
-                                      <h6 className="mb-0">
-                                        {segment.Airline_Name}
-                                      </h6>
+                                <div className="dihuewoirwerwer">
+                                  <h6 className="mb-0">
+                                    {segment.Airline_Name}
+                                  </h6>
 
-                                      <small
-                                        style={{
-                                          color:
-                                            "var(--light-highlighted-text-color)",
-                                        }}
-                                      >
-                                        {segment.Airline_Code}{" "}
-                                        {segment.Flight_Number}
-                                      </small>
-                                    </span>
-                                  </div>
+                                  <p className="odmlksjfmdf mb-0">
+                                    {segment.Airline_Code}{" "}
+                                    {segment.Flight_Number}
+                                  </p>
                                 </div>
+                              </div>
 
-                                <div className="col-11">
-                                  <div className="time-wrapper d-flex justify-content-between gap-4 px-4">
+                              <div className="icsnduhh row">
+                                <div className="time-wrapper d-flex justify-content-between gap-5">
                                     <div className="pt-1">
                                       <h5 className="mb-1">{departureTime}</h5>
 
-                                      <span className="udnehnewr">
+                                      <div className="udnehnewr d-flex flex-column">
                                         <p className="fw-semibold mb-0 d-flex flex-column gap-1">
                                           <span>{segment.Origin_City}</span>
                                         </p>
@@ -762,7 +757,7 @@ export const FlightDetails = () => {
                                           Terminal{" "}
                                           {segment.Origin_Terminal || "-"}
                                         </small>
-                                      </span>
+                                      </div>
                                     </div>
 
                                     <div className="duration-wrapper flex-fill text-center">
@@ -795,7 +790,7 @@ export const FlightDetails = () => {
                                     <div className="text-end pt-1">
                                       <h5 className="mb-1">{arrivalTime}</h5>
 
-                                      <span className="udnehnewr">
+                                      <div className="udnehnewr d-flex flex-column">
                                         <p className="fw-semibold mb-0 d-flex flex-column gap-1">
                                           <span>
                                             {segment.Destination_City}
@@ -812,10 +807,9 @@ export const FlightDetails = () => {
                                           Terminal{" "}
                                           {segment.Destination_Terminal || "-"}
                                         </small>
-                                      </span>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
                               </div>
                             </div>
 
@@ -841,15 +835,18 @@ export const FlightDetails = () => {
                                 const mins = diff % 60;
 
                                 return (
-                                  <div className="layover-box mb-3">
-                                    Change of plane at
-                                    <strong> {segment.Destination_City}</strong>
-                                    <br />
-                                    Layover :
-                                    <strong>
-                                      {" "}
-                                      {hrs}h {mins}m
-                                    </strong>
+                                  <div className="d-flex align-items-center justify-content-between mb-3">
+                                    <div className="dioweierewrwer d-flex align-items-center gap-3">
+                                      <span className="uinjiojospaed position-relative">
+                                        <i className="bi bi-clock-history"></i>
+                                      </span>
+
+                                      <h6 className="layover-box d-flex align-items-center gap-2 mb-0">
+                                        <strong>Layover: {segment.Destination_City}</strong> <i className="bi bi-dot"></i> <span>{hrs}h {mins}m</span>
+                                      </h6>
+                                    </div>
+
+                                    <small className="bfxgsdfzdfff">Change of aircraft</small>
                                   </div>
                                 );
                               })()}
@@ -859,258 +856,204 @@ export const FlightDetails = () => {
                     </div>
                     {/* NOTICE */}
 
-                      {/* ==============================
+                    {/* ==============================
                           BAGGAGE SUMMARY
                       ================================ */}
 
-                      <div
-                        className="baggage-summary px-3 py-2"
-                        style={{
-                          background: "#f5f5f5",
-                          borderBottom: "1px solid #ddd",
-                          position: "relative",
-                        }}
-                      >
-                        <div className="d-flex align-items-center gap-4 flex-wrap">
+                    <div
+                      className="baggage-summary px-3 py-2"
+                      style={{
+                        background: "#f5f5f5",
+                        borderBottom: "1px solid #ddd",
+                        position: "relative",
+                      }}
+                    >
+                      <div className="d-flex justify-content-between align-items-center gap-4 flex-wrap">
 
-                          {/* ================= CABIN BAGGAGE ================= */}
+                        {/* ================= CABIN BAGGAGE ================= */}
 
-                          <div
-                            className="d-flex align-items-center position-relative"
-                            style={{ cursor: "pointer" }}
-                          >
-                            <span className="me-2" style={{ fontSize: "18px" }}>
-                              🧳
-                            </span>
+                        <div
+                          className="cdnjhfxhdgdfff d-flex align-items-center position-relative"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <span className="me-2" style={{ fontSize: "18px" }}>
+                            <i className="bi bi-suitcase-fill"></i>
+                          </span>
 
-                            <span>
-                              <strong>Cabin Baggage:</strong>{" "}
-                              {adultFare?.Free_Baggage?.Hand_Baggage || "7 Kgs"}{" "}
-                              / Adult
-                            </span>
+                          <span className="inmokkojjeorr">
+                            <strong>Cabin Baggage:</strong>{" "}
+                            {adultFare?.Free_Baggage?.Hand_Baggage || "7 Kgs"}{" "}
+                            / Adult
+                          </span>
 
-                            <i
-                              className="fa-regular fa-circle-question ms-1 text-primary"
-                              onClick={() =>
-                                setShowCabinBaggage((prev) => !prev)
-                              }
-                            ></i>
-
-
-                            {/* CABIN BAGGAGE POPUP */}
-
-                            {showCabinBaggage && (
-                              <div
-                                className="baggage-info-popup"
-                                style={{
-                                  position: "absolute",
-                                  top: "32px",
-                                  left: "0",
-                                  width: "260px",
-                                  background: "#fff",
-                                  border: "1px solid #ddd",
-                                  borderRadius: "4px",
-                                  boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
-                                  zIndex: 9999,
-                                }}
-                              >
-
-                                <div
-                                  className="px-3 py-3"
-                                  style={{
-                                    fontWeight: 600,
-                                    fontSize: "16px",
-                                    borderBottom: "1px solid #ddd",
-                                  }}
-                                >
-                                  Cabin Baggage
-                                </div>
+                          <i
+                            className="fa-regular fa-circle-question ms-2"
+                            onClick={() =>
+                              setShowCabinBaggage((prev) => !prev)
+                            }
+                          ></i>
 
 
-                                {/* Adult */}
+                          {/* CABIN BAGGAGE POPUP */}
 
-                                <div
-                                  className="px-3 py-3 d-flex justify-content-between"
-                                  style={{
-                                    borderBottom: "1px solid #ddd",
-                                  }}
-                                >
-                                  <strong>Adult</strong>
+                          {showCabinBaggage && (
+                            <div className="baggage-info-popup">
+                              <div className="vdncbxvxv">
+                                <i className="bi bi-suitcase-fill"></i>
+                              </div>
 
-                                  <span>
-                                    {adultFare?.Free_Baggage?.Hand_Baggage
-                                      ? ` ${adultFare.Free_Baggage.Hand_Baggage} (1 piece only)`
-                                      : "0 Kg"}{" "}
-                                    / Adult
-                                  </span>
-                                </div>
+                              <div className="dnsjkhfisdf">
+                                <div className="dienrwerwer">
+                                  {/* Adult */}
 
-
-                                {/* Child */}
-
-                                {childFare && (
                                   <div
-                                    className="px-3 py-3 d-flex justify-content-between"
-                                    style={{
-                                      borderBottom: "1px solid #ddd",
-                                    }}
+                                    className="fdgdvxcv"
                                   >
-                                    <strong>Child</strong>
+                                    Adult
 
                                     <span>
-                                       {childFare?.Free_Baggage?.Hand_Baggage
+                                      {adultFare?.Free_Baggage?.Hand_Baggage
+                                        ? ` ${adultFare.Free_Baggage.Hand_Baggage} (1 piece only)`
+                                        : "0 Kg"}{" "}
+                                      / Adult
+                                    </span>
+                                  </div>
+
+
+                                  {/* Child */}
+
+                                  {childFare && (
+                                    <div
+                                      className="fdgdvxcv"
+                                    >
+                                      Child
+
+                                      <span>
+                                        {childFare?.Free_Baggage?.Hand_Baggage
                                           ? ` ${childFare.Free_Baggage.Hand_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Child
-                                    </span>
-                                  </div>
-                                )}
+                                      </span>
+                                    </div>
+                                  )}
 
 
-                                {/* Infant */}
+                                  {/* Infant */}
 
-                                {infantFare && (
-                                  <div
-                                    className="px-3 py-3 d-flex justify-content-between"
-                                  >
-                                    <strong>Infant </strong>
+                                  {infantFare && (
+                                    <div
+                                      className="fdgdvxcv"
+                                    >
+                                      Infant
 
-                                    <span>
-                                      {infantFare?.Free_Baggage?.Hand_Baggage
+                                      <span>
+                                        {infantFare?.Free_Baggage?.Hand_Baggage
                                           ? ` ${infantFare.Free_Baggage.Hand_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Infant
-                                    </span>
-                                  </div>
-                                )}
-
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            )}
+                            </div>
+                          )}
 
-                          </div>
-
-
-                          {/* ================= CHECK-IN BAGGAGE ================= */}
-
-                          <div
-                            className="d-flex align-items-center position-relative"
-                            style={{ cursor: "pointer" }}
-                          >
-
-                            <span className="me-2" style={{ fontSize: "18px" }}>
-                              🧳
-                            </span>
-
-                            <span>
-                              <strong>Check-In Baggage:</strong>{" "}
-                              {adultFare?.Free_Baggage?.Check_In_Baggage
-                                ? ` ${adultFare.Free_Baggage.Check_In_Baggage}`
-                                : "0 Kg"}{" "}
-                              / Adult
-                            </span>
-
-                            <i
-                              className="fa-regular fa-circle-question ms-1 text-primary"
-                              onClick={() =>
-                                setShowCheckinBaggage((prev) => !prev)
-                              }
-                            ></i>
+                        </div>
 
 
-                            {/* CHECK-IN BAGGAGE POPUP */}
+                        {/* ================= CHECK-IN BAGGAGE ================= */}
 
-                            {showCheckinBaggage && (
-                              <div
-                                className="baggage-info-popup"
-                                style={{
-                                  position: "absolute",
-                                  top: "32px",
-                                  left: "0",
-                                  width: "280px",
-                                  background: "#fff",
-                                  border: "1px solid #ddd",
-                                  borderRadius: "4px",
-                                  boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
-                                  zIndex: 9999,
-                                }}
-                              >
+                        <div
+                          className="cdnjhfxhdgdfff d-flex align-items-center position-relative"
+                          style={{ cursor: "pointer" }}
+                        >
 
-                                <div
-                                  className="px-3 py-3"
-                                  style={{
-                                    fontWeight: 600,
-                                    fontSize: "16px",
-                                    borderBottom: "1px solid #ddd",
-                                  }}
-                                >
-                                  Check-In Baggage
-                                </div>
+                          <span className="me-2" style={{ fontSize: "18px" }}>
+                            <i className="bi bi-suitcase-fill"></i>
+                          </span>
+
+                          <span className="inmokkojjeorr">
+                            <strong>Check-In Baggage:</strong>{" "}
+                            {adultFare?.Free_Baggage?.Check_In_Baggage
+                              ? ` ${adultFare.Free_Baggage.Check_In_Baggage}`
+                              : "0 Kg"}{" "}
+                            / Adult
+                          </span>
+
+                          <i
+                            className="fa-regular fa-circle-question ms-2"
+                            onClick={() =>
+                              setShowCheckinBaggage((prev) => !prev)
+                            }
+                          ></i>
 
 
-                                {/* Adult */}
+                          {/* CHECK-IN BAGGAGE POPUP */}
 
-                                <div
-                                  className="px-3 py-3 d-flex justify-content-between"
-                                  style={{
-                                    borderBottom: "1px solid #ddd",
-                                  }}
-                                >
-                                  <strong>Adult</strong>
+                          {showCheckinBaggage && (
+                            <div className="baggage-info-popup">
+                              <div className="vdncbxvxv">
+                                <i className="bi bi-suitcase-fill"></i>
+                              </div>
 
-                                  <span>
-                                    {adultFare?.Free_Baggage?.Check_In_Baggage
-                                      ? ` ${adultFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
-                                      : "0 Kg"}{" "}
-                                    / Adult
-                                  </span>
-                                </div>
+                              <div className="dnsjkhfisdf">
+                                <div className="dienrwerwer">
 
+                                  {/* Adult */}
 
-                                {/* Child */}
-
-                                {childFare && (
-                                  <div
-                                    className="px-3 py-3 d-flex justify-content-between"
-                                    style={{
-                                      borderBottom: "1px solid #ddd",
-                                    }}
-                                  >
-                                    <strong>Child</strong>
+                                  <div className="fdgdvxcv">
+                                    Adult
 
                                     <span>
-                                      {childFare?.Free_Baggage?.Check_In_Baggage
+                                      {adultFare?.Free_Baggage?.Check_In_Baggage
+                                        ? ` ${adultFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
+                                        : "0 Kg"}{" "}
+                                      / Adult
+                                    </span>
+                                  </div>
+
+
+                                  {/* Child */}
+
+                                  {childFare && (
+                                    <div className="fdgdvxcv">
+                                      Child
+
+                                      <span>
+                                        {childFare?.Free_Baggage?.Check_In_Baggage
                                           ? ` ${childFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Child
-                                    </span>
-                                  </div>
-                                )}
+                                      </span>
+                                    </div>
+                                  )}
 
 
-                                {/* Infant */}
+                                  {/* Infant */}
 
-                                {infantFare && (
-                                  <div
-                                    className="px-3 py-3 d-flex justify-content-between"
-                                  >
-                                    <strong>Infant</strong>
+                                  {infantFare && (
+                                    <div className="fdgdvxcv">
+                                      Infant
 
-                                    <span>
-                                      {infantFare?.Free_Baggage?.Check_In_Baggage
+                                      <span>
+                                        {infantFare?.Free_Baggage?.Check_In_Baggage
                                           ? ` ${infantFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Infant
-                                    </span>
-                                  </div>
-                                )}
-
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            )}
 
-                          </div>
+                            </div>
+                          )}
 
                         </div>
-                      </div> 
+
+                      </div>
+                    </div>
 
 
                     {baggageList.length > 0 ? (
@@ -1154,73 +1097,73 @@ export const FlightDetails = () => {
                     {/* POLICY */}
                     <div className="policy-box">
 
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                            <strong>Cancellation & Date Change Policy</strong>
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <strong>Cancellation & Date Change Policy</strong>
 
-                            <button
-                                type="button"
-                                className="btn btn-link p-0 text-decoration-none"
-                                onClick={() => setFareRuleModal(true)}
-                            >
-                                View Policy
-                            </button>
+                        <button
+                          type="button"
+                          className="btn btn-link p-0 text-decoration-none"
+                          onClick={() => setFareRuleModal(true)}
+                        >
+                          View Policy
+                        </button>
+                      </div>
+
+                      <div className="mb-3 fw-semibold">
+                        {flight?.Origin}-{flight?.Destination}
+                      </div>
+
+                      {/* Penalty */}
+
+                      <div className="timeline penalty-row">
+
+                        <div className="timeline-item first"></div>
+                        {cancellationCharges.map((item, index) => (
+                          <div className="timeline-item" key={index} style={{ textAlign: "left" }}>
+                            <strong>{formatPenalty(item)}</strong>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Progress */}
+
+                      <div className="progress-wrapper">
+
+                        <div className="progress-line"></div>
+
+                        {cancellationCharges.map((_, index) => (
+                          <div className="dot" key={index}></div>
+                        ))}
+
+                      </div>
+
+                      {/* Dates */}
+
+                      <div className="timeline mt-2">
+
+                        <div className="timeline-item first">
+                          <strong>Now</strong>
                         </div>
 
-                        <div className="mb-3 fw-semibold">
-                            {flight?.Origin}-{flight?.Destination}
-                        </div>
+                        {cancellationCharges.map((item, index) => {
 
-                        {/* Penalty */}
+                          const dt = getBoundaryDate(item);
 
-                        <div className="timeline penalty-row">
+                          return (
+                            <div className="timeline-item" style={{ textAlign: "right" }} key={index}>
 
-                            <div className="timeline-item first"></div>
-                            {cancellationCharges.map((item, index) => (
-                                <div className="timeline-item" key={index} style={{textAlign: "left"}}>
-                                    <strong>{formatPenalty(item)}</strong>
-                                </div>
-                            ))}
-                        </div>
+                              <strong>{formatDate(dt)}</strong>
 
-                        {/* Progress */}
+                              <br />
 
-                        <div className="progress-wrapper">
+                              <small style={{ fontWeight: 500 }}>{formatTime(dt)}</small>
 
-                            <div className="progress-line"></div>
-
-                            {cancellationCharges.map((_, index) => (
-                                <div className="dot" key={index}></div>
-                            ))}
-
-                        </div>
-
-                        {/* Dates */}
-
-                        <div className="timeline mt-2">
-
-                            <div className="timeline-item first">
-                                <strong>Now</strong>
                             </div>
+                          );
 
-                            {cancellationCharges.map((item, index) => {
+                        })}
 
-                                const dt = getBoundaryDate(item);
-
-                                return (
-                                    <div className="timeline-item" key={index}>
-
-                                        <strong>{formatDate(dt)}</strong>
-
-                                        <br />
-
-                                        <small>{formatTime(dt)}</small>
-
-                                    </div>
-                                );
-
-                            })}
-
-                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1534,7 +1477,7 @@ export const FlightDetails = () => {
                     <div className="d-flex gap-3 align-items-start">
                       {/* Logo */}
                       <div className="sdfsdfdsf">
-                        <img src="./images/unnamed.webp" alt="" />
+                        <img src="/images/unnamed.webp" alt="" />
                       </div>
 
                       <div>
@@ -1552,33 +1495,24 @@ export const FlightDetails = () => {
                         {/* Features Row */}
                         <div className="d-flex align-items-center gap-2 flex-wrap">
                           <div className="d-flex align-items-center gap-1">
-                            <img
-                              src="https://cdn-icons-png.flaticon.com/512/1048/1048315.png"
-                              width="18"
-                              alt=""
-                            />
+                            <i className="bi sfgdgsfsfsf-icon bi-person-check-fill"></i>
+
                             <span className="small">Priority Check-in</span>
                           </div>
 
                           <span>+</span>
 
                           <div className="d-flex align-items-center gap-1">
-                            <img
-                              src="https://cdn-icons-png.flaticon.com/512/679/679720.png"
-                              width="18"
-                              alt=""
-                            />
+                            <i className="bi sfgdgsfsfsf-icon bi-suitcase-lg-fill"></i>
+
                             <span className="small">Priority Bag Service</span>
                           </div>
 
                           <span>+</span>
 
                           <div className="d-flex align-items-center gap-1">
-                            <img
-                              src="https://cdn-icons-png.flaticon.com/512/854/854878.png"
-                              width="18"
-                              alt=""
-                            />
+                            <i className="bi sfgdgsfsfsf-icon bi-airplane-engines-fill"></i>
+
                             <span className="small">Priority Boarding</span>
                           </div>
 
@@ -1602,12 +1536,12 @@ export const FlightDetails = () => {
                     <h5 className="mb-3">Traveller Details</h5>
 
                     {/* Login Box */}
-                    <div className="login-box mb-3">
+                    <div className="login-box mb-3 px-0 py-2 text-center">
                       <span>
-                        🔒 Log in to view your saved traveller list, unlock
+                        <i style={{ color: "var(--main-green-color)" }} className="bi bi-lock-fill"></i> Log in to view your saved traveller list, unlock
                         amazing deals & much more!
-                      </span>
-                      <a href="/">LOGIN NOW</a>
+                      </span> {" "}
+                      <a style={{ color: "var(--blue-primary-color)", fontWeight: 500 }} href="/">LOGIN NOW</a>
                     </div>
 
                     
@@ -2136,115 +2070,141 @@ export const FlightDetails = () => {
 
                 <div className="sdejvfhsikdjl mt-3">
                   <button type="button" className="btn btn-outline-primary rounded-pill px-4"
-                    onClick={handlePassengerDetails}>Continue</button>
+                    onClick={() => {
+                      handlePassengerDetails(); 
+                    // setFlightBookingModal(prev => !prev);
+                  }}
+                    >
+                      Continue
+                      {/* Continue To Pay */}
+                    </button>
                 </div>
 
                 {showSeatMealSection && (
-                  <div className="ucbhsduodkf mt-4">
-                    <div className="header-block">
-                      <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link active"
-                            id="seats-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#seats"
-                            type="button"
-                            role="tab"
-                            aria-controls="seats"
-                            aria-selected="true"
-                          >
-                            <img src="/images/seatda.png" className="me-1" alt="" /> Seats
-                          </button>
-                        </li>
+                  <>
+                    <div className="ucbhsduodkf mt-4">
+                      <div className="header-block">
+                        <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
+                          <li className="nav-item" role="presentation">
+                            <button
+                              className="nav-link active"
+                              id="seats-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#seats"
+                              type="button"
+                              role="tab"
+                              aria-controls="seats"
+                              aria-selected="true"
+                            >
+                              <img src="/images/seatda.png" className="me-1" alt="" /> Seats
+                            </button>
+                          </li>
 
-                        <li className="nav-item" role="presentation">
-                          <button
-                            className="nav-link"
-                            id="meals-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#meals"
-                            type="button"
-                            role="tab"
-                            aria-controls="meals"
-                            aria-selected="false"
-                          >
-                            <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="tab-content" id="myTabContent">
-                      <div
-                        className="tab-pane fade show active"
-                        id="seats"
-                        role="tabpanel"
-                        aria-labelledby="seats-tab"
-                      >
-                        <div className="duisanfjsdfsf position-relative">
-                          <FlightSeats seatMap={seatMap}/>
-                        </div>
+                          <li className="nav-item" role="presentation">
+                            <button
+                              className="nav-link"
+                              id="meals-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#meals"
+                              type="button"
+                              role="tab"
+                              aria-controls="meals"
+                              aria-selected="false"
+                            >
+                              <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
+                            </button>
+                          </li>
+                        </ul>
                       </div>
 
-                      <div
-                        className="tab-pane fade"
-                        id="meals"
-                        role="tabpanel"
-                        aria-labelledby="meals-tab"
-                      >
-                        <div className="doismkfjhisd py-3">
-                          <div className="duisnuiherer border-bottom pb-3 mb-3">
-                            <div className="oidiewrwer d-flex justify-content-between mb-3">
-                              <div className="diewirhwerwer">
-                                <h5 className="mb-2">
-                                  <b>Delhi</b> - <b>Mumbai</b>
-                                </h5>
+                      <div className="tab-content" id="myTabContent">
+                        <div
+                          className="tab-pane fade show active"
+                          id="seats"
+                          role="tabpanel"
+                          aria-labelledby="seats-tab"
+                        >
+                          <div className="duisanfjsdfsf position-relative">
+                            <FlightSeats 
+                              seatMap={seatMap} 
+                              adultCount={adultCount} 
+                              childCount={childCount} 
+                              infantCount={infantCount}
+                              onSeatSelectionComplete={setIsSeatSelectionComplete}
+                              onSeatChange={(seats) => {
+                                  console.log("Selected seats:", seats);
+                              }}/>
 
-                                <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                          </div>
+                        </div>
+
+                        <div
+                          className="tab-pane fade"
+                          id="meals"
+                          role="tabpanel"
+                          aria-labelledby="meals-tab"
+                        >
+                          <div className="doismkfjhisd py-3">
+                            <div className="duisnuiherer border-bottom pb-3 mb-3">
+                              <div className="oidiewrwer d-flex justify-content-between mb-3">
+                                <div className="diewirhwerwer">
+                                  <h5 className="mb-2">
+                                    <b>Delhi</b> - <b>Mumbai</b>
+                                  </h5>
+
+                                  <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                                </div>
+
+                                <p className="mb-0">Select your meal</p>
                               </div>
 
-                              <p className="mb-0">Select your meal</p>
-                            </div>
+                              <div className="dioewiuhrew d-flex gap-2">
+                                <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                                  <input type="checkbox" id="veg" className="d-none position-absolute" />
 
-                            <div className="dioewiuhrew d-flex gap-2">
-                              <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                                <input type="checkbox" id="veg" className="d-none position-absolute" />
+                                  <img src="/images/veg.png" alt="" /> <b>Veg</b>
+                                </label>
 
-                                <img src="/images/veg.png" alt="" /> <b>Veg</b>
-                              </label>
+                                <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
+                                  <input type="checkbox" id="nonveg" className="d-none position-absolute" />
 
-                              <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                                <input type="checkbox" id="nonveg" className="d-none position-absolute" />
-
-                                <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="dmiwejrwer row">
-                            {Array.from({ length: 5 }).map((_, index) => (
-                              <div className="col-lg-6 mb-4">
-                                <Meal />
+                                  <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
+                                </label>
                               </div>
-                            ))}
-                          </div>
-
-                          <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
-                            <div className="uidnwehruiewr position-relative rounded-circle">
-                              <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
                             </div>
 
-                            <div className="duihsnerew">
-                              <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
+                            <div className="dmiwejrwer row">
+                              {Array.from({ length: 5 }).map((_, index) => (
+                                <div className="col-lg-6 mb-4">
+                                  <Meal />
+                                </div>
+                              ))}
+                            </div>
 
-                              <p className="mb-0">Availability may vary based on flight duration.</p>
+                            <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+                              <div className="uidnwehruiewr position-relative rounded-circle">
+                                <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+                              </div>
+
+                              <div className="duihsnerew">
+                                <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
+
+                                <p className="mb-0">Availability may vary based on flight duration.</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+
+                    <button
+                        type="button"
+                        disabled={!isSeatSelectionComplete}
+                        // onClick={handleContinue}
+                    >
+                        Continue
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -2254,20 +2214,17 @@ export const FlightDetails = () => {
               <div className="sticky-top">
                 {/* SUMMARY */}
                 <div className="fgdfgdf mb-3">
-                  <div className="summary overflow-hidden">
+                  <div className="summary overflow-hidden p-0">
                     <h6 className="mb-0 px-3 py-2">
                       <i className="bi me-1 bi-wallet"></i> Fare Summary
                     </h6>
 
-                    <div className="diewnjrjwer">
+                    <div className="diewnjrjwer p-3 py-0">
                       <table className="table mb-0">
                         {/* Base Fare */}
                         <tr>
                           <td>
-                            <div className="d-flex align-items-center gap-2">
-                              <i className="fa-solid fa-circle-minus"></i>
-                              <span>Base Fare</span>
-                            </div>
+                            Base Fare
                           </td>
 
                           <td>
@@ -2279,7 +2236,7 @@ export const FlightDetails = () => {
                         {/* Adult */}
                         {adultFare && (
                           <tr>
-                            <td className="ps-4">
+                            <td className="asdfsdfsdf">
                               Adult(s) (1 X ₹{" "}
                               {Number(adultFare.Basic_Amount).toLocaleString("en-IN")})
                             </td>
@@ -2294,7 +2251,7 @@ export const FlightDetails = () => {
                         {/* Child */}
                         {childFare && (
                           <tr>
-                            <td className="ps-4">
+                            <td className="asdfsdfsdf">
                               Children (1 X ₹{" "}
                               {Number(childFare.Basic_Amount).toLocaleString("en-IN")})
                             </td>
@@ -2309,45 +2266,43 @@ export const FlightDetails = () => {
                         {/* Infant */}
                         {infantFare && (
                           <tr>
-                            <td className="ps-4">
+                            <td className="asdfsdfsdf">
                               Infant (1 X ₹{" "}
                               {Number(infantFare.Basic_Amount).toLocaleString("en-IN")})
                             </td>
 
-                            <td>
+                            <td style={{ borderBottom: 0 }}>
                               ₹ {Number(infantFare.Basic_Amount).toLocaleString("en-IN")}
                             </td>
                           </tr>
                         )}
 
-                        {/* Divider */}
-                        <tr>
-                          <td colSpan="2">
-                            <hr className="my-2" />
-                          </td>
-                        </tr>
-
                         {/* Airport Taxes */}
                         <tr>
-                          <td className="ps-4">
-                            Airline Taxes and Surcharges
+                          <td className="asdfsdfsdf" style={{ borderBottom: 0 }}>
+                            Taxes and Surcharges
                           </td>
-                          <td>
+
+                          <td style={{ borderBottom: 0 }}>
                             ₹ {taxesAndSurcharges.toLocaleString("en-IN")}
                           </td>
-                        </tr>
+                        </tr>                        
 
+                        {/* Divider */}
+                        <tr>
+                          <td colSpan="2" className="py-0" style={{ borderBottom: 0 }}>
+                            <hr className="m-0 p-0" />
+                          </td>
+                        </tr>
 
                         {/* Total */}
                         <tr className="ojdeopekwrer">
-                          <td>
-                            <strong>Total Amount</strong>
+                          <td style={{ fontWeight: 600 }}>
+                            Total Amount
                           </td>
 
-                          <td>
-                            <strong>
-                              ₹ {totalAmount.toLocaleString("en-IN")}
-                            </strong>
+                          <td style={{ fontWeight: 600 }}>
+                            ₹ {totalAmount.toLocaleString("en-IN")}
                           </td>
                         </tr>
 
@@ -2358,17 +2313,12 @@ export const FlightDetails = () => {
                 {/* COUPON */}
                 <div className="dfdff5585">
                   <div className="coupon-box">
-                    <div className="coupon-banner">
-                      <img src="./images/SL_040621_42020_15.jpg" alt="" />
-                      {/* <h5 class="mt-2">Coupons and Offers</h5> */}
-                    </div>
-
-                    <div className="hjhjk overflow-hidden mt-3">
+                    <div className="hjhjk">
                       <h6 className="mb-0 px-3 py-2">
                         <i className="bi me-1 bi-tags"></i>Coupon Codes
                       </h6>
 
-                      <div className="bg-white px-3 mt-3">
+                      <div className="bg-white udnjeweopelr px-3 mt-3">
                         <div className="deiwhrwerwer position-relative mb-3">
                           <div className="position-relative">
                             <input
@@ -2414,7 +2364,7 @@ export const FlightDetails = () => {
                             <div className="coupon-top d-flex align-items-center justify-content-between mb-1">
                               <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                                 <img
-                                  src="./images/discount.png"
+                                  src="/images/discount.png"
                                   className="coupon-icon"
                                   alt=""
                                 />
@@ -2445,7 +2395,7 @@ export const FlightDetails = () => {
                             <div className="coupon-top d-flex align-items-center justify-content-between">
                               <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                                 <img
-                                  src="./images/discount.png"
+                                  src="/images/discount.png"
                                   className="coupon-icon"
                                   alt=""
                                 />
@@ -2476,7 +2426,7 @@ export const FlightDetails = () => {
                             <div className="coupon-top d-flex align-items-center justify-content-between">
                               <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                                 <img
-                                  src="./images/discount.png"
+                                  src="/images/discount.png"
                                   className="coupon-icon"
                                   alt=""
                                 />
@@ -2507,7 +2457,7 @@ export const FlightDetails = () => {
                             <div className="coupon-top d-flex align-items-center justify-content-between">
                               <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                                 <img
-                                  src="./images/discount.png"
+                                  src="/images/discount.png"
                                   className="coupon-icon"
                                   alt=""
                                 />
@@ -2524,17 +2474,17 @@ export const FlightDetails = () => {
                               and Trip Secure combo
                             </p>
                           </label>
-                        </div>
-
-                        <div className="fgderhsraerr text-center">
-                          <button
-                            onClick={handleAllModalToggle}
-                            className="btn sgsfeqaedqrrr pb-2"
-                          >
-                            View All Coupons
-                          </button>
-                        </div>
+                        </div>                        
                       </div>
+                    </div>
+
+                    <div className="fgderhsraerr text-center">
+                      <button
+                        onClick={handleAllModalToggle}
+                        className="btn sgsfeqaedqrrr pb-2"
+                      >
+                        View All Coupons
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -2818,7 +2768,7 @@ export const FlightDetails = () => {
 
       {addBaggageModal && (
         <div
-          className="modal fade show d-block"
+          className="inkmlkjsoidr modal fade show d-block"
           style={{
             background: "rgba(0,0,0,.6)",
             zIndex: 99999,
@@ -2835,7 +2785,7 @@ export const FlightDetails = () => {
                 />
               </div>
 
-              <div className="modal-body">
+              <div className="modal-body add-extra-baggage pb-0">
                 {baggageList.length > 0 ? (
                   <div className="list-group">
                     {baggageList.map((bag, index) => (
@@ -2843,11 +2793,12 @@ export const FlightDetails = () => {
                         key={index}
                         className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
                       >
-                        <div className="d-flex align-items-center">
+                        <div className="dnnmakwrr d-flex align-items-center">
                           <i
-                            className="fa fa-suitcase me-3"
+                            className="bi bi-backpack2 me-3"
                             style={{ fontSize: "28px", color: "#666" }}
-                          ></i>
+                          >
+                          </i>
 
                           <div>
                             <h6 className="mb-1">
@@ -2863,33 +2814,34 @@ export const FlightDetails = () => {
                           </div>
                         </div>
 
-                        <div className="d-flex align-items-center">
+                        <div className="ajidbajoijmdd d-flex align-items-center">
                           <h5 className="me-3 mb-0">
                             ₹{Number(bag.Total_Amount).toLocaleString()}
                           </h5>
                           {selectedSSR[bag.SSR_TypeName]?.SSR_Key ===
-                          bag.SSR_Key ? (
+                            bag.SSR_Key ? (
                             <div
                               className="d-flex align-items-center border rounded"
-                              style={{ width: "130px", height: "40px" }}
+                              style={{ width: "130px" }}
                             >
                               <button
-                                className="btn btn-sm flex-fill"
+                                className="btn btn-remove-bag p-2 flex-fill"
                                 onClick={() =>
                                   handleRemoveSSR(bag.SSR_TypeName)
                                 }
                               >
-                                -
+                                <i class="bi bi-dash-lg"></i>
                               </button>
-                              <span className="flex-fill text-center">1</span>
-                              <button className="btn btn-sm flex-fill" disabled>
-                                +
+
+                              <span className="idajsjiw flex-fill text-center">1</span>
+
+                              <button className="btn btn-add-bag p-2 flex-fill" disabled>
+                                <i class="bi bi-plus-lg"></i>
                               </button>
                             </div>
                           ) : (
                             <button
-                              className="btn btn-outline-secondary"
-                              style={{ minWidth: "130px" }}
+                              className="btn btn-tour px-3 py-1"
                               onClick={() => handleSelectSSR(bag)}
                             >
                               Add +
@@ -2905,21 +2857,23 @@ export const FlightDetails = () => {
               </div>
 
               {Object.keys(selectedSSR).length > 0 && (
-                <div className="border-top bg-light p-3 d-flex justify-content-between align-items-center">
-                  <div>{Object.keys(selectedSSR).length} SSR(s) Selected</div>
+                <div className="border-top bg-light p-3 d-flex justify-content-between align-items-center gap-4">
+                  <div className="idonisnfinsdf d-flex align-items-center justify-content-between flex-fill">
+                    <p className="mb-0">{Object.keys(selectedSSR).length} SSR(s) Selected</p>
 
-                  <div className="text-end">
-                    <small className="text-muted">Added to fare</small>
+                    <div className="text-end">
+                      <p className="hgadsdzxeww mb-0">Added to fare</p>
 
-                    <h3 className="mb-0">
-                      ₹
-                      {Object.values(selectedSSR)
-                        .reduce(
-                          (sum, item) => sum + Number(item.Total_Amount),
-                          0,
-                        )
-                        .toLocaleString()}
-                    </h3>
+                      <h3 className="sxvdgzzdss mb-0">
+                        ₹
+                        {Object.values(selectedSSR)
+                          .reduce(
+                            (sum, item) => sum + Number(item.Total_Amount),
+                            0,
+                          )
+                          .toLocaleString()}
+                      </h3>
+                    </div>
                   </div>
 
                   <button
@@ -3003,7 +2957,7 @@ export const FlightDetails = () => {
                 <div className="coupon-top d-flex align-items-center justify-content-between mb-1">
                   <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                     <img
-                      src="./images/discount.png"
+                      src="/images/discount.png"
                       className="coupon-icon"
                       alt=""
                     />
@@ -3032,7 +2986,7 @@ export const FlightDetails = () => {
                 <div className="coupon-top d-flex align-items-center justify-content-between">
                   <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                     <img
-                      src="./images/discount.png"
+                      src="/images/discount.png"
                       className="coupon-icon"
                       alt=""
                     />
@@ -3060,7 +3014,7 @@ export const FlightDetails = () => {
                 <div className="coupon-top d-flex align-items-center justify-content-between">
                   <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                     <img
-                      src="./images/discount.png"
+                      src="/images/discount.png"
                       className="coupon-icon"
                       alt=""
                     />
@@ -3088,7 +3042,7 @@ export const FlightDetails = () => {
                 <div className="coupon-top d-flex align-items-center justify-content-between">
                   <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                     <img
-                      src="./images/discount.png"
+                      src="/images/discount.png"
                       className="coupon-icon"
                       alt=""
                     />
@@ -3116,7 +3070,7 @@ export const FlightDetails = () => {
                 <div className="coupon-top d-flex align-items-center justify-content-between">
                   <div className="dagsjrsfwertt d-flex align-items-center gap-2 px-2 py-1">
                     <img
-                      src="./images/discount.png"
+                      src="/images/discount.png"
                       className="coupon-icon"
                       alt=""
                     />
@@ -3136,6 +3090,150 @@ export const FlightDetails = () => {
       </div>
 
       {/* all coupon modal end */}
+
+
+      {/* flight booking modal start */}
+
+      <div
+        className={`${flightBookingModal ? "flight-booking-modal-backdrop" : "flight-booking-modal-backdrop flight-booking-modal-backdrop-hide"} position-fixed w-100 h-100 top-0 start-0 bottom-0 end-0`}
+      ></div>
+
+      <div
+        className={`${
+          flightBookingModal
+            ? "flight-booking-modal"
+            : "flight-booking-modal flight-booking-modal-hide"
+        } d-flex flex-column bg-white top-50 start-50 translate-middle p-3 position-fixed`}
+      >
+        {/* Header */}
+        <div className="flight-booking-modal-header d-flex align-items-center justify-content-between mb-2 pb-2">
+          <h5 className="mb-0">
+            <b>Your Booking Summary</b>
+          </h5>
+
+          <i
+            onClick={() => setFlightBookingModal(false)}
+            className="fa-solid fa-xmark"
+          ></i>
+        </div>
+
+        {/* Body */}
+        <div className="all-coupon-modal-body">
+          <div className="idhijweoijorwekrwer">
+            {/* Flight Information */}
+            <div className="booking-flight-info border-bottom pb-3 mb-3">
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <span className="text-muted small">Departure</span>
+                  <h6 className="mb-1">Kolkata (CCU) → Delhi (DEL)</h6>
+                  <small className="text-muted">
+                    25 Aug 2026 • 08:30 AM
+                  </small>
+                </div>
+
+                <div className="text-end">
+                  <span className="badge bg-light text-dark">
+                    IndiGo
+                  </span>
+                  <small className="d-block text-muted mt-1">
+                    6E 2345
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            {/* Passenger Details */}
+            <div className="booking-summary-section border-bottom pb-3 mb-3">
+              <h6 className="fw-bold mb-3">Passenger & Seat Details</h6>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span className="text-muted">
+                  <i className="fa-solid fa-users me-2"></i>
+                  Passengers
+                </span>
+                <strong>2 Adults</strong>
+              </div>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span className="text-muted">
+                  <i className="fa-solid fa-chair me-2"></i>
+                  Cabin Class
+                </span>
+                <strong>Economy</strong>
+              </div>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span className="text-muted">
+                  <i className="fa-solid fa-chair me-2"></i>
+                  Seats
+                </span>
+                <strong>2 Seats</strong>
+              </div>
+
+              <div className="d-flex justify-content-between">
+                <span className="text-muted">
+                  <i className="fa-solid fa-suitcase-rolling me-2"></i>
+                  Baggage
+                </span>
+                <strong>15 Kg / Passenger</strong>
+              </div>
+            </div>
+
+            {/* Fare Breakdown */}
+            <div className="booking-fare-section border-bottom pb-3 mb-3">
+              <h6 className="fw-bold mb-3">Fare Breakdown</h6>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span>Base Fare</span>
+                <span>₹8,000</span>
+              </div>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span>Taxes & Fees</span>
+                <span>₹1,200</span>
+              </div>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span>Seat Charges</span>
+                <span>₹600</span>
+              </div>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span>Other Charges</span>
+                <span>₹200</span>
+              </div>
+
+              <div className="d-flex justify-content-between text-success">
+                <span>Discount</span>
+                <span>- ₹500</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Total */}
+          <div className="booking-total d-flex justify-content-between align-items-center pt-2">
+            <div>
+              <span className="text-muted small d-block">
+                Total Amount
+              </span>
+              <h4 className="mb-0 fw-bold">₹9,500</h4>
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-tour px-4"
+              onClick={() => {
+                // continue booking
+              }}
+            >
+              Continue
+              <i className="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* flight booking modal end */}
     </div>
   );
 };

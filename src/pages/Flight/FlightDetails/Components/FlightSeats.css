@@ -301,4 +301,146 @@ p.xfbdfshbdbb{
         grid-template-columns:
             12px 18px repeat(3, 1fr) 18px repeat(3, 1fr) 18px 12px;
     }
+}   
+
+
+/* chatgpt css */
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 20px;
+    padding: 12px;
 }
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.legend-swatch {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+}
+
+.legend-swatch.free {
+    background: #c7f1d6;
+    border-color: #55e889;
+}
+
+.legend-swatch.price-200 {
+    background: #b9d8ff;
+    border-color: #b9d8ff;
+}
+
+.legend-swatch.price-400 {
+    background: #5aaef5;
+    border-color: #5aaef5;
+}
+
+.legend-swatch.price-1000 {
+    background: #e83cff;
+    border-color: #e83cff;
+}
+
+.legend-swatch.price-1399 {
+    background: #ff82e8;
+    border-color: #ff82e8;
+}
+
+.legend-swatch.price-1499 {
+    background: #b9a7ee;
+    border-color: #b9a7ee;
+}
+
+.legend-swatch.price-above-1500 {
+    background: #d66be3;
+    border-color: #d66be3;
+}
+
+.legend-swatch.selected {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+.legend-swatch.booked {
+    background: #dcdcdc;
+    border-color: #dcdcdc;
+}
+
+
+
+.seat.free {
+    background: #c7f1d6;
+    border-color: #55e889;
+    color: #168442;
+}
+
+.seat.price-200 {
+    background: #b9d8ff;
+    border-color: #b9d8ff;
+    color: #1764a3;
+}
+
+.seat.price-400 {
+    background: #5aaef5;
+    border-color: #5aaef5;
+    color: #fff;
+}
+
+.seat.price-1000 {
+    background: #e83cff;
+    border-color: #e83cff;
+    color: #fff;
+}
+
+.seat.price-1399 {
+    background: #ff82e8;
+    border-color: #ff82e8;
+    color: #8a176f;
+}
+
+.seat.price-1499 {
+    background: #b9a7ee;
+    border-color: #b9a7ee;
+    color: #4f398c;
+}
+
+.seat.price-above-1500 {
+    background: #d66be3;
+    border-color: #d66be3;
+    color: #fff;
+}
+
+/* NOT AVAILABLE */
+
+.seat.booked {
+    background: #dedede;
+    border-color: #dedede;
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* SELECTED */
+
+.seat.selected {
+    background: #28a745 !important;
+    border-color: #28a745 !important;
+    color: #fff !important;
+}
+
+/* Empty position */
+
+.empty-seat {
+    visibility: hidden;
+    pointer-events: none;
+}
+
