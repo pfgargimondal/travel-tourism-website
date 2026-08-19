@@ -67,6 +67,11 @@ export const FlightDetails = () => {
   const [showSeatMealSection, setShowSeatMealSection] = useState(false);
   const [isSeatSelectionComplete, setIsSeatSelectionComplete] = useState(false);
 
+  const [activeSeatMealTab, setActiveSeatMealTab] = useState();
+
+  const [selectedMeals, setSelectedMeals] = useState({});
+  const [activeMealFilter, setActiveMealFilter] = useState("all");
+
   useEffect(() => {
     const fetchCountryCode = async () => {
       try {
@@ -410,6 +415,174 @@ export const FlightDetails = () => {
   };
 
   const [saveBilling, setSaveBilling] = useState(false);
+  const [billingError, setBillingError] = useState("");
+
+  const validatePassengerDetails = () => {
+    // =========================
+    // ADULT
+    // =========================
+    for (let i = 0; i < adultForms.length; i++) {
+      const passenger = adultForms[i];
+
+      if (adultRule) {
+        if (adultRule.Title && !passenger.title?.trim()) {
+          return false;
+        }
+
+        if (adultRule.First_Name && !passenger.firstName?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Last_Name && !passenger.lastName?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Gender && !passenger.gender?.trim()) {
+          return false;
+        }
+
+        if (adultRule.DOB && !passenger.dob) {
+          return false;
+        }
+
+        if (adultRule.Age && !passenger.Age?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Nationality && !passenger.Nationality?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Passport_Number && !passenger.Passport_Number?.trim()) {
+          return false;
+        }
+
+        if (adultRule.passportExpiry && !passenger.passportExpiry?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Passport_Issuing_Country && !passenger.Passport_Issuing_Country?.trim()) {
+          return false;
+        }
+
+        if (adultRule.PanCard_No && !passenger.PanCard_No?.trim()) {
+          return false;
+        }
+
+        if (adultRule.IdProof_Number && !passenger.IdProof_Number?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Student_Id && !passenger.Student_Id?.trim()) {
+          return false;
+        }
+
+        if (adultRule.DefenceServiceId && !passenger.DefenceServiceId?.trim()) {
+          return false;
+        }
+
+        if (adultRule.DefenceIssueDate && !passenger.DefenceIssueDate?.trim()) {
+          return false;
+        }
+
+        if (adultRule.DefenceExpiryDate && !passenger.DefenceExpiryDate?.trim()) {
+          return false;
+        }
+
+        if (adultRule.Mandatory_SSRs && !passenger.Mandatory_SSRs?.trim()) {
+          return false;
+        }
+      }
+    }
+
+    // =========================
+    // CHILD
+    // =========================
+    for (let i = 0; i < childForms.length; i++) {
+      const passenger = childForms[i];
+
+      if (childRule) {
+        if (childRule.Title && !passenger.title?.trim()) {
+          return false;
+        }
+
+        if (childRule.First_Name && !passenger.firstName?.trim()) {
+          return false;
+        }
+
+        if (childRule.Last_Name && !passenger.lastName?.trim()) {
+          return false;
+        }
+
+        if (childRule.DOB && !passenger.dob) {
+          return false;
+        }
+
+      }
+    }
+
+    // =========================
+    // INFANT
+    // =========================
+    for (let i = 0; i < infantForms.length; i++) {
+      const passenger = infantForms[i];
+
+      if (infantRule) {
+        if (infantRule.Title && !passenger.title?.trim()) {
+          return false;
+        }
+
+        if (infantRule.First_Name && !passenger.firstName?.trim()) {
+          return false;
+        }
+
+        if (infantRule.Last_Name && !passenger.lastName?.trim()) {
+          return false;
+        }
+
+        if (infantRule.Gender && !passenger.gender?.trim()) {
+          return false;
+        }
+
+        if (infantRule.DOB && !passenger.dob) {
+          return false;
+        }
+
+        if (infantRule.Mobile && !passenger.mobile?.trim()) {
+          return false;
+        }
+
+        if (infantRule.Email && !passenger.email?.trim()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
+  const handleContinue = () => {
+    // Clear previous billing error
+    setBillingError("");
+
+    // Validate passenger fields first
+    const isPassengerValid = validatePassengerDetails();
+
+    if (!isPassengerValid) {
+      return;
+    }
+
+    // Billing checkbox validation
+    if (!saveBilling) {
+      setBillingError(
+        "Please confirm and save billing details to your profile before continuing."
+      );
+      return;
+    }
+
+    // Everything is valid
+    handlePassengerDetails();
+  };
 
   const handlePassengerDetails = async () => {
     if (!saveBilling) {
@@ -450,7 +623,14 @@ export const FlightDetails = () => {
 
       const responseData = response.data.data;
 
-      setSeatMap(responseData.AirSeatMaps);
+      // setSeatMap(responseData.AirSeatMaps);
+      const airSeatMaps = responseData?.AirSeatMaps;
+
+      if (Array.isArray(airSeatMaps) && airSeatMaps.length > 0) {
+          setSeatMap(airSeatMaps);
+      } else {
+          setSeatMap([]);
+      }
 
       if (
         response.status >= 200 &&
@@ -472,6 +652,28 @@ export const FlightDetails = () => {
       setLoading(false);
     }
   };
+
+  const totalPassengers =
+    Number(adultCount || 0) +
+    Number(childCount || 0) +
+    Number(infantCount || 0);
+
+  const hasSeatMap =
+  Array.isArray(seatMap)
+    ? seatMap.length > 0
+    : seatMap && typeof seatMap === "object"
+      ? Object.keys(seatMap).length > 0
+      : false;
+
+  useEffect(() => {
+
+    if (!hasSeatMap) {
+      setActiveSeatMealTab("meals");
+    } else {
+      setActiveSeatMealTab("seats");
+    }
+
+  }, [hasSeatMap]);
 
   const travelDate = repriceFlight?.TravelDate
     ? new Date(repriceFlight.TravelDate)
@@ -546,6 +748,14 @@ export const FlightDetails = () => {
       (item) => !excludedTypes.includes(item.SSR_TypeName),
     ) || [];
 
+  const mealsType = ["COMPLIMENTORY_MEALS", "MEALS"];
+
+  const mealsList =
+    ssrData?.[0]?.SSRDetails?.filter(
+      (item) => mealsType.includes(item.SSR_TypeName),
+    ) || [];
+
+
   const handleSelectSSR = (item) => {
     setSelectedSSR((prev) => ({
       ...prev,
@@ -591,7 +801,140 @@ export const FlightDetails = () => {
     0
   );
 
-  // console.log(seatMap, 'seatMap');
+  const handleMealSelect = (meal) => {
+  if (totalPassengers <= 0) {
+    return;
+  }
+
+  setSelectedMeals((prev) => {
+    const next = { ...prev };
+
+    // If this meal is already selected,
+    // remove it from the passenger who selected it
+    const existingPassengerIndex = Object.keys(next).find(
+      (key) =>
+        next[key]?.SSR_Code === meal?.SSR_Code
+    );
+
+    if (existingPassengerIndex !== undefined) {
+      delete next[existingPassengerIndex];
+
+      const rearranged = {};
+
+      Object.values(next).forEach((item, index) => {
+        rearranged[index] = item;
+      });
+
+      return rearranged;
+    }
+
+    // Find first passenger without meal
+    let passengerIndex = -1;
+
+    for (let i = 0; i < totalPassengers; i++) {
+      if (!next[i]) {
+        passengerIndex = i;
+        break;
+      }
+    }
+
+    // All passengers already selected
+    if (passengerIndex === -1) {
+      return prev;
+    }
+
+    next[passengerIndex] = meal;
+
+    return next;
+  });
+  };
+
+
+  const handleMealRemove = (passengerIndex) => {
+    setSelectedMeals((prev) => {
+      const next = { ...prev };
+
+      delete next[passengerIndex];
+
+      const rearranged = {};
+
+      Object.values(next).forEach((meal, index) => {
+        rearranged[index] = meal;
+      });
+
+      return rearranged;
+    });
+  };
+
+
+  const selectedMealCount = Object.keys(
+    selectedMeals
+  ).length;
+
+
+  const getMealName = (meal) => {
+    return (
+      meal?.SSR_TypeDesc ||
+      meal?.SSR_TypeName ||
+      meal?.SSR_Name ||
+      meal?.Meal_Name ||
+      meal?.MealName ||
+      meal?.Description ||
+      meal?.SSR_Code ||
+      "Meal"
+    );
+  };
+
+
+  const getMealPrice = (meal) => {
+    return Number(
+      meal?.Total_Amount ??
+      meal?.Amount ??
+      meal?.Price ??
+      meal?.SSR_Amount ??
+      meal?.SSR_Price ??
+      meal?.Fare ??
+      0
+    );
+  };
+
+
+  const getMealType = (meal) => {
+    const text = `
+      ${meal?.SSR_TypeName || ""}
+      ${meal?.SSR_TypeDesc || ""}
+      ${meal?.SSR_Name || ""}
+      ${meal?.Meal_Name || ""}
+      ${meal?.MealName || ""}
+      ${meal?.Description || ""}
+      ${meal?.SSR_Code || ""}
+    `.toLowerCase();
+
+    if (
+      text.includes("non veg") ||
+      text.includes("non-veg") ||
+      text.includes("nonveg")
+    ) {
+      return "nonveg";
+    }
+
+    if (
+      text.includes("veg") ||
+      text.includes("vegetarian")
+    ) {
+      return "veg";
+    }
+
+    return "other";
+  };
+
+
+  const totalMealPrice = Object.values(
+    selectedMeals
+  ).reduce((total, meal) => {
+    return total + getMealPrice(meal);
+  }, 0);
+  
 
 
   if (loading) return <Loader />;
@@ -2071,139 +2414,473 @@ export const FlightDetails = () => {
                 <div className="sdejvfhsikdjl mt-3">
                   <button type="button" className="btn btn-outline-primary rounded-pill px-4"
                     onClick={() => {
-                      handlePassengerDetails(); 
+                      handleContinue(); 
                     // setFlightBookingModal(prev => !prev);
                   }}
                     >
                       Continue
                       {/* Continue To Pay */}
                     </button>
+
+                      {billingError && (
+                        <div className="text-danger mt-2">
+                          {billingError}
+                        </div>
+                      )}
+
                 </div>
 
                 {showSeatMealSection && (
                   <>
                     <div className="ucbhsduodkf mt-4">
-                      <div className="header-block">
-                        <ul className="nav nav-tabs mb-0 ps-0" id="myTab" role="tablist">
-                          <li className="nav-item" role="presentation">
-                            <button
-                              className="nav-link active"
-                              id="seats-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#seats"
-                              type="button"
-                              role="tab"
-                              aria-controls="seats"
-                              aria-selected="true"
-                            >
-                              <img src="/images/seatda.png" className="me-1" alt="" /> Seats
-                            </button>
-                          </li>
 
+                      {/* =========================================================
+                          SEATS / MEALS TAB HEADER
+                      ========================================================= */}
+                      <div className="header-block">
+
+                        <ul
+                          className="nav nav-tabs mb-0 ps-0"
+                          id="myTab"
+                          role="tablist"
+                        >
+                          {/* ================= SEATS TAB ================= */}
+                          {hasSeatMap && (
+                            <li className="nav-item" role="presentation">
+
+                              <button
+                                type="button"
+                                className={`nav-link ${
+                                  activeSeatMealTab === "seats"
+                                    ? "active"
+                                    : ""
+                                }`}
+                                id="seats-tab"
+                                role="tab"
+                                aria-selected={
+                                  activeSeatMealTab === "seats"
+                                }
+                                onClick={() =>
+                                  setActiveSeatMealTab("seats")
+                                }
+                              >
+                                <img
+                                  src="/images/seatda.png"
+                                  className="me-1"
+                                  alt=""
+                                />
+                                Seats
+                              </button>
+                            </li>
+                          )}
+
+
+                          {/* ================= MEALS TAB ================= */}
                           <li className="nav-item" role="presentation">
+
                             <button
-                              className="nav-link"
-                              id="meals-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#meals"
                               type="button"
+                              className={`nav-link ${
+                                activeSeatMealTab === "meals"
+                                  ? "active"
+                                  : ""
+                              }`}
+                              id="meals-tab"
                               role="tab"
-                              aria-controls="meals"
-                              aria-selected="false"
+                              aria-selected={
+                                activeSeatMealTab === "meals"
+                              }
+                              onClick={() =>
+                                setActiveSeatMealTab("meals")
+                              }
                             >
-                              <img src="/images/fast-food.png" className="me-1" alt="" /> Meals
+
+                              <img
+                                src="/images/fast-food.png"
+                                className="me-1"
+                                alt=""
+                              />
+
+                              Meals
+
                             </button>
+
                           </li>
                         </ul>
                       </div>
 
-                      <div className="tab-content" id="myTabContent">
+
+                      {/* =========================================================
+                          TAB CONTENT
+                      ========================================================= */}
+                      <div
+                        className="tab-content"
+                        id="myTabContent"
+                      >
+                        {/* =======================================================
+                            SEATS
+                        ======================================================= */}
+                        {hasSeatMap && (
                         <div
-                          className="tab-pane fade show active"
+                          className={`tab-pane ${
+                            activeSeatMealTab === "seats"
+                              ? "show active"
+                              : ""
+                          }`}
                           id="seats"
                           role="tabpanel"
                           aria-labelledby="seats-tab"
                         >
-                          <div className="duisanfjsdfsf position-relative">
-                            <FlightSeats 
-                              seatMap={seatMap} 
-                              adultCount={adultCount} 
-                              childCount={childCount} 
-                              infantCount={infantCount}
-                              onSeatSelectionComplete={setIsSeatSelectionComplete}
-                              onSeatChange={(seats) => {
-                                  console.log("Selected seats:", seats);
-                              }}/>
 
+                          <div className="duisanfjsdfsf position-relative">
+
+                            <FlightSeats
+                              seatMap={seatMap}
+                              adultCount={adultCount}
+                              childCount={childCount}
+                              infantCount={infantCount}
+                              onSeatSelectionComplete={
+                                setIsSeatSelectionComplete
+                              }
+                              onSeatChange={(seats) => {
+                                console.log(
+                                  "Selected seats:",
+                                  seats
+                                );
+                              }}
+                            />
                           </div>
                         </div>
+                        )}
 
+                        {/* =======================================================
+                            MEALS
+                        ======================================================= */}
                         <div
-                          className="tab-pane fade"
-                          id="meals"
-                          role="tabpanel"
-                          aria-labelledby="meals-tab"
-                        >
-                          <div className="doismkfjhisd py-3">
-                            <div className="duisnuiherer border-bottom pb-3 mb-3">
-                              <div className="oidiewrwer d-flex justify-content-between mb-3">
-                                <div className="diewirhwerwer">
-                                  <h5 className="mb-2">
-                                    <b>Delhi</b> - <b>Mumbai</b>
+                            className={`tab-pane ${
+                              activeSeatMealTab === "meals"
+                                ? "show active"
+                                : ""
+                            }`}
+                            id="meals"
+                            role="tabpanel"
+                            aria-labelledby="meals-tab"
+                          >
+                            <div className="doismkfjhisd py-3">
+                              {/* =====================================================
+                                  HEADER
+                              ===================================================== */}
+                              <div className="duisnuiherer border-bottom pb-3 mb-3">
+
+                                <div className="oidiewrwer d-flex justify-content-between mb-3">
+
+                                  <div className="diewirhwerwer">
+
+                                    <h5 className="mb-2">
+
+                                      <b>
+                                        {segment?.Origin_City?.replace(
+                                          /\s*\(.*?\)/g,
+                                          ""
+                                        )}
+                                      </b>
+
+                                      {" - "}
+
+                                      <b>
+                                        {segment?.Destination_City?.replace(
+                                          /\s*\(.*?\)/g,
+                                          ""
+                                        )}
+                                      </b>
+
+                                    </h5>
+
+                                    <h6 className="mb-0">
+
+                                      <span>
+                                        {selectedMealCount}
+                                      </span>
+
+                                      {" of "}
+
+                                      <span>
+                                        {totalPassengers}
+                                      </span>
+
+                                      {" selected"}
+
+                                    </h6>
+
+                                  </div>
+
+                                  <p className="mb-0">
+                                    Select your meal
+                                  </p>
+
+                                </div>
+
+
+                                {/* =====================================================
+                                    VEG / NON VEG FILTER
+                                ===================================================== */}
+
+                                <div className="dioewiuhrew d-flex gap-2">
+
+                                  {/* ALL */}
+
+                                  <button
+                                    type="button"
+                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                      activeMealFilter === "all"
+                                        ? "border-primary text-primary"
+                                        : ""
+                                    }`}
+                                    onClick={() =>
+                                      setActiveMealFilter("all")
+                                    }
+                                  >
+                                    <b>All</b>
+                                  </button>
+
+
+                                  {/* VEG */}
+
+                                  <button
+                                    type="button"
+                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                      activeMealFilter === "veg"
+                                        ? "border-primary text-primary"
+                                        : ""
+                                    }`}
+                                    onClick={() =>
+                                      setActiveMealFilter("veg")
+                                    }
+                                  >
+
+                                    <img
+                                      src="/images/veg.png"
+                                      alt="Veg"
+                                      style={{
+                                        width: "16px",
+                                        height: "16px"
+                                      }}
+                                    />
+
+                                    <b>Veg</b>
+
+                                  </button>
+
+
+                                  {/* NON VEG */}
+
+                                  <button
+                                    type="button"
+                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                      activeMealFilter === "nonveg"
+                                        ? "border-primary text-primary"
+                                        : ""
+                                    }`}
+                                    onClick={() =>
+                                      setActiveMealFilter("nonveg")
+                                    }
+                                  >
+
+                                    <img
+                                      src="/images/nonveg.png"
+                                      alt="Non Veg"
+                                      style={{
+                                        width: "16px",
+                                        height: "16px"
+                                      }}
+                                    />
+
+                                    <b>Non Veg</b>
+
+                                  </button>
+
+                                </div>
+
+                              </div>
+                              {/* =====================================================
+                                  MEAL LIST
+                              ===================================================== */}
+                              <div className="dmiwejrwer row">
+
+                                {mealsList
+                                  ?.filter((meal) => {
+                                    if (activeMealFilter === "all") {
+                                      return true;
+                                    }
+
+                                    return getMealType(meal) === activeMealFilter;
+                                  })
+                                  .map((meal, index) => {
+                                    const isSelected = Object.values(selectedMeals).some(
+                                      (selectedMeal) =>
+                                        selectedMeal?.SSR_Code === meal?.SSR_Code
+                                    );
+
+                                    return (
+                                      <div
+                                        className="col-lg-6 mb-4"
+                                        key={`${meal?.SSR_Code}-${index}`}
+                                      >
+                                        <Meal
+                                          meal={meal}
+                                          mealName={getMealName(meal)}
+                                          mealPrice={getMealPrice(meal)}
+                                          selected={isSelected}
+                                          onSelect={handleMealSelect}
+                                        />
+                                      </div>
+                                    );
+                                  })}
+
+                              </div>
+                              {/* =====================================================
+                                  SELECTED MEALS
+                              ===================================================== */}
+                              {selectedMealCount > 0 && (
+                                <div className="border rounded-2 p-3 mb-3">
+                                  <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 className="mb-0">
+                                      Selected Meals
+                                    </h6>
+                                    <h6 className="mb-0">
+                                      <b>
+                                        INR {totalMealPrice}
+                                      </b>
+                                    </h6>
+                                  </div>
+                                  {Object.entries(selectedMeals).map(
+                                    ([passengerIndex, meal]) => (
+
+                                      <div
+                                        key={passengerIndex}
+                                        className="d-flex justify-content-between align-items-center border-bottom py-2"
+                                      >
+
+                                        <div>
+
+                                          <small className="text-muted">
+                                            Passenger{" "}
+                                            {Number(passengerIndex) + 1}
+                                          </small>
+
+                                          <p className="mb-0">
+                                            {getMealName(meal)}
+                                          </p>
+
+                                        </div>
+
+
+                                        <div className="d-flex align-items-center gap-3">
+
+                                          <b>
+                                            {meal?.Currency_Code || "INR"}{" "}
+                                            {getMealPrice(meal)}
+                                          </b>
+
+                                          <button
+                                            type="button"
+                                            className="btn btn-sm btn-outline-danger"
+                                            onClick={() =>
+                                              handleMealRemove(
+                                                Number(passengerIndex)
+                                              )
+                                            }
+                                          >
+                                            REMOVE
+                                          </button>
+
+                                        </div>
+
+                                      </div>
+
+                                    )
+                                  )}
+                                </div>
+                              )}
+                              {/* =====================================================
+                                  INFORMATION
+                              ===================================================== */}
+                              <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+
+                                <div className="uidnwehruiewr position-relative rounded-circle">
+
+                                  <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+
+                                </div>
+
+                                <div className="duihsnerew">
+
+                                  <h5 className="mb-1">
+                                    All meals are freshly prepared and hygienically packed.
                                   </h5>
 
-                                  <h6 className="mb-0"><span>0</span> of 1 selected</h6>
+                                  <p className="mb-0">
+                                    Availability may vary based on flight duration.
+                                  </p>
+
                                 </div>
 
-                                <p className="mb-0">Select your meal</p>
-                              </div>
-
-                              <div className="dioewiuhrew d-flex gap-2">
-                                <label htmlFor="veg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                                  <input type="checkbox" id="veg" className="d-none position-absolute" />
-
-                                  <img src="/images/veg.png" alt="" /> <b>Veg</b>
-                                </label>
-
-                                <label htmlFor="nonveg" className="d-inline-flex align-items-center gap-2 px-3 border rounded-pill mb-0">
-                                  <input type="checkbox" id="nonveg" className="d-none position-absolute" />
-
-                                  <img src="/images/nonveg.png" alt="" /> <b>Non Veg</b>
-                                </label>
-                              </div>
-                            </div>
-
-                            <div className="dmiwejrwer row">
-                              {Array.from({ length: 5 }).map((_, index) => (
-                                <div className="col-lg-6 mb-4">
-                                  <Meal />
-                                </div>
-                              ))}
-                            </div>
-
-                            <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
-                              <div className="uidnwehruiewr position-relative rounded-circle">
-                                <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
-                              </div>
-
-                              <div className="duihsnerew">
-                                <h5 className="mb-1">All meals are freshly prepared and hygienically packed.</h5>
-
-                                <p className="mb-0">Availability may vary based on flight duration.</p>
                               </div>
                             </div>
                           </div>
-                        </div>
+
                       </div>
+
                     </div>
 
-                    <button
+
+                    {/* =========================================================
+                        CONTINUE BUTTON
+                    ========================================================= */}
+                    {activeSeatMealTab === "seats" && (
+
+                      <button
                         type="button"
+                        className="btn btn-outline-primary rounded-pill px-4 mt-3"
                         disabled={!isSeatSelectionComplete}
-                        // onClick={handleContinue}
-                    >
+                        onClick={() => {
+
+                          // Open Meals tab
+                          setActiveSeatMealTab("meals");
+
+                        }}
+                      >
+
                         Continue
-                    </button>
+
+                      </button>
+
+                    )}
+
+
+                    {/* =========================================================
+                        MEAL CONTINUE BUTTON
+                        Optional - use this for next step after meals
+                    ========================================================= */}
+                    {activeSeatMealTab === "meals" && (
+
+                      <button
+                        type="button"
+                        className="btn btn-primary rounded-pill px-4 mt-3"
+                        onClick={() => {
+
+                          // Put your final continue/booking function here
+                          // handleContinue();
+
+                        }}
+                      >
+
+                        Continue
+
+                      </button>
+
+                    )}
+
                   </>
                 )}
               </div>
