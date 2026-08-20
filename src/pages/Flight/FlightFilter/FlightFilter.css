@@ -186,13 +186,14 @@ small.bgdbxzvxcv{
 }
 
 .flight-filter-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: #000;
 }
 
 .flight-filter-box {
-    margin-top: 1.4rem;
+    margin-top: 0.6rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .flight-filter-content {
@@ -971,31 +972,31 @@ small.sjkdnfslfs{
     width: 1rem;
 }
 
-.doasjjishnidchsd:first-child .dosncjknzkczxc{
+.doasjjishnidchsd.dfhdbdfsff .dosncjknzkczxc{
     background: color-mix(in srgb, var(--blue-secondary-color) 15%, #fff 95%);
 }
 
-.doasjjishnidchsd:nth-child(4n - 2) .dosncjknzkczxc{
+.doasjjishnidchsd.cbdfzadsd .dosncjknzkczxc{
     background: color-mix(in srgb, var(--success) 15%, #fff 95%);
 }
 
-.doasjjishnidchsd:nth-child(4n - 2) .dosncjknzkczxc img{
+.doasjjishnidchsd.cbdfzadsd .dosncjknzkczxc img{
     width: 0.7rem;
 }
 
-.doasjjishnidchsd:nth-child(4n - 1) .dosncjknzkczxc{
+.doasjjishnidchsd.dgcfghbgsef .dosncjknzkczxc{
     background: color-mix(in srgb, var(--blue-primary-color) 15%, #fff 95%);
 }
 
-.doasjjishnidchsd:nth-child(4n - 1) .dosncjknzkczxc img{
+.doasjjishnidchsd.dgcfghbgsef .dosncjknzkczxc img{
     width: 1.4rem;
 }
 
-.doasjjishnidchsd:last-child .dosncjknzkczxc{
+.doasjjishnidchsd.dhzdfsFsdf .dosncjknzkczxc{
     background: color-mix(in srgb, var(--main-golden) 15%, #fff 95%);
 }
 
-.doasjjishnidchsd:last-child .dosncjknzkczxc img{
+.doasjjishnidchsd.dhzdfsFsdf .dosncjknzkczxc img{
     width: 1rem;
 }
 
@@ -1013,6 +1014,7 @@ small.sjkdnfslfs{
     font-size: 12px !important;
     font-weight: 600;
     color: #000 !important;
+    line-height: 1.4;
 }
 
 .dikijasdlfdsf{
@@ -1068,6 +1070,50 @@ small.sjkdnfslfs{
 
 .icsklmdjfisdfsdf .swiper{
     padding-inline: 0.5rem;
+}
+
+label.nihnuidnuiwehrwer{
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+label.nihnuidnuiwehrwer img{
+    width: auto;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    transition: 0.2s ease-in-out;
+}
+
+.nihnuidnuiwehrwer:has(input:checked){
+    border: 1px solid var(--blue-primary-color);    
+}
+
+.nihnuidnuiwehrwer p{
+    font-size: 12px !important;
+    line-height: 1.4;
+}
+
+.uidnkmomkfsdf .nihnuidnuiwehrwer{
+    flex: 1;
+}
+
+.flight-results-section  .filter-header{
+    border-bottom: 1px solid var(--border);
+}
+
+.flight-results-section .filter-card{
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem;
+}
+
+
+.css-13vpke-MuiSlider-root{
+    color: var(--blue-primary-color) !important;
 }
 
 

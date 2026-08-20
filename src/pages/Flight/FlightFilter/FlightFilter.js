@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { Slider } from "@mui/material";
 
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
@@ -26,6 +27,7 @@ export const FlightFilter = () => {
   const [fareRules, setFareRules] = useState(null);
   const [flightFilterResToggle, setFlightFilterResToggle] = useState(false);
   const [resFilterToggle, setResFilterToggle] = useState(false);
+  const [value, setValue] = useState([6115, 43746]);
 
   // useEffect(() => {
   //   const html = document.querySelector("html");
@@ -935,7 +937,7 @@ export const FlightFilter = () => {
           </div>
         </section>
 
-        <section className="cdsnxfggfsD pt-5 pb-3">
+        <section className="cdsnxfggfsD pt-3">
           <div className="container">
             <div className="airlines-row">
                 {airlineCounts.map((airline) => (
@@ -978,7 +980,7 @@ export const FlightFilter = () => {
                 <div className="filter-card sticky-top">
                   <div
                     onClick={() => setResFilterToggle((prev) => !prev)}
-                    className="filter-header d-flex justify-content-between align-items-center"
+                    className="filter-header d-flex justify-content-between align-items-center mb-1 pb-2"
                   >
                     <h5 className="mb-0">
                       <i className="fa-solid d-none me-1 fa-sliders"></i>{" "}
@@ -1010,9 +1012,9 @@ export const FlightFilter = () => {
                     )}
 
                     <div
-                      className={`${window.innerWidth <= 991 ? "px-3 pt-3" : ""} dijnsihfsdlf pb-4`}
+                      className={`${window.innerWidth <= 991 ? "px-3 pt-3" : ""} dijnsihfsdlf`}
                     >
-                      <div className="filter-section jniujoijik">
+                      {/* <div className="filter-section jniujoijik">
                         <label className="form-label">
                           Search by Airline Names
                         </label>
@@ -1022,18 +1024,13 @@ export const FlightFilter = () => {
                           className="form-control"
                           placeholder="Search by Airline Names"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="flight-filter-box flht-fltr-wrapper">
                         <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
                           <div className="flight-filter-left">
-                            <img
-                              src="./images/upplane.png"
-                              className="flight-filter-img"
-                              alt=""
-                            />
                             <span className="flight-filter-title">
-                              Departure Times
+                              Stops
                             </span>
                           </div>
 
@@ -1065,7 +1062,7 @@ export const FlightFilter = () => {
                                 </span>
 
                                 <p className="checkbox__textwrapper">
-                                  American Airlines
+                                  Non-Stop
                                 </p>
                               </label>
                             </div>
@@ -1095,97 +1092,7 @@ export const FlightFilter = () => {
                                 </span>
 
                                 <p className="checkbox__textwrapper">
-                                  Delta Airliness
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  Emirates
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  Air France
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  Japan Airlines
+                                  1 Change
                                 </p>
                               </label>
                             </div>
@@ -1196,13 +1103,8 @@ export const FlightFilter = () => {
                       <div className="flight-filter-box flht-fltr-wrapper">
                         <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
                           <div className="flight-filter-left">
-                            <img
-                              src="./images/upplane.png"
-                              className="flight-filter-img"
-                              alt=""
-                            />
                             <span className="flight-filter-title">
-                              Flights Times
+                              Fare Policy
                             </span>
                           </div>
 
@@ -1234,7 +1136,7 @@ export const FlightFilter = () => {
                                 </span>
 
                                 <p className="checkbox__textwrapper">
-                                  6.00pm-12.00am
+                                  Non Refundable
                                 </p>
                               </label>
                             </div>
@@ -1264,97 +1166,7 @@ export const FlightFilter = () => {
                                 </span>
 
                                 <p className="checkbox__textwrapper">
-                                  10.10pm-2.3apm
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  11.00pm-3.10am
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  1.20am-4.40am
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  5.30am-12.00pm
+                                  Refundable
                                 </p>
                               </label>
                             </div>
@@ -1362,173 +1174,140 @@ export const FlightFilter = () => {
                         </div>
                       </div>
 
-                      <div className="filter-section">
-                        <div className="flight-filter-title d-flex align-items-center mb-2">
-                          <img src="./images/priceicon.png" alt="" />
-                          <span>Fare Type</span>
-                        </div>
-
-                        <div className="form-check suggested-item ps-0">
-                          <div className="checkbox-wrapper-33">
-                            <label className="checkbox">
-                              <input
-                                value="American Airlines"
-                                className="checkbox__trigger visuallyhidden"
-                                type="checkbox"
-                              />
-
-                              <span className="checkbox__symbol">
-                                <svg
-                                  aria-hidden="true"
-                                  className="icon-checkbox"
-                                  width="28px"
-                                  height="28px"
-                                  viewBox="0 0 28 28"
-                                  version="1.1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path d="M4 14l8 7L24 7" />
-                                </svg>
-                              </span>
-
-                              <p className="checkbox__textwrapper">
-                                Show Refundable Only
-                              </p>
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="form-check suggested-item ps-0">
-                          <div className="checkbox-wrapper-33">
-                            <label className="checkbox">
-                              <input
-                                value="American Airlines"
-                                className="checkbox__trigger visuallyhidden"
-                                type="checkbox"
-                              />
-
-                              <span className="checkbox__symbol">
-                                <svg
-                                  aria-hidden="true"
-                                  className="icon-checkbox"
-                                  width="28px"
-                                  height="28px"
-                                  viewBox="0 0 28 28"
-                                  version="1.1"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path d="M4 14l8 7L24 7" />
-                                </svg>
-                              </span>
-
-                              <p className="checkbox__textwrapper">
-                                Show Non Refundable Only
-                              </p>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flight-time-filter-box mt-4">
-                        <div className="flight-time-filter-header d-flex justify-content-between align-items-center flight-time-toggle">
-                          <div className="flight-time-left">
-                            <img
-                              src="./images/upplane.png"
-                              className="flight-time-img"
-                              alt=""
-                            />
-                            <span className="flight-time-title">
-                              Departure Times
+                      <div className="flight-filter-box flht-fltr-wrapper">
+                        <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                          <div className="flight-filter-left">
+                            <span className="flight-filter-title">
+                              Price Range
                             </span>
                           </div>
 
-                          <i className="fa-solid fa-caret-up flight-time-icon"></i>
+                          <i className="fa-solid fa-caret-up flight-filter-icon"></i>
                         </div>
 
-                        <div className="flight-time-content">
-                          <select className="flight-time-select form-select">
-                            <option>Anytime</option>
-                            <option>Morning</option>
-                            <option>Afternoon</option>
-                            <option>Evening</option>
-                            <option>Night</option>
-                          </select>
+                        <div className="flight-filter-content">
+                          <div className="price-filter">
+                            <Slider
+                              value={value}
+                              min={0}
+                              max={50000}
+                              onChange={(e, newValue) => setValue(newValue)}
+                              valueLabelDisplay="off"
+                            />
+
+                            <div className="price-values">
+                              <span>₹ {value[0].toLocaleString("en-IN")}</span>
+                              <span>₹ {value[1].toLocaleString("en-IN")}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="flight-arrival-filter-box mt-4">
-                        <div className="flight-arrival-filter-header d-flex justify-content-between align-items-center flight-arrival-toggle">
-                          <div className="flight-arrival-left">
-                            <img
-                              src="./images/downplane.png"
-                              className="flight-arrival-img"
-                              alt=""
-                            />
-                            <span className="flight-arrival-title">
-                              Arrival Times
+                      <div className="flight-filter-box flht-fltr-wrapper">
+                        <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                          <div className="flight-filter-left">
+                            <span className="flight-filter-title">
+                              Departure Time <span>(BOM)</span>
                             </span>
                           </div>
 
-                          <i className="fa-solid fa-caret-up flight-arrival-icon"></i>
+                          <i className="fa-solid fa-caret-up flight-filter-icon"></i>
                         </div>
 
-                        <div className="flight-arrival-content">
-                          <select className="flight-arrival-select form-select">
-                            <option>Anytime</option>
-                            <option>Morning</option>
-                            <option>Afternoon</option>
-                            <option>Evening</option>
-                            <option>Night</option>
-                          </select>
+                        <div className="uidnkmomkfsdf d-flex align-items-center gap-1 my-2">
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/dfrr.png" alt="" />
+
+                            <p className="mb-0">Before <br /> 6 AM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/afternoon.png" alt="" />
+
+                            <p className="mb-0">6 AM - <br /> 12 PM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/evening.png" alt="" />
+
+                            <p className="mb-0">12 PM - <br /> 6 PM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/night.png" alt="" />
+
+                            <p className="mb-0">After <br /> 6 PM</p>
+                          </label>
                         </div>
                       </div>
 
-                      <div className="flight-review-filter-box mt-3">
-                        <div className="flight-review-filter-header d-flex justify-content-between align-items-center flight-review-toggle">
-                          <div className="flight-review-left">
-                            <img
-                              src="./images/reviewicon.png"
-                              className="flight-review-img"
-                              alt=""
-                            />
-                            <span className="flight-filter-title">Reviews</span>
+                      <div className="flight-filter-box flht-fltr-wrapper">
+                        <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                          <div className="flight-filter-left">
+                            <span className="flight-filter-title">
+                              Arrival Time <span>(DEL)</span>
+                            </span>
                           </div>
 
-                          <i className="fa-solid fa-caret-up flight-review-icon"></i>
+                          <i className="fa-solid fa-caret-up flight-filter-icon"></i>
                         </div>
 
-                        <div className="flight-review-content">
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
+                        <div className="uidnkmomkfsdf d-flex align-items-center gap-1 my-2">
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
 
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
+                            <img src="/images/dfrr.png" alt="" />
 
-                                <p className="checkbox__textwrapper">
-                                  ⭐⭐⭐⭐⭐ 5 Star
-                                </p>
-                              </label>
-                            </div>
+                            <p className="mb-0">Before <br /> 6 AM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/afternoon.png" alt="" />
+
+                            <p className="mb-0">6 AM - <br /> 12 PM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/evening.png" alt="" />
+
+                            <p className="mb-0">12 PM - <br /> 6 PM</p>
+                          </label>
+
+                          <label className="nihnuidnuiwehrwer">
+                            <input type="checkbox" name="departure" className="d-none position-absolute" />
+
+                            <img src="/images/night.png" alt="" />
+
+                            <p className="mb-0">After <br /> 6 PM</p>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="flight-filter-box flht-fltr-wrapper" style={{ borderBottom: 0 }}>
+                        <div className="flight-filter-header d-flex justify-content-between align-items-center flight-filter-toggle">
+                          <div className="flight-filter-left">
+                            <span className="flight-filter-title">
+                              Others
+                            </span>
                           </div>
 
-                          <div className="form-check suggested-item ps-0">
+                          <i className="fa-solid fa-caret-up flight-filter-icon"></i>
+                        </div>
+
+                        <div className="flight-filter-content">
+                          <div className="form-check suggested-item ps-0 mb-0">
                             <div className="checkbox-wrapper-33">
                               <label className="checkbox">
                                 <input
@@ -1552,97 +1331,7 @@ export const FlightFilter = () => {
                                 </span>
 
                                 <p className="checkbox__textwrapper">
-                                  ⭐⭐⭐⭐ 4 Star
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  ⭐⭐⭐ 3 Star
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  ⭐⭐ 2 Star
-                                </p>
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="form-check suggested-item ps-0">
-                            <div className="checkbox-wrapper-33">
-                              <label className="checkbox">
-                                <input
-                                  value="American Airlines"
-                                  className="checkbox__trigger visuallyhidden"
-                                  type="checkbox"
-                                />
-
-                                <span className="checkbox__symbol">
-                                  <svg
-                                    aria-hidden="true"
-                                    className="icon-checkbox"
-                                    width="28px"
-                                    height="28px"
-                                    viewBox="0 0 28 28"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M4 14l8 7L24 7" />
-                                  </svg>
-                                </span>
-
-                                <p className="checkbox__textwrapper">
-                                  ⭐ 1 Star
+                                  Same Day Arrival
                                 </p>
                               </label>
                             </div>
@@ -1848,37 +1537,35 @@ export const FlightFilter = () => {
                 </div>
 
                 <div className="dubyasyufsdf mb-3 p-1">
-                  <div className="col-10">
-                    <table className="table mb-0">
-                      <tr className="text-center">
-                        <th>
-                          <img src="/images/flightdas.png" alt="" /> Airline
-                        </th>
+                  <table className="table mb-0">
+                    <tr className="text-center">
+                      <th>
+                        <img src="/images/flightdas.png" alt="" /> Airline
+                      </th>
 
-                        <th>
-                          <img src="/images/airplane.png" alt="" />{" "}
-                          <span style={{ position: "relative", zIndex: 999 }}>
-                            Depart
-                          </span>
-                        </th>
+                      <th>
+                        <img src="/images/airplane.png" alt="" />{" "}
+                        <span style={{ position: "relative", zIndex: 999 }}>
+                          Depart
+                        </span>
+                      </th>
 
-                        <th>
-                          <img src="/images/repeat.png" alt="" /> Duration
-                        </th>
+                      <th>
+                        <img src="/images/repeat.png" alt="" /> Duration
+                      </th>
 
-                        <th>
-                          <img src="/images/airplane.png" alt="" />{" "}
-                          <span style={{ position: "relative", zIndex: 999 }}>
-                            Arrive
-                          </span>
-                        </th>
+                      <th>
+                        <img src="/images/airplane.png" alt="" />{" "}
+                        <span style={{ position: "relative", zIndex: 999 }}>
+                          Arrive
+                        </span>
+                      </th>
 
-                        <th>
-                          <img src="/images/money.png" alt="" /> Price
-                        </th>
-                      </tr>
-                    </table>
-                  </div>
+                      <th>
+                        <img src="/images/money.png" alt="" /> Price
+                      </th>
+                    </tr>
+                  </table>
                 </div>
 
                 <div className="flight-filtr-wrppr">
@@ -1908,12 +1595,70 @@ export const FlightFilter = () => {
                               </p>
                             </div>
 
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd dfhdbdfsff d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/seatb.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Cabin</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.FareClasses?.[0]?.CabinClass}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd cbdfzadsd d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/luggageb.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Baggage</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.Free_Baggage?.Check_In_Baggage}{" "}
+                                    Check-In
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd dgcfghbgsef d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/school-bag.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Cabin Baggage</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.Free_Baggage?.Hand_Baggage}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>                            
+
                             {/* <span className="rating">5.0</span> */}
 
-                            <div className="stop-info">
+                            {/* <div className="stop-info"> */}
                               {/* <img src="./images/stop.png" alt="" /> */}
 
-                              {flight.Segments.length === 1
+                              {/* {flight.Segments.length === 1
                                 ? "Non Stop"
                                 : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
                                     0,
@@ -1921,7 +1666,7 @@ export const FlightFilter = () => {
                                   )
                                     .map((s) => s.Destination)
                                     .join(", ")}`}
-                            </div>
+                            </div> */}
                           </div>
 
                           <div className="flight-body">
@@ -1978,10 +1723,10 @@ export const FlightFilter = () => {
                                                       Add to compare +
                                                   </a> */}
 
-                                  <div className="icsnduhh row align-items-center my-2">
+                                  <div className="icsnduhh row align-items-center mt-2">
                                     {/* Airline Details */}
                                     <div className="col-2">
-                                      <div className="gfjh55 text-start ps-3">
+                                      <div className="gfjh55 text-start">
                                         <h5 className="fw-semibold mb-0 d-flex flex-column gap-1">
                                           <span>
                                             {firstSegment.Origin_City.match(
@@ -2127,7 +1872,7 @@ export const FlightFilter = () => {
 
                                 {/* Price */}
                                 <div className="col-lg-3">
-                                  <div className="dikijasdlfdsf text-end pt-3">
+                                  <div className="dikijasdlfdsf d-inline-flex flex-column justify-content-between align-items-end w-100">
                                     <button
                                       className="btn btn-tour mb-2"
                                       onClick={() =>
@@ -2136,82 +1881,30 @@ export const FlightFilter = () => {
                                     >
                                       View Price
                                     </button>
+
+                                    <div className="offer-strip d-flex justify-content-between align-items-center">
+                                      <div className="doasjjishnidchsd dhzdfsFsdf d-flex align-items-center gap-2">
+                                        <div className="dosncjknzkczxc position-relative rounded-circle">
+                                          <img
+                                            src="./images/fire.png"
+                                            className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                            alt=""
+                                          />
+                                        </div>
+
+                                        <div className="dinsdlcjiodsfc">
+                                          <small>Seats Left</small>{" "}
+                                          <p className="mb-0">
+                                            {flight.Fares[0]?.Seats_Available} Seats Left
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-
-                          <div className="offer-strip d-flex justify-content-between align-items-center">
-                            <div className="doasjjishnidchsd d-flex align-items-center gap-2">
-                              <div className="dosncjknzkczxc position-relative rounded-circle">
-                                <img
-                                  src="./images/seatb.png"
-                                  className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                  alt=""
-                                />
-                              </div>
-
-                              <div className="dinsdlcjiodsfc">
-                                <small>Cabin</small>{" "}
-                                <p className="mb-0">
-                                  {cheapestFare?.FareClasses?.[0]?.CabinClass}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="doasjjishnidchsd d-flex align-items-center gap-2">
-                              <div className="dosncjknzkczxc position-relative rounded-circle">
-                                <img
-                                  src="./images/luggageb.png"
-                                  className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                  alt=""
-                                />
-                              </div>
-
-                              <div className="dinsdlcjiodsfc">
-                                <small>Baggage</small>{" "}
-                                <p className="mb-0">
-                                  {cheapestFare?.Free_Baggage?.Check_In_Baggage}{" "}
-                                  Check-In
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="doasjjishnidchsd d-flex align-items-center gap-2">
-                              <div className="dosncjknzkczxc position-relative rounded-circle">
-                                <img
-                                  src="./images/school-bag.png"
-                                  className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                  alt=""
-                                />
-                              </div>
-
-                              <div className="dinsdlcjiodsfc">
-                                <small>Cabin Baggage</small>{" "}
-                                <p className="mb-0">
-                                  {cheapestFare?.Free_Baggage?.Hand_Baggage}
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="doasjjishnidchsd d-flex align-items-center gap-2">
-                              <div className="dosncjknzkczxc position-relative rounded-circle">
-                                <img
-                                  src="./images/fire.png"
-                                  className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                  alt=""
-                                />
-                              </div>
-
-                              <div className="dinsdlcjiodsfc">
-                                <small>Seats Left</small>{" "}
-                                <p className="mb-0">
-                                  {flight.Fares[0]?.Seats_Available} Seats Left
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          </div>                          
                         </div>
                       );
                     },

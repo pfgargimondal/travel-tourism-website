@@ -20,6 +20,7 @@ export const FlightDetails = () => {
   // const [selectedBaggage, setSelectedBaggage] = useState(null);
   // const [quantity, setQuantity] = useState(1);
   const [selectedSSR, setSelectedSSR] = useState({});
+  const [selectedPassenger, setSelectedPassenger] = useState(null);
   const [flightBookingModal, setFlightBookingModal] = useState(false);
   // eslint-disable-next-line
   const [selectedMeal, setSelectedMeal] = useState(null);
@@ -29,13 +30,9 @@ export const FlightDetails = () => {
   const { flightId } = useParams();
   const location = useLocation();
 
-  const storedData = sessionStorage.getItem(
-    `flightDetails_${flightId}`
-  );
+  const storedData = sessionStorage.getItem(`flightDetails_${flightId}`);
 
-  const state = location.state || (
-    storedData ? JSON.parse(storedData) : null
-  );
+  const state = location.state || (storedData ? JSON.parse(storedData) : null);
 
   const search_key = state?.search_key;
   const flight = state?.flight;
@@ -48,7 +45,6 @@ export const FlightDetails = () => {
   const adultCount = adults || 1;
   const childCount = children || 0;
   const infantCount = infants || 0;
-
 
   const [fareRuleModal, setFareRuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState("cancel");
@@ -89,7 +85,6 @@ export const FlightDetails = () => {
 
     fetchCountryCode();
   }, []);
-
 
   useEffect(() => {
     // console.log("useEffect triggered", {
@@ -191,63 +186,57 @@ export const FlightDetails = () => {
   const segment = repriceFlight?.Segments?.[0];
   // const cancellationCharges = fareDetail?.CancellationCharges || [];
 
-  const paxRules = flightRePrice?.AirRepriceResponses?.[0]?.Required_PAX_Details || [];
+  const paxRules =
+    flightRePrice?.AirRepriceResponses?.[0]?.Required_PAX_Details || [];
 
   const cancellationCharges = (() => {
-  const grouped = {};
+    const grouped = {};
 
-  allfareDetails.forEach((passenger) => {
-    const passengerFare = Number(passenger.Total_Amount || 0);
+    allfareDetails.forEach((passenger) => {
+      const passengerFare = Number(passenger.Total_Amount || 0);
 
-    (passenger.CancellationCharges || []).forEach((charge) => {
-      const key = [
-        charge.DurationFrom,
-        charge.DurationTo,
-        charge.DurationTypeFrom,
-        charge.DurationTypeTo,
-      ].join("-");
+      (passenger.CancellationCharges || []).forEach((charge) => {
+        const key = [
+          charge.DurationFrom,
+          charge.DurationTo,
+          charge.DurationTypeFrom,
+          charge.DurationTypeTo,
+        ].join("-");
 
-      if (!grouped[key]) {
-        grouped[key] = {
-          ...charge,
-          totalValue: 0,
-        };
-      }
+        if (!grouped[key]) {
+          grouped[key] = {
+            ...charge,
+            totalValue: 0,
+          };
+        }
 
-      let penalty = 0;
+        let penalty = 0;
 
-      if (charge.ValueType === 1) {
-        // Percentage based cancellation charge
-        penalty =
-          (passengerFare * Number(charge.Value || 0)) / 100;
-      } else {
-        // Fixed amount
-        penalty = Number(charge.Value || 0);
-      }
+        if (charge.ValueType === 1) {
+          // Percentage based cancellation charge
+          penalty = (passengerFare * Number(charge.Value || 0)) / 100;
+        } else {
+          // Fixed amount
+          penalty = Number(charge.Value || 0);
+        }
 
-      grouped[key].totalValue += penalty;
+        grouped[key].totalValue += penalty;
+      });
     });
-  });
 
-  return Object.values(grouped);
-})();
+    return Object.values(grouped);
+  })();
 
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const formatTotalPenalty = (item) => {
     return `₹${Number(item.totalValue || 0).toLocaleString("en-IN")}`;
   };
 
-  const adultRule = paxRules.find(
-    x => Number(x?.Pax_type) === 0
-  );
+  const adultRule = paxRules.find((x) => Number(x?.Pax_type) === 0);
 
-  const childRule = paxRules.find(
-    x => Number(x?.Pax_type) === 1
-  );
+  const childRule = paxRules.find((x) => Number(x?.Pax_type) === 1);
 
-  const infantRule = paxRules.find(
-    x => Number(x?.Pax_type) === 2
-  );
+  const infantRule = paxRules.find((x) => Number(x?.Pax_type) === 2);
 
   const emptyPassenger = {
     // Basic details
@@ -305,7 +294,7 @@ export const FlightDetails = () => {
       return;
     }
 
-    setAdultForms(prev => [
+    setAdultForms((prev) => [
       ...prev,
       {
         ...emptyPassenger,
@@ -314,21 +303,19 @@ export const FlightDetails = () => {
   };
 
   const handleRemoveAdult = (index) => {
-    setAdultForms(prev =>
-      prev.filter((_, i) => i !== index)
-    );
+    setAdultForms((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleAdultChange = (index, field, value) => {
-    setAdultForms(prev =>
+    setAdultForms((prev) =>
       prev.map((passenger, i) =>
         i === index
           ? {
               ...passenger,
               [field]: value,
             }
-          : passenger
-      )
+          : passenger,
+      ),
     );
   };
 
@@ -337,7 +324,7 @@ export const FlightDetails = () => {
       return;
     }
 
-    setChildForms(prev => [
+    setChildForms((prev) => [
       ...prev,
       {
         ...emptyPassenger,
@@ -346,21 +333,19 @@ export const FlightDetails = () => {
   };
 
   const handleRemoveChild = (index) => {
-    setChildForms(prev =>
-      prev.filter((_, i) => i !== index)
-    );
+    setChildForms((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleChildChange = (index, field, value) => {
-    setChildForms(prev =>
+    setChildForms((prev) =>
       prev.map((passenger, i) =>
         i === index
           ? {
               ...passenger,
               [field]: value,
             }
-          : passenger
-      )
+          : passenger,
+      ),
     );
   };
 
@@ -369,7 +354,7 @@ export const FlightDetails = () => {
       return;
     }
 
-    setInfantForms(prev => [
+    setInfantForms((prev) => [
       ...prev,
       {
         ...emptyPassenger,
@@ -378,41 +363,53 @@ export const FlightDetails = () => {
   };
 
   const handleRemoveInfant = (index) => {
-    setInfantForms(prev =>
-      prev.filter((_, i) => i !== index)
-    );
+    setInfantForms((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleInfantChange = (index, field, value) => {
-    setInfantForms(prev =>
+    setInfantForms((prev) =>
       prev.map((passenger, i) =>
         i === index
           ? {
               ...passenger,
               [field]: value,
             }
-          : passenger
-      )
+          : passenger,
+      ),
     );
   };
 
   const toggleFF = (type, index) => {
     if (type === "adult") {
-        const data = [...adultForms];
-        data[index].showFF = !data[index].showFF;
-        setAdultForms(data);
+      const data = [...adultForms];
+      data[index].showFF = !data[index].showFF;
+      setAdultForms(data);
     }
     if (type === "child") {
-        const data = [...childForms];
-        data[index].showFF = !data[index].showFF;
-        setChildForms(data);
+      const data = [...childForms];
+      data[index].showFF = !data[index].showFF;
+      setChildForms(data);
     }
     if (type === "infant") {
-        const data = [...infantForms];
-        data[index].showFF = !data[index].showFF;
-        setInfantForms(data);
+      const data = [...infantForms];
+      data[index].showFF = !data[index].showFF;
+      setInfantForms(data);
     }
   };
+
+  const mealsType = ["COMPLIMENTORY_MEALS", "MEALS"];
+
+  const mealsList =
+    ssrData?.[0]?.SSRDetails?.filter((item) =>
+      mealsType.includes(item.SSR_TypeName),
+    ) || [];
+
+  const [billingDetails, setBillingDetails] = useState({
+    billingCountryCode: "",
+    billingMobile: "",
+    billingEmail: "",
+    billingState: "West Bengal",
+  });
 
   const [saveBilling, setSaveBilling] = useState(false);
   const [billingError, setBillingError] = useState("");
@@ -461,7 +458,10 @@ export const FlightDetails = () => {
           return false;
         }
 
-        if (adultRule.Passport_Issuing_Country && !passenger.Passport_Issuing_Country?.trim()) {
+        if (
+          adultRule.Passport_Issuing_Country &&
+          !passenger.Passport_Issuing_Country?.trim()
+        ) {
           return false;
         }
 
@@ -485,7 +485,10 @@ export const FlightDetails = () => {
           return false;
         }
 
-        if (adultRule.DefenceExpiryDate && !passenger.DefenceExpiryDate?.trim()) {
+        if (
+          adultRule.DefenceExpiryDate &&
+          !passenger.DefenceExpiryDate?.trim()
+        ) {
           return false;
         }
 
@@ -517,7 +520,6 @@ export const FlightDetails = () => {
         if (childRule.DOB && !passenger.dob) {
           return false;
         }
-
       }
     }
 
@@ -540,19 +542,7 @@ export const FlightDetails = () => {
           return false;
         }
 
-        if (infantRule.Gender && !passenger.gender?.trim()) {
-          return false;
-        }
-
         if (infantRule.DOB && !passenger.dob) {
-          return false;
-        }
-
-        if (infantRule.Mobile && !passenger.mobile?.trim()) {
-          return false;
-        }
-
-        if (infantRule.Email && !passenger.email?.trim()) {
           return false;
         }
       }
@@ -565,22 +555,49 @@ export const FlightDetails = () => {
     // Clear previous billing error
     setBillingError("");
 
-    // Validate passenger fields first
     const isPassengerValid = validatePassengerDetails();
-
     if (!isPassengerValid) {
       return;
     }
 
-    // Billing checkbox validation
-    if (!saveBilling) {
-      setBillingError(
-        "Please confirm and save billing details to your profile before continuing."
-      );
+    if (!billingDetails.billingCountryCode) {
+      setBillingError("Please select billing country code.");
       return;
     }
 
-    // Everything is valid
+    if (!billingDetails.billingMobile) {
+      setBillingError("Please enter billing mobile number.");
+      return;
+    }
+
+    if (billingDetails.billingMobile.length < 10) {
+      setBillingError("Please enter a valid billing mobile number.");
+      return;
+    }
+
+    if (!billingDetails.billingEmail) {
+      setBillingError("Please enter billing email address.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(billingDetails.billingEmail)) {
+      setBillingError("Please enter a valid billing email address.");
+      return;
+    }
+
+    if (!billingDetails.billingState) {
+      setBillingError("Please select billing state.");
+      return;
+    }
+
+    if (!saveBilling) {
+      setBillingError(
+        "Please check the confirmation box to save your billing details and continue.",
+      );
+      return;
+    }
     handlePassengerDetails();
   };
 
@@ -611,42 +628,62 @@ export const FlightDetails = () => {
         search_key: search_key || "",
       };
 
-      const response = await http.post(
-        "/get-seatMap-details",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await http.post("/get-seatMap-details", requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const responseData = response.data.data;
 
       // setSeatMap(responseData.AirSeatMaps);
       const airSeatMaps = responseData?.AirSeatMaps;
 
-      if (Array.isArray(airSeatMaps) && airSeatMaps.length > 0) {
-          setSeatMap(airSeatMaps);
+      const seatAvailable =
+        Array.isArray(airSeatMaps) && airSeatMaps.length > 0;
+
+      if (seatAvailable) {
+        setSeatMap(airSeatMaps);
       } else {
-          setSeatMap([]);
+        setSeatMap([]);
       }
 
-      if (
-        response.status >= 200 &&
-        response.status < 300
-      ) {
-         setShowSeatMealSection(true);
-        localStorage.setItem(
-          "savedPassengerDetails",
-          JSON.stringify(passengerDetails)
-        );
+      // Meal availability
+      const mealAvailable = Array.isArray(mealsList) && mealsList.length > 0;
+
+      console.log("Seat Available:", seatAvailable);
+      console.log("Meal Available:", mealAvailable);
+
+      if (!seatAvailable && !mealAvailable) {
+        // NO SEAT + NO MEAL
+        setShowSeatMealSection(false);
+
+        // Open booking modal directly
+        setFlightBookingModal(true);
+
+        return;
       }
 
+      // At least one is available
+      setShowSeatMealSection(true);
+
+      // Seat available → show Seat first
+      if (seatAvailable) {
+        setActiveSeatMealTab("seats");
+      }
+      // Only meal available → show Meal first
+      else if (mealAvailable) {
+        setActiveSeatMealTab("meals");
+      }
+
+      localStorage.setItem(
+        "savedPassengerDetails",
+        JSON.stringify(passengerDetails),
+      );
     } catch (error) {
       console.error(
         "Passenger API error:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
     } finally {
       setLoading(false);
@@ -658,21 +695,18 @@ export const FlightDetails = () => {
     Number(childCount || 0) +
     Number(infantCount || 0);
 
-  const hasSeatMap =
-  Array.isArray(seatMap)
+  const hasSeatMap = Array.isArray(seatMap)
     ? seatMap.length > 0
     : seatMap && typeof seatMap === "object"
       ? Object.keys(seatMap).length > 0
       : false;
 
   useEffect(() => {
-
     if (!hasSeatMap) {
       setActiveSeatMealTab("meals");
     } else {
       setActiveSeatMealTab("seats");
     }
-
   }, [hasSeatMap]);
 
   const travelDate = repriceFlight?.TravelDate
@@ -689,44 +723,42 @@ export const FlightDetails = () => {
   const segments = repriceFlight?.Segments || [];
 
   const formatPenalty = (item) => {
+    if (item.ValueType === 1) {
+      return `${item.Value}%`;
+    }
 
-      if (item.ValueType === 1) {
-          return `${item.Value}%`;
-      }
-
-      return `₹ ${Number(item.Value).toLocaleString("en-IN")}`;
+    return `₹ ${Number(item.Value).toLocaleString("en-IN")}`;
   };
 
   const formatDate = (date) =>
-      date.toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "short",
-      });
+    date.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+    });
 
   const formatTime = (date) =>
-      date.toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-      });
+    date.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
 
   const getBoundaryDate = (item) => {
+    const [datePart, timePart] = segment.Departure_DateTime.split(" ");
 
-      const [datePart, timePart] = segment.Departure_DateTime.split(" ");
+    const [month, day, year] = datePart.split("/");
 
-      const [month, day, year] = datePart.split("/");
+    const departure = new Date(`${year}-${month}-${day}T${timePart}`);
 
-      const departure = new Date(`${year}-${month}-${day}T${timePart}`);
+    const d = new Date(departure);
 
-      const d = new Date(departure);
+    if (item.DurationTypeTo === 0) {
+      d.setHours(d.getHours() - item.DurationTo);
+    } else {
+      d.setDate(d.getDate() - item.DurationTo);
+    }
 
-      if (item.DurationTypeTo === 0) {
-          d.setHours(d.getHours() - item.DurationTo);
-      } else {
-          d.setDate(d.getDate() - item.DurationTo);
-      }
-
-      return d;
+    return d;
   };
 
   //   const firstSegment = segments[0];
@@ -748,107 +780,180 @@ export const FlightDetails = () => {
       (item) => !excludedTypes.includes(item.SSR_TypeName),
     ) || [];
 
-  const mealsType = ["COMPLIMENTORY_MEALS", "MEALS"];
+  const hasMeal = Array.isArray(mealsList) && mealsList.length > 0;
 
-  const mealsList =
-    ssrData?.[0]?.SSRDetails?.filter(
-      (item) => mealsType.includes(item.SSR_TypeName),
-    ) || [];
+  const hasSeat = Array.isArray(seatMap) && seatMap.length > 0;
 
+  const hasSeatOrMeal = hasSeat || hasMeal;
 
-  const handleSelectSSR = (item) => {
+  const handleSelectSSR = (bag) => {
+    if (!selectedPassenger) {
+      return;
+    }
+
+    const passengerKey = selectedPassenger.key;
+    const baggageKey = bag.SSR_Key;
+
     setSelectedSSR((prev) => ({
       ...prev,
-      [item.SSR_TypeName]: item,
+      [passengerKey]: {
+        ...(prev[passengerKey] || {}),
+        [baggageKey]: {
+          ...bag,
+          quantity: 1,
+        },
+      },
     }));
   };
 
-  const handleRemoveSSR = (type) => {
+  const handleIncreaseSSR = (bag) => {
+    if (!selectedPassenger) {
+      return;
+    }
+
+    const passengerKey = selectedPassenger.key;
+    const baggageKey = bag.SSR_Key;
+
     setSelectedSSR((prev) => {
-      const updated = { ...prev };
-      delete updated[type];
+      const current = prev[passengerKey]?.[baggageKey];
+
+      if (!current) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [passengerKey]: {
+          ...prev[passengerKey],
+          [baggageKey]: {
+            ...current,
+            quantity: (current.quantity || 1) + 1,
+          },
+        },
+      };
+    });
+  };
+
+  const handleRemoveSSR = (bag) => {
+    if (!selectedPassenger) {
+      return;
+    }
+
+    const passengerKey = selectedPassenger.key;
+    const baggageKey = bag.SSR_Key;
+
+    setSelectedSSR((prev) => {
+      const current = prev[passengerKey]?.[baggageKey];
+
+      if (!current) {
+        return prev;
+      }
+
+      // Reduce quantity
+      if ((current.quantity || 1) > 1) {
+        return {
+          ...prev,
+          [passengerKey]: {
+            ...prev[passengerKey],
+            [baggageKey]: {
+              ...current,
+              quantity: current.quantity - 1,
+            },
+          },
+        };
+      }
+
+      // Remove baggage completely
+      const updatedPassenger = {
+        ...prev[passengerKey],
+      };
+
+      delete updatedPassenger[baggageKey];
+
+      const updated = {
+        ...prev,
+        [passengerKey]: updatedPassenger,
+      };
+
+      // Remove passenger if no baggage remains
+      if (Object.keys(updatedPassenger).length === 0) {
+        delete updated[passengerKey];
+      }
+
       return updated;
     });
   };
 
-  const adultFare = allfareDetails.find(
-    (item) => item.PAX_Type === 0
-  );
+  const adultFare = allfareDetails.find((item) => item.PAX_Type === 0);
 
-  const childFare = allfareDetails.find(
-    (item) => item.PAX_Type === 1
-  );
+  const childFare = allfareDetails.find((item) => item.PAX_Type === 1);
 
-  const infantFare = allfareDetails.find(
-    (item) => item.PAX_Type === 2
-  );
+  const infantFare = allfareDetails.find((item) => item.PAX_Type === 2);
 
   // Base fare
   const baseFare = allfareDetails.reduce(
     (total, item) => total + Number(item.Basic_Amount || 0),
-    0
+    0,
   );
 
   // Taxes
   const taxesAndSurcharges = allfareDetails.reduce(
     (total, item) => total + Number(item.AirportTax_Amount || 0),
-    0
+    0,
   );
 
   // Total
   const totalAmount = allfareDetails.reduce(
     (total, item) => total + Number(item.Total_Amount || 0),
-    0
+    0,
   );
 
   const handleMealSelect = (meal) => {
-  if (totalPassengers <= 0) {
-    return;
-  }
-
-  setSelectedMeals((prev) => {
-    const next = { ...prev };
-
-    // If this meal is already selected,
-    // remove it from the passenger who selected it
-    const existingPassengerIndex = Object.keys(next).find(
-      (key) =>
-        next[key]?.SSR_Code === meal?.SSR_Code
-    );
-
-    if (existingPassengerIndex !== undefined) {
-      delete next[existingPassengerIndex];
-
-      const rearranged = {};
-
-      Object.values(next).forEach((item, index) => {
-        rearranged[index] = item;
-      });
-
-      return rearranged;
+    if (totalPassengers <= 0) {
+      return;
     }
 
-    // Find first passenger without meal
-    let passengerIndex = -1;
+    setSelectedMeals((prev) => {
+      const next = { ...prev };
 
-    for (let i = 0; i < totalPassengers; i++) {
-      if (!next[i]) {
-        passengerIndex = i;
-        break;
+      // If this meal is already selected,
+      // remove it from the passenger who selected it
+      const existingPassengerIndex = Object.keys(next).find(
+        (key) => next[key]?.SSR_Code === meal?.SSR_Code,
+      );
+
+      if (existingPassengerIndex !== undefined) {
+        delete next[existingPassengerIndex];
+
+        const rearranged = {};
+
+        Object.values(next).forEach((item, index) => {
+          rearranged[index] = item;
+        });
+
+        return rearranged;
       }
-    }
 
-    // All passengers already selected
-    if (passengerIndex === -1) {
-      return prev;
-    }
+      // Find first passenger without meal
+      let passengerIndex = -1;
 
-    next[passengerIndex] = meal;
+      for (let i = 0; i < totalPassengers; i++) {
+        if (!next[i]) {
+          passengerIndex = i;
+          break;
+        }
+      }
 
-    return next;
-  });
+      // All passengers already selected
+      if (passengerIndex === -1) {
+        return prev;
+      }
+
+      next[passengerIndex] = meal;
+
+      return next;
+    });
   };
-
 
   const handleMealRemove = (passengerIndex) => {
     setSelectedMeals((prev) => {
@@ -866,11 +971,7 @@ export const FlightDetails = () => {
     });
   };
 
-
-  const selectedMealCount = Object.keys(
-    selectedMeals
-  ).length;
-
+  const selectedMealCount = Object.keys(selectedMeals).length;
 
   const getMealName = (meal) => {
     return (
@@ -885,19 +986,17 @@ export const FlightDetails = () => {
     );
   };
 
-
   const getMealPrice = (meal) => {
     return Number(
       meal?.Total_Amount ??
-      meal?.Amount ??
-      meal?.Price ??
-      meal?.SSR_Amount ??
-      meal?.SSR_Price ??
-      meal?.Fare ??
-      0
+        meal?.Amount ??
+        meal?.Price ??
+        meal?.SSR_Amount ??
+        meal?.SSR_Price ??
+        meal?.Fare ??
+        0,
     );
   };
-
 
   const getMealType = (meal) => {
     const text = `
@@ -918,24 +1017,81 @@ export const FlightDetails = () => {
       return "nonveg";
     }
 
-    if (
-      text.includes("veg") ||
-      text.includes("vegetarian")
-    ) {
+    if (text.includes("veg") || text.includes("vegetarian")) {
       return "veg";
     }
 
     return "other";
   };
 
-
-  const totalMealPrice = Object.values(
-    selectedMeals
-  ).reduce((total, meal) => {
+  const totalMealPrice = Object.values(selectedMeals).reduce((total, meal) => {
     return total + getMealPrice(meal);
   }, 0);
-  
 
+  const baggagePassengers = [
+    ...Array.from({ length: Number(adultCount || 0) }, (_, index) => {
+      const passenger = adultForms[index];
+
+      return {
+        key: `Adult-${index}`,
+        paxType: 0,
+        label: `Adult ${index + 1}`,
+        name:
+          `${passenger?.firstName || ""} ${passenger?.lastName || ""}`.trim() ||
+          `Adult ${index + 1}`,
+      };
+    }),
+
+    ...Array.from({ length: Number(childCount || 0) }, (_, index) => {
+      const passenger = childForms[index];
+
+      return {
+        key: `Child-${index}`,
+        paxType: 1,
+        label: `Child ${index + 1}`,
+        name:
+          `${passenger?.firstName || ""} ${passenger?.lastName || ""}`.trim() ||
+          `Child ${index + 1}`,
+      };
+    }),
+
+    ...Array.from({ length: Number(infantCount || 0) }, (_, index) => {
+      const passenger = infantForms[index];
+
+      return {
+        key: `Infant-${index}`,
+        paxType: 2,
+        label: `Infant ${index + 1}`,
+        name:
+          `${passenger?.firstName || ""} ${passenger?.lastName || ""}`.trim() ||
+          `Infant ${index + 1}`,
+      };
+    }),
+  ];
+
+  const handleSeatMealContinue = () => {
+    if (activeSeatMealTab === "seats") {
+      // Seat validation
+      if (!isSeatSelectionComplete) {
+        return;
+      }
+
+      if (hasMeal) {
+        // Go to meal tab
+        setActiveSeatMealTab("meals");
+      } else {
+        // No meal → open booking modal
+        setShowSeatMealSection(false);
+        setFlightBookingModal(true);
+      }
+    }
+
+    if (activeSeatMealTab === "meals") {
+      // Meal completed → open booking modal
+      setShowSeatMealSection(false);
+      setFlightBookingModal(true);
+    }
+  };
 
   if (loading) return <Loader />;
 
@@ -1082,77 +1238,75 @@ export const FlightDetails = () => {
 
                               <div className="icsnduhh row">
                                 <div className="time-wrapper d-flex justify-content-between gap-5">
-                                    <div className="pt-1">
-                                      <h5 className="mb-1">{departureTime}</h5>
+                                  <div className="pt-1">
+                                    <h5 className="mb-1">{departureTime}</h5>
 
-                                      <div className="udnehnewr d-flex flex-column">
-                                        <p className="fw-semibold mb-0 d-flex flex-column gap-1">
-                                          <span>{segment.Origin_City}</span>
-                                        </p>
+                                    <div className="udnehnewr d-flex flex-column">
+                                      <p className="fw-semibold mb-0 d-flex flex-column gap-1">
+                                        <span>{segment.Origin_City}</span>
+                                      </p>
 
-                                        <small
-                                          style={{
-                                            fontWeight: 500,
-                                            color:
-                                              "var(--light-highlighted-text-color)",
-                                          }}
-                                        >
-                                          Terminal{" "}
-                                          {segment.Origin_Terminal || "-"}
-                                        </small>
-                                      </div>
-                                    </div>
-
-                                    <div className="duration-wrapper flex-fill text-center">
-                                      <small className="dyusbnbsdhfc ufsidnfijsdfsdf">
-                                        <i className="bi bi-clock"></i>{" "}
-                                        {totalDuration}
+                                      <small
+                                        style={{
+                                          fontWeight: 500,
+                                          color:
+                                            "var(--light-highlighted-text-color)",
+                                        }}
+                                      >
+                                        Terminal{" "}
+                                        {segment.Origin_Terminal || "-"}
                                       </small>
-
-                                      <div className="dinsjihfnsidhfsdf d-flex align-items-center justify-content-center position-relative my-3">
-                                        <span className="flgt-drtn-circle d-block"></span>
-
-                                        <span className="flgt-drtn-line d-block"></span>
-
-                                        <span className="flgt-drtn-circle d-block"></span>
-
-                                        <div className="dijsenifjsdf hide-ini position-absolute text-center">
-                                          <i className="bi bi-airplane-engines d-block text-white"></i>
-                                        </div>
-
-                                        <div className="dijsenifjsdf show-ini position-absolute text-center">
-                                          <i className="bi bi-airplane-engines d-block text-white"></i>
-                                        </div>
-                                      </div>
-
-                                      <small className="dyusbnbsdhfc px-3 stop-info">
-                                        {segment.Aircraft_Type}
-                                      </small>
-                                    </div>
-
-                                    <div className="text-end pt-1">
-                                      <h5 className="mb-1">{arrivalTime}</h5>
-
-                                      <div className="udnehnewr d-flex flex-column">
-                                        <p className="fw-semibold mb-0 d-flex flex-column gap-1">
-                                          <span>
-                                            {segment.Destination_City}
-                                          </span>
-                                        </p>
-
-                                        <small
-                                          style={{
-                                            fontWeight: 500,
-                                            color:
-                                              "var(--light-highlighted-text-color)",
-                                          }}
-                                        >
-                                          Terminal{" "}
-                                          {segment.Destination_Terminal || "-"}
-                                        </small>
-                                      </div>
                                     </div>
                                   </div>
+
+                                  <div className="duration-wrapper flex-fill text-center">
+                                    <small className="dyusbnbsdhfc ufsidnfijsdfsdf">
+                                      <i className="bi bi-clock"></i>{" "}
+                                      {totalDuration}
+                                    </small>
+
+                                    <div className="dinsjihfnsidhfsdf d-flex align-items-center justify-content-center position-relative my-3">
+                                      <span className="flgt-drtn-circle d-block"></span>
+
+                                      <span className="flgt-drtn-line d-block"></span>
+
+                                      <span className="flgt-drtn-circle d-block"></span>
+
+                                      <div className="dijsenifjsdf hide-ini position-absolute text-center">
+                                        <i className="bi bi-airplane-engines d-block text-white"></i>
+                                      </div>
+
+                                      <div className="dijsenifjsdf show-ini position-absolute text-center">
+                                        <i className="bi bi-airplane-engines d-block text-white"></i>
+                                      </div>
+                                    </div>
+
+                                    <small className="dyusbnbsdhfc px-3 stop-info">
+                                      {segment.Aircraft_Type}
+                                    </small>
+                                  </div>
+
+                                  <div className="text-end pt-1">
+                                    <h5 className="mb-1">{arrivalTime}</h5>
+
+                                    <div className="udnehnewr d-flex flex-column">
+                                      <p className="fw-semibold mb-0 d-flex flex-column gap-1">
+                                        <span>{segment.Destination_City}</span>
+                                      </p>
+
+                                      <small
+                                        style={{
+                                          fontWeight: 500,
+                                          color:
+                                            "var(--light-highlighted-text-color)",
+                                        }}
+                                      >
+                                        Terminal{" "}
+                                        {segment.Destination_Terminal || "-"}
+                                      </small>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
@@ -1185,11 +1339,19 @@ export const FlightDetails = () => {
                                       </span>
 
                                       <h6 className="layover-box d-flex align-items-center gap-2 mb-0">
-                                        <strong>Layover: {segment.Destination_City}</strong> <i className="bi bi-dot"></i> <span>{hrs}h {mins}m</span>
+                                        <strong>
+                                          Layover: {segment.Destination_City}
+                                        </strong>{" "}
+                                        <i className="bi bi-dot"></i>{" "}
+                                        <span>
+                                          {hrs}h {mins}m
+                                        </span>
                                       </h6>
                                     </div>
 
-                                    <small className="bfxgsdfzdfff">Change of aircraft</small>
+                                    <small className="bfxgsdfzdfff">
+                                      Change of aircraft
+                                    </small>
                                   </div>
                                 );
                               })()}
@@ -1212,7 +1374,6 @@ export const FlightDetails = () => {
                       }}
                     >
                       <div className="d-flex justify-content-between align-items-center gap-4 flex-wrap">
-
                         {/* ================= CABIN BAGGAGE ================= */}
 
                         <div
@@ -1225,17 +1386,14 @@ export const FlightDetails = () => {
 
                           <span className="inmokkojjeorr">
                             <strong>Cabin Baggage:</strong>{" "}
-                            {adultFare?.Free_Baggage?.Hand_Baggage || "7 Kgs"}{" "}
-                            / Adult
+                            {adultFare?.Free_Baggage?.Hand_Baggage || "7 Kgs"} /
+                            Adult
                           </span>
 
                           <i
                             className="fa-regular fa-circle-question ms-2"
-                            onClick={() =>
-                              setShowCabinBaggage((prev) => !prev)
-                            }
+                            onClick={() => setShowCabinBaggage((prev) => !prev)}
                           ></i>
-
 
                           {/* CABIN BAGGAGE POPUP */}
 
@@ -1249,11 +1407,8 @@ export const FlightDetails = () => {
                                 <div className="dienrwerwer">
                                   {/* Adult */}
 
-                                  <div
-                                    className="fdgdvxcv"
-                                  >
+                                  <div className="fdgdvxcv">
                                     Adult
-
                                     <span>
                                       {adultFare?.Free_Baggage?.Hand_Baggage
                                         ? ` ${adultFare.Free_Baggage.Hand_Baggage} (1 piece only)`
@@ -1262,15 +1417,11 @@ export const FlightDetails = () => {
                                     </span>
                                   </div>
 
-
                                   {/* Child */}
 
                                   {childFare && (
-                                    <div
-                                      className="fdgdvxcv"
-                                    >
+                                    <div className="fdgdvxcv">
                                       Child
-
                                       <span>
                                         {childFare?.Free_Baggage?.Hand_Baggage
                                           ? ` ${childFare.Free_Baggage.Hand_Baggage} (1 piece only)`
@@ -1280,15 +1431,11 @@ export const FlightDetails = () => {
                                     </div>
                                   )}
 
-
                                   {/* Infant */}
 
                                   {infantFare && (
-                                    <div
-                                      className="fdgdvxcv"
-                                    >
+                                    <div className="fdgdvxcv">
                                       Infant
-
                                       <span>
                                         {infantFare?.Free_Baggage?.Hand_Baggage
                                           ? ` ${infantFare.Free_Baggage.Hand_Baggage} (1 piece only)`
@@ -1301,9 +1448,7 @@ export const FlightDetails = () => {
                               </div>
                             </div>
                           )}
-
                         </div>
-
 
                         {/* ================= CHECK-IN BAGGAGE ================= */}
 
@@ -1311,7 +1456,6 @@ export const FlightDetails = () => {
                           className="cdnjhfxhdgdfff d-flex align-items-center position-relative"
                           style={{ cursor: "pointer" }}
                         >
-
                           <span className="me-2" style={{ fontSize: "18px" }}>
                             <i className="bi bi-suitcase-fill"></i>
                           </span>
@@ -1331,7 +1475,6 @@ export const FlightDetails = () => {
                             }
                           ></i>
 
-
                           {/* CHECK-IN BAGGAGE POPUP */}
 
                           {showCheckinBaggage && (
@@ -1342,12 +1485,10 @@ export const FlightDetails = () => {
 
                               <div className="dnsjkhfisdf">
                                 <div className="dienrwerwer">
-
                                   {/* Adult */}
 
                                   <div className="fdgdvxcv">
                                     Adult
-
                                     <span>
                                       {adultFare?.Free_Baggage?.Check_In_Baggage
                                         ? ` ${adultFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
@@ -1356,15 +1497,14 @@ export const FlightDetails = () => {
                                     </span>
                                   </div>
 
-
                                   {/* Child */}
 
                                   {childFare && (
                                     <div className="fdgdvxcv">
                                       Child
-
                                       <span>
-                                        {childFare?.Free_Baggage?.Check_In_Baggage
+                                        {childFare?.Free_Baggage
+                                          ?.Check_In_Baggage
                                           ? ` ${childFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Child
@@ -1372,15 +1512,14 @@ export const FlightDetails = () => {
                                     </div>
                                   )}
 
-
                                   {/* Infant */}
 
                                   {infantFare && (
                                     <div className="fdgdvxcv">
                                       Infant
-
                                       <span>
-                                        {infantFare?.Free_Baggage?.Check_In_Baggage
+                                        {infantFare?.Free_Baggage
+                                          ?.Check_In_Baggage
                                           ? ` ${infantFare.Free_Baggage.Check_In_Baggage} (1 piece only)`
                                           : "0 Kg"}{" "}
                                         / Infant
@@ -1389,15 +1528,11 @@ export const FlightDetails = () => {
                                   )}
                                 </div>
                               </div>
-
                             </div>
                           )}
-
                         </div>
-
                       </div>
                     </div>
-
 
                     {baggageList.length > 0 ? (
                       <div className="notice p-3">
@@ -1414,7 +1549,17 @@ export const FlightDetails = () => {
 
                         <button
                           className="add-baggage-flight btn-tour px-3"
-                          onClick={() => setAddBaggageModal((prev) => !prev)}
+                          // onClick={() => setAddBaggageModal((prev) => !prev)}
+                          onClick={() => {
+                            setAddBaggageModal(true);
+
+                            if (
+                              !selectedPassenger &&
+                              baggagePassengers.length > 0
+                            ) {
+                              setSelectedPassenger(baggagePassengers[0]);
+                            }
+                          }}
                         >
                           ADD BAGGAGE{" "}
                           <i className="fa-solid ms-1 fa-angle-right"></i>
@@ -1439,7 +1584,6 @@ export const FlightDetails = () => {
 
                     {/* POLICY */}
                     <div className="policy-box">
-
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <strong>Cancellation & Date Change Policy</strong>
 
@@ -1459,10 +1603,13 @@ export const FlightDetails = () => {
                       {/* Penalty */}
 
                       <div className="timeline penalty-row">
-
                         <div className="timeline-item first"></div>
                         {cancellationCharges.map((item, index) => (
-                          <div className="timeline-item" key={index} style={{ textAlign: "left" }}>
+                          <div
+                            className="timeline-item"
+                            key={index}
+                            style={{ textAlign: "left" }}
+                          >
                             <strong>{formatPenalty(item)}</strong>
                           </div>
                         ))}
@@ -1471,41 +1618,39 @@ export const FlightDetails = () => {
                       {/* Progress */}
 
                       <div className="progress-wrapper">
-
                         <div className="progress-line"></div>
 
                         {cancellationCharges.map((_, index) => (
                           <div className="dot" key={index}></div>
                         ))}
-
                       </div>
 
                       {/* Dates */}
 
                       <div className="timeline mt-2">
-
                         <div className="timeline-item first">
                           <strong>Now</strong>
                         </div>
 
                         {cancellationCharges.map((item, index) => {
-
                           const dt = getBoundaryDate(item);
 
                           return (
-                            <div className="timeline-item" style={{ textAlign: "right" }} key={index}>
-
+                            <div
+                              className="timeline-item"
+                              style={{ textAlign: "right" }}
+                              key={index}
+                            >
                               <strong>{formatDate(dt)}</strong>
 
                               <br />
 
-                              <small style={{ fontWeight: 500 }}>{formatTime(dt)}</small>
-
+                              <small style={{ fontWeight: 500 }}>
+                                {formatTime(dt)}
+                              </small>
                             </div>
                           );
-
                         })}
-
                       </div>
                     </div>
                   </div>
@@ -1881,13 +2026,23 @@ export const FlightDetails = () => {
                     {/* Login Box */}
                     <div className="login-box mb-3 px-0 py-2 text-center">
                       <span>
-                        <i style={{ color: "var(--main-green-color)" }} className="bi bi-lock-fill"></i> Log in to view your saved traveller list, unlock
-                        amazing deals & much more!
-                      </span> {" "}
-                      <a style={{ color: "var(--blue-primary-color)", fontWeight: 500 }} href="/">LOGIN NOW</a>
+                        <i
+                          style={{ color: "var(--main-green-color)" }}
+                          className="bi bi-lock-fill"
+                        ></i>{" "}
+                        Log in to view your saved traveller list, unlock amazing
+                        deals & much more!
+                      </span>{" "}
+                      <a
+                        style={{
+                          color: "var(--blue-primary-color)",
+                          fontWeight: 500,
+                        }}
+                        href="/"
+                      >
+                        LOGIN NOW
+                      </a>
                     </div>
-
-                    
 
                     {/* Adult Section */}
                     {/* <div className="d-flex justify-content-between align-items-center mb-2">
@@ -1920,43 +2075,30 @@ export const FlightDetails = () => {
                     ========================= */}
 
                     <div className="card-box">
-
                       <div className="d-flex justify-content-between align-items-center mb-2">
-
-                        <div className="section-title">
-                          👤 ADULT (12 yrs+)
-                        </div>
+                        <div className="section-title">👤 ADULT (12 yrs+)</div>
 
                         <small>
                           {adultForms.length}/{adultCount} added
                         </small>
-
                       </div>
 
                       <div className="important-box mb-3">
-
                         <strong>Important:</strong>
-
-                        Enter name as mentioned on your passport or Government approved IDs.
-
+                        Enter name as mentioned on your passport or Government
+                        approved IDs.
                         <br />
-
-                        Please ensure that the Frequent Flyer No entered here is against the
-                        same passenger name otherwise the points will not be updated by the
-                        airline.
-
+                        Please ensure that the Frequent Flyer No entered here is
+                        against the same passenger name otherwise the points
+                        will not be updated by the airline.
                       </div>
 
                       {/* Adult Forms */}
 
                       {adultForms.map((adult, index) => (
-
                         <div className="border rounded mb-3" key={index}>
-
                           <div className="d-flex justify-content-between align-items-center p-3 bg-light">
-
                             <div>
-
                               <input
                                 type="checkbox"
                                 checked
@@ -1964,10 +2106,7 @@ export const FlightDetails = () => {
                                 className="form-check-input me-2"
                               />
 
-                              <strong>
-                                ADULT {index + 1}
-                              </strong>
-
+                              <strong>ADULT {index + 1}</strong>
                             </div>
 
                             <button
@@ -1976,310 +2115,231 @@ export const FlightDetails = () => {
                             >
                               ×
                             </button>
-
                           </div>
 
                           <div className="p-3">
-
                             {/* <div className="row g-3"> */}
-                                <AdultFields
-                                  adult={adult}
-                                  index={index}
-                                  countryCode={countryCode}
-                                  adultRule={adultRule}
-                                  handleAdultChange={handleAdultChange}
-                                />
+                            <AdultFields
+                              adult={adult}
+                              index={index}
+                              countryCode={countryCode}
+                              adultRule={adultRule}
+                              handleAdultChange={handleAdultChange}
+                            />
                             {/* </div> */}
 
                             {/* Frequent Flyer */}
 
                             <div className="mt-3">
-
                               <button
                                 type="button"
                                 className="btn btn-link p-0 text-decoration-none"
                                 onClick={() => toggleFF("adult", index)}
                               >
-                                <strong>
-                                  Frequent Flyer Number
-                                </strong>
+                                <strong>Frequent Flyer Number</strong>
 
                                 <small className="ms-1">
                                   (Avail extra benefits & earn points)
                                 </small>
                               </button>
-
                             </div>
 
                             {adult.showFF && (
-
                               <div className="row mt-2">
-
                                 <div className="col-md-4">
-
                                   <label>Frequent Flyer Airline</label>
 
                                   <select
                                     className="form-select"
                                     value={adult.airline}
                                     onChange={(e) =>
-                                      handleAdultChange(index, "airline", e.target.value)
+                                      handleAdultChange(
+                                        index,
+                                        "airline",
+                                        e.target.value,
+                                      )
                                     }
                                   >
+                                    <option value="">Select Airline</option>
 
-                                    <option value="">
-                                      Select Airline
-                                    </option>
+                                    <option value="AI">Air India</option>
 
-                                    <option value="AI">
-                                      Air India
-                                    </option>
+                                    <option value="6E">IndiGo</option>
 
-                                    <option value="6E">
-                                      IndiGo
-                                    </option>
-
-                                    <option value="UK">
-                                      Vistara
-                                    </option>
-
+                                    <option value="UK">Vistara</option>
                                   </select>
-
                                 </div>
 
                                 <div className="col-md-4">
-
                                   <label>Frequent Flyer No</label>
 
                                   <input
                                     className="form-control"
                                     value={adult.ffNumber}
                                     onChange={(e) =>
-                                      handleAdultChange(index, "ffNumber", e.target.value)
+                                      handleAdultChange(
+                                        index,
+                                        "ffNumber",
+                                        e.target.value,
+                                      )
                                     }
                                   />
-
                                 </div>
-
                               </div>
-
                             )}
-
                           </div>
-
                         </div>
-
                       ))}
 
                       {/* Empty Message */}
 
                       {adultForms.length === 0 && (
-
                         <div className="add-box mb-3">
-
-                          <p>
-                            You have not added any adults to the list
-                          </p>
-
+                          <p>You have not added any adults to the list</p>
                         </div>
-
                       )}
-
                       {/* Add Adult */}
-
                       {adultForms.length < adultCount ? (
-
                         <button
                           className="btn btn-link p-0"
                           onClick={handleAddAdult}
                         >
                           + ADD NEW ADULT
                         </button>
-
                       ) : (
-
                         <div className="alert alert-warning mt-3 mb-0">
-
-                          You have already selected <strong>{adultCount}</strong> ADULT(s).
-
-                          Remove one before adding a new one.
-
+                          You have already selected{" "}
+                          <strong>{adultCount}</strong> ADULT(s). Remove one
+                          before adding a new one.
                         </div>
-
                       )}
-
                     </div>
-
                     {/* =========================
                             CHILD SECTION
                       ========================= */}
-
-                      {childCount > 0 && (
-                        <div className="card-box mt-4">
-
-                          <div className="d-flex justify-content-between align-items-center mb-2">
-
-                            <div className="section-title">
-                              👦 CHILD (2 - 12 yrs)
-                            </div>
-
-                            <small>
-                              {childForms.length}/{childCount} added
-                            </small>
-
+                    {childCount > 0 && (
+                      <div className="card-box mt-4">
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                          <div className="section-title">
+                            👦 CHILD (2 - 12 yrs)
                           </div>
-
-                          <div className="important-box mb-3">
-                            <strong>Important:</strong> Enter name exactly as per Government ID /
-                            Passport.
-                          </div>
-
-                          {childForms.map((child, index) => (
-
-                            <div className="border rounded mb-3" key={index}>
-
-                              <div className="d-flex justify-content-between align-items-center p-3 bg-light">
-
-                                <strong>
-                                  CHILD {index + 1}
-                                </strong>
-
-                                <button
-                                  type="button"
-                                  className="btn btn-link text-danger text-decoration-none"
-                                  onClick={() => handleRemoveChild(index)}
-                                >
-                                  ×
-                                </button>
-
-                              </div>
-
-                              <div className="p-3">
-                                <ChildFields
-                                  child={child}
-                                  index={index}
-                                  childRule={childRule}
-                                  handleChildChange={handleChildChange}
-                                />
-                              </div>
-
-                            </div>
-
-                          ))}
-
-                          {childForms.length === 0 && (
-                            <div className="add-box mb-3">
-                              <p>You have not added any child to the list</p>
-                            </div>
-                          )}
-
-                          {childForms.length < childCount ? (
-
-                            <button
-                              className="btn btn-link p-0"
-                              onClick={handleAddChild}
-                            >
-                              + ADD NEW CHILD
-                            </button>
-
-                          ) : (
-
-                            <div className="alert alert-warning mt-3 mb-0">
-                              You have already selected <strong>{childCount}</strong> CHILD.
-                              Remove one before adding a new one.
-                            </div>
-
-                          )}
-
+                          <small>
+                            {childForms.length}/{childCount} added
+                          </small>
                         </div>
-                      )}
-
-                      {/* =========================
+                        <div className="important-box mb-3">
+                          <strong>Important:</strong> Enter name exactly as per
+                          Government ID / Passport.
+                        </div>
+                        {childForms.map((child, index) => (
+                          <div className="border rounded mb-3" key={index}>
+                            <div className="d-flex justify-content-between align-items-center p-3 bg-light">
+                              <strong>CHILD {index + 1}</strong>
+                              <button
+                                type="button"
+                                className="btn btn-link text-danger text-decoration-none"
+                                onClick={() => handleRemoveChild(index)}
+                              >
+                                ×
+                              </button>
+                            </div>
+                            <div className="p-3">
+                              <ChildFields
+                                child={child}
+                                index={index}
+                                childRule={childRule}
+                                handleChildChange={handleChildChange}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                        {childForms.length === 0 && (
+                          <div className="add-box mb-3">
+                            <p>You have not added any child to the list</p>
+                          </div>
+                        )}
+                        {childForms.length < childCount ? (
+                          <button
+                            className="btn btn-link p-0"
+                            onClick={handleAddChild}
+                          >
+                            + ADD NEW CHILD
+                          </button>
+                        ) : (
+                          <div className="alert alert-warning mt-3 mb-0">
+                            You have already selected{" "}
+                            <strong>{childCount}</strong> CHILD. Remove one
+                            before adding a new one.
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* =========================
                             INFANT SECTION
                       ========================= */}
-
-                      {infantCount > 0 && (
-                        <div className="card-box mt-4">
-
-                          <div className="d-flex justify-content-between align-items-center mb-2">
-
-                            <div className="section-title">
-                              👶 INFANT (0 - 2 yrs)
-                            </div>
-
-                            <small>
-                              {infantForms.length}/{infantCount} added
-                            </small>
-
+                    {infantCount > 0 && (
+                      <div className="card-box mt-4">
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                          <div className="section-title">
+                            👶 INFANT (0 - 2 yrs)
                           </div>
 
-                          <div className="important-box mb-3">
-                            Infant Date of Birth is mandatory.
-                          </div>
-
-                          {infantForms.map((infant, index) => (
-
-                            <div className="border rounded mb-3" key={index}>
-
-                              <div className="d-flex justify-content-between align-items-center p-3 bg-light">
-
-                                <strong>
-                                  INFANT {index + 1}
-                                </strong>
-
-                                <button
-                                  type="button"
-                                  className="btn btn-link text-danger text-decoration-none"
-                                  onClick={() => handleRemoveInfant(index)}
-                                >
-                                  ×
-                                </button>
-
-                              </div>
-
-                              <div className="p-3">
-
-                                 <InfantsFields
-                                  infant={infant}
-                                  index={index}
-                                  infantRule={infantRule}
-                                  handleInfantChange={handleInfantChange}
-                                />
-
-                              </div>
-
-                            </div>
-
-                          ))}
-
-                          {infantForms.length === 0 && (
-                            <div className="add-box mb-3">
-                              <p>You have not added any infant to the list</p>
-                            </div>
-                          )}
-
-                          {infantForms.length < infantCount ? (
-
-                            <button
-                              className="btn btn-link p-0"
-                              onClick={handleAddInfant}
-                            >
-                              + ADD NEW INFANT
-                            </button>
-
-                          ) : (
-
-                            <div className="alert alert-warning mt-3 mb-0">
-                              You have already selected <strong>{infantCount}</strong> INFANT.
-                              Remove one before adding a new one.
-                            </div>
-
-                          )}
-
+                          <small>
+                            {infantForms.length}/{infantCount} added
+                          </small>
                         </div>
-                      )}
 
+                        <div className="important-box mb-3">
+                          Infant Date of Birth is mandatory.
+                        </div>
 
+                        {infantForms.map((infant, index) => (
+                          <div className="border rounded mb-3" key={index}>
+                            <div className="d-flex justify-content-between align-items-center p-3 bg-light">
+                              <strong>INFANT {index + 1}</strong>
+
+                              <button
+                                type="button"
+                                className="btn btn-link text-danger text-decoration-none"
+                                onClick={() => handleRemoveInfant(index)}
+                              >
+                                ×
+                              </button>
+                            </div>
+
+                            <div className="p-3">
+                              <InfantsFields
+                                infant={infant}
+                                index={index}
+                                infantRule={infantRule}
+                                handleInfantChange={handleInfantChange}
+                              />
+                            </div>
+                          </div>
+                        ))}
+
+                        {infantForms.length === 0 && (
+                          <div className="add-box mb-3">
+                            <p>You have not added any infant to the list</p>
+                          </div>
+                        )}
+
+                        {infantForms.length < infantCount ? (
+                          <button
+                            className="btn btn-link p-0"
+                            onClick={handleAddInfant}
+                          >
+                            + ADD NEW INFANT
+                          </button>
+                        ) : (
+                          <div className="alert alert-warning mt-3 mb-0">
+                            You have already selected{" "}
+                            <strong>{infantCount}</strong> INFANT. Remove one
+                            before adding a new one.
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {/* Contact Form */}
                     <p className="mb-2 mt-2 fw-semibold">
@@ -2289,17 +2349,24 @@ export const FlightDetails = () => {
                     <div className="row g-3">
                       <div className="col-md-4">
                         <label className="form-label">Country Code</label>
-                          <select className="form-select">
-                            <option value="">Select Country Code</option>
+                        <select
+                          className="form-select"
+                          value={billingDetails.billingCountryCode}
+                          onChange={(e) => {
+                            setBillingDetails({
+                              ...billingDetails,
+                              billingCountryCode: e.target.value,
+                            });
+                            setBillingError("");
+                          }}
+                        >
+                          <option value="">Select Country Code</option>
 
-                            {countryCode.map((country) => (
-                                <option
-                                key={country.id}
-                                value={country.phone_code}
-                                >
-                                {country.name} ({country.phone_code})
-                                </option>
-                            ))}
+                          {countryCode.map((country) => (
+                            <option key={country.id} value={country.phone_code}>
+                              {country.name} ({country.phone_code})
+                            </option>
+                          ))}
                         </select>
                       </div>
 
@@ -2309,6 +2376,15 @@ export const FlightDetails = () => {
                           type="text"
                           className="form-control"
                           placeholder="Mobile No"
+                          value={billingDetails.billingMobile}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "");
+                            setBillingDetails({
+                              ...billingDetails,
+                              billingMobile: value,
+                            });
+                            setBillingError("");
+                          }}
                         />
                       </div>
 
@@ -2318,6 +2394,14 @@ export const FlightDetails = () => {
                           type="email"
                           className="form-control"
                           placeholder="Email"
+                          value={billingDetails.billingEmail}
+                          onChange={(e) => {
+                            setBillingDetails({
+                              ...billingDetails,
+                              billingEmail: e.target.value,
+                            });
+                            setBillingError("");
+                          }}
                         />
                       </div>
                     </div>
@@ -2365,7 +2449,9 @@ export const FlightDetails = () => {
                             className="form-control"
                             placeholder="Enter GST Number"
                             value={gstNumber}
-                            onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
+                            onChange={(e) =>
+                              setGstNumber(e.target.value.toUpperCase())
+                            }
                           />
                         </div>
                       </div>
@@ -2386,12 +2472,24 @@ export const FlightDetails = () => {
 
                     <div className="mt-2">
                       <label className="form-label">Select the State</label>
-                      <select className="form-select state-select">
-                        <option selected>West Bengal</option>
-                        <option>Maharashtra</option>
-                        <option>Delhi</option>
-                        <option>Karnataka</option>
-                        <option>Tamil Nadu</option>
+                      <select
+                        className="form-select state-select"
+                        value={billingDetails.billingState}
+                        onChange={(e) => {
+                          setBillingDetails({
+                            ...billingDetails,
+                            billingState: e.target.value,
+                          });
+
+                          setBillingError("");
+                        }}
+                      >
+                        <option value="">Select State</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
                       </select>
                     </div>
 
@@ -2401,44 +2499,43 @@ export const FlightDetails = () => {
                         type="checkbox"
                         id="saveBilling"
                         checked={saveBilling}
-                        onChange={(e) => setSaveBilling(e.target.checked)}
+                        onChange={(e) => {
+                          setSaveBilling(e.target.checked);
+                          setBillingError("");
+                        }}
                       />
                       <label className="form-check-label" htmlFor="saveBilling">
                         Confirm and save billing details to your profile
                       </label>
                     </div>
                   </div>
-                </div>
 
+                  {billingError && (
+                    <div className="text-danger mt-2">{billingError}</div>
+                  )}
+                </div>
 
                 <div className="sdejvfhsikdjl mt-3">
-                  <button type="button" className="btn btn-outline-primary rounded-pill px-4"
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary rounded-pill px-4"
                     onClick={() => {
-                      handleContinue(); 
-                    // setFlightBookingModal(prev => !prev);
-                  }}
-                    >
-                      Continue
-                      {/* Continue To Pay */}
-                    </button>
-
-                      {billingError && (
-                        <div className="text-danger mt-2">
-                          {billingError}
-                        </div>
-                      )}
-
+                      handleContinue();
+                      // setFlightBookingModal(prev => !prev);
+                    }}
+                  >
+                    Continue
+                    {/* Continue To Pay */}
+                  </button>
                 </div>
 
-                {showSeatMealSection && (
+                {showSeatMealSection && hasSeatOrMeal && (
                   <>
                     <div className="ucbhsduodkf mt-4">
-
                       {/* =========================================================
                           SEATS / MEALS TAB HEADER
                       ========================================================= */}
                       <div className="header-block">
-
                         <ul
                           className="nav nav-tabs mb-0 ps-0"
                           id="myTab"
@@ -2447,22 +2544,15 @@ export const FlightDetails = () => {
                           {/* ================= SEATS TAB ================= */}
                           {hasSeatMap && (
                             <li className="nav-item" role="presentation">
-
                               <button
                                 type="button"
                                 className={`nav-link ${
-                                  activeSeatMealTab === "seats"
-                                    ? "active"
-                                    : ""
+                                  activeSeatMealTab === "seats" ? "active" : ""
                                 }`}
                                 id="seats-tab"
                                 role="tab"
-                                aria-selected={
-                                  activeSeatMealTab === "seats"
-                                }
-                                onClick={() =>
-                                  setActiveSeatMealTab("seats")
-                                }
+                                aria-selected={activeSeatMealTab === "seats"}
+                                onClick={() => setActiveSeatMealTab("seats")}
                               >
                                 <img
                                   src="/images/seatda.png"
@@ -2474,413 +2564,318 @@ export const FlightDetails = () => {
                             </li>
                           )}
 
-
                           {/* ================= MEALS TAB ================= */}
-                          <li className="nav-item" role="presentation">
-
-                            <button
-                              type="button"
-                              className={`nav-link ${
-                                activeSeatMealTab === "meals"
-                                  ? "active"
-                                  : ""
-                              }`}
-                              id="meals-tab"
-                              role="tab"
-                              aria-selected={
-                                activeSeatMealTab === "meals"
-                              }
-                              onClick={() =>
-                                setActiveSeatMealTab("meals")
-                              }
-                            >
-
-                              <img
-                                src="/images/fast-food.png"
-                                className="me-1"
-                                alt=""
-                              />
-
-                              Meals
-
-                            </button>
-
-                          </li>
+                          {hasMeal && (
+                            <li className="nav-item" role="presentation">
+                              <button
+                                type="button"
+                                className={`nav-link ${
+                                  activeSeatMealTab === "meals" ? "active" : ""
+                                }`}
+                                id="meals-tab"
+                                role="tab"
+                                aria-selected={activeSeatMealTab === "meals"}
+                                onClick={() => setActiveSeatMealTab("meals")}
+                              >
+                                <img
+                                  src="/images/fast-food.png"
+                                  className="me-1"
+                                  alt=""
+                                />
+                                Meals
+                              </button>
+                            </li>
+                          )}
                         </ul>
                       </div>
-
 
                       {/* =========================================================
                           TAB CONTENT
                       ========================================================= */}
-                      <div
-                        className="tab-content"
-                        id="myTabContent"
-                      >
+                      <div className="tab-content" id="myTabContent">
                         {/* =======================================================
                             SEATS
                         ======================================================= */}
                         {hasSeatMap && (
-                        <div
-                          className={`tab-pane ${
-                            activeSeatMealTab === "seats"
-                              ? "show active"
-                              : ""
-                          }`}
-                          id="seats"
-                          role="tabpanel"
-                          aria-labelledby="seats-tab"
-                        >
-
-                          <div className="duisanfjsdfsf position-relative">
-
-                            <FlightSeats
-                              seatMap={seatMap}
-                              adultCount={adultCount}
-                              childCount={childCount}
-                              infantCount={infantCount}
-                              onSeatSelectionComplete={
-                                setIsSeatSelectionComplete
-                              }
-                              onSeatChange={(seats) => {
-                                console.log(
-                                  "Selected seats:",
-                                  seats
-                                );
-                              }}
-                            />
+                          <div
+                            className={`tab-pane ${
+                              activeSeatMealTab === "seats" ? "show active" : ""
+                            }`}
+                            id="seats"
+                            role="tabpanel"
+                            aria-labelledby="seats-tab"
+                          >
+                            <div className="duisanfjsdfsf position-relative">
+                              <FlightSeats
+                                seatMap={seatMap}
+                                adultCount={adultCount}
+                                childCount={childCount}
+                                infantCount={infantCount}
+                                onSeatSelectionComplete={
+                                  setIsSeatSelectionComplete
+                                }
+                                onSeatChange={(seats) => {
+                                  console.log("Selected seats:", seats);
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
                         )}
 
                         {/* =======================================================
                             MEALS
                         ======================================================= */}
                         <div
-                            className={`tab-pane ${
-                              activeSeatMealTab === "meals"
-                                ? "show active"
-                                : ""
-                            }`}
-                            id="meals"
-                            role="tabpanel"
-                            aria-labelledby="meals-tab"
-                          >
-                            <div className="doismkfjhisd py-3">
-                              {/* =====================================================
+                          className={`tab-pane ${
+                            activeSeatMealTab === "meals" ? "show active" : ""
+                          }`}
+                          id="meals"
+                          role="tabpanel"
+                          aria-labelledby="meals-tab"
+                        >
+                          <div className="doismkfjhisd py-3">
+                            {/* =====================================================
                                   HEADER
                               ===================================================== */}
-                              <div className="duisnuiherer border-bottom pb-3 mb-3">
+                            <div className="duisnuiherer border-bottom pb-3 mb-3">
+                              <div className="oidiewrwer d-flex justify-content-between mb-3">
+                                <div className="diewirhwerwer">
+                                  <h5 className="mb-2">
+                                    <b>
+                                      {segment?.Origin_City?.replace(
+                                        /\s*\(.*?\)/g,
+                                        "",
+                                      )}
+                                    </b>
 
-                                <div className="oidiewrwer d-flex justify-content-between mb-3">
+                                    {" - "}
 
-                                  <div className="diewirhwerwer">
+                                    <b>
+                                      {segment?.Destination_City?.replace(
+                                        /\s*\(.*?\)/g,
+                                        "",
+                                      )}
+                                    </b>
+                                  </h5>
 
-                                    <h5 className="mb-2">
+                                  <h6 className="mb-0">
+                                    <span>{selectedMealCount}</span>
 
-                                      <b>
-                                        {segment?.Origin_City?.replace(
-                                          /\s*\(.*?\)/g,
-                                          ""
-                                        )}
-                                      </b>
+                                    {" of "}
 
-                                      {" - "}
+                                    <span>{totalPassengers}</span>
 
-                                      <b>
-                                        {segment?.Destination_City?.replace(
-                                          /\s*\(.*?\)/g,
-                                          ""
-                                        )}
-                                      </b>
-
-                                    </h5>
-
-                                    <h6 className="mb-0">
-
-                                      <span>
-                                        {selectedMealCount}
-                                      </span>
-
-                                      {" of "}
-
-                                      <span>
-                                        {totalPassengers}
-                                      </span>
-
-                                      {" selected"}
-
-                                    </h6>
-
-                                  </div>
-
-                                  <p className="mb-0">
-                                    Select your meal
-                                  </p>
-
+                                    {" selected"}
+                                  </h6>
                                 </div>
 
+                                <p className="mb-0">Select your meal</p>
+                              </div>
 
-                                {/* =====================================================
+                              {/* =====================================================
                                     VEG / NON VEG FILTER
                                 ===================================================== */}
 
-                                <div className="dioewiuhrew d-flex gap-2">
+                              <div className="dioewiuhrew d-flex gap-2">
+                                {/* ALL */}
 
-                                  {/* ALL */}
+                                <button
+                                  type="button"
+                                  className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                    activeMealFilter === "all"
+                                      ? "border-primary text-primary"
+                                      : ""
+                                  }`}
+                                  onClick={() => setActiveMealFilter("all")}
+                                >
+                                  <b>All</b>
+                                </button>
 
-                                  <button
-                                    type="button"
-                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
-                                      activeMealFilter === "all"
-                                        ? "border-primary text-primary"
-                                        : ""
-                                    }`}
-                                    onClick={() =>
-                                      setActiveMealFilter("all")
-                                    }
-                                  >
-                                    <b>All</b>
-                                  </button>
+                                {/* VEG */}
 
+                                <button
+                                  type="button"
+                                  className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                    activeMealFilter === "veg"
+                                      ? "border-primary text-primary"
+                                      : ""
+                                  }`}
+                                  onClick={() => setActiveMealFilter("veg")}
+                                >
+                                  <img
+                                    src="/images/veg.png"
+                                    alt="Veg"
+                                    style={{
+                                      width: "16px",
+                                      height: "16px",
+                                    }}
+                                  />
 
-                                  {/* VEG */}
+                                  <b>Veg</b>
+                                </button>
 
-                                  <button
-                                    type="button"
-                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
-                                      activeMealFilter === "veg"
-                                        ? "border-primary text-primary"
-                                        : ""
-                                    }`}
-                                    onClick={() =>
-                                      setActiveMealFilter("veg")
-                                    }
-                                  >
+                                {/* NON VEG */}
 
-                                    <img
-                                      src="/images/veg.png"
-                                      alt="Veg"
-                                      style={{
-                                        width: "16px",
-                                        height: "16px"
-                                      }}
-                                    />
+                                <button
+                                  type="button"
+                                  className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
+                                    activeMealFilter === "nonveg"
+                                      ? "border-primary text-primary"
+                                      : ""
+                                  }`}
+                                  onClick={() => setActiveMealFilter("nonveg")}
+                                >
+                                  <img
+                                    src="/images/nonveg.png"
+                                    alt="Non Veg"
+                                    style={{
+                                      width: "16px",
+                                      height: "16px",
+                                    }}
+                                  />
 
-                                    <b>Veg</b>
-
-                                  </button>
-
-
-                                  {/* NON VEG */}
-
-                                  <button
-                                    type="button"
-                                    className={`d-inline-flex align-items-center gap-2 px-3 border rounded-pill bg-white ${
-                                      activeMealFilter === "nonveg"
-                                        ? "border-primary text-primary"
-                                        : ""
-                                    }`}
-                                    onClick={() =>
-                                      setActiveMealFilter("nonveg")
-                                    }
-                                  >
-
-                                    <img
-                                      src="/images/nonveg.png"
-                                      alt="Non Veg"
-                                      style={{
-                                        width: "16px",
-                                        height: "16px"
-                                      }}
-                                    />
-
-                                    <b>Non Veg</b>
-
-                                  </button>
-
-                                </div>
-
+                                  <b>Non Veg</b>
+                                </button>
                               </div>
-                              {/* =====================================================
+                            </div>
+                            {/* =====================================================
                                   MEAL LIST
                               ===================================================== */}
-                              <div className="dmiwejrwer row">
+                            <div className="dmiwejrwer row">
+                              {mealsList
+                                ?.filter((meal) => {
+                                  if (activeMealFilter === "all") {
+                                    return true;
+                                  }
 
-                                {mealsList
-                                  ?.filter((meal) => {
-                                    if (activeMealFilter === "all") {
-                                      return true;
-                                    }
+                                  return getMealType(meal) === activeMealFilter;
+                                })
+                                .map((meal, index) => {
+                                  const isSelected = Object.values(
+                                    selectedMeals,
+                                  ).some(
+                                    (selectedMeal) =>
+                                      selectedMeal?.SSR_Code === meal?.SSR_Code,
+                                  );
 
-                                    return getMealType(meal) === activeMealFilter;
-                                  })
-                                  .map((meal, index) => {
-                                    const isSelected = Object.values(selectedMeals).some(
-                                      (selectedMeal) =>
-                                        selectedMeal?.SSR_Code === meal?.SSR_Code
-                                    );
-
-                                    return (
-                                      <div
-                                        className="col-lg-6 mb-4"
-                                        key={`${meal?.SSR_Code}-${index}`}
-                                      >
-                                        <Meal
-                                          meal={meal}
-                                          mealName={getMealName(meal)}
-                                          mealPrice={getMealPrice(meal)}
-                                          selected={isSelected}
-                                          onSelect={handleMealSelect}
-                                        />
-                                      </div>
-                                    );
-                                  })}
-
-                              </div>
-                              {/* =====================================================
+                                  return (
+                                    <div
+                                      className="col-lg-6 mb-4"
+                                      key={`${meal?.SSR_Code}-${index}`}
+                                    >
+                                      <Meal
+                                        meal={meal}
+                                        mealName={getMealName(meal)}
+                                        mealPrice={getMealPrice(meal)}
+                                        selected={isSelected}
+                                        onSelect={handleMealSelect}
+                                      />
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                            {/* =====================================================
                                   SELECTED MEALS
                               ===================================================== */}
-                              {selectedMealCount > 0 && (
-                                <div className="border rounded-2 p-3 mb-3">
-                                  <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 className="mb-0">
-                                      Selected Meals
-                                    </h6>
-                                    <h6 className="mb-0">
-                                      <b>
-                                        INR {totalMealPrice}
-                                      </b>
-                                    </h6>
-                                  </div>
-                                  {Object.entries(selectedMeals).map(
-                                    ([passengerIndex, meal]) => (
+                            {selectedMealCount > 0 && (
+                              <div className="border rounded-2 p-3 mb-3">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                  <h6 className="mb-0">Selected Meals</h6>
+                                  <h6 className="mb-0">
+                                    <b>INR {totalMealPrice}</b>
+                                  </h6>
+                                </div>
+                                {Object.entries(selectedMeals).map(
+                                  ([passengerIndex, meal]) => (
+                                    <div
+                                      key={passengerIndex}
+                                      className="d-flex justify-content-between align-items-center border-bottom py-2"
+                                    >
+                                      <div>
+                                        <small className="text-muted">
+                                          Passenger {Number(passengerIndex) + 1}
+                                        </small>
 
-                                      <div
-                                        key={passengerIndex}
-                                        className="d-flex justify-content-between align-items-center border-bottom py-2"
-                                      >
-
-                                        <div>
-
-                                          <small className="text-muted">
-                                            Passenger{" "}
-                                            {Number(passengerIndex) + 1}
-                                          </small>
-
-                                          <p className="mb-0">
-                                            {getMealName(meal)}
-                                          </p>
-
-                                        </div>
-
-
-                                        <div className="d-flex align-items-center gap-3">
-
-                                          <b>
-                                            {meal?.Currency_Code || "INR"}{" "}
-                                            {getMealPrice(meal)}
-                                          </b>
-
-                                          <button
-                                            type="button"
-                                            className="btn btn-sm btn-outline-danger"
-                                            onClick={() =>
-                                              handleMealRemove(
-                                                Number(passengerIndex)
-                                              )
-                                            }
-                                          >
-                                            REMOVE
-                                          </button>
-
-                                        </div>
-
+                                        <p className="mb-0">
+                                          {getMealName(meal)}
+                                        </p>
                                       </div>
 
-                                    )
-                                  )}
-                                </div>
-                              )}
-                              {/* =====================================================
+                                      <div className="d-flex align-items-center gap-3">
+                                        <b>
+                                          {meal?.Currency_Code || "INR"}{" "}
+                                          {getMealPrice(meal)}
+                                        </b>
+
+                                        <button
+                                          type="button"
+                                          className="btn btn-sm btn-outline-danger"
+                                          onClick={() =>
+                                            handleMealRemove(
+                                              Number(passengerIndex),
+                                            )
+                                          }
+                                        >
+                                          REMOVE
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
+                              </div>
+                            )}
+                            {/* =====================================================
                                   INFORMATION
                               ===================================================== */}
-                              <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+                            <div className="idcnuihiwer p-3 rounded-2 d-flex align-items-center gap-2 border mt-2">
+                              <div className="uidnwehruiewr position-relative rounded-circle">
+                                <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
+                              </div>
 
-                                <div className="uidnwehruiewr position-relative rounded-circle">
+                              <div className="duihsnerew">
+                                <h5 className="mb-1">
+                                  All meals are freshly prepared and
+                                  hygienically packed.
+                                </h5>
 
-                                  <i className="bi position-absolute top-50 start-50 translate-middle bi-gift"></i>
-
-                                </div>
-
-                                <div className="duihsnerew">
-
-                                  <h5 className="mb-1">
-                                    All meals are freshly prepared and hygienically packed.
-                                  </h5>
-
-                                  <p className="mb-0">
-                                    Availability may vary based on flight duration.
-                                  </p>
-
-                                </div>
-
+                                <p className="mb-0">
+                                  Availability may vary based on flight
+                                  duration.
+                                </p>
                               </div>
                             </div>
                           </div>
-
+                        </div>
                       </div>
-
                     </div>
-
 
                     {/* =========================================================
                         CONTINUE BUTTON
                     ========================================================= */}
                     {activeSeatMealTab === "seats" && (
-
                       <button
                         type="button"
                         className="btn btn-outline-primary rounded-pill px-4 mt-3"
                         disabled={!isSeatSelectionComplete}
-                        onClick={() => {
-
-                          // Open Meals tab
-                          setActiveSeatMealTab("meals");
-
-                        }}
+                        onClick={handleSeatMealContinue}
                       >
-
                         Continue
-
                       </button>
-
                     )}
-
 
                     {/* =========================================================
                         MEAL CONTINUE BUTTON
                         Optional - use this for next step after meals
                     ========================================================= */}
                     {activeSeatMealTab === "meals" && (
-
                       <button
                         type="button"
                         className="btn btn-primary rounded-pill px-4 mt-3"
-                        onClick={() => {
-
-                          // Put your final continue/booking function here
-                          // handleContinue();
-
-                        }}
+                        onClick={handleSeatMealContinue}
                       >
-
                         Continue
-
                       </button>
-
                     )}
-
                   </>
                 )}
               </div>
@@ -2900,89 +2895,104 @@ export const FlightDetails = () => {
                       <table className="table mb-0">
                         {/* Base Fare */}
                         <tr>
-                          <td>
-                            Base Fare
-                          </td>
+                          <td>Base Fare</td>
 
-                          <td>
-                            ₹ {baseFare.toLocaleString("en-IN")}
-                          </td>
+                          <td>₹ {baseFare.toLocaleString("en-IN")}</td>
                         </tr>
-
 
                         {/* Adult */}
                         {adultFare && (
                           <tr>
                             <td className="asdfsdfsdf">
                               Adult(s) (1 X ₹{" "}
-                              {Number(adultFare.Basic_Amount).toLocaleString("en-IN")})
+                              {Number(adultFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
+                              )
                             </td>
 
                             <td>
-                              ₹ {Number(adultFare.Basic_Amount).toLocaleString("en-IN")}
+                              ₹{" "}
+                              {Number(adultFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
                             </td>
                           </tr>
                         )}
-
 
                         {/* Child */}
                         {childFare && (
                           <tr>
                             <td className="asdfsdfsdf">
                               Children (1 X ₹{" "}
-                              {Number(childFare.Basic_Amount).toLocaleString("en-IN")})
+                              {Number(childFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
+                              )
                             </td>
 
                             <td>
-                              ₹ {Number(childFare.Basic_Amount).toLocaleString("en-IN")}
+                              ₹{" "}
+                              {Number(childFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
                             </td>
                           </tr>
                         )}
-
 
                         {/* Infant */}
                         {infantFare && (
                           <tr>
                             <td className="asdfsdfsdf">
                               Infant (1 X ₹{" "}
-                              {Number(infantFare.Basic_Amount).toLocaleString("en-IN")})
+                              {Number(infantFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
+                              )
                             </td>
 
                             <td style={{ borderBottom: 0 }}>
-                              ₹ {Number(infantFare.Basic_Amount).toLocaleString("en-IN")}
+                              ₹{" "}
+                              {Number(infantFare.Basic_Amount).toLocaleString(
+                                "en-IN",
+                              )}
                             </td>
                           </tr>
                         )}
 
                         {/* Airport Taxes */}
                         <tr>
-                          <td className="asdfsdfsdf" style={{ borderBottom: 0 }}>
+                          <td
+                            className="asdfsdfsdf"
+                            style={{ borderBottom: 0 }}
+                          >
                             Taxes and Surcharges
                           </td>
 
                           <td style={{ borderBottom: 0 }}>
                             ₹ {taxesAndSurcharges.toLocaleString("en-IN")}
                           </td>
-                        </tr>                        
+                        </tr>
 
                         {/* Divider */}
                         <tr>
-                          <td colSpan="2" className="py-0" style={{ borderBottom: 0 }}>
+                          <td
+                            colSpan="2"
+                            className="py-0"
+                            style={{ borderBottom: 0 }}
+                          >
                             <hr className="m-0 p-0" />
                           </td>
                         </tr>
 
                         {/* Total */}
                         <tr className="ojdeopekwrer">
-                          <td style={{ fontWeight: 600 }}>
-                            Total Amount
-                          </td>
+                          <td style={{ fontWeight: 600 }}>Total Amount</td>
 
                           <td style={{ fontWeight: 600 }}>
                             ₹ {totalAmount.toLocaleString("en-IN")}
                           </td>
                         </tr>
-
                       </table>
                     </div>
                   </div>
@@ -3151,7 +3161,7 @@ export const FlightDetails = () => {
                               and Trip Secure combo
                             </p>
                           </label>
-                        </div>                        
+                        </div>
                       </div>
                     </div>
 
@@ -3224,11 +3234,13 @@ export const FlightDetails = () => {
                     <thead className="table-light">
                       <tr>
                         <th width="50%">
-                          Applicable Time<br/>
+                          Applicable Time
+                          <br />
                           (From Scheduled Flight departure)
                         </th>
                         <th width="50%">
-                          Charges<br/>
+                          Charges
+                          <br />
                           (Per passenger)
                         </th>
                       </tr>
@@ -3237,91 +3249,97 @@ export const FlightDetails = () => {
                     <tbody>
                       {(() => {
                         // Collect all cancellation charges from Adult/Child/Infant
-                        const allCharges = allfareDetails.flatMap((fareDetail) =>
-                          (fareDetail?.CancellationCharges || []).map((charge) => ({
-                            ...charge,
-                            paxType: fareDetail.PAX_Type,
-                          }))
+                        const allCharges = allfareDetails.flatMap(
+                          (fareDetail) =>
+                            (fareDetail?.CancellationCharges || []).map(
+                              (charge) => ({
+                                ...charge,
+                                paxType: fareDetail.PAX_Type,
+                              }),
+                            ),
                         );
 
                         // Group charges by duration
-                        const groupedCharges = allCharges.reduce((groups, charge) => {
-                          const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
+                        const groupedCharges = allCharges.reduce(
+                          (groups, charge) => {
+                            const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
 
-                          if (!groups[key]) {
-                            groups[key] = [];
-                          }
-
-                          groups[key].push(charge);
-
-                          return groups;
-                        }, {});
-
-                        return Object.values(groupedCharges).map((charges, index) => {
-                          const firstCharge = charges[0];
-
-                          const getPassengerName = (paxType) => {
-                            if (paxType === 0) return "ADULT";
-                            if (paxType === 1) return "CHILD";
-                            if (paxType === 2) return "INFANT";
-
-                            return "PASSENGER";
-                          };
-
-                          const formatCharge = (charge) => {
-                            if (!charge) return "₹0";
-
-                            if (
-                              charge.Value === undefined ||
-                              charge.Value === null ||
-                              charge.Value === ""
-                            ) {
-                              return "₹0";
+                            if (!groups[key]) {
+                              groups[key] = [];
                             }
 
-                            if (charge.ValueType === 1) {
-                              return `${charge.Value}% of Fare`;
-                            }
+                            groups[key].push(charge);
 
-                            if (isNaN(Number(charge.Value))) {
-                              return charge.Value;
-                            }
+                            return groups;
+                          },
+                          {},
+                        );
 
-                            return `₹${Number(charge.Value).toLocaleString("en-IN")}`;
-                          };
+                        return Object.values(groupedCharges).map(
+                          (charges, index) => {
+                            const firstCharge = charges[0];
 
-                          return (
-                            <tr key={index}>
-                              {/* Applicable Time */}
-                              <td>
-                                If cancelled between{" "}
-                                <strong>{firstCharge.DurationFrom}{" "}</strong>
-                                {firstCharge.DurationTypeFrom === 0
-                                  ? "hours"
-                                  : "days"}{" "}
-                                to{" "}
-                                <strong>{firstCharge.DurationTo}{" "}</strong>
-                                {firstCharge.DurationTypeTo === 0
-                                  ? "hours"
-                                  : "days"}{" "}
-                                before departure
-                              </td>
+                            const getPassengerName = (paxType) => {
+                              if (paxType === 0) return "ADULT";
+                              if (paxType === 1) return "CHILD";
+                              if (paxType === 2) return "INFANT";
 
-                              {/* Charge */}
-                              <td style={{ fontWeight: 500 }}>
-                                {charges.map((charge) => (
-                                  <div key={charge.paxType} className="mb-1">
-                                    <strong>
-                                      {getPassengerName(charge.paxType)}:
-                                    </strong>{" "}
-                                    {formatCharge(charge)}
-                                  </div>
-                                ))}
-                              </td>
+                              return "PASSENGER";
+                            };
 
-                            </tr>
-                          );
-                        });
+                            const formatCharge = (charge) => {
+                              if (!charge) return "₹0";
+
+                              if (
+                                charge.Value === undefined ||
+                                charge.Value === null ||
+                                charge.Value === ""
+                              ) {
+                                return "₹0";
+                              }
+
+                              if (charge.ValueType === 1) {
+                                return `${charge.Value}% of Fare`;
+                              }
+
+                              if (isNaN(Number(charge.Value))) {
+                                return charge.Value;
+                              }
+
+                              return `₹${Number(charge.Value).toLocaleString("en-IN")}`;
+                            };
+
+                            return (
+                              <tr key={index}>
+                                {/* Applicable Time */}
+                                <td>
+                                  If cancelled between{" "}
+                                  <strong>{firstCharge.DurationFrom} </strong>
+                                  {firstCharge.DurationTypeFrom === 0
+                                    ? "hours"
+                                    : "days"}{" "}
+                                  to <strong>{firstCharge.DurationTo} </strong>
+                                  {firstCharge.DurationTypeTo === 0
+                                    ? "hours"
+                                    : "days"}{" "}
+                                  before departure
+                                </td>
+
+                                {/* Charge */}
+                                <td style={{ fontWeight: 500 }}>
+                                  {charges.map((charge) => (
+                                    <div key={charge.paxType} className="mb-1">
+                                      <strong>
+                                        {getPassengerName(charge.paxType)}:
+                                      </strong>{" "}
+                                      {formatCharge(charge)}
+                                    </div>
+                                  ))}
+                                </td>
+                              </tr>
+                            );
+                          },
+                        );
                       })()}
                     </tbody>
                   </table>
@@ -3334,11 +3352,13 @@ export const FlightDetails = () => {
                     <thead className="table-light">
                       <tr>
                         <th width="50%">
-                          Applicable Time<br/>
+                          Applicable Time
+                          <br />
                           (From Scheduled Flight departure)
                         </th>
                         <th width="50%">
-                          Charges<br/>
+                          Charges
+                          <br />
                           (Per passenger)
                         </th>
                       </tr>
@@ -3346,24 +3366,30 @@ export const FlightDetails = () => {
 
                     <tbody>
                       {(() => {
-                        const allCharges = allfareDetails.flatMap((fareDetail) =>
-                          (fareDetail?.RescheduleCharges || []).map((charge) => ({
-                            ...charge,
-                            paxType: fareDetail.PAX_Type,
-                          }))
+                        const allCharges = allfareDetails.flatMap(
+                          (fareDetail) =>
+                            (fareDetail?.RescheduleCharges || []).map(
+                              (charge) => ({
+                                ...charge,
+                                paxType: fareDetail.PAX_Type,
+                              }),
+                            ),
                         );
 
-                        const groupedCharges = allCharges.reduce((groups, charge) => {
-                          const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
+                        const groupedCharges = allCharges.reduce(
+                          (groups, charge) => {
+                            const key = `${charge.DurationFrom}-${charge.DurationTo}-${charge.DurationTypeFrom}-${charge.DurationTypeTo}`;
 
-                          if (!groups[key]) {
-                            groups[key] = [];
-                          }
+                            if (!groups[key]) {
+                              groups[key] = [];
+                            }
 
-                          groups[key].push(charge);
+                            groups[key].push(charge);
 
-                          return groups;
-                        }, {});
+                            return groups;
+                          },
+                          {},
+                        );
 
                         const getPassengerName = (paxType) => {
                           if (paxType === 0) return "ADULT";
@@ -3402,12 +3428,12 @@ export const FlightDetails = () => {
                             return (
                               <tr key={index}>
                                 <td>
-                                  If rescheduled between <strong>{firstCharge.DurationFrom}{" "}</strong>
+                                  If rescheduled between{" "}
+                                  <strong>{firstCharge.DurationFrom} </strong>
                                   {firstCharge.DurationTypeFrom === 0
                                     ? "hours"
                                     : "days"}{" "}
-                                  to{" "}
-                                  <strong>{firstCharge.DurationTo}{" "}</strong>
+                                  to <strong>{firstCharge.DurationTo} </strong>
                                   {firstCharge.DurationTypeTo === 0
                                     ? "hours"
                                     : "days"}{" "}
@@ -3416,10 +3442,7 @@ export const FlightDetails = () => {
 
                                 <td>
                                   {charges.map((charge) => (
-                                    <div
-                                      key={charge.paxType}
-                                      className="mb-1"
-                                    >
+                                    <div key={charge.paxType} className="mb-1">
                                       <strong>
                                         {getPassengerName(charge.paxType)}:
                                       </strong>{" "}
@@ -3429,7 +3452,7 @@ export const FlightDetails = () => {
                                 </td>
                               </tr>
                             );
-                          }
+                          },
                         );
                       })()}
                     </tbody>
@@ -3463,80 +3486,180 @@ export const FlightDetails = () => {
               </div>
 
               <div className="modal-body add-extra-baggage pb-0">
-                {baggageList.length > 0 ? (
-                  <div className="list-group">
-                    {baggageList.map((bag, index) => (
-                      <div
-                        key={index}
-                        className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
-                      >
-                        <div className="dnnmakwrr d-flex align-items-center">
-                          <i
-                            className="bi bi-backpack2 me-3"
-                            style={{ fontSize: "28px", color: "#666" }}
-                          >
-                          </i>
+                {/* ========================================= */}
+                {/* PASSENGER SELECTION */}
+                {/* ========================================= */}
 
-                          <div>
-                            <h6 className="mb-1">
-                              {bag.SSR_TypeDesc?.replace(
-                                "Prepaid Excess Baggage",
-                                "Additional Baggage",
-                              ).replace(/(\d+)\s*kg/i, "$1 KG")}
-                            </h6>
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Select Passenger</h6>
 
-                            <small className="text-muted">
-                              {bag.Currency_Code}
-                            </small>
-                          </div>
-                        </div>
+                  <div className="row g-2">
+                    {baggagePassengers.map((passenger) => (
+                      <div className="col-md-4" key={passenger.key}>
+                        <button
+                          type="button"
+                          className={`w-100 text-start border rounded p-3 ${
+                            selectedPassenger?.key === passenger.key
+                              ? "border-primary bg-light"
+                              : ""
+                          }`}
+                          onClick={() => setSelectedPassenger(passenger)}
+                        >
+                          <div className="fw-semibold">{passenger.name}</div>
 
-                        <div className="ajidbajoijmdd d-flex align-items-center">
-                          <h5 className="me-3 mb-0">
-                            ₹{Number(bag.Total_Amount).toLocaleString()}
-                          </h5>
-                          {selectedSSR[bag.SSR_TypeName]?.SSR_Key ===
-                            bag.SSR_Key ? (
-                            <div
-                              className="d-flex align-items-center border rounded"
-                              style={{ width: "130px" }}
-                            >
-                              <button
-                                className="btn btn-remove-bag p-2 flex-fill"
-                                onClick={() =>
-                                  handleRemoveSSR(bag.SSR_TypeName)
-                                }
-                              >
-                                <i class="bi bi-dash-lg"></i>
-                              </button>
-
-                              <span className="idajsjiw flex-fill text-center">1</span>
-
-                              <button className="btn btn-add-bag p-2 flex-fill" disabled>
-                                <i class="bi bi-plus-lg"></i>
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              className="btn btn-tour px-3 py-1"
-                              onClick={() => handleSelectSSR(bag)}
-                            >
-                              Add +
-                            </button>
-                          )}
-                        </div>
+                          <small className="text-muted">
+                            {passenger.label}
+                          </small>
+                        </button>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* ========================================= */}
+                {/* BAGGAGE LIST */}
+                {/* ========================================= */}
+
+                {!selectedPassenger ? (
+                  <div className="text-center py-4 text-muted">
+                    Please select a passenger to add baggage.
+                  </div>
+                ) : baggageList.length > 0 ? (
+                  <div className="list-group">
+                    {baggageList.map((bag, index) => {
+                      const passengerKey = selectedPassenger.key;
+                      const baggageKey = bag.SSR_Key;
+                      const selectedBag =
+                        selectedSSR?.[passengerKey]?.[baggageKey];
+                      const quantity = selectedBag?.quantity || 0;
+                      return (
+                        <div
+                          key={index}
+                          className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
+                        >
+                          {/* BAGGAGE INFORMATION */}
+
+                          <div className="dnnmakwrr d-flex align-items-center">
+                            <i
+                              className="bi bi-backpack2 me-3"
+                              style={{
+                                fontSize: "28px",
+                                color: "#666",
+                              }}
+                            />
+
+                            <div>
+                              <h6 className="mb-1">
+                                {bag.SSR_TypeDesc?.replace(
+                                  "Prepaid Excess Baggage",
+                                  "Additional Baggage",
+                                ).replace(/(\d+)\s*kg/i, "$1 KG")}
+                              </h6>
+
+                              <small className="text-muted">
+                                {bag.Currency_Code}
+                              </small>
+                            </div>
+                          </div>
+
+                          {/* PRICE + QUANTITY */}
+
+                          <div className="ajidbajoijmdd d-flex align-items-center">
+                            <h5 className="me-3 mb-0">
+                              ₹{Number(bag.Total_Amount).toLocaleString()}
+                            </h5>
+
+                            {quantity > 0 ? (
+                              <div
+                                className="d-flex align-items-center border rounded"
+                                style={{ width: "130px" }}
+                              >
+                                <button
+                                  type="button"
+                                  className="btn btn-remove-bag p-2 flex-fill"
+                                  onClick={() => handleRemoveSSR(bag)}
+                                >
+                                  <i className="bi bi-dash-lg"></i>
+                                </button>
+
+                                <span className="idajsjiw flex-fill text-center">
+                                  {quantity}
+                                </span>
+
+                                <button
+                                  type="button"
+                                  className="btn btn-add-bag p-2 flex-fill"
+                                  onClick={() => handleIncreaseSSR(bag)}
+                                >
+                                  <i className="bi bi-plus-lg"></i>
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-tour px-3 py-1"
+                                onClick={() => handleSelectSSR(bag)}
+                              >
+                                Add +
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="text-center py-4">No baggage available.</div>
                 )}
               </div>
 
+              {/* ========================================= */}
+              {/* FOOTER */}
+              {/* ========================================= */}
+
               {Object.keys(selectedSSR).length > 0 && (
-                <div className="border-top bg-light p-3 d-flex justify-content-between align-items-center gap-4">
-                  <div className="idonisnfinsdf d-flex align-items-center justify-content-between flex-fill">
-                    <p className="mb-0">{Object.keys(selectedSSR).length} SSR(s) Selected</p>
+                <div className="border-top bg-light p-3">
+                  <div className="d-flex justify-content-between align-items-center gap-4">
+                    <div className="idonisnfinsdf flex-fill">
+                      <p className="mb-2 fw-semibold">Selected Baggage</p>
+
+                      {Object.entries(selectedSSR).map(
+                        ([passengerKey, baggage]) => {
+                          const passenger = baggagePassengers.find(
+                            (p) => p.key === passengerKey,
+                          );
+
+                          return (
+                            <div key={passengerKey} className="mb-2">
+                              <div className="fw-semibold">
+                                {passenger?.name || passengerKey}
+                              </div>
+
+                              {Object.values(baggage).map((item) => (
+                                <div
+                                  key={item.SSR_Key}
+                                  className="d-flex justify-content-between"
+                                >
+                                  <span className="text-muted">
+                                    {item.SSR_TypeName} × {item.quantity}
+                                  </span>
+
+                                  <span>
+                                    ₹
+                                    {(
+                                      Number(item.Total_Amount) *
+                                      Number(item.quantity)
+                                    ).toLocaleString()}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
+
+                    {/* TOTAL */}
 
                     <div className="text-end">
                       <p className="hgadsdzxeww mb-0">Added to fare</p>
@@ -3544,23 +3667,32 @@ export const FlightDetails = () => {
                       <h3 className="sxvdgzzdss mb-0">
                         ₹
                         {Object.values(selectedSSR)
+                          .flatMap((baggage) => Object.values(baggage))
                           .reduce(
-                            (sum, item) => sum + Number(item.Total_Amount),
+                            (sum, item) =>
+                              sum +
+                              Number(item.Total_Amount || 0) *
+                                Number(item.quantity || 0),
                             0,
                           )
                           .toLocaleString()}
                       </h3>
                     </div>
-                  </div>
 
-                  <button
-                    className="btn btn-primary px-4"
-                    onClick={() => {
-                      console.log(selectedSSR);
-                    }}
-                  >
-                    DONE
-                  </button>
+                    {/* DONE */}
+
+                    <button
+                      type="button"
+                      className="btn btn-primary px-4"
+                      onClick={() => {
+                        console.log("SELECTED BAGGAGE:", selectedSSR);
+
+                        setAddBaggageModal(false);
+                      }}
+                    >
+                      DONE
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -3768,7 +3900,6 @@ export const FlightDetails = () => {
 
       {/* all coupon modal end */}
 
-
       {/* flight booking modal start */}
 
       <div
@@ -3803,18 +3934,12 @@ export const FlightDetails = () => {
                 <div>
                   <span className="text-muted small">Departure</span>
                   <h6 className="mb-1">Kolkata (CCU) → Delhi (DEL)</h6>
-                  <small className="text-muted">
-                    25 Aug 2026 • 08:30 AM
-                  </small>
+                  <small className="text-muted">25 Aug 2026 • 08:30 AM</small>
                 </div>
 
                 <div className="text-end">
-                  <span className="badge bg-light text-dark">
-                    IndiGo
-                  </span>
-                  <small className="d-block text-muted mt-1">
-                    6E 2345
-                  </small>
+                  <span className="badge bg-light text-dark">IndiGo</span>
+                  <small className="d-block text-muted mt-1">6E 2345</small>
                 </div>
               </div>
             </div>
@@ -3890,9 +4015,7 @@ export const FlightDetails = () => {
           {/* Total */}
           <div className="booking-total d-flex justify-content-between align-items-center pt-2">
             <div>
-              <span className="text-muted small d-block">
-                Total Amount
-              </span>
+              <span className="text-muted small d-block">Total Amount</span>
               <h4 className="mb-0 fw-bold">₹9,500</h4>
             </div>
 
