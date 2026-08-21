@@ -385,7 +385,7 @@ export const FlightSeats = ({
                             onClick={() => setActivePassenger(index)}
                         >
                             <span className="pax-label">
-                                Pax {index + 1}
+                                Pax {index + 1} - {" "}
                             </span>
 
                             <span className="pax-seat">

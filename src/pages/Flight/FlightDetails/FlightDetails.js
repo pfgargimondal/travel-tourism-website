@@ -16,6 +16,7 @@ export const FlightDetails = () => {
   const [allCouponModal, setAllCouponModal] = useState(false);
   const [flightRePrice, setflightRePrice] = useState(null);
   const [ssrData, setSsrData] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
   // eslint-disable-next-line
   // const [selectedBaggage, setSelectedBaggage] = useState(null);
   // const [quantity, setQuantity] = useState(1);
@@ -41,10 +42,22 @@ export const FlightDetails = () => {
   const adults = state?.adults;
   const children = state?.children;
   const infants = state?.infants;
+  const cabinClass = state?.cabinClass;
+
+  const cabinClassMap = {
+    0: "Economy",
+    3: "Premium Economy",
+    1: "Business",
+    2: "First Class",
+  };
+
+  const cabinClassName = cabinClassMap[cabinClass] || "Economy";
 
   const adultCount = adults || 1;
   const childCount = children || 0;
   const infantCount = infants || 0;
+
+  console.log(flight, 'flight');
 
   const [fareRuleModal, setFareRuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState("cancel");
@@ -1081,17 +1094,185 @@ export const FlightDetails = () => {
         setActiveSeatMealTab("meals");
       } else {
         // No meal → open booking modal
-        setShowSeatMealSection(false);
+        setShowSeatMealSection(true);
         setFlightBookingModal(true);
       }
     }
 
     if (activeSeatMealTab === "meals") {
       // Meal completed → open booking modal
-      setShowSeatMealSection(false);
+      setShowSeatMealSection(true);
       setFlightBookingModal(true);
     }
   };
+
+  const formatDepartureDateTime = (dateTime) => {
+    if (!dateTime) return "";
+
+    const date = new Date(dateTime);
+
+    if (isNaN(date.getTime())) return "";
+
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const month = date.toLocaleString("en-US", {
+      month: "short",
+    });
+
+    const year = date.getFullYear();
+
+    const time = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return `${day} ${month} ${year} • ${time}`;
+  };
+
+  const selectedSeatList = selectedSeats || [];
+  const selectedSeatCount = selectedSeatList?.length || 0;
+
+  const bookingPassengers = [
+    ...(adultForms || []).map((passenger, index) => ({
+      ...passenger,
+      passengerType: "Adult",
+      passengerIndex: index,
+    })),
+
+    ...(childForms || []).map((passenger, index) => ({
+      ...passenger,
+      passengerType: "Child",
+      passengerIndex: adultForms?.length + index,
+    })),
+
+    ...(infantForms || []).map((passenger, index) => ({
+      ...passenger,
+      passengerType: "Infant",
+      passengerIndex:
+        (adultForms?.length || 0) +
+        (childForms?.length || 0) +
+        index,
+    })),
+  ];
+
+  const seatCharges = selectedSeatList.reduce(
+    (total, seat) =>
+      total +
+      Number(
+        seat?.Total_Amount ??
+        seat?.TotalAmount ??
+        seat?.Amount ??
+        seat?.Price ??
+        0
+      ),
+    0
+  );
+
+  const selectedMealList = Array.isArray(selectedMeals)
+    ? selectedMeals
+    : selectedMeals
+      ? Object.values(selectedMeals)
+      : [];
+
+  const mealCharges = selectedMealList.reduce(
+    (total, meal) => {
+      // Ignore invalid/null values
+      if (!meal || typeof meal !== "object") {
+        return total;
+      }
+
+      return (
+        total +
+        Number(
+          meal?.Total_Amount ??
+          meal?.TotalAmount ??
+          meal?.Amount ??
+          meal?.Price ??
+          0
+        )
+      );
+    },
+    0
+  );
+
+
+  // ============================================================
+  // FARE
+  // ============================================================
+
+  const fareResponse =
+    flightRePrice?.AirRepriceResponses?.[0];
+
+  const fareDetails =
+    fareResponse?.FareDetails || [];
+
+  let baseFareTotal = 0;
+  let taxAmount = 0;
+  let otherCharges = 0;
+
+  fareDetails.forEach((fare) => {
+    baseFareTotal += Number(
+      fare?.Basic_Amount ??
+      fare?.BasicAmount ??
+      fare?.BaseFare ??
+      fare?.Base_Fare ??
+      0
+    );
+
+    taxAmount += Number(
+      fare?.AirportTax_Amount ??
+      fare?.TaxAmount ??
+      fare?.Taxes ??
+      0
+    );
+
+    otherCharges += Number(
+      fare?.Other_Charges ??
+      fare?.OtherCharges ??
+      0
+    );
+  });
+
+
+  // ============================================================
+  // DISCOUNT
+  // ============================================================
+
+  // const discountAmount = Number(
+  //   appliedDiscount ??
+  //   discountAmountValue ??
+  //   0
+  // );
+
+
+  // ============================================================
+  // TOTAL
+  // ============================================================
+
+  const totallAmountt =
+    baseFareTotal +
+    taxAmount +
+    otherCharges +
+    seatCharges +
+    mealCharges;
+    // discountAmount;
+
+
+  // ============================================================
+  // CURRENCY
+  // ============================================================
+
+  const currency =
+    fareResponse?.Currency_Code ||
+    fareResponse?.CurrencyCode ||
+    "INR";
+
+
+  const formatAmount = (amount) => {
+    return `${currency} ${Number(amount || 0).toLocaleString("en-IN")}`;
+  };
+
 
   if (loading) return <Loader />;
 
@@ -2616,6 +2797,7 @@ export const FlightDetails = () => {
                                 }
                                 onSeatChange={(seats) => {
                                   console.log("Selected seats:", seats);
+                                  setSelectedSeats(seats);
                                 }}
                               />
                             </div>
@@ -3933,13 +4115,16 @@ export const FlightDetails = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <span className="text-muted small">Departure</span>
-                  <h6 className="mb-1">Kolkata (CCU) → Delhi (DEL)</h6>
-                  <small className="text-muted">25 Aug 2026 • 08:30 AM</small>
+                  <h6 className="mb-1">
+                    {segment?.Origin_City} → {segment?.Destination_City}
+
+                  </h6>
+                  <small className="text-muted">{formatDepartureDateTime(segment?.Departure_DateTime)}</small>
                 </div>
 
                 <div className="text-end">
-                  <span className="badge bg-light text-dark">IndiGo</span>
-                  <small className="d-block text-muted mt-1">6E 2345</small>
+                  <span className="badge bg-light text-dark">{segment?.Airline_Name}</span>
+                  <small className="d-block text-muted mt-1">{segment?.Airline_Code}{" "}{segment?.Flight_Number}</small>
                 </div>
               </div>
             </div>
@@ -3953,15 +4138,41 @@ export const FlightDetails = () => {
                   <i className="fa-solid fa-users me-2"></i>
                   Passengers
                 </span>
-                <strong>2 Adults</strong>
+                <strong> 
+                  {totalPassengers}{" "}
+                {totalPassengers === 1
+                  ? "Passenger"
+                  : "Passengers"}
+                </strong>
               </div>
+              <div className="d-flex flex-wrap gap-2 mb-3">
+                {adultCount > 0 && (
+                  <span className="badge bg-light text-dark border">
+                    {adultCount} Adult
+                    {adultCount > 1 ? "s" : ""}
+                  </span>
+                )}
+                {childCount > 0 && (
+                  <span className="badge bg-light text-dark border">
+                    {childCount} Child
+                    {childCount > 1 ? "ren" : ""}
+                  </span>
+                )}
+                {infantCount > 0 && (
+                  <span className="badge bg-light text-dark border">
+                    {infantCount} Infant
+                    {infantCount > 1 ? "s" : ""}
+                  </span>
+                )}
+              </div>
+
 
               <div className="d-flex justify-content-between mb-2">
                 <span className="text-muted">
                   <i className="fa-solid fa-chair me-2"></i>
                   Cabin Class
                 </span>
-                <strong>Economy</strong>
+                <strong>{cabinClassName}</strong>
               </div>
 
               <div className="d-flex justify-content-between mb-2">
@@ -3969,7 +4180,12 @@ export const FlightDetails = () => {
                   <i className="fa-solid fa-chair me-2"></i>
                   Seats
                 </span>
-                <strong>2 Seats</strong>
+                <strong>
+                  {selectedSeatCount}{" "}
+                  {selectedSeatCount === 1
+                    ? "Seat"
+                    : "Seats"}
+                </strong>
               </div>
 
               <div className="d-flex justify-content-between">
@@ -3977,8 +4193,125 @@ export const FlightDetails = () => {
                   <i className="fa-solid fa-suitcase-rolling me-2"></i>
                   Baggage
                 </span>
-                <strong>15 Kg / Passenger</strong>
+                <strong>  {adultFare?.Free_Baggage?.Check_In_Baggage || "15 Kgs"} / Passenger</strong>
               </div>
+
+              {bookingPassengers.length > 0 && (
+              <div className="mt-3">
+
+                <div className="small fw-bold text-muted mb-2">
+                  Passenger Details
+                </div>
+
+
+                {bookingPassengers.map(
+                  (passenger, index) => {
+
+                    const passengerSeat =
+                      selectedSeatList?.[index];
+
+                    const passengerMeal =
+                      selectedMealList?.[index];
+
+
+                    const passengerName = [
+                      passenger?.title,
+                      passenger?.firstName ||
+                        passenger?.First_Name,
+                      passenger?.lastName ||
+                        passenger?.Last_Name,
+                    ]
+                      .filter(Boolean)
+                      .join(" ");
+
+
+                    return (
+                      <div
+                        key={`${passenger.passengerType}-${index}`}
+                        className="border rounded-3 p-3 mb-2"
+                      >
+
+                        {/* Name */}
+
+                        <div className="d-flex justify-content-between align-items-start">
+
+                          <div>
+
+                            <strong>
+                              {passengerName ||
+                                `Passenger ${index + 1}`}
+                            </strong>
+
+                            <div className="small text-muted">
+                              {passenger.passengerType}
+                            </div>
+
+                          </div>
+
+
+                          {/* Passenger number */}
+
+                          <span className="badge bg-light text-dark border">
+                            PAX {index + 1}
+                          </span>
+
+                        </div>
+
+
+                        {/* Seat + Meal */}
+
+                        <div className="row mt-3">
+
+                          {/* Seat */}
+
+                          <div className="col-6">
+
+                            <div className="small text-muted">
+                              <i className="fa-solid fa-chair me-1"></i>
+                              Seat
+                            </div>
+
+                            <strong>
+                              {passengerSeat?.Seat_Name ||
+                                passengerSeat?.SeatNumber ||
+                                passengerSeat?.seatNumber ||
+                                passengerSeat?.seat ||
+                                "Not Selected"}
+                            </strong>
+
+                          </div>
+
+
+                          {/* Meal */}
+
+                          <div className="col-6">
+
+                            <div className="small text-muted">
+                              <i className="fa-solid fa-utensils me-1"></i>
+                              Meal
+                            </div>
+
+                            <strong>
+                              {passengerMeal?.SSR_TypeDesc ||
+                                passengerMeal?.SSR_Name ||
+                                passengerMeal?.Meal_Name ||
+                                passengerMeal?.MealName ||
+                                passengerMeal?.name ||
+                                "No Meal"}
+                            </strong>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    );
+                  }
+                )}
+
+              </div>
+            )}
+
             </div>
 
             {/* Fare Breakdown */}
@@ -3987,36 +4320,205 @@ export const FlightDetails = () => {
 
               <div className="d-flex justify-content-between mb-2">
                 <span>Base Fare</span>
-                <span>₹8,000</span>
+                <span>{formatAmount(baseFare)}</span>
               </div>
 
               <div className="d-flex justify-content-between mb-2">
                 <span>Taxes & Fees</span>
-                <span>₹1,200</span>
+                <span> {formatAmount(taxAmount)}</span>
               </div>
 
-              <div className="d-flex justify-content-between mb-2">
-                <span>Seat Charges</span>
-                <span>₹600</span>
-              </div>
+              {seatCharges > 0 && (
+                <div className="d-flex justify-content-between mb-2">
 
-              <div className="d-flex justify-content-between mb-2">
-                <span>Other Charges</span>
-                <span>₹200</span>
-              </div>
+                  <span>
+                    Seat Charges
+                  </span>
 
+                  <span>
+                    {formatAmount(seatCharges)}
+                  </span>
+
+                </div>
+              )}
+
+
+              {/* Meal Charges */}
+
+              {mealCharges > 0 && (
+                <div className="d-flex justify-content-between mb-2">
+
+                  <span>
+                    Meal Charges
+                  </span>
+
+                  <span>
+                    {formatAmount(mealCharges)}
+                  </span>
+
+                </div>
+              )}
+
+
+              {/* Other Charges */}
+
+              {otherCharges > 0 && (
+                <div className="d-flex justify-content-between mb-2">
+
+                  <span>
+                    Other Charges
+                  </span>
+
+                  <span>
+                    {formatAmount(otherCharges)}
+                  </span>
+
+                </div>
+              )}
+
+
+            {/* Discount */}
+
+            {/* {discountAmount > 0 && (
               <div className="d-flex justify-content-between text-success">
-                <span>Discount</span>
-                <span>- ₹500</span>
+
+                <span>
+                  Discount
+                </span>
+
+                <span>
+                  - {formatAmount(discountAmount)}
+                </span>
+
               </div>
+            )} */}
+
             </div>
+
+              
+            {selectedSeatList.length > 0 && (
+              <div className="border rounded-3 p-3 mb-3">
+
+                <div className="d-flex justify-content-between mb-2">
+
+                  <h6 className="fw-bold mb-0">
+                    Selected Seats
+                  </h6>
+
+                  <span className="text-muted small">
+                    {selectedSeatList.length} selected
+                  </span>
+
+                </div>
+
+
+                <div className="d-flex flex-wrap gap-2">
+
+                  {selectedSeatList.map(
+                    (seat, index) => (
+
+                      <div
+                        key={index}
+                        className="border rounded-2 px-3 py-2"
+                      >
+
+                        <strong>
+                          {seat?.Seat_Name ||
+                            seat?.SeatNumber ||
+                            seat?.seatNumber ||
+                            seat?.seat ||
+                            `Seat ${index + 1}`}
+                        </strong>
+
+                        {Number(
+                          seat?.Total_Amount ??
+                          seat?.TotalAmount ??
+                          seat?.Amount ??
+                          seat?.Price ??
+                          0
+                        ) > 0 && (
+                          <div className="small text-muted">
+                            {formatAmount(
+                              seat?.Total_Amount ??
+                                seat?.TotalAmount ??
+                                seat?.Amount ??
+                                seat?.Price
+                            )}
+                          </div>
+                        )}
+
+                      </div>
+
+                    )
+                  )}
+
+                </div>
+
+              </div>
+            )}
+
+
+            {/* ===================================================
+                SELECTED MEALS
+            ==================================================== */}
+
+            {selectedMealList.length > 0 && (
+              <div className="border rounded-3 p-3">
+
+                <h6 className="fw-bold mb-3">
+                  Selected Meals
+                </h6>
+
+
+                {selectedMealList.map(
+                  (meal, index) => (
+
+                    <div
+                      key={index}
+                      className="d-flex justify-content-between align-items-center mb-2"
+                    >
+
+                      <div>
+
+                        <strong>
+                          {meal?.SSR_TypeDesc ||
+                            meal?.SSR_Name ||
+                            meal?.Meal_Name ||
+                            meal?.MealName ||
+                            "Meal"}
+                        </strong>
+
+                        <div className="small text-muted">
+                          Passenger {index + 1}
+                        </div>
+
+                      </div>
+
+
+                      <span>
+                        {formatAmount(
+                          meal?.Total_Amount ??
+                            meal?.TotalAmount ??
+                            meal?.Amount ??
+                            meal?.Price ??
+                            0
+                        )}
+                      </span>
+
+                    </div>
+
+                  )
+                )}
+
+              </div>
+            )}
           </div>
 
           {/* Total */}
           <div className="booking-total d-flex justify-content-between align-items-center pt-2">
             <div>
               <span className="text-muted small d-block">Total Amount</span>
-              <h4 className="mb-0 fw-bold">₹9,500</h4>
+              <h4 className="mb-0 fw-bold">{formatAmount(totallAmountt)}</h4>
             </div>
 
             <button
