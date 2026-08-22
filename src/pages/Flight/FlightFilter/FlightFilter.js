@@ -1981,6 +1981,9 @@ export const FlightFilter = () => {
 
                       const cheapestFare = flight.Fares[0]?.FareDetails[0];
 
+                      const destinationSegment =
+                        lastSegment || firstSegment;
+
                       return (
                         <div className="flight-card" key={index}>
                           <div className="flight-top d-flex justify-content-between align-items-center mb-2">
@@ -2244,13 +2247,13 @@ export const FlightFilter = () => {
                                       <div className="gfjh55 text-end">
                                         <h5 className="fw-semibold d-flex flex-column mb-0 gap-1">
                                           <span>
-                                            {firstSegment.Destination_City.match(
+                                            {destinationSegment.Destination_City.match(
                                               /\((.*?)\)/,
                                             )?.[1] || ""}
                                           </span>
 
                                           <span>
-                                            {firstSegment.Destination_City.replace(
+                                            {destinationSegment.Destination_City.replace(
                                               /\s*\(.*?\)/g,
                                               "",
                                             ).trim()}
@@ -2266,8 +2269,8 @@ export const FlightFilter = () => {
                                               "var(--light-highlighted-text-color)",
                                           }}
                                         >
-                                          Terminal{" "}
-                                          {lastSegment.Destination_Terminal}
+                                          Terminal{" "} 
+                                          {destinationSegment.Destination_Terminal}
                                         </small>
                                       </div>
                                     </div>

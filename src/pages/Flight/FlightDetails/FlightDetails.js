@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./FlightDetails.css";
 import http from "../../../http";
 import Loader from "../../../component/Loader/Loader";
@@ -10,6 +10,7 @@ import { InfantsFields } from "./Components/InfantsFields";
 import { Meal } from "./Components/Meal";
 
 export const FlightDetails = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [imprtntInfoModal, setImprtntInfoModal] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
@@ -100,18 +101,10 @@ export const FlightDetails = () => {
   }, []);
 
   useEffect(() => {
-    // console.log("useEffect triggered", {
-    //   fareId,
-    //   search_key,
-    //   flightKey: flight?.Flight_Key,
-    // });
-
     const fetchFlightDetails = async () => {
       // console.log("fetchFlightDetails called");
-
       try {
         setLoading(true);
-
         const [repriceRes, ssrRes] = await Promise.all([
           http.post("/flight-reprice-details", {
             fare_id: fareId,
@@ -734,6 +727,8 @@ export const FlightDetails = () => {
     }) || "";
 
   const segments = repriceFlight?.Segments || [];
+  const lastSegment = segments[segments.length - 1];
+
 
   const formatPenalty = (item) => {
     if (item.ValueType === 1) {
@@ -775,7 +770,7 @@ export const FlightDetails = () => {
   };
 
   //   const firstSegment = segments[0];
-  //   const lastSegment = segments[segments.length - 1];
+
 
   const stops = Math.max(0, segments.length - 1);
   const departureDate = parseDate(segment?.Departure_DateTime);
@@ -1164,6 +1159,7 @@ export const FlightDetails = () => {
         seat?.TotalAmount ??
         seat?.Amount ??
         seat?.Price ??
+        seat?.amount ??
         0
       ),
     0
@@ -1197,26 +1193,38 @@ export const FlightDetails = () => {
   );
 
 
+  const extraBaggageCharges = Object.values(selectedSSR || {}).reduce(
+    (total, passengerSSR) => {
+      const ssrItems = Object.values(passengerSSR || {});
+      return (
+        total +
+        ssrItems.reduce((passengerTotal, ssr) => {
+          // Only calculate baggage
+          if (ssr?.SSR_TypeName !== "BAGGAGE") {
+            return passengerTotal;
+          }
+          const price = Number(ssr?.Total_Amount || 0);
+          const quantity = Number(ssr?.quantity || 1);
+          return passengerTotal + price * quantity;
+        }, 0)
+      );
+    },
+    0
+  );
   // ============================================================
   // FARE
   // ============================================================
-
-  const fareResponse =
-    flightRePrice?.AirRepriceResponses?.[0];
-
-  const fareDetails =
-    fareResponse?.FareDetails || [];
 
   let baseFareTotal = 0;
   let taxAmount = 0;
   let otherCharges = 0;
 
-  fareDetails.forEach((fare) => {
+  allfareDetails.forEach((fare) => {
     baseFareTotal += Number(
       fare?.Basic_Amount ??
       fare?.BasicAmount ??
       fare?.BaseFare ??
-      fare?.Base_Fare ??
+      fare?.Base_Fare ?? 
       0
     );
 
@@ -1234,7 +1242,6 @@ export const FlightDetails = () => {
     );
   });
 
-
   // ============================================================
   // DISCOUNT
   // ============================================================
@@ -1245,7 +1252,6 @@ export const FlightDetails = () => {
   //   0
   // );
 
-
   // ============================================================
   // TOTAL
   // ============================================================
@@ -1255,22 +1261,60 @@ export const FlightDetails = () => {
     taxAmount +
     otherCharges +
     seatCharges +
-    mealCharges;
+    mealCharges + Number(extraBaggageCharges || 0);
     // discountAmount;
-
 
   // ============================================================
   // CURRENCY
   // ============================================================
 
   const currency =
-    fareResponse?.Currency_Code ||
-    fareResponse?.CurrencyCode ||
+    fareDetail?.Currency_Code ||
+    fareDetail?.CurrencyCode ||
     "INR";
 
 
   const formatAmount = (amount) => {
     return `${currency} ${Number(amount || 0).toLocaleString("en-IN")}`;
+  };
+
+  const handleProceedToPayment = () => {
+    setFlightBookingModal(false);
+
+    const paymentData = {
+      search_key,
+      flight,
+      segment,
+      repriceFlight,
+      bookingPassengers,
+      selectedSeatList: Array.isArray(selectedSeatList)
+        ? selectedSeatList
+        : [],
+      selectedMealList: Array.isArray(selectedMealList)
+        ? selectedMealList
+        : [],
+      selectedSSR: Array.isArray(selectedSSR)
+        ? selectedSSR
+        : [],
+      baseFare,
+      taxAmount,
+      seatCharges,
+      mealCharges,
+      extraBaggageCharges,
+      otherCharges,
+      totallAmountt,
+      cabinClassName,
+      adultFare,
+    };
+
+    sessionStorage.setItem(
+      `flightPayment_${fareId}`,
+      JSON.stringify(paymentData)
+    );
+
+    navigate(`/flight-payment/${fareId}`, {
+      state: paymentData,
+    });
   };
 
 
@@ -1320,7 +1364,7 @@ export const FlightDetails = () => {
                               alt=""
                             />
 
-                            {segment?.Destination_City.replace(
+                            {lastSegment?.Destination_City.replace(
                               /\s*\(.*?\)/g,
                               "",
                             )}
@@ -4193,7 +4237,9 @@ export const FlightDetails = () => {
                   <i className="fa-solid fa-suitcase-rolling me-2"></i>
                   Baggage
                 </span>
-                <strong>  {adultFare?.Free_Baggage?.Check_In_Baggage || "15 Kgs"} / Passenger</strong>
+                <strong>  {adultFare?.Free_Baggage?.Check_In_Baggage || "15 Kgs"} / Adult</strong>
+                <strong>  {childFare?.Free_Baggage?.Check_In_Baggage || "15 Kgs"} / Child</strong>
+                <strong>  {infantFare?.Free_Baggage?.Check_In_Baggage || "0 Kg"} / Infant</strong> 
               </div>
 
               {bookingPassengers.length > 0 && (
@@ -4202,8 +4248,6 @@ export const FlightDetails = () => {
                 <div className="small fw-bold text-muted mb-2">
                   Passenger Details
                 </div>
-
-
                 {bookingPassengers.map(
                   (passenger, index) => {
 
@@ -4276,6 +4320,7 @@ export const FlightDetails = () => {
                                 passengerSeat?.SeatNumber ||
                                 passengerSeat?.seatNumber ||
                                 passengerSeat?.seat ||
+                                passengerSeat?.description ||
                                 "Not Selected"}
                             </strong>
 
@@ -4308,10 +4353,8 @@ export const FlightDetails = () => {
                     );
                   }
                 )}
-
               </div>
             )}
-
             </div>
 
             {/* Fare Breakdown */}
@@ -4341,10 +4384,7 @@ export const FlightDetails = () => {
 
                 </div>
               )}
-
-
               {/* Meal Charges */}
-
               {mealCharges > 0 && (
                 <div className="d-flex justify-content-between mb-2">
 
@@ -4358,8 +4398,19 @@ export const FlightDetails = () => {
 
                 </div>
               )}
+              {/* Baggage Charges */}
+              {extraBaggageCharges > 0 && (
+                <div className="d-flex justify-content-between mb-2">
+                  <span>
+                    {/* <i className="fa-solid fa-suitcase-rolling me-2"></i> */}
+                    Extra Baggage
+                  </span>
 
-
+                  <span>
+                    {formatAmount(extraBaggageCharges)}
+                  </span>
+                </div>
+              )}
               {/* Other Charges */}
 
               {otherCharges > 0 && (
@@ -4394,8 +4445,6 @@ export const FlightDetails = () => {
             )} */}
 
             </div>
-
-              
             {selectedSeatList.length > 0 && (
               <div className="border rounded-3 p-3 mb-3">
 
@@ -4426,15 +4475,15 @@ export const FlightDetails = () => {
                           {seat?.Seat_Name ||
                             seat?.SeatNumber ||
                             seat?.seatNumber ||
-                            seat?.seat ||
-                            `Seat ${index + 1}`}
+                            seat?.seat || seat?.description ||
+                            `Seat ${index + 1}`} 
                         </strong>
 
                         {Number(
                           seat?.Total_Amount ??
                           seat?.TotalAmount ??
                           seat?.Amount ??
-                          seat?.Price ??
+                          seat?.Price ?? seat?.amount ??
                           0
                         ) > 0 && (
                           <div className="small text-muted">
@@ -4442,7 +4491,7 @@ export const FlightDetails = () => {
                               seat?.Total_Amount ??
                                 seat?.TotalAmount ??
                                 seat?.Amount ??
-                                seat?.Price
+                                seat?.Price ?? seat?.amount
                             )}
                           </div>
                         )}
@@ -4456,12 +4505,9 @@ export const FlightDetails = () => {
 
               </div>
             )}
-
-
             {/* ===================================================
                 SELECTED MEALS
             ==================================================== */}
-
             {selectedMealList.length > 0 && (
               <div className="border rounded-3 p-3">
 
@@ -4524,9 +4570,7 @@ export const FlightDetails = () => {
             <button
               type="button"
               className="btn btn-tour px-4"
-              onClick={() => {
-                // continue booking
-              }}
+              onClick={handleProceedToPayment}
             >
               Continue
               <i className="fa-solid fa-arrow-right ms-2"></i>
