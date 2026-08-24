@@ -44,7 +44,7 @@ const [returnDate, setReturnDate] = useState(() => {
 });
 
 const [tripType, setTripType] = useState(0);
-const [cabinClass, setCabinClass] = useState(0);
+const [cabinClass, setCabinClass] = useState("0");
 // eslint-disable-next-line
 const [travelType, setTravelType] = useState(0);
 // const MAX_GUESTS_PER_ROOM = 8;

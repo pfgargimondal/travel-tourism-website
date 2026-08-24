@@ -121,8 +121,20 @@ export const FlightFilter = () => {
   const [resFilterToggle, setResFilterToggle] = useState(false);
   // eslint-disable-next-line
   const [value, setValue] = useState([6115, 43746]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
-  const { filters, toggleStop, toggleFarePolicy, setPriceRange, toggleDepartureTime, toggleArrivalTime, toggleAirline, toggleOtherFilter, resetFilters } = useFlightFilters();
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        // clicking the same column again flips direction
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      // clicking a new column defaults to ascending
+      return { key, direction: 'asc' };
+    });
+  }; 
+
+  const { filters, toggleStop, toggleFarePolicy, setPriceRange, toggleDepartureTime, toggleArrivalTime, toggleAirline, toggleOtherFilter, setSelectedDate, resetFilters } = useFlightFilters();
 
   const allFlights = useMemo(() => {
     return (
@@ -132,8 +144,47 @@ export const FlightFilter = () => {
     );
   }, [flightList]);
 
+  const parseFlightDateTime = (dateTime) => {
+    if (!dateTime) return null;
+
+    const [datePart, timePart] = dateTime.split(" ");
+    if (!datePart || !timePart) return null;
+
+    const [month, day, year] = datePart.split("/").map(Number);
+    const [hours, minutes] = timePart.split(":").map(Number);
+
+    // returns a real millisecond timestamp, not just minutes-in-day
+    return new Date(year, month - 1, day, hours, minutes).getTime();
+  };
+
+  const getTotalDurationMinutes = (flight) => {
+    const segments = flight?.Segments || [];
+
+    return segments.reduce((total, segment) => {
+      if (!segment?.Duration) return total;
+
+      const [hours, minutes] = segment.Duration.split(":").map(Number);
+      return total + (hours * 60 + minutes);
+    }, 0);
+  };
+
+  const isSameDate = (dateTimeStr, targetDate) => {
+    if (!dateTimeStr || !targetDate) return true; // no date selected = don't filter anything out
+
+    const datePart = dateTimeStr.split(" ")[0]; // "MM/DD/YYYY"
+    const [month, day, year] = datePart.split("/").map(Number);
+
+    const target = new Date(targetDate);
+
+    return (
+      month === target.getMonth() + 1 &&
+      day === target.getDate() &&
+      year === target.getFullYear()
+    );
+  };
+
   const filteredFlights = useMemo(() => {
-    return allFlights.filter((flight) => {
+    const result = allFlights.filter((flight) => {
       const segments = flight?.Segments || [];
 
       if (!segments.length) {
@@ -290,6 +341,20 @@ export const FlightFilter = () => {
         return false;
       }
 
+      /*
+      ==========================================
+      8. SELECTED DATE
+      ==========================================
+      */
+
+      const dateMatches =
+        !filters.selectedDate ||
+        isSameDate(firstSegment.Departure_DateTime, filters.selectedDate);
+
+      if (!dateMatches) {
+        return false;
+      }
+
 
       /*
       ==========================================
@@ -298,6 +363,45 @@ export const FlightFilter = () => {
       */
 
       return true;
+    });
+
+    return result.sort((a, b) => {
+      const dir = sortConfig.direction === 'asc' ? 1 : -1;
+
+      switch (sortConfig.key) {
+        case 'Airline': {
+          const nameA = a.Segments[0]?.Airline_Name || "";
+          const nameB = b.Segments[0]?.Airline_Name || "";
+          return nameA.localeCompare(nameB) * dir;
+        }
+
+        case 'Departure': {
+          const tsA = parseFlightDateTime(a.Segments[0]?.Departure_DateTime) ?? 0;
+          const tsB = parseFlightDateTime(b.Segments[0]?.Departure_DateTime) ?? 0;
+          return (tsA - tsB) * dir;
+        }
+
+        case 'Duration': {
+          const durationA = getTotalDurationMinutes(a);
+          const durationB = getTotalDurationMinutes(b);
+          return (durationA - durationB) * dir;
+        }
+
+        case 'Arrival': {
+          const lastA = a.Segments[a.Segments.length - 1];
+          const lastB = b.Segments[b.Segments.length - 1];
+          const tsA = parseFlightDateTime(lastA?.Arrival_DateTime) ?? 0;
+          const tsB = parseFlightDateTime(lastB?.Arrival_DateTime) ?? 0;
+          return (tsA - tsB) * dir;
+        }
+
+        case 'Price': {
+          return (getFlightPrice(a) - getFlightPrice(b)) * dir;
+        }
+
+        default:
+          return 0; // no sort applied
+      }
     });
   }, [
     allFlights,
@@ -308,6 +412,8 @@ export const FlightFilter = () => {
     filters.arrivalTime,
     filters.airlines,
     filters.others,
+    filters.selectedDate,
+    sortConfig
   ]);
 
 
@@ -498,7 +604,7 @@ export const FlightFilter = () => {
   }, [selectedFlight, flightList.Search_Key]);
 
   // eslint-disable-next-line
-  const handleFlightDetails = (flight, search_key, fareId) => {
+  const handleFlightDetails = (flight, search_key, fareId, apiFareDetails) => {
     const state = {
       flight,
       search_key,
@@ -507,6 +613,7 @@ export const FlightFilter = () => {
       children,
       infants,
       cabinClass,
+      apiFareDetails,
     };
 
     sessionStorage.setItem(
@@ -615,7 +722,13 @@ export const FlightFilter = () => {
   };
 
 
-  console.log(flightList);
+  const dates = Array.from({ length: 28 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() + index);
+    
+    return date;
+  });
+
 
   if (loading) return <Loader />;
 
@@ -1792,184 +1905,72 @@ export const FlightFilter = () => {
                       },
                     }}
                   >
-                    <SwiperSlide>
-                      <label
-                        htmlFor="dhube"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="dhube"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
+                    {dates.map((date, index) => {
+                      const inputId = `date-${index}`;
+                      const isSelected = Boolean(
+                        filters.selectedDate &&
+                        date.toDateString() === new Date(filters.selectedDate).toDateString()
+                      );
 
-                        <p className="mb-0">Aug 10</p>
+                      return (
+                        <SwiperSlide key={index}>
+                          <label
+                            htmlFor={inputId}
+                            className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
+                          >
+                            <input
+                              id={inputId}
+                              type="radio"
+                              name="fdgdsvfv"
+                              className="d-none position-absolute"
+                              checked={isSelected}
+                              onChange={() => setSelectedDate(date)}
+                            />
 
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="dfsdf"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="dfsdf"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 11</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="gdfgdfg"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="gdfgdfg"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 12</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="fsxdgdfg"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="fsxdgdfg"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 13</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="saddzaf"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="saddzaf"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 14</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="gsgxg"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="gsgxg"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 15</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="cvbb"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="cvbb"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 16</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
-
-                    <SwiperSlide>
-                      <label
-                        htmlFor="fbdfb"
-                        className="doihimfdsf d-flex flex-column align-items-center gap-1 position-relative px-2 py-1"
-                      >
-                        <input
-                          id="fbdfb"
-                          type="radio"
-                          name="udbeuwhr"
-                          className="d-none position-absolute"
-                        />
-
-                        <p className="mb-0">Aug 17</p>
-
-                        {/* <p className="mb-0">₹5977</p> */}
-                      </label>
-                    </SwiperSlide>
+                            <p className="mb-0">
+                              {date.toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                            </p>
+                          </label>
+                        </SwiperSlide>
+                      )
+                    })}                    
                   </Swiper>
                 </div>
 
                 <div className="dubyasyufsdf mb-3 p-1">
-                  <table className="table mb-0">
-                    <tbody>
-                      <tr className="text-center">
-                        <th>
-                          <img src="/images/flightdas.png" alt="" /> Airline
-                        </th>
+                  <div className="col-lg-10">
+                    <table className="table mb-0">
+                      <tbody>
+                        <tr className="text-center">
+                          <th className={`text-start ${(sortConfig.key === "Airline") ? "active" : ""}`} onClick={() => handleSort('Airline')}>
+                            <img src="/images/flightdas.png" alt="" /> Airline <i className={`bi ${(sortConfig.direction === "desc") ? "bi-arrow-up" : "bi-arrow-down"}`}></i>
+                          </th>
 
-                        <th>
-                          <img src="/images/airplane.png" alt="" />{" "}
-                          <span style={{ position: "relative", zIndex: 999 }}>
-                            Depart
-                          </span>
-                        </th>
+                          <th className={`text-start ${(sortConfig.key === "Departure") ? "active" : ""}`} onClick={() => handleSort('Departure')}>
+                            <img src="/images/airplane.png" alt="" />{" "}
+                            <span style={{ position: "relative", zIndex: 999 }}>
+                              Departure  <i className={`bi ${(sortConfig.direction === "desc") ? "bi-arrow-up" : "bi-arrow-down"}`}></i>
+                            </span>
+                          </th>
 
-                        <th>
-                          <img src="/images/repeat.png" alt="" /> Duration
-                        </th>
+                          <th className={`text-start ${(sortConfig.key === "Duration") ? "active" : ""}`} onClick={() => handleSort('Duration')}>
+                            <img src="/images/repeat.png" alt="" /> Duration <i className={`bi ${(sortConfig.direction === "desc") ? "bi-arrow-up" : "bi-arrow-down"}`}></i>
+                          </th>
 
-                        <th>
-                          <img src="/images/airplane.png" alt="" />{" "}
-                          <span style={{ position: "relative", zIndex: 999 }}>
-                            Arrive
-                          </span>
-                        </th>
+                          <th className={`text-start ${(sortConfig.key === "Arrival") ? "active" : ""}`} onClick={() => handleSort('Arrival')}>
+                            <img src="/images/airplane.png" alt="" />{" "}
+                            <span style={{ position: "relative", zIndex: 999 }}>
+                              Arrival <i className={`bi ${(sortConfig.direction === "desc") ? "bi-arrow-up" : "bi-arrow-down"}`}></i>
+                            </span>
+                          </th>
 
-                        <th>
-                          <img src="/images/money.png" alt="" /> Price
-                        </th>
-                      </tr>
-                    </tbody>
-                  </table>
+                          <th className={`text-end ${(sortConfig.key === "Price") ? "active" : ""}`} onClick={() => handleSort('Price')}>
+                            <img src="/images/money.png" alt="" /> Price <i className={`bi ${(sortConfig.direction === "desc") ? "bi-arrow-up" : "bi-arrow-down"}`}></i>
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 <div className="flight-filtr-wrppr">
@@ -1986,96 +1987,6 @@ export const FlightFilter = () => {
 
                       return (
                         <div className="flight-card" key={index}>
-                          <div className="flight-top d-flex justify-content-between align-items-center mb-2">
-                            <div className="uhncoikcdf d-flex align-items-center">
-                              <div className="heart bg-white">
-                                <img src="./images/likeicon.png" alt="" />
-                              </div>
-
-                              {/* <span className="cheapest">
-                                                {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
-                                            </span> */}
-                              <p className="mb-0">
-                                {flight.IsLCC
-                                  ? "Low Cost Carrier"
-                                  : "Full Service Airline"}
-                              </p>
-                            </div>
-
-                            <div className="offer-strip d-flex justify-content-between align-items-center">
-                              <div className="doasjjishnidchsd dfhdbdfsff d-flex align-items-center gap-2">
-                                <div className="dosncjknzkczxc position-relative rounded-circle">
-                                  <img
-                                    src="./images/seatb.png"
-                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                    alt=""
-                                  />
-                                </div>
-
-                                <div className="dinsdlcjiodsfc">
-                                  <small>Cabin</small>{" "}
-                                  <p className="mb-0">
-                                    {cheapestFare?.FareClasses?.[0]?.CabinClass}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="offer-strip d-flex justify-content-between align-items-center">
-                              <div className="doasjjishnidchsd cbdfzadsd d-flex align-items-center gap-2">
-                                <div className="dosncjknzkczxc position-relative rounded-circle">
-                                  <img
-                                    src="./images/luggageb.png"
-                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                    alt=""
-                                  />
-                                </div>
-
-                                <div className="dinsdlcjiodsfc">
-                                  <small>Baggage</small>{" "}
-                                  <p className="mb-0">
-                                    {cheapestFare?.Free_Baggage?.Check_In_Baggage}{" "}
-                                    Check-In
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="offer-strip d-flex justify-content-between align-items-center">
-                              <div className="doasjjishnidchsd dgcfghbgsef d-flex align-items-center gap-2">
-                                <div className="dosncjknzkczxc position-relative rounded-circle">
-                                  <img
-                                    src="./images/school-bag.png"
-                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
-                                    alt=""
-                                  />
-                                </div>
-
-                                <div className="dinsdlcjiodsfc">
-                                  <small>Cabin Baggage</small>{" "}
-                                  <p className="mb-0">
-                                    {cheapestFare?.Free_Baggage?.Hand_Baggage}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* <span className="rating">5.0</span> */}
-
-                            {/* <div className="stop-info"> */}
-                            {/* <img src="./images/stop.png" alt="" /> */}
-
-                            {/* {flight.Segments.length === 1
-                                ? "Non Stop"
-                                : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
-                                    0,
-                                    -1,
-                                  )
-                                    .map((s) => s.Destination)
-                                    .join(", ")}`}
-                            </div> */}
-                          </div>
-
                           <div className="flight-body">
                             <div className="duihnjaka">
                               <div className="row">
@@ -2175,7 +2086,7 @@ export const FlightFilter = () => {
 
                                     {/* Time Section */}
                                     <div className="col-8">
-                                      <div className="time-wrapper d-flex justify-content-between gap-4">
+                                      <div className="time-wrapper d-flex justify-content-between gap-4 ps-3">
                                         <div className="text-center pt-1">
                                           <h5 className="mb-0">
                                             {
@@ -2280,15 +2191,6 @@ export const FlightFilter = () => {
                                 {/* Price */}
                                 <div className="col-lg-2">
                                   <div className="dikijasdlfdsf d-inline-flex flex-column justify-content-between align-items-end w-100">
-                                    <button
-                                      className="btn btn-tour mb-2"
-                                      onClick={() =>
-                                        handleFlightFareDetails(flight)
-                                      }
-                                    >
-                                      View Price
-                                    </button>
-
                                     <div className="offer-strip d-flex justify-content-between align-items-center">
                                       <div className="doasjjishnidchsd dhzdfsFsdf d-flex align-items-center gap-2">
                                         <div className="dosncjknzkczxc position-relative rounded-circle">
@@ -2307,10 +2209,109 @@ export const FlightFilter = () => {
                                         </div>
                                       </div>
                                     </div>
+
+                                    <button
+                                      className="btn btn-tour mb-2"
+                                      onClick={() =>
+                                        handleFlightFareDetails(flight)
+                                      }
+                                    >
+                                      View Price
+                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
+                          </div>
+
+                          <div className="flight-top d-flex justify-content-between align-items-center mt-2">
+                            <div className="uhncoikcdf d-flex align-items-center">
+                              <div className="heart bg-white">
+                                <img src="./images/likeicon.png" alt="" />
+                              </div>
+
+                              {/* <span className="cheapest">
+                                                {cheapestFare?.Refundable ? "Refundable" : "Cheapest"}
+                                            </span> */}
+                              <p className="mb-0">
+                                {flight.IsLCC
+                                  ? "Low Cost Carrier"
+                                  : "Full Service Airline"}
+                              </p>
+                            </div>
+
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd dfhdbdfsff d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/seatb.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Cabin</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.FareClasses?.[0]?.CabinClass}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd cbdfzadsd d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/luggageb.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Baggage</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.Free_Baggage?.Check_In_Baggage}{" "}
+                                    Check-In
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="offer-strip d-flex justify-content-between align-items-center">
+                              <div className="doasjjishnidchsd dgcfghbgsef d-flex align-items-center gap-2">
+                                <div className="dosncjknzkczxc position-relative rounded-circle">
+                                  <img
+                                    src="./images/school-bag.png"
+                                    className="position-absolute top-50 start-50 translate-middle img-fluid"
+                                    alt=""
+                                  />
+                                </div>
+
+                                <div className="dinsdlcjiodsfc">
+                                  <small>Cabin Baggage</small>{" "}
+                                  <p className="mb-0">
+                                    {cheapestFare?.Free_Baggage?.Hand_Baggage}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* <span className="rating">5.0</span> */}
+
+                            {/* <div className="stop-info"> */}
+                            {/* <img src="./images/stop.png" alt="" /> */}
+
+                            {/* {flight.Segments.length === 1
+                                ? "Non Stop"
+                                : `${flight.Segments.length - 1} Stop, ${flight.Segments.slice(
+                                    0,
+                                    -1,
+                                  )
+                                    .map((s) => s.Destination)
+                                    .join(", ")}`}
+                            </div> */}
                           </div>
                         </div>
                       );
@@ -2318,7 +2319,7 @@ export const FlightFilter = () => {
                     )
                   ) : (
                     <div className="text-center p-5">
-                      <h5 className="mb-3">No Matching Flights Available</h5>
+                      <h5 className="mb-3"><b>No Matching Flights Available</b></h5>
 
                       <p className="mb-0">Unfortunately, there are no flights available for your selected route and dates. <br /> Try adjusting your search to explore more options.</p>
                     </div>
@@ -2708,6 +2709,7 @@ export const FlightFilter = () => {
                                               selectedFlight,
                                               flightList?.Search_Key,
                                               fare.Fare_Id,
+                                              apiFareDetails,
                                             )
                                           }
                                         >

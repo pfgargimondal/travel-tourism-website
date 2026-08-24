@@ -6,6 +6,7 @@ export const initialState = {
   arrivalTime: [], // e.g., ['BEFORE_6AM', '6AM_12PM', '12PM_6PM', 'AFTER_6PM']
   airlines: [],
   others: [], // e.g., ['SAME_DAY_ARRIVAL']
+  selectedDate: null
 };
 
 export const FILTER_ACTION_TYPES = {
@@ -16,6 +17,7 @@ export const FILTER_ACTION_TYPES = {
   SET_ARRIVAL_TIME: 'SET_ARRIVAL_TIME',
   SET_AIRLINES: 'SET_AIRLINES',
   SET_OTHERS: 'SET_OTHERS',
+  SET_SELECTED_DATE: 'SET_SELECTED_DATE',
   RESET_FILTERS: 'RESET_FILTERS',
 };
 
@@ -66,6 +68,19 @@ export function flightFilterReducer(state, action) {
         ...state,
         others: toggleArrayItem(state.others, action.payload),
       };
+    
+    case FILTER_ACTION_TYPES.SET_SELECTED_DATE: {
+      const incoming = action.payload;
+      const isSameDate =
+        state.selectedDate &&
+        incoming &&
+        new Date(state.selectedDate).toDateString() === new Date(incoming).toDateString();
+
+      return {
+        ...state,
+        selectedDate: isSameDate ? null : incoming,
+      };
+    }
 
     case FILTER_ACTION_TYPES.RESET_FILTERS:
       return initialState;

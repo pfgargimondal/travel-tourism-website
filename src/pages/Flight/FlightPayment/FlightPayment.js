@@ -1,21 +1,29 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+// eslint-disable-next-line
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./FlightPayment.css";
+import Loader from "../../../component/Loader/Loader";
+import http from "../../../http";
 
 export const FlightPayment = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("upi");
+  // eslint-disable-next-line
+  const [flightTempBooking, setFlightTempBooking] = useState(null);
+  // eslint-disable-next-line
+  const [timeLeft, setTimeLeft] = useState(9 * 60 + 17);
 
   const {
-     // eslint-disable-next-line
     search_key,
-     // eslint-disable-next-line
     flight,
     segment,
     repriceFlight,
     bookingPassengers = [],
-     // eslint-disable-next-line
     selectedSeatList = [],
-     // eslint-disable-next-line
     selectedMealList = [],
     selectedSSR = {},
     baseFare = 0,
@@ -26,18 +34,42 @@ export const FlightPayment = () => {
     otherCharges = 0,
     totallAmountt = 0,
     cabinClassName = "",
-     // eslint-disable-next-line
     adultFare = "",
   } = location.state || {};
 
-  console.log(segment, 'segment');
-  console.log(repriceFlight, 'repriceFlight');
+  console.log(repriceFlight, "repriceFlight");
+  console.log(adultFare, "adultFare");
+  console.log(bookingPassengers, "bookingPassengers");
+
+  const allSegments = repriceFlight?.Segments;
+  const firstSegment = allSegments[0];
+  const lastSegment = allSegments[allSegments.length - 1];
+  const destinationSegment = lastSegment || firstSegment;
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft((previousTime) => {
+  //       if (previousTime <= 0) {
+  //         clearInterval(timer);
+  //         return 0;
+  //       }
+
+  //       return previousTime - 1;
+  //     });
+  //   }, 1000);
+
+  //   return () => clearInterval(timer);
+  // }, []);
+
+  // const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+
+  // const seconds = String(timeLeft % 60).padStart(2, "0");
 
   const formatAmount = (amount) => {
     return `₹ ${Number(amount || 0).toLocaleString("en-IN")}`;
   };
 
-   // eslint-disable-next-line
+  // eslint-disable-next-line
   const baggageList = Object.values(selectedSSR || {})
     .flatMap((passengerSSR) => Object.values(passengerSSR || {}))
     .filter((ssr) => ssr?.SSR_TypeName === "BAGGAGE");
@@ -74,6 +106,842 @@ export const FlightPayment = () => {
       year: "numeric",
     });
   };
+
+  const adultsList = bookingPassengers.filter(
+    (passenger) => passenger?.passengerType === "Adult",
+  );
+
+  const childrenList = bookingPassengers.filter(
+    (passenger) => passenger?.passengerType === "Child",
+  );
+
+  const infantsList = bookingPassengers.filter(
+    (passenger) => passenger?.passengerType === "Infant",
+  );
+
+  const getPassengerName = (passenger) => {
+    if (!passenger) {
+      return "-";
+    }
+
+    const fullName = `${passenger?.title || ""} ${
+      passenger?.firstName || ""
+    } ${passenger?.lastName || ""}`;
+
+    return fullName.replace(/\s+/g, " ").trim() || "-";
+  };
+
+  const getPassengerEmail = () => {
+    return bookingPassengers?.[0]?.email || "-";
+  };
+
+  const getPassengerMobile = () => {
+    const passenger = bookingPassengers?.[0];
+
+    if (!passenger) {
+      return "-";
+    }
+
+    return `${passenger?.countryCode || ""} ${passenger?.mobile || ""}`.trim();
+  };
+
+  const getPaxType = (passengerType) => {
+    switch (passengerType) {
+      case "Adult":
+        return 0;
+
+      case "Child":
+        return 1;
+
+      case "Infant":
+        return 2;
+
+      default:
+        return 0;
+    }
+  };
+
+  // =========================================================
+  // GENDER
+  //
+  // Change according to your API:
+  //
+  // 0 = Male
+  // 1 = Female
+  //
+  // =========================================================
+
+  const getGender = (gender) => {
+    // if (!gender) {
+    //   return null;
+    // }
+    if (
+      gender === "Female" ||
+      gender === "F" ||
+      gender === 1 ||
+      gender === "1"
+    ) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  // =========================================================
+  // CREATE PAX DETAILS
+  // =========================================================
+
+  const createPAXDetails = () => {
+    return bookingPassengers.map((passenger, index) => ({
+      Pax_Id: index + 1,
+
+      Pax_type: getPaxType(
+        passenger?.passengerType
+      ),
+
+      Title:
+        passenger?.title || "",
+
+      First_Name:
+        passenger?.firstName || "",
+
+      Last_Name:
+        passenger?.lastName || "",
+
+      Gender:
+        getGender(passenger?.gender),
+
+      Age:
+        passenger?.age
+          ? Number(passenger.age)
+          : null,
+
+      DOB:
+        passenger?.dob || null,
+
+      Passport_Number:
+        passenger?.passportNumber || null,
+
+      Passport_Issuing_Country:
+        passenger?.passportCountry || null,
+
+      Passport_Expiry:
+        passenger?.passportExpiry || null,
+
+      Nationality:
+        passenger?.nationality || null,
+
+      Pancard_Number:
+        passenger?.panCardNo || null,
+
+      FrequentFlyerDetails:
+        passenger?.showFF &&
+        passenger?.ffNumber
+          ? {
+              Airline_Code:
+                passenger?.airline || "",
+
+              FrequentFlyerNumber:
+                passenger?.ffNumber || "",
+            }
+          : null,
+    }));
+  };
+
+  // =========================================================
+  // CREATE SSR DETAILS
+  //
+  // IMPORTANT:
+  // You need to match the exact BookingSSRDetails
+  // structure required by your flight API.
+  //
+  // For now we preserve the selected data.
+  // =========================================================
+
+  const createBookingSSRDetails = () => {
+    const ssrDetails = [];
+
+    // -------------------------------------------------------
+    // SEATS
+    // -------------------------------------------------------
+
+    if (Array.isArray(selectedSeatList)) {
+      selectedSeatList.forEach((seat) => {
+        ssrDetails.push({
+          // Pax_Id: Number(seat?.passengerIndex) + 1,
+          Pax_Id: Number(seat.paxId),
+          SSR_Key: seat.ssrKey || "",
+        });
+      });
+    }
+
+    // -------------------------------------------------------
+    // MEALS
+    // -------------------------------------------------------
+
+    console.log(selectedMealList, 'selectedMealList');
+    if (Array.isArray(selectedMealList)) {
+      selectedMealList.forEach((meal) => {
+        ssrDetails.push({
+          // SSR_Type: "MEAL",
+
+          Pax_Id: Number(meal?.passengerIndex) + 1,
+          SSR_Key: meal.ssrKey || "",
+          // SSR_Code: meal?.SSR_Code || meal?.Meal_Code || meal?.code || "",
+
+          // Amount: Number(
+          //   meal?.Total_Amount || meal?.Amount || meal?.price || 0,
+          // ),
+        });
+      });
+    }
+
+    // -------------------------------------------------------
+    // OTHER SSR / BAGGAGE
+    // -------------------------------------------------------
+
+    Object.values(selectedSSR || {}).forEach((passengerSSR) => {
+      Object.values(passengerSSR || {}).forEach((ssr) => {
+        if (!ssr) return;
+
+        ssrDetails.push({
+          // SSR_Type: ssr?.SSR_TypeName || ssr?.SSR_Type || "",
+          Pax_Id: Number(ssr?.passengerIndex ?? ssr?.Pax_Id ?? 0) + 1,
+          SSR_Key: ssr.ssrKey || "",
+          // SSR_Code: ssr?.SSR_Code || ssr?.code || "",
+          // Amount: Number(ssr?.Total_Amount || ssr?.Amount || ssr?.price || 0),
+        });
+      });
+    });
+
+    return ssrDetails;
+  };
+
+  // =========================================================
+  // GET FLIGHT KEY
+  // =========================================================
+
+  const getFlightKey = () => {
+    return (
+      flight?.Flight_Key ||
+      repriceFlight?.Flight_Key ||
+      repriceFlight?.AirRepriceResponses?.[0]?.Flight_Key ||
+      ""
+    );
+  };
+
+  // =========================================================
+  // CREATE TEMP BOOKING PAYLOAD
+  // =========================================================
+
+  const createTempBookingPayload = () => {
+    const firstPassenger =
+      bookingPassengers?.[0] || {};
+
+    const payload = {
+      Customer_Mobile:
+        firstPassenger?.mobile || "",
+
+      Passenger_Mobile:
+        firstPassenger?.mobile || "",
+
+      WhatsAPP_Mobile:
+        null,
+
+      Passenger_Email:
+        firstPassenger?.email || "",
+
+      PAX_Details:
+        createPAXDetails(),
+
+      GST:
+        false,
+
+      GST_Number:
+        "",
+
+      GST_HolderName:
+        "GST Holder Name",
+
+      GST_Address:
+        "GST Address",
+
+      BookingFlightDetails: [
+        {
+          Search_Key:
+            search_key || "",
+
+          Flight_Key:
+            getFlightKey(),
+
+          BookingSSRDetails:
+            createBookingSSRDetails(),
+        },
+      ],
+
+      CostCenterId:
+        0,
+
+      ProjectId:
+        0,
+
+      BookingRemark:
+        "Flight Booking",
+
+      CorporateStatus:
+        0,
+
+      CorporatePaymentMode:
+        0,
+
+      MissedSavingReason:
+        null,
+
+      CorpTripType:
+        null,
+
+      CorpTripSubType:
+        null,
+
+      TripRequestId:
+        null,
+
+      BookingAlertIds:
+        null,
+    };
+
+    return payload;
+  };
+
+  // =========================================================
+  // TEMP BOOKING API
+  // =========================================================
+
+  const createTempBooking = async () => {
+    const payload = createTempBookingPayload();
+    const response = await http.post(
+      "/flight-temp-booking",
+      payload
+    );
+
+    console.log("================================");
+    console.log("TEMP BOOKING RESPONSE");
+    console.log(JSON.stringify(response?.data, null, 2));
+    console.log("================================");
+
+    return response?.data;
+  };
+
+  // =========================================================
+  // GET TEMP BOOKING REFERENCE
+  //
+  // IMPORTANT:
+  // Replace these fields after you show me the actual
+  // Temp Booking API response.
+  // =========================================================
+
+  const getTempBookingReference = (response) => {
+    return (
+      response?.Booking_Id ||
+      response?.BookingId ||
+      response?.booking_id ||
+      response?.Booking_Reference ||
+      response?.BookingReference ||
+      response?.BookingRef ||
+      response?.PNR ||
+      response?.pnr ||
+      response?.data?.Booking_Id ||
+      response?.data?.BookingId ||
+      response?.data?.Booking_Reference ||
+      response?.data?.BookingReference ||
+      ""
+    );
+  };
+
+  // =========================================================
+  // CREATE PAYMENT ORDER
+  //
+  // Your Laravel backend should call Razorpay API.
+  //
+  // React should NOT contain Razorpay secret key.
+  // =========================================================
+
+  const createPaymentOrder = async ({ amount, bookingReference }) => {
+    const response = await http.post("/payment/create-order", {
+      amount: Number(amount),
+
+      bookingReference: bookingReference,
+
+      paymentMethod: paymentMethod,
+    });
+
+    return response?.data;
+  };
+
+  // =========================================================
+  // LOAD RAZORPAY
+  // =========================================================
+
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+
+      const script = document.createElement("script");
+
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+      script.onload = () => resolve(true);
+
+      script.onerror = () => resolve(false);
+
+      document.body.appendChild(script);
+    });
+  };
+
+  // =========================================================
+  // START RAZORPAY
+  // =========================================================
+
+  const startPayment = async ({ amount, bookingReference }) => {
+    // -------------------------------------------------------
+    // Load Razorpay SDK
+    // -------------------------------------------------------
+
+    const razorpayLoaded = await loadRazorpay();
+
+    if (!razorpayLoaded) {
+      throw new Error("Unable to load payment gateway");
+    }
+
+    // -------------------------------------------------------
+    // Create Razorpay order through backend
+    // -------------------------------------------------------
+
+    const order = await createPaymentOrder({
+      amount,
+      bookingReference,
+    });
+
+    console.log("PAYMENT ORDER:", order);
+
+    /*
+     * Expected backend response should be something
+     * similar to:
+     *
+     * {
+     *   key: "rzp_xxxxx",
+     *   order_id: "order_xxxxx",
+     *   amount: 100000,
+     *   currency: "INR"
+     * }
+     */
+
+    const razorpayKey = order?.key || order?.razorpay_key;
+
+    const razorpayOrderId = order?.order_id || order?.razorpay_order_id;
+
+    if (!razorpayKey || !razorpayOrderId) {
+      throw new Error("Invalid payment order response");
+    }
+
+    // -------------------------------------------------------
+    // Razorpay options
+    // -------------------------------------------------------
+
+    const options = {
+      key: razorpayKey,
+
+      amount: order?.amount || Number(amount) * 100,
+
+      currency: order?.currency || "INR",
+
+      name: "Your Flight Booking",
+
+      description: "Flight ticket booking",
+
+      order_id: razorpayOrderId,
+
+      prefill: {
+        name: getPassengerName(bookingPassengers?.[0]),
+
+        email: getPassengerEmail(),
+
+        contact: bookingPassengers?.[0]?.mobile || "",
+      },
+
+      notes: {
+        bookingReference: bookingReference,
+      },
+
+      theme: {
+        color: "#0d6efd",
+      },
+
+      handler: async function (paymentResponse) {
+        console.log("================================");
+
+        console.log("PAYMENT SUCCESS:");
+
+        console.log(paymentResponse);
+
+        console.log("================================");
+
+        await handlePaymentSuccess({
+          bookingReference,
+          paymentResponse,
+        });
+      },
+
+      modal: {
+        ondismiss: function () {
+          console.log("Payment popup closed");
+
+          setPaymentLoading(false);
+        },
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+
+    razorpay.on("payment.failed", function (response) {
+      console.error("PAYMENT FAILED:", response);
+
+      setPaymentLoading(false);
+
+      alert(response?.error?.description || "Payment failed");
+    });
+
+    razorpay.open();
+  };
+
+  // =========================================================
+  // TICKETING PAYLOAD
+  // =========================================================
+
+  const createTicketingPayload = ({ bookingReference, paymentResponse }) => {
+    /*
+     * IMPORTANT:
+     *
+     * This part depends on your Ticketing API documentation.
+     *
+     * For now we send the common values.
+     *
+     * Once you give me your exact Ticketing API payload,
+     * replace this function with the exact structure.
+     */
+
+    return {
+      BookingReference: bookingReference,
+
+      Search_Key: search_key || "",
+
+      Flight_Key: getFlightKey(),
+
+      PaymentId: paymentResponse?.razorpay_payment_id || "",
+
+      OrderId: paymentResponse?.razorpay_order_id || "",
+
+      PaymentSignature: paymentResponse?.razorpay_signature || "",
+
+      PAX_Details: createPAXDetails(),
+
+      BookingFlightDetails: [
+        {
+          Search_Key: search_key || "",
+
+          Flight_Key: getFlightKey(),
+
+          BookingSSRDetails: createBookingSSRDetails(),
+        },
+      ],
+
+      Passenger_Mobile: bookingPassengers?.[0]?.mobile || "",
+
+      Passenger_Email: bookingPassengers?.[0]?.email || "",
+    };
+  };
+
+  // =========================================================
+  // PAYMENT SUCCESS
+  // =========================================================
+
+  const handlePaymentSuccess = async ({
+    bookingReference,
+    paymentResponse,
+  }) => {
+    try {
+      setPaymentLoading(true);
+
+      console.log("Payment successful.");
+
+      // ===================================================
+      // STEP 1
+      // Verify payment on backend
+      // ===================================================
+
+      /*
+       * VERY IMPORTANT:
+       *
+       * Payment signature should be verified on your
+       * Laravel backend.
+       */
+
+      const verifyResponse = await http.post("/payment/verify", {
+        razorpay_payment_id: paymentResponse?.razorpay_payment_id,
+
+        razorpay_order_id: paymentResponse?.razorpay_order_id,
+
+        razorpay_signature: paymentResponse?.razorpay_signature,
+
+        bookingReference: bookingReference,
+      });
+
+      console.log("PAYMENT VERIFY RESPONSE:", verifyResponse?.data);
+
+      // ===================================================
+      // STEP 2
+      // Check payment verification
+      // ===================================================
+
+      if (verifyResponse?.data?.success === false) {
+        throw new Error("Payment verification failed");
+      }
+
+      // ===================================================
+      // STEP 3
+      // Create Ticketing Payload
+      // ===================================================
+
+      const ticketingPayload = createTicketingPayload({
+        bookingReference,
+        paymentResponse,
+      });
+
+      console.log("================================");
+
+      console.log("TICKETING REQUEST:");
+
+      console.log(ticketingPayload);
+
+      console.log("================================");
+
+      // ===================================================
+      // STEP 4
+      // CALL TICKETING API
+      // ===================================================
+
+      const ticketResponse = await http.post(
+        "/flight-ticketing",
+        ticketingPayload,
+      );
+
+      console.log("================================");
+
+      console.log("TICKETING RESPONSE:");
+
+      console.log(ticketResponse?.data);
+
+      console.log("================================");
+
+      // ===================================================
+      // STEP 5
+      // SAVE BOOKING DATA
+      // ===================================================
+
+      sessionStorage.setItem(
+        "flightBookingConfirmation",
+        JSON.stringify({
+          bookingReference,
+          paymentResponse,
+          ticketResponse: ticketResponse?.data,
+        }),
+      );
+
+      // ===================================================
+      // STEP 6
+      // GO TO CONFIRMATION PAGE
+      // ===================================================
+
+      navigate("/flight-booking-confirmation", {
+        state: {
+          bookingReference,
+
+          paymentResponse,
+
+          ticketResponse: ticketResponse?.data,
+
+          bookingPassengers,
+
+          flight,
+
+          segment,
+
+          repriceFlight,
+
+          totallAmountt,
+        },
+      });
+    } catch (error) {
+      console.error("TICKETING ERROR:", error);
+
+      /*
+       * IMPORTANT:
+       *
+       * Payment may have succeeded while ticketing failed.
+       *
+       * Do NOT simply tell the user "payment failed".
+       */
+
+      alert(
+        "Payment was successful, but ticket generation could not be completed. Please contact support.",
+      );
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
+  // =========================================================
+  // MAIN PROCEED TO PAY
+  // =========================================================
+
+  const handleProceedToPay = async () => {
+    if (paymentLoading) {
+      return;
+    }
+
+    try {
+      setPaymentLoading(true);
+
+      // ---------------------------------------------
+      // VALIDATION
+      // ---------------------------------------------
+
+      if (
+        !bookingPassengers ||
+        bookingPassengers.length === 0
+      ) {
+        alert("Passenger details are missing");
+        setPaymentLoading(false);
+        return;
+      }
+
+      if (!search_key) {
+        alert("Search key is missing");
+        setPaymentLoading(false);
+        return;
+      }
+
+      const flightKey = getFlightKey();
+
+      if (!flightKey) {
+        alert("Flight key is missing");
+        setPaymentLoading(false);
+        return;
+      }
+
+      // ---------------------------------------------
+      // STEP 1
+      // TEMP BOOKING
+      // ---------------------------------------------
+
+      console.log(
+        "STEP 1 → TEMP BOOKING"
+      );
+
+      const tempBookingResponse =
+        await createTempBooking();
+
+      setFlightTempBooking(
+        tempBookingResponse
+      );
+
+      // ---------------------------------------------
+      // STEP 2
+      // GET TEMP BOOKING REFERENCE
+      // ---------------------------------------------
+
+      const bookingReference =
+        getTempBookingReference(
+          tempBookingResponse
+        );
+
+      console.log(
+        "BOOKING REFERENCE:",
+        bookingReference
+      );
+
+      if (!bookingReference) {
+        console.error(
+          "Temp booking response:",
+          tempBookingResponse
+        );
+
+        throw new Error(
+          "Temp booking successful response does not contain booking reference."
+        );
+      }
+
+      // ---------------------------------------------
+      // STEP 3
+      // PAYMENT
+      // ---------------------------------------------
+
+      console.log(
+        "STEP 2 → PAYMENT"
+      );
+
+      await startPayment({
+        amount: totallAmountt,
+        bookingReference,
+      });
+
+      /*
+        DO NOT CALL TICKETING HERE.
+
+        Ticketing happens only after:
+        
+        Razorpay payment success
+              ↓
+        Laravel payment verification
+              ↓
+        Ticketing API
+      */
+
+    } catch (error) {
+      console.error(
+        "PROCEED TO PAY ERROR:",
+        error
+      );
+
+      alert(
+        error?.response?.data?.message ||
+        error?.message ||
+        "Unable to proceed with payment"
+      );
+
+      setPaymentLoading(false);
+    }
+  };
+
+  // =========================================================
+  // LOGIN HANDLER
+  // =========================================================
+
+  const handleLogin = () => {
+    console.log("Open Login Modal");
+  };
+
+  // =========================================================
+  // GENERATE QR
+  // =========================================================
+
+  // const handleGenerateQR = () => {
+  //   console.log("Generate QR Code");
+  // };
+  if (loading) return <Loader />;
 
   return (
     <div className="sdfsdf655 flight-details-wrapper">
@@ -117,7 +985,8 @@ export const FlightPayment = () => {
                     <span className="departure-badge">DEPARTURE</span>
 
                     <h5 className="mb-0 fw-bold">
-                      {segment?.Origin_City} → {segment?.Destination_City}
+                      {segment?.Origin_City} →{" "}
+                      {destinationSegment?.Destination_City}
                     </h5>
                   </div>
 
@@ -140,7 +1009,7 @@ export const FlightPayment = () => {
                   <span>
                     {formatTime(segment?.Departure_DateTime)}
                     {" - "}
-                    {formatTime(segment?.Arrival_DateTime)}
+                    {formatTime(destinationSegment?.Arrival_DateTime)}
                   </span>
 
                   <span>•</span>
@@ -149,88 +1018,371 @@ export const FlightPayment = () => {
 
                   <span>•</span>
 
-                  <span>Non-stop</span>
+                  <span>
+                    {allSegments.length === 1
+                      ? "Non Stop"
+                      : `${allSegments.length - 1} Stop`}
+                  </span>
 
                   <span>•</span>
 
-                  <strong>{segment?.Duration || "02h 45m"}</strong>
+                  <strong>
+                    {/* {segment?.Duration || "02h 45m"} */}
+                    {allSegments
+                      .map((segment) => {
+                        const [hours, minutes] = segment.Duration.split(":");
+                        return `${hours}h ${minutes}m`;
+                      })
+                      .join(" + ")}
+                  </strong>
                 </div>
 
-                {/* Sector */}
-                <div className="sector-section">
-                  <div className="sector-title">SECTOR 1 OF 1</div>
+                {allSegments.map((segment, index) => (
+                  <div
+                    className="flight-segment-wrapper"
+                    key={segment?.Segment_Id ?? index}
+                  >
+                    {/* Sector Header */}
+                    <div className="sector-section">
+                      <div className="sector-title">
+                        SECTOR {index + 1} OF {allSegments.length}
+                      </div>
 
-                  <div className="sector-route">
-                    {segment?.Origin_City} ({segment?.Origin_Code}){" → "}
-                    {segment?.Destination_City} ({segment?.Destination_Code})
+                      <div className="sector-route">
+                        {segment?.Origin_City} → {segment?.Destination_City}
+                      </div>
+
+                      <div className="flight-number">
+                        <i className="fa-solid fa-plane"></i>
+                        {segment?.Airline_Code} -{" "}
+                        {segment?.Flight_Number?.trim()}
+                      </div>
+
+                      <span className="saver-badge">
+                        {repriceFlight?.Fares[0].ProductClass === "R"
+                          ? "SAVER"
+                          : repriceFlight?.Fares[0].ProductClass === "F"
+                            ? "FLEXI"
+                            : repriceFlight?.Fares[0].ProductClass === "P"
+                              ? "PREMIUM"
+                              : adultFare.FareClasses?.[0]?.CabinClass}
+                      </span>
+                    </div>
+
+                    {/* Bottom Flight Information */}
+                    <div className="flight-route-details">
+                      {/* Departure */}
+                      <div className="airport-detail">
+                        <strong className="time">
+                          {formatTime(segment?.Departure_DateTime)}
+                        </strong>
+
+                        <div>
+                          {segment?.Origin_City} <span>{segment?.Origin}</span>
+                        </div>
+
+                        <small>
+                          {formatFlightDate(segment?.Departure_DateTime)}
+                        </small>
+
+                        {segment?.Origin_Terminal && (
+                          <small>Terminal - {segment.Origin_Terminal}</small>
+                        )}
+                      </div>
+
+                      {/* Duration */}
+                      <div className="duration-detail">
+                        <span>{segment?.Duration || "--"}</span>
+
+                        <div className="duration-line"></div>
+
+                        <small>• {cabinClassName}</small>
+                      </div>
+
+                      {/* Arrival */}
+                      <div className="airport-detail arrival">
+                        <strong className="time">
+                          {formatTime(segment?.Arrival_DateTime)}
+                        </strong>
+
+                        <div>
+                          {segment?.Destination_City}{" "}
+                          <span>{segment?.Destination}</span>
+                        </div>
+
+                        <small>
+                          {formatFlightDate(segment?.Arrival_DateTime)}
+                        </small>
+
+                        {segment?.Destination_Terminal && (
+                          <small>
+                            Terminal - {segment.Destination_Terminal}
+                          </small>
+                        )}
+                      </div>
+
+                      {/* Baggage */}
+                      <div className="aircraft-info">
+                        <div className="aircraft-title">ON THIS AIRCRAFT</div>
+
+                        <div className="baggage-row">
+                          <span>Cabin baggage</span>
+                          <strong>
+                            {adultFare?.Free_Baggage?.Hand_Baggage}
+                          </strong>
+                        </div>
+
+                        <div className="baggage-row">
+                          <span>Check-in baggage</span>
+                          <strong>
+                            {adultFare?.Free_Baggage?.Check_In_Baggage}
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Connection information between segments */}
+                    {index < allSegments.length - 1 && (
+                      <div className="layover-section">
+                        <span>
+                          Change of plane / connection at{" "}
+                          <strong>{segment?.Destination_City}</strong>
+                        </span>
+                      </div>
+                    )}
                   </div>
+                ))}
+              </div>
 
-                  <div className="flight-number">
-                    <i className="fa-solid fa-plane"></i>
-                    {segment?.Airline_Code} - {segment?.Flight_Number}
-                  </div>
+              {/* =====================================================
+                  TRAVELLER DETAILS
+              ====================================================== */}
 
-                  <span className="saver-badge">Saver</span>
+              <div className="traveller-details-card">
+                <div className="traveller-details-header">
+                  <h5>Traveller Details</h5>
                 </div>
 
-                {/* Bottom flight information */}
-                <div className="flight-route-details">
-                  {/* Departure */}
-                  <div className="airport-detail">
-                    <strong className="time">
-                      {formatTime(segment?.Departure_DateTime)}
-                    </strong>
+                <div className="traveller-details-body">
+                  {/* Email */}
+                  <div className="traveller-item">
+                    <div className="traveller-label">E-mail</div>
+                    <div className="traveller-value">{getPassengerEmail()}</div>
+                  </div>
+
+                  {/* Contact */}
+                  <div className="traveller-item">
+                    <div className="traveller-label">Contact No.</div>
+                    <div className="traveller-value">
+                      {getPassengerMobile()}
+                    </div>
+                  </div>
+
+                  {/* Adult */}
+
+                  <div className="traveller-item">
+                    <div className="traveller-label">
+                      Adult ({adultsList.length})
+                    </div>
+
+                    <div className="traveller-value">
+                      {getPassengerName(adultsList[0])}
+                    </div>
+                  </div>
+
+                  {/* Child */}
+
+                  <div className="traveller-item">
+                    <div className="traveller-label">
+                      Child ({childrenList.length})
+                    </div>
+
+                    <div className="traveller-value">
+                      {getPassengerName(childrenList[0])}
+                    </div>
+                  </div>
+
+                  {/* Infant */}
+
+                  <div className="traveller-item">
+                    <div className="traveller-label">
+                      Infant ({infantsList.length})
+                    </div>
+
+                    <div className="traveller-value">
+                      {getPassengerName(infantsList[0])}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* =====================================================
+                  WALLET LOGIN
+              ====================================================== */}
+              <div className="wallet-login-card">
+                <div className="wallet-login-icon">
+                  <span className="wallet-emoji">💳</span>
+                </div>
+
+                <div className="wallet-login-text">
+                  You have to login to use your <strong>wallet amount</strong>
+                </div>
+
+                <button
+                  type="button"
+                  className="wallet-login-btn"
+                  onClick={handleLogin}
+                >
+                  LOG IN
+                </button>
+              </div>
+              <div className="payment-mode-content">
+                {/* =================================================
+                      PAYMENT METHODS
+                  ================================================== */}
+                <div className="payment-method-list">
+                  {/* UPI */}
+
+                  <button
+                    type="button"
+                    className={`payment-method ${
+                      paymentMethod === "upi" ? "active" : ""
+                    }`}
+                    onClick={() => setPaymentMethod("upi")}
+                  >
+                    <div className="payment-method-icon">
+                      <i className="fa-solid fa-qrcode"></i>
+                    </div>
 
                     <div>
-                      {segment?.Origin_City} <span>{segment?.Origin_Code}</span>
+                      <strong>UPI</strong>
+
+                      <small>
+                        Make Online Payments Directly
+                        <br />
+                        from Bank
+                      </small>
                     </div>
+                  </button>
 
-                    <small>
-                      {formatFlightDate(segment?.Departure_DateTime)}
-                    </small>
-                  </div>
+                  {/* CARD */}
 
-                  {/* Duration */}
-                  <div className="duration-detail">
-                    <span>{segment?.Duration || "02h 45m"}</span>
-
-                    <div className="duration-line"></div>
-
-                    <small>• Economy</small>
-                  </div>
-
-                  {/* Arrival */}
-                  <div className="airport-detail arrival">
-                    <strong className="time">
-                      {formatTime(segment?.Arrival_DateTime)}
-                    </strong>
+                  <button
+                    type="button"
+                    className={`payment-method ${
+                      paymentMethod === "card" ? "active" : ""
+                    }`}
+                    onClick={() => setPaymentMethod("card")}
+                  >
+                    <div className="payment-method-icon">
+                      <i className="fa-regular fa-credit-card"></i>
+                    </div>
 
                     <div>
-                      {segment?.Destination_City}{" "}
-                      <span>{segment?.Destination_Code}</span>
+                      <strong>Credit/Debit/ATM Cards</strong>
+
+                      <small>
+                        Use VISA, Mastercard,
+                        <br />
+                        American Express etc.
+                      </small>
+                    </div>
+                  </button>
+
+                  {/* WALLET */}
+
+                  <button
+                    type="button"
+                    className={`payment-method ${
+                      paymentMethod === "wallet" ? "active" : ""
+                    }`}
+                    onClick={() => setPaymentMethod("wallet")}
+                  >
+                    <div className="payment-method-icon">
+                      <i className="fa-solid fa-wallet"></i>
                     </div>
 
-                    <small>{formatFlightDate(segment?.Arrival_DateTime)}</small>
+                    <div>
+                      <strong>Wallets</strong>
 
-                    <small>
-                      Terminal - {segment?.Destination_Terminal || "2"}
-                    </small>
-                  </div>
+                      <small>
+                        Choose Mobikwik, Payzapp,
+                        <br />
+                        PhonePe or Amazon
+                      </small>
+                    </div>
+                  </button>
 
-                  {/* Baggage */}
-                  <div className="aircraft-info">
-                    <div className="aircraft-title">ON THIS AIRCRAFT</div>
+                  {/* NET BANKING */}
 
-                    <div className="baggage-row">
-                      <span>Cabin baggage</span>
-                      <strong>7 Kgs</strong>
+                  <button
+                    type="button"
+                    className={`payment-method ${
+                      paymentMethod === "netbanking" ? "active" : ""
+                    }`}
+                    onClick={() => setPaymentMethod("netbanking")}
+                  >
+                    <div className="payment-method-icon">
+                      <i className="fa-solid fa-building-columns"></i>
                     </div>
 
-                    <div className="baggage-row">
-                      <span>Check-in baggage</span>
-                      <strong>15 Kgs</strong>
+                    <div>
+                      <strong>Net Banking</strong>
+
+                      <small>All Major banks are supported</small>
                     </div>
-                  </div>
+                  </button>
+                </div>
+                {/* =================================================
+                      PAYMENT CONTENT
+                  ================================================== */}
+                <div className="payment-content">
+                  {paymentMethod === "upi" && (
+                    <div className="payment-placeholder">
+                      <h5>UPI Payment</h5>
+                      <p>
+                        Click "Proceed to Pay". Temp booking will be created
+                        first and then Razorpay checkout will open.
+                      </p>
+                      <strong>Total: {formatAmount(totallAmountt)}</strong>
+                    </div>
+                  )}
+
+                  {paymentMethod === "card" && (
+                    <div className="payment-placeholder">
+                      <h5>Credit / Debit Card</h5>
+
+                      <p>
+                        Your card details will be securely collected by the
+                        payment gateway.
+                      </p>
+
+                      <strong>Total: {formatAmount(totallAmountt)}</strong>
+                    </div>
+                  )}
+
+                  {paymentMethod === "wallet" && (
+                    <div className="payment-placeholder">
+                      <h5>Wallet Payment</h5>
+
+                      <p>
+                        Wallet payment will be handled by the payment gateway.
+                      </p>
+
+                      <strong>Total: {formatAmount(totallAmountt)}</strong>
+                    </div>
+                  )}
+
+                  {paymentMethod === "netbanking" && (
+                    <div className="payment-placeholder">
+                      <h5>Net Banking</h5>
+
+                      <p>
+                        Select Net Banking and continue to the payment gateway.
+                      </p>
+
+                      <strong>Total: {formatAmount(totallAmountt)}</strong>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -300,12 +1452,22 @@ export const FlightPayment = () => {
                 <button
                   type="button"
                   className="btn btn-tour w-100 mt-3"
-                  onClick={() => {
-                    // payment gateway call
-                  }}
+                  disabled={
+                    paymentLoading
+                  }
+                  onClick={
+                    handleProceedToPay
+                  }
                 >
-                  Proceed to Pay
-                  <i className="fa-solid fa-arrow-right ms-2"></i>
+                  {paymentLoading
+                    ? "Processing..."
+                    : "Proceed to Pay"}
+
+                  {!paymentLoading && (
+
+                    <i className="fa-solid fa-arrow-right ms-2"></i>
+
+                  )}
                 </button>
               </div>
             </div>

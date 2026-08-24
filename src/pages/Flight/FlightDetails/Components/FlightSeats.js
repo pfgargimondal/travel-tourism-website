@@ -6,6 +6,7 @@ export const FlightSeats = ({
     adultCount,
     childCount,
     infantCount,
+    bookingPassengers,
     onSeatChange,
     onSeatSelectionComplete
 }) => {
@@ -240,23 +241,29 @@ export const FlightSeats = ({
         if (!seat || !isAvailable(seat)) {
             return;
         }
-
+   
         setSelectedSeats(prev => {
 
+            // Current passenger
+            const currentPassenger = activePassenger + 1;
+
+            const paxId = currentPassenger;
+
             // ---------------------------------------------
-            // If this seat is already selected
+            // Check if this seat is already selected
             // ---------------------------------------------
             const existingIndex = prev.findIndex(
-                item => item.id === seat.id
+                item => item?.id === seat.id
             );
 
             if (existingIndex !== -1) {
 
-                // If the selected seat belongs to the
-                // currently active passenger, remove it.
-                if (existingIndex === activePassenger) {
-
+                // Check ownership using paxId
+                if (
+                    prev[existingIndex]?.paxId === paxId
+                ) {
                     const updated = [...prev];
+
                     updated.splice(existingIndex, 1);
 
                     if (onSeatChange) {
@@ -266,28 +273,37 @@ export const FlightSeats = ({
                     return updated;
                 }
 
-                // Don't allow selecting another passenger's seat
+                // Seat belongs to another passenger
                 return prev;
             }
 
+            // ---------------------------------------------
+            // Add paxId from bookingPassengers
+            // ---------------------------------------------
+            const selectedSeat = {
+                ...seat,
+                paxId: paxId
+            };
 
-            // ---------------------------------------------
-            // First selection for this passenger
-            // ---------------------------------------------
             const updated = [...prev];
 
-            // If this passenger already has a seat,
-            // replace ONLY that passenger's seat.
-            if (updated[activePassenger]) {
+            // ---------------------------------------------
+            // Current passenger already has a seat
+            // Replace it
+            // ---------------------------------------------
+            const passengerSeatIndex = updated.findIndex(
+                item => item?.paxId === paxId
+            );
 
-                updated[activePassenger] = seat;
+            if (passengerSeatIndex !== -1) {
+
+                updated[passengerSeatIndex] = selectedSeat;
 
             } else {
 
-                // Passenger doesn't have a seat yet
-                updated[activePassenger] = seat;
-            }
+                updated.push(selectedSeat);
 
+            }
 
             if (onSeatChange) {
                 onSeatChange(updated);
@@ -357,6 +373,7 @@ export const FlightSeats = ({
         onSeatSelectionComplete?.(isSeatSelectionComplete);
     }, [isSeatSelectionComplete, onSeatSelectionComplete]);
 
+  console.log(bookingPassengers, 'bookingPassengers');
 
     return (
         <div className="page-shell">

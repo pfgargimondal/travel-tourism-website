@@ -484,3 +484,692 @@
     gap: 10px;
   }
 }
+
+
+/* =========================================================
+   TRAVELLER DETAILS
+========================================================= */
+
+.traveller-details-card {
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 18px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+}
+
+.traveller-details-header {
+  background: #dceeff;
+  padding: 9px 16px;
+}
+
+.traveller-details-header h5 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+
+.traveller-details-body {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  padding: 12px 18px;
+}
+
+.traveller-label {
+  font-size: 12px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.traveller-value {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   WALLET LOGIN
+========================================================= */
+
+.wallet-login-card {
+  margin-top: 18px;
+  padding: 18px 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #dedede;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.wallet-login-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.wallet-emoji {
+  font-size: 34px;
+}
+
+.wallet-login-text {
+  flex: 1;
+
+  font-size: 15px;
+  color: #111;
+}
+
+.wallet-login-text strong {
+  font-weight: 700;
+}
+
+.wallet-login-btn {
+  border: none;
+
+  background: #2196f3;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  padding: 8px 21px;
+
+  border-radius: 20px;
+
+  cursor: pointer;
+}
+
+.wallet-login-btn:hover {
+  background: #1688df;
+}
+
+
+/* =========================================================
+   PAYMENT MODE
+========================================================= */
+
+.payment-mode-card {
+  margin-top: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #dedede;
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.payment-mode-header {
+  padding: 11px 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.payment-mode-header h5 {
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #111;
+}
+
+.payment-timer {
+  border: 1px solid #ff9999;
+
+  color: #222;
+
+  border-radius: 20px;
+
+  padding: 5px 11px;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+}
+
+.payment-timer i {
+  margin-right: 4px;
+}
+
+.payment-timer strong {
+  color: red;
+}
+
+
+/* =========================================================
+   PAYMENT MAIN CONTAINER
+========================================================= */
+
+.payment-mode-content {
+  margin: 0 14px 14px;
+
+  border: 1px solid #d4dbe2;
+
+  border-radius: 6px;
+
+  display: flex;
+
+  overflow: hidden;
+
+  min-height: 310px;
+}
+
+
+/* =========================================================
+   PAYMENT METHODS
+========================================================= */
+
+.payment-method-list {
+  width: 235px;
+
+  flex-shrink: 0;
+
+  background: #f4f5f7;
+}
+
+.payment-method {
+  width: 100%;
+
+  min-height: 77px;
+
+  border: none;
+  border-bottom: 1px solid #ddd;
+
+  background: transparent;
+
+  padding: 11px 13px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.payment-method:last-child {
+  border-bottom: none;
+}
+
+.payment-method:hover {
+  background: #ffffff;
+}
+
+.payment-method.active {
+  background: #ffffff;
+}
+
+.payment-method-icon {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  background: #f0f2f5;
+
+  border-radius: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #222;
+
+  font-size: 18px;
+}
+
+.payment-method.active
+  .payment-method-icon {
+  color: #168ee7;
+}
+
+.payment-method strong {
+  display: block;
+
+  color: #111;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+.payment-method.active strong {
+  color: #168ee7;
+}
+
+.payment-method small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #444;
+
+  font-size: 9.5px;
+
+  line-height: 13px;
+}
+
+
+/* =========================================================
+   PAYMENT CONTENT
+========================================================= */
+
+.payment-content {
+  flex: 1;
+
+  padding: 20px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   UPI
+========================================================= */
+
+.upi-payment-content {
+  display: flex;
+
+  gap: 25px;
+
+  height: 100%;
+}
+
+.upi-left {
+  width: 48%;
+
+  min-width: 0;
+}
+
+.upi-left h5 {
+  margin: 0 0 15px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #111;
+}
+
+.qr-code-box {
+  width: 170px;
+
+  border: 1px solid #e1e1e1;
+
+  padding: 9px;
+
+  text-align: center;
+
+  background: #fff;
+}
+
+.qr-placeholder {
+  width: 145px;
+  height: 145px;
+
+  margin: 0 auto 10px;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #111 0px,
+      #111 3px,
+      #ffffff 3px,
+      #ffffff 6px
+    );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-placeholder span {
+  background: rgba(255, 255, 255, 0.9);
+
+  padding: 5px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.generate-qr-btn {
+  width: 100%;
+
+  border: none;
+
+  background: #2196f3;
+
+  color: #fff;
+
+  padding: 7px;
+
+  border-radius: 4px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.generate-qr-btn:hover {
+  background: #1688df;
+}
+
+
+/* =========================================================
+   TOTAL FARE
+========================================================= */
+
+.total-fare {
+  margin-top: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  font-size: 16px;
+
+  color: #111;
+}
+
+.total-fare strong {
+  font-size: 20px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   UPI INSTRUCTIONS
+========================================================= */
+
+.upi-instructions {
+  flex: 1;
+
+  border-left: 1px solid #ddd;
+
+  padding-left: 25px;
+}
+
+.upi-instructions h5 {
+  margin: 0 0 15px;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: #111;
+}
+
+.payment-step {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 12px;
+
+  font-size: 11px;
+
+  color: #222;
+}
+
+.payment-step span {
+  width: 17px;
+  height: 17px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #16c46b;
+
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+.upi-app-title {
+  margin-top: 25px !important;
+}
+
+.upi-apps {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  font-size: 20px;
+}
+
+.upi-icon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f2f2f2;
+
+  font-size: 14px;
+}
+
+.upi-apps strong {
+  font-size: 12px;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CARD / WALLET / NETBANKING
+========================================================= */
+
+.payment-placeholder {
+  padding: 8px 10px;
+}
+
+.payment-placeholder h5 {
+  font-size: 17px;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+.payment-placeholder p {
+  color: #666;
+
+  font-size: 13px;
+
+  margin-bottom: 20px;
+}
+
+.payment-placeholder label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.card-payment-form {
+  max-width: 450px;
+}
+
+.card-payment-form .form-control,
+.payment-placeholder .form-select {
+  font-size: 13px;
+
+  min-height: 40px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+
+  .traveller-details-body {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .payment-mode-content {
+    flex-direction: column;
+  }
+
+  .payment-method-list {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .payment-method {
+    min-height: 85px;
+
+    border-bottom: none;
+
+    border-right: 1px solid #ddd;
+  }
+
+  .payment-method:last-child {
+    border-right: none;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .traveller-details-body {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wallet-login-card {
+    flex-wrap: wrap;
+  }
+
+  .wallet-login-text {
+    flex: 1;
+
+    min-width: 200px;
+  }
+
+  .payment-mode-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .payment-method-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .payment-method {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .upi-payment-content {
+    flex-direction: column;
+  }
+
+  .upi-left {
+    width: 100%;
+  }
+
+  .upi-instructions {
+    border-left: none;
+
+    border-top: 1px solid #ddd;
+
+    padding-left: 0;
+
+    padding-top: 20px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .traveller-details-body {
+    grid-template-columns: 1fr;
+  }
+
+  .wallet-login-card {
+    padding: 15px;
+  }
+
+  .wallet-login-text {
+    min-width: 100%;
+    order: 2;
+  }
+
+  .wallet-login-btn {
+    margin-left: auto;
+  }
+
+  .payment-method-list {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-method {
+    border-right: none;
+  }
+
+  .payment-mode-content {
+    margin: 0 8px 8px;
+  }
+
+  .payment-content {
+    padding: 12px;
+  }
+
+}

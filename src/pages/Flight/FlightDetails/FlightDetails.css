@@ -1080,12 +1080,16 @@ span.inmokkojjeorr{
 }
 
 .add-extra-baggage .list-group{
-  max-height: 65vh;
+  max-height: 24rem;
   overflow-y: auto;
 }
 
 .dnnmakwrr > i{
   color: var(--blue-primary-color) !important;
+}
+
+.dnnmakwrr h6{
+  font-weight: 600;
 }
 
 .ajidbajoijmdd h5{
@@ -1133,6 +1137,8 @@ span.inmokkojjeorr{
 
 p.hgadsdzxeww{
   font-size: 0.8rem;
+  font-weight: 600;
+  color: #000 !important;
 }
 
 .inkmlkjsoidr .modal-content{
@@ -1197,6 +1203,14 @@ p.odmlksjfmdf{
   z-index: 999;
 }
 
+.doinsdoifjhosdf{
+  border-top: 1px solid var(--border);
+}
+
+.bxfgsxdgcdb{
+  border-left: 1px solid var(--border);
+}
+
 .layover-box span{
   font-size: 0.9rem;
 }
@@ -1234,6 +1248,30 @@ p.odmlksjfmdf{
 .hjhjk{
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.idnmsihfsdf span{
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #000 !important;
+}
+
+.idnmsihfsdf span:first-child{
+  white-space: nowrap;
+}
+
+span.duiewnrme-divider{
+  width: 100%;
+  display: inline-block;
+  border: 1px dashed var(--border);
+}
+
+.nmdkjimnfnsdf{
+  border-bottom: 1px solid var(--border);
+}
+
+.nmdkjimnfnsdf div:first-child{
+  color: var(--blue-primary-color);
 }
 
 .fgderhsraerr{
@@ -1286,4 +1324,14 @@ p.odmlksjfmdf{
 
 .booking-total{
   border-top: 1px solid var(--border);
+}
+
+.inkmlkjsoidr .modal-dialog{
+  width: 1000px !important;
+  max-width: 90% !important;
+}
+
+.duihskfnisdf{
+  height: 22rem;
+  overflow-y: auto;
 }

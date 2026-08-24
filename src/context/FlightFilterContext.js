@@ -37,6 +37,10 @@ export const FlightFilterProvider = ({ children }) => {
     dispatch({ type: FILTER_ACTION_TYPES.SET_OTHERS, payload: option });
   };
 
+  const setSelectedDate = (date) => {
+    dispatch({ type: FILTER_ACTION_TYPES.SET_SELECTED_DATE, payload: date });
+  };
+
   const resetFilters = () => {
     dispatch({ type: FILTER_ACTION_TYPES.RESET_FILTERS });
   };
@@ -53,6 +57,7 @@ export const FlightFilterProvider = ({ children }) => {
         toggleArrivalTime,
         toggleAirline,
         toggleOtherFilter,
+        setSelectedDate,
         resetFilters,
       }}
     >

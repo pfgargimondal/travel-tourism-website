@@ -44,6 +44,9 @@ export const FlightDetails = () => {
   const children = state?.children;
   const infants = state?.infants;
   const cabinClass = state?.cabinClass;
+  const fareDetailsData = state?.apiFareDetails;
+
+  console.log(fareDetailsData, 'fareDetailsData');
 
   const cabinClassMap = {
     0: "Economy",
@@ -58,7 +61,7 @@ export const FlightDetails = () => {
   const childCount = children || 0;
   const infantCount = infants || 0;
 
-  console.log(flight, 'flight');
+  
 
   const [fareRuleModal, setFareRuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState("cancel");
@@ -1192,6 +1195,8 @@ export const FlightDetails = () => {
     0
   );
 
+  console.log(selectedMeals, 'selectedMeals');
+
 
   const extraBaggageCharges = Object.values(selectedSSR || {}).reduce(
     (total, passengerSSR) => {
@@ -1317,6 +1322,7 @@ export const FlightDetails = () => {
     });
   };
 
+console.log(selectedSeats, 'selectedSeats');
 
   if (loading) return <Loader />;
 
@@ -1944,14 +1950,25 @@ export const FlightDetails = () => {
                   </div>
 
                   <div className="bdfsdf855e">
-                    {[1, 2, 3].map((_, idx) => (
-                      <div className="dfgf555 p-3" key={idx}>
-                        <div className="d-flex gap-4">
-                          <div className="sdfsdf text-center rounded-circle">
+                    {fareDetailsData?.status && (
+                      <div className="dfgf555 p-3">
+                          {/* <div className="sdfsdf text-center rounded-circle">
                             <i className="bi bi-suitcase"></i>
-                          </div>
+                          </div> */}
 
-                          <div className="dfxgbdczdcd position-relative px-3">
+                          {fareDetailsData?.fareDetails?.FareRules?.map(
+                            (rule, ruleIndex) => (
+                              <div
+                                key={ruleIndex}
+                                className="dfxgbdczdcd position-relative px-3"
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    rule.FareRuleDesc,
+                                }}
+                              />
+                            ),
+                          )}
+                          {/* <div className="dfxgbdczdcd position-relative px-3">
                             <h6 className="mb-2">
                               Check travel guidelines and baggage information
                               below:
@@ -1961,10 +1978,9 @@ export const FlightDetails = () => {
                               baggage per passenger. If violated, airline may
                               levy extra charges.
                             </p>
-                          </div>
-                        </div>
+                          </div> */}
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
 
@@ -2836,6 +2852,7 @@ export const FlightDetails = () => {
                                 adultCount={adultCount}
                                 childCount={childCount}
                                 infantCount={infantCount}
+                                bookingPassengers={bookingPassengers}
                                 onSeatSelectionComplete={
                                   setIsSeatSelectionComplete
                                 }
@@ -3711,216 +3728,228 @@ export const FlightDetails = () => {
                 />
               </div>
 
-              <div className="modal-body add-extra-baggage pb-0">
-                {/* ========================================= */}
-                {/* PASSENGER SELECTION */}
-                {/* ========================================= */}
+              <div className="modal-body add-extra-baggage pt-1">
+                <div className="row">
+                  <div className="col-lg-7">
+                    <div className="ucbhsjudhfsdf">
+                      {/* ========================================= */}
+                      {/* PASSENGER SELECTION */}
+                      {/* ========================================= */}
 
-                <div className="mb-4">
-                  <h6 className="fw-semibold mb-3">Select Passenger</h6>
+                      <div className="mb-2">
+                        <h6 className="hgadsdzxeww mb-3">Select Passenger</h6>
 
-                  <div className="row g-2">
-                    {baggagePassengers.map((passenger) => (
-                      <div className="col-md-4" key={passenger.key}>
-                        <button
-                          type="button"
-                          className={`w-100 text-start border rounded p-3 ${
-                            selectedPassenger?.key === passenger.key
-                              ? "border-primary bg-light"
-                              : ""
-                          }`}
-                          onClick={() => setSelectedPassenger(passenger)}
-                        >
-                          <div className="fw-semibold">{passenger.name}</div>
-
-                          <small className="text-muted">
-                            {passenger.label}
-                          </small>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* ========================================= */}
-                {/* BAGGAGE LIST */}
-                {/* ========================================= */}
-
-                {!selectedPassenger ? (
-                  <div className="text-center py-4 text-muted">
-                    Please select a passenger to add baggage.
-                  </div>
-                ) : baggageList.length > 0 ? (
-                  <div className="list-group">
-                    {baggageList.map((bag, index) => {
-                      const passengerKey = selectedPassenger.key;
-                      const baggageKey = bag.SSR_Key;
-                      const selectedBag =
-                        selectedSSR?.[passengerKey]?.[baggageKey];
-                      const quantity = selectedBag?.quantity || 0;
-                      return (
-                        <div
-                          key={index}
-                          className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
-                        >
-                          {/* BAGGAGE INFORMATION */}
-
-                          <div className="dnnmakwrr d-flex align-items-center">
-                            <i
-                              className="bi bi-backpack2 me-3"
-                              style={{
-                                fontSize: "28px",
-                                color: "#666",
-                              }}
-                            />
-
-                            <div>
-                              <h6 className="mb-1">
-                                {bag.SSR_TypeDesc?.replace(
-                                  "Prepaid Excess Baggage",
-                                  "Additional Baggage",
-                                ).replace(/(\d+)\s*kg/i, "$1 KG")}
-                              </h6>
-
-                              <small className="text-muted">
-                                {bag.Currency_Code}
-                              </small>
-                            </div>
-                          </div>
-
-                          {/* PRICE + QUANTITY */}
-
-                          <div className="ajidbajoijmdd d-flex align-items-center">
-                            <h5 className="me-3 mb-0">
-                              ₹{Number(bag.Total_Amount).toLocaleString()}
-                            </h5>
-
-                            {quantity > 0 ? (
-                              <div
-                                className="d-flex align-items-center border rounded"
-                                style={{ width: "130px" }}
-                              >
-                                <button
-                                  type="button"
-                                  className="btn btn-remove-bag p-2 flex-fill"
-                                  onClick={() => handleRemoveSSR(bag)}
-                                >
-                                  <i className="bi bi-dash-lg"></i>
-                                </button>
-
-                                <span className="idajsjiw flex-fill text-center">
-                                  {quantity}
-                                </span>
-
-                                <button
-                                  type="button"
-                                  className="btn btn-add-bag p-2 flex-fill"
-                                  onClick={() => handleIncreaseSSR(bag)}
-                                >
-                                  <i className="bi bi-plus-lg"></i>
-                                </button>
-                              </div>
-                            ) : (
+                        <div className="row g-2">
+                          {baggagePassengers.map((passenger) => (
+                            <div className="col-md-4" key={passenger.key}>
                               <button
                                 type="button"
-                                className="btn btn-tour px-3 py-1"
-                                onClick={() => handleSelectSSR(bag)}
+                                className={`w-100 text-start border rounded p-2 d-flex gap-2 ${
+                                  selectedPassenger?.key === passenger.key
+                                    ? "border-primary bg-light"
+                                    : ""
+                                }`}
+                                onClick={() => setSelectedPassenger(passenger)}
                               >
-                                Add +
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-4">No baggage available.</div>
-                )}
-              </div>
+                                <input type="radio" checked={selectedPassenger?.key === passenger.key} className="form-check-input" />
 
-              {/* ========================================= */}
-              {/* FOOTER */}
-              {/* ========================================= */}
+                                <div className="dojafsdf">
+                                  <div className="fw-semibold">{passenger.name}</div>
 
-              {Object.keys(selectedSSR).length > 0 && (
-                <div className="border-top bg-light p-3">
-                  <div className="d-flex justify-content-between align-items-center gap-4">
-                    <div className="idonisnfinsdf flex-fill">
-                      <p className="mb-2 fw-semibold">Selected Baggage</p>
-
-                      {Object.entries(selectedSSR).map(
-                        ([passengerKey, baggage]) => {
-                          const passenger = baggagePassengers.find(
-                            (p) => p.key === passengerKey,
-                          );
-
-                          return (
-                            <div key={passengerKey} className="mb-2">
-                              <div className="fw-semibold">
-                                {passenger?.name || passengerKey}
-                              </div>
-
-                              {Object.values(baggage).map((item) => (
-                                <div
-                                  key={item.SSR_Key}
-                                  className="d-flex justify-content-between"
-                                >
-                                  <span className="text-muted">
-                                    {item.SSR_TypeName} × {item.quantity}
-                                  </span>
-
-                                  <span>
-                                    ₹
-                                    {(
-                                      Number(item.Total_Amount) *
-                                      Number(item.quantity)
-                                    ).toLocaleString()}
-                                  </span>
+                                  <small className="text-muted">
+                                    {passenger.label}
+                                  </small>
                                 </div>
-                              ))}
+                              </button>
                             </div>
-                          );
-                        },
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* ========================================= */}
+                      {/* BAGGAGE LIST */}
+                      {/* ========================================= */}
+
+                      {!selectedPassenger ? (
+                        <div className="text-center py-4 text-muted">
+                          Please select a passenger to add baggage.
+                        </div>
+                      ) : baggageList.length > 0 ? (
+                        <div className="list-group">
+                          {baggageList.map((bag, index) => {
+                            const passengerKey = selectedPassenger.key;
+                            const baggageKey = bag.SSR_Key;
+                            const selectedBag =
+                              selectedSSR?.[passengerKey]?.[baggageKey];
+                            const quantity = selectedBag?.quantity || 0;
+                            return (
+                              <div
+                                key={index}
+                                className="d-flex justify-content-between align-items-center border rounded p-3 mb-3"
+                              >
+                                {/* BAGGAGE INFORMATION */}
+
+                                <div className="dnnmakwrr d-flex align-items-center">
+                                  <i
+                                    className="bi bi-backpack2 me-3"
+                                    style={{
+                                      fontSize: "28px",
+                                      color: "#666",
+                                    }}
+                                  />
+
+                                  <div>
+                                    <h6 className="mb-1">
+                                      {bag.SSR_TypeDesc?.replace(
+                                        "Prepaid Excess Baggage",
+                                        "Additional Baggage",
+                                      ).replace(/(\d+)\s*kg/i, "$1 KG")}
+                                    </h6>
+
+                                    <small className="text-muted">
+                                      {bag.Currency_Code}
+                                    </small>
+                                  </div>
+                                </div>
+
+                                {/* PRICE + QUANTITY */}
+
+                                <div className="ajidbajoijmdd d-flex align-items-center">
+                                  <h5 className="me-3 mb-0">
+                                    ₹{Number(bag.Total_Amount).toLocaleString()}
+                                  </h5>
+
+                                  {quantity > 0 ? (
+                                    <div
+                                      className="d-flex align-items-center border rounded"
+                                      style={{ width: "130px" }}
+                                    >
+                                      <button
+                                        type="button"
+                                        className="btn btn-remove-bag p-2 flex-fill"
+                                        onClick={() => handleRemoveSSR(bag)}
+                                      >
+                                        <i className="bi bi-dash-lg"></i>
+                                      </button>
+
+                                      <span className="idajsjiw flex-fill text-center">
+                                        {quantity}
+                                      </span>
+
+                                      <button
+                                        type="button"
+                                        className="btn btn-add-bag p-2 flex-fill"
+                                        onClick={() => handleIncreaseSSR(bag)}
+                                      >
+                                        <i className="bi bi-plus-lg"></i>
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-tour px-3 py-1"
+                                      onClick={() => handleSelectSSR(bag)}
+                                    >
+                                      Add +
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4">No baggage available.</div>
                       )}
                     </div>
-
-                    {/* TOTAL */}
-
-                    <div className="text-end">
-                      <p className="hgadsdzxeww mb-0">Added to fare</p>
-
-                      <h3 className="sxvdgzzdss mb-0">
-                        ₹
-                        {Object.values(selectedSSR)
-                          .flatMap((baggage) => Object.values(baggage))
-                          .reduce(
-                            (sum, item) =>
-                              sum +
-                              Number(item.Total_Amount || 0) *
-                                Number(item.quantity || 0),
-                            0,
-                          )
-                          .toLocaleString()}
-                      </h3>
-                    </div>
-
-                    {/* DONE */}
-
-                    <button
-                      type="button"
-                      className="btn btn-primary px-4"
-                      onClick={() => {
-                        console.log("SELECTED BAGGAGE:", selectedSSR);
-
-                        setAddBaggageModal(false);
-                      }}
-                    >
-                      DONE
-                    </button>
                   </div>
-                </div>
-              )}
+
+                  <div className="col-lg-5 bxfgsxdgcdb">
+                    {Object.keys(selectedSSR).length > 0 && (
+                      <div className="bg-light d-flex flex-column justify-content-between">
+                        <div className="idonisnfinsdf flex-fill">
+                          <p className="mb-2 hgadsdzxeww">Selected Baggage</p>
+
+                          <div className="duihskfnisdf">
+                            {Object.entries(selectedSSR).map(
+                              ([passengerKey, baggage]) => {
+                                const passenger = baggagePassengers.find(
+                                  (p) => p.key === passengerKey,
+                                );
+
+                                return (
+                                  <div key={passengerKey} className="nmdkjimnfnsdf pb-2 mb-3">
+                                    <div className="fw-semibold">
+                                      {passenger?.name || passengerKey}
+                                    </div>
+
+                                    {Object.values(baggage).map((item) => (
+                                      <div
+                                        key={item.SSR_Key}
+                                        className="idnmsihfsdf d-flex justify-content-between align-items-center gap-2 mb-2"
+                                      >
+                                        <span className="text-muted">
+                                          {item.SSR_TypeName} × {item.quantity}
+                                        </span>
+
+                                        <span className="duiewnrme-divider"></span>
+
+                                        <span>
+                                          ₹
+                                          {(
+                                            Number(item.Total_Amount) *
+                                            Number(item.quantity)
+                                          ).toLocaleString()}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                );
+                              },
+                            )}  
+                          </div>                          
+                        </div>
+                        
+                        <div className="doinsdoifjhosdf d-flex flex-column justify-content-between pt-2">
+                          {/* TOTAL */}
+
+                          <div className="donsdifnsmdfs d-flex align-items-center justify-content-between mb-4">
+                            <p className="hgadsdzxeww mb-0">Added to fare</p>
+
+                            <h3 className="sxvdgzzdss mb-0">
+                              ₹
+                              {Object.values(selectedSSR)
+                                .flatMap((baggage) => Object.values(baggage))
+                                .reduce(
+                                  (sum, item) =>
+                                    sum +
+                                    Number(item.Total_Amount || 0) *
+                                      Number(item.quantity || 0),
+                                  0,
+                                )
+                                .toLocaleString()}
+                            </h3>
+                          </div>
+
+                          {/* DONE */}
+
+                          <button
+                            type="button"
+                            className="btn btn-tour px-4"
+                            onClick={() => {
+                              console.log("SELECTED BAGGAGE:", selectedSSR);
+
+                              setAddBaggageModal(false);
+                            }}
+                          >
+                            DONE
+                          </button>
+                        </div>                        
+                      </div>
+                    )}
+                  </div>
+                </div>               
+              </div>              
             </div>
           </div>
         </div>

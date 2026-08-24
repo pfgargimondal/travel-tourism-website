@@ -815,7 +815,18 @@ span.cdhnzdfsfzxdd{
 
 .dubyasyufsdf .table th{
     font-weight: 500 !important;
-    border-right: 2px dashed var(--border);
+    /* border-right: 2px dashed var(--border); */
+    border-bottom: 0;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.dubyasyufsdf .table th.active i{
+    opacity: 1;
+    visibility: visible;
+    transition: 0.2s ease-in-out;
 }
 
 .dubyasyufsdf .table th:hover{
@@ -844,6 +855,19 @@ span.cdhnzdfsfzxdd{
 
 .dubyasyufsdf .table th:nth-of-type(4n) img{
     transform: rotate(35deg);
+}
+
+.dubyasyufsdf .table th i{
+    color: var(--light-highlighted-text-color);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s ease-in-out;
+}
+
+.dubyasyufsdf .table th:hover i{
+    opacity: 1;
+    visibility: visible;
+    transition: 0.2s ease-in-out;
 }
 
 .sdjkcnsidjcije{
